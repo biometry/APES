@@ -1,7 +1,6 @@
-apes
-====
-
 APES - A Primer of Ecological Statistics
+
+Table of contents
 
 Collection of stats knowledge of the department of Biometry and Environmental System Analysis, University of Freiburg.
 
