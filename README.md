@@ -1,4 +1,4 @@
 apes
 ====
 
-APES - A Primer of Ecological Statistics
+AGES - A Glossary of Ecological Statistics
