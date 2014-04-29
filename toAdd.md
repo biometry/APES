@@ -19,7 +19,6 @@ Distributions For MCMC Models in JAGS
 
 # Intros
 
-here the links, cheers, F
 
 Stats Book + MOOC http://www-bcf.usc.edu/~gareth/ISL/
 
