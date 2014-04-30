@@ -20,7 +20,8 @@ Choose between the following options:
 
 ### Improving stats and R knowledge in general
 
-*	Want to learn how to work with R
+* I never had statistics and don't know where to start
+* Want to learn how to work with R
 
 ### Taking and analyzing empirical data
 
