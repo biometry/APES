@@ -1,4 +1,3 @@
-
 *	Getting started with R
  *	Installing R
  *	Useful software
