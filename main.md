@@ -11,12 +11,12 @@ THIS IS WORK IN PROGRESS, NOT FOR USE YET
 Choose between the following options:
 
 
-# I want to see a table of of content on
+## I want to see a table of of content on
 
 * statistical topics
 * using R
 
-# I have one of the common problems 
+## I have one of the common problems 
 
 ### Improving stats and R knowledge in general
 
