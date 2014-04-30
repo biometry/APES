@@ -1,7 +1,11 @@
 APES
 ====
 
-A website to give you Advice for Problems in Environmental Statistics.
+Collection of stats knowledge of the department of Biometry and Environmental System Analysis, University of Freiburg.
+
+The web version at http://florianhartig.github.io/APES/
+
+THIS IS WORK IN PROGRESS, NOT FOR USE YET
 
 
 Choose between the following options:
