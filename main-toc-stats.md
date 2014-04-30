@@ -1,4 +1,3 @@
-
 * Preface: how to read this text
 
 * Overview - What are the goals of statistics and data analysis
@@ -15,7 +14,15 @@
  * Including observer models	
  * State-space models
 *	Resampling methods and null models
+
+"Hubs" for special topics
+
+* Planning and conducting experiments
+* Spatial analysis
+* Time-series methods
 * Simulation-based inference
+* Statistics for existing process-based models
+
 
 
 
