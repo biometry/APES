@@ -60,7 +60,7 @@ We aim at providing
  * State-space models
 *	Resampling methods and null models
 
-## "Hubs" for special topics
+## Hubs on special topics
 
 * Planning and conducting experiments
 * Spatial analysis
@@ -78,7 +78,6 @@ We aim at providing
  *	Installing R
  *	Useful software
  *	First steps
- *	Getting help
 *	Data structures
 *	Using packages and functions
  * Using existing functions	  
@@ -86,6 +85,7 @@ We aim at providing
  * Understanding structures of unknown objects
 * Programming with R
 * Package development
+* Solving R problems
 
 
 
