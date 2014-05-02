@@ -16,8 +16,8 @@ We aim at providing
 
 ### I want to see all you have on
 
-* statistical topics
-* using R
+* [statistical topics](/Stats)
+* [using R](/R)
 
 ### I have one of the common problems 
 
@@ -43,51 +43,47 @@ We aim at providing
 
 ## Statistics
 
-* Preface: how to read this text
+* [Preface: how to read this text](/Stats/stats00-preface.md)
 
-* Overview - What are the goals of statistics and data analysis
-* Explorative data analysis
-* Summary statistics and correlations
-* Inferential aproaches
-* Regression
- * The Linear model
- * Generalized linear models
- * Mixed models
- * Generalized linear mixed models
-*	Model selection
-*	Hierarchical models
- * Including observer models	
- * State-space models
-*	Resampling methods and null models
+* [Overview - What are the goals of statistics and data analysis](/Stats/stats01-overview.md)
+* [Explorative data analysis](/Stats/stats02-explorativeDataAnalysis.md)
+* [Summary statistics and correlations](/Stats/stats04-summaries.md)
+* [Inferential aproaches](/Stats/stats10-inference.md)
+* [Regression](/Stats/stats20-regression.md)
+ * [The Linear model](/Stats/)
+ * [Generalized linear models](/Stats/)
+ * [Mixed models](/Stats/)
+ * [Generalized linear mixed models](/Stats/)
+*	[Model selection](/Stats/stats30-modelSelection.md)
+*	[Hierarchical models](/Stats/stats40-hierarchicalModels.md)
+ * [Including observer models](/Stats/)
+ * [State-space models](/Stats/)
+*	[Resampling methods and null models](/Stats/)
 
 ## Hubs on special topics
 
-* Planning and conducting experiments
-* Spatial analysis
-* Time-series methods
-* Simulation-based inference
-* Statistics for existing process-based models
+* [Planning and conducting experiments](/Hubs/hub-experimentalDesign.md)
+* [Spatial analysis](/Hubs/hub-spatialAnalysis)
+* [Time-series methods](/Hubs/)
+* [Simulation-based inference](/Hubs/hub-simulationBasedInference.md)
+* [Statistics for existing process-based models](/Hubs/hub-fittingProcessBasedModels)
 
 
 ## R
 
 
-* Preface - How to use this text
+* [Preface - How to use this text](/R/R00-Preface.md)
 
-*	Getting started with R
- *	Installing R
- *	Useful software
- *	First steps
-*	Data structures
-*	Using packages and functions
- * Using existing functions	  
- * Installing and loading new packages 
- * Understanding structures of unknown objects
-* Programming with R
-* Package development
-* Solving R problems
-
-
-
-
+*	[Getting started with R](/R/R10-gettingStarted.md)
+ *	[Installing R](/R/)
+ *	[Useful software](/R/)
+ *	[First steps](/R/)
+*	[Data structures](/R/R20-DataStructures.md)
+*	[Using packages and functions](/R/R30-FunctionsAndPackages.md)
+ * [Using existing functions](/R/)
+ * [Installing and loading new packages](/R/)
+ * [Understanding structures of unknown objects](/R/)
+* [Programming with R](/R/R40-ProgrammingWithR.md)
+* [Package development](/R/R50-PackageDevelopment.md)
+* [Solving R problems](/R/R60-Problems.md)
 
