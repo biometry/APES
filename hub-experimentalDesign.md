@@ -1,7 +1,8 @@
 Experimental design
 ===
 
-
+* auto-gen TOC:
+{:toc}
 
 
 
