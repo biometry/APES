@@ -60,7 +60,7 @@ We aim at providing
  * State-space models
 *	Resampling methods and null models
 
-"Hubs" for special topics
+## "Hubs" for special topics
 
 * Planning and conducting experiments
 * Spatial analysis
@@ -89,7 +89,5 @@ We aim at providing
 
 
 
-
-## Special topcis (hubs)
 
 
