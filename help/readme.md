@@ -1,9 +1,11 @@
 Help for contributors
 ===
 
+We need your help to fill the stats help with content and remove problems. Below we explain how you can contribute
+
 ##How to report a problem
 
-Log in to GitHub and report the issue at https://github.com/florianhartig/APES/issues
+If you see a problem or if you have a suggestion, log in to GitHub and report the issue at https://github.com/florianhartig/APES/issues
 
 ##How to contribute content
 
