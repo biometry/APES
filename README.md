@@ -63,8 +63,8 @@ We aim at providing
 ## Hubs on special topics
 
 * [Planning and conducting experiments](/Hubs/hub-experimentalDesign.md)
-* [Spatial analysis](/Hubs/hub-spatialAnalysis)
-* [Time-series methods](/Hubs/)
+* [Spatial analysis](/Hubs/hub-spatialAnalysis.md)
+* [Time-series methods](/Hubs/time-series.md)
 * [Simulation-based inference](/Hubs/hub-simulationBasedInference.md)
 * [Statistics for existing process-based models](/Hubs/hub-fittingProcessBasedModels.md)
 
