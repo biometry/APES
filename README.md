@@ -1,7 +1,7 @@
 Advice for Problems in Environmental Statistics (APES)
 ====
 
-Collection of stats knowledge of the department of Biometry and Environmental System Analysis, University of Freiburg.
+Collection of stats knowledge of the [Department of Biometry and Environmental System Analysis](http://www.biom.uni-freiburg.de/), University of Freiburg.
 
 The web version at http://florianhartig.github.io/APES/
 
