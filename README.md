@@ -14,35 +14,33 @@ THIS IS WORK IN PROGRESS, NOT FOR USE YET. The aim is to provide a central websi
 * Links to best practice recommendations for particular tasks
 
 
-# Content of the start page
+## What do you want to do
 
 *NOTE: this is the provisional content of the start page. We list this here to work on it. A full table of contents is provided further below*
 
 Choose between the following options:
 
 
-## I want to see a table of of content on
+### I want to see all you have on
 
 * statistical topics
 * using R
 
-## I have one of the common problems 
+### I have one of the common problems 
 
-### Improving stats and R knowledge in general
+* Improving stats and R knowledge in general
+  * I never had statistics and don't know where to start
+  * Want to learn how to work with R
 
-* I never had statistics and don't know where to start
-* Want to learn how to work with R
+* Taking and analyzing empirical data
+  *	have to plan an experiment for a diploma thesis
+  *	have data and want to get it into R
+  *	have my data in R and wondering what to do with it
 
-### Taking and analyzing empirical data
+* Have a technical R problem
+  *	get and error message and don’t know that to do
 
-*	have to plan an experiment for a diploma thesis
-*	have data and want to get it into R
-*	have my data in R and wondering what to do with it
-
-### Have a technical R problem
-
-*	get and error message and don’t know that to do
-
+* Am interested in a special topic (link to hubs)
 
 
 # Full table of contents
@@ -87,6 +85,7 @@ Choose between the following options:
  *	Installing R
  *	Useful software
  *	First steps
+ *	Getting help
 *	Data structures
 *	Using packages and functions
  * Using existing functions	  
