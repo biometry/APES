@@ -13,13 +13,9 @@ THIS IS WORK IN PROGRESS, NOT FOR USE YET. The aim is to provide a central websi
 * FAQ section
 * Links to best practice recommendations for particular tasks
 
-
-## What do you want to do
+**Choose between the following options:**
 
 *NOTE: this is the provisional content of the start page. We list this here to work on it. A full table of contents is provided further below*
-
-Choose between the following options:
-
 
 ### I want to see all you have on
 
