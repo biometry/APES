@@ -1,17 +1,14 @@
 Advice for Problems in Environmental Statistics (APES)
 ====
 
-Collection of stats knowledge of the [Department of Biometry and Environmental System Analysis](http://www.biom.uni-freiburg.de/), University of Freiburg.
+Collection of stats knowledge of the [Department of Biometry and Environmental System Analysis](http://www.biom.uni-freiburg.de/), University of Freiburg. The web version of this document will be pushed later to http://florianhartig.github.io/APES/
 
-The web version at http://florianhartig.github.io/APES/
+Our aim is to provide a central website for students and researchers seeking statistical advice. THIS IS WORK IN PROGRESS, NOT FOR USE YET. CONTRIBUTIONS AND SUGGESTIONS VERY WELCOME. IF YOU WANT TO CONTRIBUTE SEE https://github.com/florianhartig/APES/tree/master/Contribute. Get in touch with http://www.biom.uni-freiburg.de/mitarbeiter/hartig if you work on a longer text to avoid overlaps. 
 
-THIS IS WORK IN PROGRESS, NOT FOR USE YET. The aim is to provide a central website for students and other researchers seeking statistical advice. We will provide 
+We aim at providing
 
-* An overview about the standard topics and methods in (environmental) statistics with basic explanation and recommendations for further reading, suitable for any audience
-* "Entry points" with short explanations and links for particular situations such as "I am planning my first experiment, what do I have to consider", "I want to start using R", "my script crashes and I don't know why"
-* Basic help for R
-* FAQ section
-* Links to best practice recommendations for particular tasks
+* An overview, short explanations and further links on all important topics of environmental statisitics and using R
+* "Entry points" (hubs) for particular situations such as "I am planning my first experiment". "I want to start using R", "best practice for ..."
 
 **Choose between the following options:**
 
