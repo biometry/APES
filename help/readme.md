@@ -1,11 +1,11 @@
 Help for contributors
 ===
 
-#How to report a problem
+##How to report a problem
 
 Log in to GitHub and report the issue at https://github.com/florianhartig/APES/issues
 
-#How to contribute content
+##How to contribute content
 
 Ordered with increasing technical demands, and decreasing work for us. Please choose the highest number you're comfortable with, this will reduce our workload
 
@@ -13,7 +13,7 @@ Ordered with increasing technical demands, and decreasing work for us. Please ch
 2. Write your text in markdown (see help below) and send it to http://www.biom.uni-freiburg.de/mitarbeiter/hartig
 3. If you know how to use GitHub, clone our repository, change the text, and issue a pull request so that we can include your changes 
 
-#Getting started with markdown
+##Getting started with markdown
 
 We use markdown to write the text for this site. 
 
