@@ -3,6 +3,9 @@ Advice for Problems in Environmental Statistics (APES)
 
 Collection of stats knowledge of the [Department of Biometry and Environmental System Analysis](http://www.biom.uni-freiburg.de/), University of Freiburg. The web version of this document will be pushed later to http://florianhartig.github.io/APES/
 
+* This will become a table of contents (this text will be scraped).
+{:toc}
+
 Our aim is to provide a central website for students and researchers seeking statistical advice. THIS IS WORK IN PROGRESS, NOT FOR USE YET. CONTRIBUTIONS AND SUGGESTIONS VERY WELCOME. IF YOU WANT TO CONTRIBUTE SEE https://github.com/florianhartig/APES/tree/master/Contribute. Get in touch with http://www.biom.uni-freiburg.de/mitarbeiter/hartig if you work on a longer text to avoid overlaps. 
 
 We aim at providing
