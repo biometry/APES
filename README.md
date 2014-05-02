@@ -1,9 +1,11 @@
-APES
+Advice for Problems in Environmental Statistics (APES)
 ====
 
-Advice for Problems in Environmental Statistics
+Collection of stats knowledge of the department of Biometry and Environmental System Analysis, University of Freiburg.
 
-The goal of this work in progress is to provide a central website for students and other researchers seeking statistical advice 
+The web version at http://florianhartig.github.io/APES/
+
+THIS IS WORK IN PROGRESS, NOT FOR USE YET. The aim is to provide a central website for students and other researchers seeking statistical advice. We will provide 
 
 * An overview about the standard topics and methods in (environmental) statistics with basic explanation and recommendations for further reading, suitable for any audience
 * "Entry points" with short explanations and links for particular situations such as "I am planning my first experiment, what do I have to consider", "I want to start using R", "my script crashes and I don't know why"
@@ -12,21 +14,9 @@ The goal of this work in progress is to provide a central website for students a
 * Links to best practice recommendations for particular tasks
 
 
-For reporting problems, or provide comments and suggestions, please create a GitHub account and use the ticket system. If this is not possible at all, contact http://florianhartig.wordpress.com/
+# Content of the start page
 
-
-
-
-
-APES
-====
-
-Collection of stats knowledge of the department of Biometry and Environmental System Analysis, University of Freiburg.
-
-The web version at http://florianhartig.github.io/APES/
-
-THIS IS WORK IN PROGRESS, NOT FOR USE YET
-
+*NOTE: this is the provisional content of the start page. We list this here to work on it. A full table of contents is provided further below*
 
 Choose between the following options:
 
@@ -55,9 +45,9 @@ Choose between the following options:
 
 
 
-Table of contents
-===
+# Full table of contents
 
+*NOTE: this is the full content of the project. We will remove this from the start page later*
 
 
 ## Statistics
@@ -88,11 +78,6 @@ Table of contents
 * Statistics for existing process-based models
 
 
-
-
-
-
-
 ## R
 
 
@@ -113,7 +98,6 @@ Table of contents
 
 
 
-## Special topcis
-
+## Special topcis (hubs)
 
 
