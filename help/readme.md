@@ -23,5 +23,5 @@ We use markdown to write the text for this site.
 
 If you start working with markdown, you will see that it's extremely simple and very similar to wiki syntax you might be used to. Have a look at 
 
-https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
-https://help.github.com/articles/github-flavored-markdown
+* https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+* https://help.github.com/articles/github-flavored-markdown
