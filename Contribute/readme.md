@@ -1,4 +1,4 @@
-Help for contributors
+Overview for contributors
 ===
 
 We need your help to fill the stats help with content and remove problems. Below we explain how you can contribute
