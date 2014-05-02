@@ -66,7 +66,7 @@ We aim at providing
 * [Spatial analysis](/Hubs/hub-spatialAnalysis)
 * [Time-series methods](/Hubs/)
 * [Simulation-based inference](/Hubs/hub-simulationBasedInference.md)
-* [Statistics for existing process-based models](/Hubs/hub-fittingProcessBasedModels)
+* [Statistics for existing process-based models](/Hubs/hub-fittingProcessBasedModels.md)
 
 
 ## R
