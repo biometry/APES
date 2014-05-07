@@ -25,3 +25,15 @@ If you start working with markdown, you will see that it's extremely simple and 
 
 * https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 * https://help.github.com/articles/github-flavored-markdown
+
+##Special tasks
+
+### Linking Videos 
+
+```
+<a href="http://www.youtube.com/watch?v=q1RD5ECsSB0" target="_blank">
+![Video](http://img.youtube.com/vi/q1RD5ECsSB0/0.jpg)<br/ >
+Video demonstrating multiple linear regresssion in R
+</a>
+```
+
