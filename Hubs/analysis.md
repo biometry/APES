@@ -5,11 +5,13 @@ You have done your experiment or received data from other people. We hope you ha
 
 Follow this checklist
 
-## Start a new project in RStudio or whatever editor you are using
+## Start a new project
+
+In RStudio or whatever editor you are using, created file structure, move raw data there.
 
 We recommend putting your project under version control, but if you don't know that this is you can skip this for the moment
 
-## Make sure you know what you want to find out with your data
+## Make sure you know your question
 
 To make sure you really know that you want to find out, write it down at the beginning of your R script! This helps you, and us if we need to help you. Make sure you formulate a QUANTITATIVE hypothesis or question.
 
@@ -20,6 +22,11 @@ Good examples
 Bad examples
 
 * I want to know what oak trees like
+ 
+## Decide on statistical method
+
+DECICION TREE TO ADD
+
 
 ## Import and clean your data
 
