@@ -18,10 +18,7 @@ Regression
 
 Multiple linear regression is the term for the situation in which you have multiple predictor variables, but still only one continous response with the same assumptions as before. 
 
-
-[Video](http://www.youtube.com/watch?v=q1RD5ECsSB0) demonstrating multiple linear regresssion in R
-
-
+[![Video](http://img.youtube.com/vi/q1RD5ECsSB0/0.jpg)](http://www.youtube.com/watch?v=q1RD5ECsSB0) Video demonstrating multiple linear regresssion in R
 
 # Generalized linear regression
 
