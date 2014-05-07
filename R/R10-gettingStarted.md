@@ -28,7 +28,7 @@ Longer
 
 * http://cran.r-project.org/doc/contrib/Lam-IntroductionToR_LHL.pdf
 
-## Cookbooks
+## Cookbooks / how to
 
 * Quick-R (Highly recommend for beginners) http://www.statmethods.net/
 * http://www.cookbook-r.com/
