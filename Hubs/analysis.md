@@ -45,6 +45,9 @@ However, not good style is to change your hypothesis after viewing the data. If 
 
 
 
+This poage is maintained by Florian Hartig. Contributions:
+
+
 
 
 
