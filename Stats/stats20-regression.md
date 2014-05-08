@@ -36,5 +36,12 @@ Video demonstrating multiple linear regresssion in R
 ## Poisson Regression
 
 
+#Mixed models
+
+
+
+
+
+
 
 
