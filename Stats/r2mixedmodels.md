@@ -33,7 +33,7 @@ For a typical fitted model (e.g. using `nlme::lme`, `lme4::glmer`, `lme4::lmer`,
 ## Example in R
 This uses the cbpp data from package **lattice**; the example is take from the help page of `lme4::glmer`.
 
-```
+```R
 > require(lme4)
 > require(lattice)
 
