@@ -31,7 +31,7 @@ We aim at providing
   *	have my data in R and wondering what to do with it
 
 * Have a technical R problem
-  *	get and error message and don’t know that to do
+  *	[get and error message and don’t know that to do](/R/R60-Problems.md)
 
 * Am interested in a special topic (link to hubs)
 
