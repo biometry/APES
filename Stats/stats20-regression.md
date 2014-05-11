@@ -35,6 +35,9 @@ Video demonstrating multiple linear regresssion in R
 
 ## Poisson Regression
 
+## Links
+
+http://blog.revolutionanalytics.com/2014/04/some-r-resources-for-glms.html
 
 #Mixed models
 
