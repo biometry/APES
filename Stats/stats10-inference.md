@@ -1,2 +1,5 @@
 Inferential approaches
 ===
+
+
+## t-test
