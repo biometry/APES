@@ -3,7 +3,7 @@ Fitting complex or process-based models
 
 Author: Florian Hartig
 
-Synopsis: this is a tutorial with further links on how to fit complex or process-based models to data
+<strong>Synopsis: this is a tutorial with further links on how to fit complex or process-based models to data</strong>
 
 
 # Overview
