@@ -3,8 +3,7 @@ Fitting complex or process-based models
 
 Author: Florian Hartig
 
-<strong>Synopsis: this is a tutorial with further links on how to fit complex or process-based models to data</strong>
-
+Synopsis: this is a tutorial with further links on how to fit complex or process-based models to data
 
 # Overview
 
@@ -40,10 +39,9 @@ Before we can start working on these questions at all, we need to make sure that
 
 How should we measure how well the model fits to the data?
 
-Will add more info later, for the momemnt read
+Will add more info later, for the momemnt read 
 
-<strong>Florian Hartig</strong>, James Dyke, Thomas Hickler, Steven I. Higgins, Robert B. O'Hara, Simon Scheiter and Andreas Huth (2012): Connecting dynamic vegetation models to data - an inverse perspective. <i>J. Biogeogr.</i>, 39, 2240-2252. <a href="http://dx.doi.org/10.1111/j.1365-2699.2012.02745.x">[journal]</a> <a href="http://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=AdcDit0AAAAJ&amp;citation_for_view=AdcDit0AAAAJ:qjMakFHDy7sC">[stats]</a> <a href="http://ecologypapers.blog.com/files/2012/10/Hartig-Connectingdynamicvegetation-2012.pdf">[pdf]</a>
-
+Hartig et al. (2012): Connecting dynamic vegetation models to data - an inverse perspective. <i>J. Biogeogr.</i>, 39, 2240-2252. <a href="http://dx.doi.org/10.1111/j.1365-2699.2012.02745.x">[journal]</a> <a href="http://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=AdcDit0AAAAJ&amp;citation_for_view=AdcDit0AAAAJ:qjMakFHDy7sC">[stats]</a> <a href="http://ecologypapers.blog.com/files/2012/10/Hartig-Connectingdynamicvegetation-2012.pdf">[pdf]</a>
 
 
 # Sensitivity analsis
