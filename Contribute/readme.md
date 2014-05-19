@@ -28,6 +28,15 @@ If you start working with markdown, you will see that it's extremely simple and 
 
 ##Special tasks
 
+### Code
+
+
+### Images 
+
+By default, images should be in the folder /img/ and labeled according to the file in which they are first used. If the file is R50-plotting.md , the image should be callded R50-ScatterPlot.png.
+
+
+
 ### Linking Videos 
 
 ```
