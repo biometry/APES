@@ -1,3 +1,8 @@
+---
+layout: page
+title: Welcome to APES
+---
+
 Advice for Problems in Environmental Statistics (APES)
 ====
 
