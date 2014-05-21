@@ -24,8 +24,18 @@ col = color of pch
 bg = background color of pch (from 21 to 25)	
 lwd = size of pch	
 
+![Simple Scatterplot](https://cloud.githubusercontent.com/assets/7631819/3041290/4e56331e-e0f3-11e3-99ee-1f188baabbef.png)
+
+It is possible to add fitting lines:    
+ 1.Regresion line, where y is dependent of x (y~x).  
+ abline(lm(mpg~wt), col="red")  
+ 2.Lowess returns a list containing components x and y which give the coordinates of the smooth. 
+ lines(lowess(wt,mpg), col="blue")
+ 
+![adding fit lines](https://cloud.githubusercontent.com/assets/7631819/3041488/f8edbd32-e0f4-11e3-8697-a30a81b5ebc9.png)
 
 
+ 
 ### Two-dimensional
 
 ### Three-dimensional
