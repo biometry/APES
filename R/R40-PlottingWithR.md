@@ -9,9 +9,11 @@ A lot more examples in the links here https://github.com/biometry/APES/blob/mast
 
 ### Simple Scatterplot
 
+ ```{r}
 attach(mtcars)	
 plot(wt, mpg, main="Simple Scatterplot",xlab="Car Weight ", ylab="Miles Per Gallon " , 	
 pch=22, col="red", bg="blue",cex=3, wd=2)
+```
 
 Where:	
 wt = x	
@@ -26,11 +28,16 @@ lwd = size of pch
 
 ![Simple Scatterplot](https://cloud.githubusercontent.com/assets/7631819/3041290/4e56331e-e0f3-11e3-99ee-1f188baabbef.png)
 
-It is possible to add fitting lines:    
+It is possible to add fitting lines:   
+
  1.Regresion line, where y is dependent of x (y~x).  
+ ```{r}
  abline(lm(mpg~wt), col="red")  
+ ```
  2.Lowess returns a list containing components x and y which give the coordinates of the smooth. 
+ ```{r}
  lines(lowess(wt,mpg), col="blue")
+ ```
  
 ![adding fit lines](https://cloud.githubusercontent.com/assets/7631819/3041488/f8edbd32-e0f4-11e3-8697-a30a81b5ebc9.png)
 
