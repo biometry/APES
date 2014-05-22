@@ -17,8 +17,8 @@ plot(Petal.Length, Sepal.Length, main="Simple Scatterplot",xlab="Petal Length ",
 ```
 
 Where:	
-•Petal.Length = x	
-•Sepal.Length = y		
+•Petal.Length = x	   
+•Sepal.Length = y		 
 •main = Main title	
 •xlab = title for the x axis	
 •ylab = title for the y axis
@@ -52,8 +52,8 @@ scatterplot(Sepal.Length~Petal.Length | Species, data=iris, boxplots= "x,y",
 ```
 
 Where:   
-•Sepal.Length~Petal.Length | Species = the formula to plot by groups (x ~ y | z). It could also be a formula of the type x ~ y.
-•data = dataframe  
+•Sepal.Length~Petal.Length | Species = the formula to plot by groups (x ~ y | z). It could also be a formula of the type x ~ y.  
+•data = dataframe   
 •boxplots= boxplots for x and/or y   
 •main = main title   
 •xlab = title for the x axis	  
@@ -101,9 +101,11 @@ Where:
 •text = labels for levels of the grouping variable   
 
 
-
 ![lattice matrix](https://cloud.githubusercontent.com/assets/7631819/3052460/eb15378e-e19a-11e3-8079-cbb62cd8ae4c.png)
 
+
+We can also condicion our matrix on a factor with the car package.   
+The advantage of this package is that we can include lowess and linear best fit lines,  boxplots, densities, or histograms in the principal diagonal, as well as rug plots in the margins of the cells.
 
 ### Three-dimensional
 
