@@ -29,7 +29,7 @@ Where:
 
 ![simple scatterplot](https://cloud.githubusercontent.com/assets/7631819/3052442/9745fa8a-e19a-11e3-9542-337ec7d2a541.png)
 
-It is possible to add fitting lines:   
+It is possible to add <b>fitting lines</b>:   
 
  1.Regresion line, where y is dependent of x (y~x).  
  ```{r}
@@ -42,7 +42,7 @@ lines(lowess(Petal.Length, Sepal.Length), col="blue")
  
 ![adding fit lines](https://cloud.githubusercontent.com/assets/7631819/3052450/a88a4cba-e19a-11e3-8ee2-5efd8fee70aa.png)
 
-By downloading the car package we can use more enhanced features
+By downloading the <b>car</b> package we can use more enhanced features
 
 ```{r}
 library(car)
@@ -79,7 +79,7 @@ Where:
  
 ![simple scatterplot matrix](https://cloud.githubusercontent.com/assets/7631819/3052454/c4ec6fbe-e19a-11e3-82bf-ab7502be8f87.png)
 
-With the lattice package it is possible to condicion our matrix on a factor (tree specie in this case)
+With the <b>lattice</b> package it is possible to condicion our matrix on a factor (tree specie in this case)
 
 ```{r}
 library(lattice)
@@ -104,8 +104,40 @@ Where:
 ![lattice matrix](https://cloud.githubusercontent.com/assets/7631819/3052460/eb15378e-e19a-11e3-8079-cbb62cd8ae4c.png)
 
 
-We can also condicion our matrix on a factor with the car package.   
+We can also condicion our matrix on a factor with the <b>car</b> package.   
 The advantage of this package is that we can include lowess and linear best fit lines,  boxplots, densities, or histograms in the principal diagonal, as well as rug plots in the margins of the cells.
+
+```{r}
+scatterplot.matrix(~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width|Species, data=iris,   
+                   main="Three Species Options") 
+```
+
+![car matrix](https://cloud.githubusercontent.com/assets/7631819/3080975/b02d6b16-e4b8-11e3-9a8e-110528c2f736.png)  
+
+With the <b>gclus</b> package we can rearrange the variables to represent those with higher correlations closer to the principal diagonal and to set up diferent colors depending of the correlation grade.  
+
+```{r}
+library(gclus)  
+data <- iris[c(1,2,3,4)]    
+data.corr <- abs(cor(data))  
+data.color <- dmat.color(data.corr) 
+# reorder variables so those with highest correlation  
+# are closest to the diagonal  
+data.order <- order.single(data.corr)   
+cpairs(data, data.order, panel.colors=data.color, gap=.5,  
+       main="Correlation Graph" )  
+```
+Where:   
+•data = we get the data (columns 1,2,3,4 in this case)   
+•data.corr = we get the correlations    
+•data.color = get the colors depending of the correlation   
+•data.order = to reorder the variables according to the correlation and proximity to the diagonal   
+•cpairs = plotting the result     
+
+![gclus matrix](https://cloud.githubusercontent.com/assets/7631819/3081072/70735268-e4ba-11e3-987c-1d00fec0da38.png)
+
+
+
 
 ### Three-dimensional
 
