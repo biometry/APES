@@ -137,9 +137,56 @@ Where:
 ![gclus matrix](https://cloud.githubusercontent.com/assets/7631819/3081072/70735268-e4ba-11e3-987c-1d00fec0da38.png)
 
 
+### High Density Scatterplot
+
+There are 2 options to plot whenever we are working with too many data points that overlap.  
+The <b>hexbin</b> package creates a group of hexagonal cells and a count of points falling in each occupied cell. 
+```{r}
+library(hexbin)  
+bin<-hexbin(Petal.Width ~ Petal.Length, xbins=100, xlab="Petal.Width",ylab="Petal.Length")  
+plot(bin, main="Hexagonal Binning") 
+```
+Where:  
+•xbins = number of hexagons across the x axis  
+
+![hexagonal binning](https://cloud.githubusercontent.com/assets/7631819/3089678/ce1cefb0-e581-11e3-8c3b-9ac62d01288a.png)
+
+The other option is the <b>sunflowerplot</b> function.
+
+```{r}
+sunflowerplot(Petal.Width ~ Petal.Length, data = iris,  
+              cex = .5, cex.fact = .8, size = .15,   
+              xlab="Petal.Width",ylab="Petal.Length", main= "Sunflower Plot")  
+```
+Where:   
+•cex = size of the center points  
+•cex.fact = size of the center points where there are flower leaves   
+•size = size of the flower leaves  
+
+![sunflower plot](https://cloud.githubusercontent.com/assets/7631819/3089735/a96e67a6-e582-11e3-8002-2a4a45273a44.png)
+
 
 
 ### Three-dimensional
+
+we need the <b>scatterplot3d</b> package to represent 3D scatterplots.
+
+```{r}
+library(scatterplot3d)  
+iris3d<-scatterplot3d(Sepal.Length,Sepal.Width,Petal.Length, pch=18, highlight.3d=TRUE,  
+              type="h", main="3D Iris")  
+reg.plane <- lm(Petal.Length ~ Sepal.Length+Sepal.Width)   
+iris3d$plane3d(reg.plane)  
+```
+Where:   
+•pch = type of symbol   
+•highlight.3d = the points will are colored according to the y coordinates     
+•type = "p" for points, "l" for lines, "h" for vertical lines   
+•plane3d = we draw a regression plane
+
+
+![3d scatterplot](https://cloud.githubusercontent.com/assets/7631819/3090038/6089f1d2-e586-11e3-8243-ca838b85e148.png)
+
 
 
 ## Line plots
