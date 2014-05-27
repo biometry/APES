@@ -187,6 +187,19 @@ Where:
 
 ![3d scatterplot](https://cloud.githubusercontent.com/assets/7631819/3090038/6089f1d2-e586-11e3-8243-ca838b85e148.png)
 
+It is possible to spin our 3d model with the mouse using the <b>rgl</b> package or the <b>Rcmdr</b> package.  
+
+```{r}
+library(rgl)   
+plot3d(Sepal.Length,Sepal.Width,Petal.Length, col="blue", size=4)  
+```
+![spinning scatterplot](https://cloud.githubusercontent.com/assets/7631819/3090095/5dd40382-e587-11e3-80b0-49440970af6e.JPG)
+
+```{r}
+library(Rcmdr)  
+scatter3d(Sepal.Length,Sepal.Width,Petal.Length)  
+```
+![spinning scatterplot2](https://cloud.githubusercontent.com/assets/7631819/3090124/bd91ecda-e587-11e3-8bb2-a282e64f1bc7.JPG)
 
 
 ## Line plots
