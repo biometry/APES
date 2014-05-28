@@ -27,7 +27,7 @@ Where:
 •bg = background color of pch (from 21 to 25)	  
 •lwd = size of pch	
 
-![simple scatterplot](https://cloud.githubusercontent.com/assets/7631819/3052442/9745fa8a-e19a-11e3-9542-337ec7d2a541.png)
+![Simple Scatterplot](https://raw.githubusercontent.com/biometry/APES/master/images/Simple%20Scatterplot.png)
 
 It is possible to add <b>fitting lines</b>:   
 
@@ -40,8 +40,7 @@ abline(lm(Sepal.Length~Petal.Length), col="red")
 lines(lowess(Petal.Length, Sepal.Length), col="blue")
  ```
  
-![adding fit lines](https://cloud.githubusercontent.com/assets/7631819/3052450/a88a4cba-e19a-11e3-8ee2-5efd8fee70aa.png)
-
+![adding fit lines](https://raw.githubusercontent.com/biometry/APES/master/images/Adding%20fit%20lines.png)
 By downloading the <b>car</b> package we can use more enhanced features
 
 ```{r}
@@ -60,7 +59,7 @@ Where:
 •ylab = title for the y axis   
 •labels = labels for the points    
 
-![enhanced scatterplot](https://cloud.githubusercontent.com/assets/7631819/3052452/b59a70ba-e19a-11e3-90d2-0cb81e162c5a.png)
+![enhanced scatterplot](https://raw.githubusercontent.com/biometry/APES/master/images/Enhanced%20Scatterplot.png)
 
 Other enhanced features include: boxplots, regresion lines, jitter factors, legend options, etc.
 
@@ -77,7 +76,7 @@ Where:
 •data = the data frame    
 •main = main title   
  
-![simple scatterplot matrix](https://cloud.githubusercontent.com/assets/7631819/3052454/c4ec6fbe-e19a-11e3-82bf-ab7502be8f87.png)
+![simple scatterplot matrix](https://raw.githubusercontent.com/biometry/APES/master/images/Simple%20Scatterplot%20Matrix.png)
 
 With the <b>lattice</b> package it is possible to condicion our matrix on a factor (tree specie in this case)
 
@@ -101,7 +100,7 @@ Where:
 •text = labels for levels of the grouping variable   
 
 
-![lattice matrix](https://cloud.githubusercontent.com/assets/7631819/3052460/eb15378e-e19a-11e3-8079-cbb62cd8ae4c.png)
+![lattice matrix](https://raw.githubusercontent.com/biometry/APES/master/images/Lattice%20matrix.png)
 
 
 We can also condicion our matrix on a factor with the <b>car</b> package.   
@@ -112,7 +111,7 @@ scatterplot.matrix(~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width|Species, d
                    main="Three Species Options") 
 ```
 
-![car matrix](https://cloud.githubusercontent.com/assets/7631819/3080975/b02d6b16-e4b8-11e3-9a8e-110528c2f736.png)  
+![car matrix](https://raw.githubusercontent.com/biometry/APES/master/images/car%20matrix.png)  
 
 With the <b>gclus</b> package we can rearrange the variables to represent those with higher correlations closer to the principal diagonal and to set up diferent colors depending of the correlation grade.  
 
@@ -134,7 +133,7 @@ Where:
 •data.order = to reorder the variables according to the correlation and proximity to the diagonal   
 •cpairs = plotting the result     
 
-![gclus matrix](https://cloud.githubusercontent.com/assets/7631819/3081072/70735268-e4ba-11e3-987c-1d00fec0da38.png)
+![gclus matrix](https://raw.githubusercontent.com/biometry/APES/master/images/gclus%20matrix.png)
 
 
 ### High Density Scatterplot
@@ -149,7 +148,7 @@ plot(bin, main="Hexagonal Binning")
 Where:  
 •xbins = number of hexagons across the x axis  
 
-![hexagonal binning](https://cloud.githubusercontent.com/assets/7631819/3089678/ce1cefb0-e581-11e3-8c3b-9ac62d01288a.png)
+![hexagonal binning](https://raw.githubusercontent.com/biometry/APES/master/images/Hexagonal%20binning.png)
 
 The other option is the <b>sunflowerplot</b> function.
 
@@ -163,7 +162,7 @@ Where:
 •cex.fact = size of the center points where there are flower leaves   
 •size = size of the flower leaves  
 
-![sunflower plot](https://cloud.githubusercontent.com/assets/7631819/3089735/a96e67a6-e582-11e3-8002-2a4a45273a44.png)
+![sunflower plot](https://raw.githubusercontent.com/biometry/APES/master/images/sunflower%20plot.png)
 
 
 
@@ -185,7 +184,7 @@ Where:
 •plane3d = we draw a regression plane
 
 
-![3d scatterplot](https://cloud.githubusercontent.com/assets/7631819/3090038/6089f1d2-e586-11e3-8243-ca838b85e148.png)
+![3d scatterplot](https://raw.githubusercontent.com/biometry/APES/master/images/3D%20scatterplot.png)
 
 It is possible to spin our 3d model with the mouse using the <b>rgl</b> package or the <b>Rcmdr</b> package.  
 
@@ -193,13 +192,13 @@ It is possible to spin our 3d model with the mouse using the <b>rgl</b> package 
 library(rgl)   
 plot3d(Sepal.Length,Sepal.Width,Petal.Length, col="blue", size=4)  
 ```
-![spinning scatterplot](https://cloud.githubusercontent.com/assets/7631819/3090095/5dd40382-e587-11e3-80b0-49440970af6e.JPG)
+![spinning scatterplot](https://raw.githubusercontent.com/biometry/APES/master/images/Spinning%20Scatterplot.JPG)
 
 ```{r}
 library(Rcmdr)  
 scatter3d(Sepal.Length,Sepal.Width,Petal.Length)  
 ```
-![spinning scatterplot2](https://cloud.githubusercontent.com/assets/7631819/3090124/bd91ecda-e587-11e3-8bb2-a282e64f1bc7.JPG)
+![spinning scatterplot2](https://raw.githubusercontent.com/biometry/APES/master/images/Spinning%20Scatterplot2.JPG)
 
 
 ## Line plots
