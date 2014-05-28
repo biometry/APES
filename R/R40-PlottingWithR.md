@@ -203,17 +203,19 @@ scatter3d(Sepal.Length,Sepal.Width,Petal.Length)
 
 ## Line plots
 
+we will represent the diferent <b>types of lines</b> in one plot with random x and y data:
 ```{r}
-attach(iris)  
-par(pch=18, col="blue",mfrow=c(2,4))  
-opts = c("p","l","o","b","c","s","S","h")   
-for(i in 1:length(opts)){   
-  heading = paste("type=",opts[i])   
-  plot(Sepal.Length, Sepal.Width, type="n", main=heading)   
-  lines(Sepal.Length, Sepal.Width, type=opts[i])}  
-```
+x <- c(1:5); y <- x 
+par(pch=22, col="blue") 
+par(mfrow=c(2,4)) 
+opts = c("p","l","o","b","c","s","S","h") 
+for(i in 1:length(opts)){ 
+  heading = paste("type=",opts[i]) 
+  plot(x, y, type="n", main=heading) 
+  lines(x, y, type=opts[i])}
+```   
 Where:   
-•mfrow = with this option we represent all the plots in the same page  
+•mfrow = with this option we represent all the plots in the same page. To go back to only one plot per page, we write par(mfrow=c(1,1))    
 * types
   * p = points  
   * l = lines  
@@ -227,8 +229,37 @@ Where:
 * lines = lines to add to the created plot  
 
 
+An example with our iris data:   
+```{r}
+# convert factor to numeric for convenience 
+iris$Species <- as.numeric(iris$Species) 
+ntrees <- max(iris$Species)
 
+# get the range for the x and y axis 
+xrange <- range(iris$Sepal.Width) 
+yrange <- range(iris$Sepal.Length) 
 
+# set up the plot 
+plot(xrange, yrange, type="n", xlab="Sepal Width",
+     ylab="Sepal Length " ) 
+colors <- rainbow(ntrees) 
+linetype <- c(1:ntrees) 
+plotchar <- seq(18,18+ntrees,1)
+
+# add lines 
+for (i in 1:ntrees) { 
+  species <- subset(iris, Species==i) 
+  lines(species$Sepal.Width,species$Sepal.Length, type="b", lwd=1.5,
+        lty=linetype[i], col=colors[i], pch=plotchar[i]) 
+} 
+
+# add a title and subtitle 
+title("Iris Sepals", "example of line plot")
+
+# add a legend 
+legend(xrange[1], yrange[2], 1:ntrees, cex=0.8, col=colors,
+       pch=plotchar, lty=linetype, title="Species")
+```
 
 
 
