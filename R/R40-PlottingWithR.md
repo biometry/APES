@@ -228,6 +228,7 @@ Where:
 * plot = we create a plot where we will add the lines  
 * lines = lines to add to the created plot  
 
+![Lines plot](https://raw.githubusercontent.com/biometry/APES/master/images/Lines%20plot.png)
 
 An example with our iris data:   
 ```{r}
@@ -243,24 +244,20 @@ yrange <- range(iris$Sepal.Length)
 plot(xrange, yrange, type="n", xlab="Sepal Width",
      ylab="Sepal Length " ) 
 colors <- rainbow(ntrees) 
-linetype <- c(1:ntrees) 
-plotchar <- seq(18,18+ntrees,1)
 
 # add lines 
 for (i in 1:ntrees) { 
   species <- subset(iris, Species==i) 
   lines(species$Sepal.Width,species$Sepal.Length, type="b", lwd=1.5,
-        lty=linetype[i], col=colors[i], pch=plotchar[i]) 
-} 
+        lty=linetype[i], col=colors[i], pch=plotchar[i])} 
 
-# add a title and subtitle 
-title("Iris Sepals", "example of line plot")
-
-# add a legend 
+# add title and legend
+title("Iris Sepals")
 legend(xrange[1], yrange[2], 1:ntrees, cex=0.8, col=colors,
        pch=plotchar, lty=linetype, title="Species")
 ```
 
+![Iris Lines plot](https://raw.githubusercontent.com/biometry/APES/master/images/Iris%20Lines.png)
 
 
 ## Bar plots
