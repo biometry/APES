@@ -203,6 +203,35 @@ scatter3d(Sepal.Length,Sepal.Width,Petal.Length)
 
 ## Line plots
 
+```{r}
+attach(iris)  
+par(pch=18, col="blue",mfrow=c(2,4))  
+opts = c("p","l","o","b","c","s","S","h")   
+for(i in 1:length(opts)){   
+  heading = paste("type=",opts[i])   
+  plot(Sepal.Length, Sepal.Width, type="n", main=heading)   
+  lines(Sepal.Length, Sepal.Width, type=opts[i])}  
+```
+Where:   
+•mfrow = with this option we represent all the plots in the same page  
+* types
+  * p = points  
+  * l = lines  
+  * o = points & lines overplotted  
+  * b = points linked by lines  
+  * c = intermittent lines  
+  * s, S = stair steps  
+  * h = vertical lines  
+  * n = nothing   
+* plot = we create a plot where we will add the lines  
+* lines = lines to add to the created plot  
+
+
+
+
+
+
+
 ## Bar plots
 
 ## Pie charts
