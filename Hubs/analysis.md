@@ -32,7 +32,7 @@ DECICION TREE TO ADD
 
 * Import your data into R. See R help if you have problems
 * Perform consistency checks, relabel, rename, reshape if neccesary
-* NEVER change anything in your raw data file, all changes are made in the R script!
+* **NEVER change anything in your raw data file**, all changes are made in the R script!
 
 ## Visualize your data / Explorative data analysis (optional)
 
