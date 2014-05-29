@@ -3,7 +3,7 @@ Solving R problems and getting help
 
 ## I don't know how to do a certain thing
 
-Go through the steps in desceniding order
+Go through the steps in descending order
 
 1. Google it
 2. Ask your colleauges / fellow students
