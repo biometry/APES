@@ -2,6 +2,8 @@
 
 blog.revolutionanalytics.com/2014/03/an-r-meta-book.html
 
+http://www.uni-kiel.de/psychologie/rexrepos/index.html
+
 
 # R Stuff
 
