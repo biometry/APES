@@ -17,7 +17,7 @@ While the stats and r sites should be comprehensive, the hubs and checklists are
 As of today, most of our pages are still empty. There are a few things that have already been filled with content and that could be used with care. Those include 
 
 * [Getting started with R](/R/R10-gettingStarted.md)
-*	[What do do if you get an error from R](/R/R60-Problems.md)
+*	[What do do if you get an error from R](/R/R80-Problems.md)
 
 
 # Full table of contents (content incomplete)
