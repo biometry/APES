@@ -3,19 +3,24 @@ Regression
 
 
 
+y = F(a,x)
+
+where y is called the response, x are called the predictors, a are the parameters to be optiomized, and F could be any probabilistic functional that allows writing down the likelihood 
+
+p(y|a;x), where x is assumed to be fixed, and the parameters a are varied to find the parameters for which the model predicts the highest probability to observe the data. 
 
 
-# Linear regression
+The most important models used in regression are
 
+* The linear model
 
+* The linear mixed model
 
-# Generalized linear regression
+* The generalized linear models
 
-#Mixed models
-
-http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r
-
-http://jaredknowles.com/journal/2014/5/17/mixed-effects-tutorial-2-fun-with-mermod-objects
+* The generalized linear mixed models
+ 
+* Nonlinear regression
 
 
 
