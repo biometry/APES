@@ -16,6 +16,8 @@ While the stats and r sites should be comprehensive, the hubs and checklists are
 
 As of today, most of our pages are still empty. There are a few things that have already been filled with content and that could be used with care. Those include 
 
+* [Analyzing data](/checklists/analysingData.md)
+
 * [Getting started with R](/R/R10-gettingStarted.md)
 *	[What do do if you get an error from R](/R/R80-Problems.md)
 *	[Plotting with R](/R/R40-PlottingWithR.md)
