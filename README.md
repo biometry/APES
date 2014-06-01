@@ -18,6 +18,7 @@ As of today, most of our pages are still empty. There are a few things that have
 
 * [Getting started with R](/R/R10-gettingStarted.md)
 *	[What do do if you get an error from R](/R/R80-Problems.md)
+*	[Plotting with R](/R/R40-PlottingWithR.md)
 
 
 # Full table of contents (content incomplete)
