@@ -14,68 +14,10 @@ Our aim is to provide a central website for students and researchers seeking sta
 
 While the stats and r sites should be comprehensive, the hubs and checklists are supposed to be "guidebooks" on what is relevant regarding a particular topic (e.g. [hub on fitting process-based models](/Hubs/hub-fittingProcessBasedModels.md), and on what to do in a particular situation  (e.g. [Checklist on which analysis to choose](/checklists/whichAnalysis.md).
 
-As of today, most of our pages are still empty. There are a few things that have already been filled with content and that could be used with care. Those include 
-
-* [Analyzing data](/checklists/analysingData.md)
+As of today, most of our pages are still empty, but feel free to check out the content provided by clicking on the links above. A few pages that may be of interest and that are already been filled with some content include 
 
 * [Getting started with R](/R/R10-gettingStarted.md)
+* [Analyzing data](/checklists/analysingData.md)
 *	[What do do if you get an error from R](/R/R80-Problems.md)
 *	[Plotting with R](/R/R40-PlottingWithR.md)
-
-
-# Full table of contents (content incomplete)
-
-*NOTE: this is the full content of the project. We will remove this from the start page later*
-
-
-## Statistics
-
-* [Preface: how to read this text](/Stats/stats00-preface.md)
-
-* [Overview - What are the goals of statistics and data analysis](/Stats/stats01-overview.md)
-* [Explorative data analysis](/Stats/stats02-explorativeDataAnalysis.md)
-* [Summary statistics and correlations](/Stats/stats04-summaries.md)
-* [Inferential aproaches](/Stats/stats10-inference.md)
-* [Regression](/Stats/stats20-regression.md)
- * [The Linear model](/Stats/)
- * [Generalized linear models](/Stats/)
- * [Mixed models](/Stats/)
- * [Generalized linear mixed models](/Stats/)
-*	[Model selection](/Stats/stats30-modelSelection.md)
-*	[Hierarchical models](/Stats/stats40-hierarchicalModels.md)
- * [Including observer models](/Stats/)
- * [State-space models](/Stats/)
-*	[Resampling methods and null models](/Stats/)
-
-## R
-
-
-* [Preface - How to use this text](/R/R00-Preface.md)
-
-*	[Getting started with R](/R/R10-gettingStarted.md)
- *	[Installing R](/R/)
- *	[Useful software](/R/)
- *	[First steps](/R/)
-*	[Data structures](/R/R20-DataStructures.md)
-*	[Using packages and functions](/R/R30-FunctionsAndPackages.md)
- * [Using existing functions](/R/)
- * [Installing and loading new packages](/R/)
- * [Understanding structures of unknown objects](/R/)
-* [Programming with R](/R/R40-ProgrammingWithR.md)
-* [Package development](/R/R50-PackageDevelopment.md)
-* [Solving R problems](/R/R60-Problems.md)
-
-
-## Hubs on special topics
-
-* [Planning and conducting experiments](/Hubs/hub-experimentalDesign.md)
-* [Spatial analysis](/Hubs/hub-spatialAnalysis.md)
-* [Time-series methods](/Hubs/time-series.md)
-* [Simulation-based inference](/Hubs/hub-simulationBasedInference.md)
-* [Statistics for existing process-based models](/Hubs/hub-fittingProcessBasedModels.md)
-
-
-## Checklists
-
-incomplete 
 
