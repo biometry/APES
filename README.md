@@ -1,7 +1,7 @@
 Advice for Problems in Environmental Statistics (APES)
 ====
 
-AT THE MOMENT, THIS IS WORK IN PROGRESS, NOT FOR USE YET. CONTRIBUTIONS AND SUGGESTIONS VERY WELCOME. IF YOU WANT TO CONTRIBUTE SEE https://github.com/florianhartig/APES/tree/master/Contribute. Get in touch with http://www.biom.uni-freiburg.de/mitarbeiter/hartig if you work on a longer text to avoid overlaps. Once we have the feeling that the content is more or less complete, a better looking web version of this document will be made available at http://biometry.github.io/APES/
+> AT THE MOMENT, THIS IS WORK IN PROGRESS, NOT FOR USE YET. CONTRIBUTIONS AND SUGGESTIONS VERY WELCOME. IF YOU WANT TO CONTRIBUTE SEE https://github.com/florianhartig/APES/tree/master/Contribute. Get in touch with http://www.biom.uni-freiburg.de/mitarbeiter/hartig if you work on a longer text to avoid overlaps. Once we have the feeling that the content is more or less complete, a better looking web version of this document will be made available at http://biometry.github.io/APES/
 
 This is the collection of stats knowledge of the [Department of Biometry and Environmental System Analysis](http://www.biom.uni-freiburg.de/), University of Freiburg. 
 
