@@ -1,4 +1,4 @@
-Generalized linear mixed models (GLM)
+Generalized linear models (GLM)
 ===
 
 
