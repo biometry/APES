@@ -1,6 +1,7 @@
 Getting started with R
 ===
 
+Synopsis: R is the most widely used software for statistical calculations. This explains how to get started with using R.
 
 ## Software
 
