@@ -40,5 +40,6 @@ German
 * Quick-R (Highly recommend for beginners) http://www.statmethods.net/
 * http://www.cookbook-r.com/
 * R by example http://www.mayin.org/ajayshah/KB/R/
+* http://www.uni-kiel.de/psychologie/rexrepos/index.html
 
 
