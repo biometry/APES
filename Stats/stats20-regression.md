@@ -3,47 +3,24 @@ Regression
 
 
 
+y = F(a,x)
+
+where y is called the response, x are called the predictors, a are the parameters to be optiomized, and F could be any probabilistic functional that allows writing down the likelihood 
+
+p(y|a;x), where x is assumed to be fixed, and the parameters a are varied to find the parameters for which the model predicts the highest probability to observe the data. 
 
 
-# Linear regression
+The most important models used in regression are
 
+* The linear model
 
+* The linear mixed model
 
-## Simple linear regression
+* The generalized linear models
 
-
-
-
-## Multiple linear regression
-
-Multiple linear regression is the term for the situation in which you have multiple predictor variables, but still only one continous response with the same assumptions as before. 
-
-<a href="http://www.youtube.com/watch?v=q1RD5ECsSB0" target="_blank">
-![Video](http://img.youtube.com/vi/q1RD5ECsSB0/0.jpg)<br/ >
-Video demonstrating multiple linear regresssion in R
-</a>
-
-
-# Generalized linear regression
-
-
-## Other distributions
-
-## Link function
-
-## Logistic Regression
-
-## Poisson Regression
-
-## Links
-
-http://blog.revolutionanalytics.com/2014/04/some-r-resources-for-glms.html
-
-#Mixed models
-
-http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r
-
-http://jaredknowles.com/journal/2014/5/17/mixed-effects-tutorial-2-fun-with-mermod-objects
+* The generalized linear mixed models
+ 
+* Nonlinear regression
 
 
 

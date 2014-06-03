@@ -27,9 +27,9 @@ Where:
 •bg = background color of pch (from 21 to 25)	  
 •lwd = size of pch	
 
-![simple scatterplot](https://cloud.githubusercontent.com/assets/7631819/3052442/9745fa8a-e19a-11e3-9542-337ec7d2a541.png)
+![Simple Scatterplot](https://raw.githubusercontent.com/biometry/APES/master/images/Simple%20Scatterplot.png)
 
-It is possible to add fitting lines:   
+It is possible to add <b>fitting lines</b>:   
 
  1.Regresion line, where y is dependent of x (y~x).  
  ```{r}
@@ -40,9 +40,8 @@ abline(lm(Sepal.Length~Petal.Length), col="red")
 lines(lowess(Petal.Length, Sepal.Length), col="blue")
  ```
  
-![adding fit lines](https://cloud.githubusercontent.com/assets/7631819/3052450/a88a4cba-e19a-11e3-8ee2-5efd8fee70aa.png)
-
-By downloading the car package we can use more enhanced features
+![adding fit lines](https://raw.githubusercontent.com/biometry/APES/master/images/Adding%20fit%20lines.png)
+By downloading the <b>car</b> package we can use more enhanced features
 
 ```{r}
 library(car)
@@ -60,7 +59,7 @@ Where:
 •ylab = title for the y axis   
 •labels = labels for the points    
 
-![enhanced scatterplot](https://cloud.githubusercontent.com/assets/7631819/3052452/b59a70ba-e19a-11e3-90d2-0cb81e162c5a.png)
+![enhanced scatterplot](https://raw.githubusercontent.com/biometry/APES/master/images/Enhanced%20Scatterplot.png)
 
 Other enhanced features include: boxplots, regresion lines, jitter factors, legend options, etc.
 
@@ -77,9 +76,9 @@ Where:
 •data = the data frame    
 •main = main title   
  
-![simple scatterplot matrix](https://cloud.githubusercontent.com/assets/7631819/3052454/c4ec6fbe-e19a-11e3-82bf-ab7502be8f87.png)
+![simple scatterplot matrix](https://raw.githubusercontent.com/biometry/APES/master/images/Simple%20Scatterplot%20Matrix.png)
 
-With the lattice package it is possible to condicion our matrix on a factor (tree specie in this case)
+With the <b>lattice</b> package it is possible to condicion our matrix on a factor (tree specie in this case)
 
 ```{r}
 library(lattice)
@@ -101,16 +100,165 @@ Where:
 •text = labels for levels of the grouping variable   
 
 
-![lattice matrix](https://cloud.githubusercontent.com/assets/7631819/3052460/eb15378e-e19a-11e3-8079-cbb62cd8ae4c.png)
+![lattice matrix](https://raw.githubusercontent.com/biometry/APES/master/images/Lattice%20matrix.png)
 
 
-We can also condicion our matrix on a factor with the car package.   
+We can also condicion our matrix on a factor with the <b>car</b> package.   
 The advantage of this package is that we can include lowess and linear best fit lines,  boxplots, densities, or histograms in the principal diagonal, as well as rug plots in the margins of the cells.
+
+```{r}
+scatterplot.matrix(~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width|Species, data=iris,   
+                   main="Three Species Options") 
+```
+
+![car matrix](https://raw.githubusercontent.com/biometry/APES/master/images/car%20matrix.png)  
+
+With the <b>gclus</b> package we can rearrange the variables to represent those with higher correlations closer to the principal diagonal and to set up diferent colors depending of the correlation grade.  
+
+```{r}
+library(gclus)  
+data <- iris[c(1,2,3,4)]    
+data.corr <- abs(cor(data))  
+data.color <- dmat.color(data.corr) 
+# reorder variables so those with highest correlation  
+# are closest to the diagonal  
+data.order <- order.single(data.corr)   
+cpairs(data, data.order, panel.colors=data.color, gap=.5,  
+       main="Correlation Graph" )  
+```
+Where:   
+•data = we get the data (columns 1,2,3,4 in this case)   
+•data.corr = we get the correlations    
+•data.color = get the colors depending of the correlation   
+•data.order = to reorder the variables according to the correlation and proximity to the diagonal   
+•cpairs = plotting the result     
+
+![gclus matrix](https://raw.githubusercontent.com/biometry/APES/master/images/gclus%20matrix.png)
+
+
+### High Density Scatterplot
+
+There are 2 options to plot whenever we are working with too many data points that overlap.  
+The <b>hexbin</b> package creates a group of hexagonal cells and a count of points falling in each occupied cell. 
+```{r}
+library(hexbin)  
+bin<-hexbin(Petal.Width ~ Petal.Length, xbins=100, xlab="Petal.Width",ylab="Petal.Length")  
+plot(bin, main="Hexagonal Binning") 
+```
+Where:  
+•xbins = number of hexagons across the x axis  
+
+![hexagonal binning](https://raw.githubusercontent.com/biometry/APES/master/images/Hexagonal%20binning.png)
+
+The other option is the <b>sunflowerplot</b> function.
+
+```{r}
+sunflowerplot(Petal.Width ~ Petal.Length, data = iris,  
+              cex = .5, cex.fact = .8, size = .15,   
+              xlab="Petal.Width",ylab="Petal.Length", main= "Sunflower Plot")  
+```
+Where:   
+•cex = size of the center points  
+•cex.fact = size of the center points where there are flower leaves   
+•size = size of the flower leaves  
+
+![sunflower plot](https://raw.githubusercontent.com/biometry/APES/master/images/sunflower%20plot.png)
+
+
 
 ### Three-dimensional
 
+we need the <b>scatterplot3d</b> package to represent 3D scatterplots.
+
+```{r}
+library(scatterplot3d)  
+iris3d<-scatterplot3d(Sepal.Length,Sepal.Width,Petal.Length, pch=18, highlight.3d=TRUE,  
+              type="h", main="3D Iris")  
+reg.plane <- lm(Petal.Length ~ Sepal.Length+Sepal.Width)   
+iris3d$plane3d(reg.plane)  
+```
+Where:   
+•pch = type of symbol   
+•highlight.3d = the points will are colored according to the y coordinates     
+•type = "p" for points, "l" for lines, "h" for vertical lines   
+•plane3d = we draw a regression plane
+
+
+![3d scatterplot](https://raw.githubusercontent.com/biometry/APES/master/images/3D%20scatterplot.png)
+
+It is possible to spin our 3d model with the mouse using the <b>rgl</b> package or the <b>Rcmdr</b> package.  
+
+```{r}
+library(rgl)   
+plot3d(Sepal.Length,Sepal.Width,Petal.Length, col="blue", size=4)  
+```
+![spinning scatterplot](https://raw.githubusercontent.com/biometry/APES/master/images/Spinning%20Scatterplot.JPG)
+
+```{r}
+library(Rcmdr)  
+scatter3d(Sepal.Length,Sepal.Width,Petal.Length)  
+```
+![spinning scatterplot2](https://raw.githubusercontent.com/biometry/APES/master/images/Spinning%20Scatterplot2.JPG)
+
 
 ## Line plots
+
+we will represent the diferent <b>types of lines</b> in one plot with random x and y data:
+```{r}
+x <- c(1:5); y <- x 
+par(pch=22, col="blue") 
+par(mfrow=c(2,4)) 
+opts = c("p","l","o","b","c","s","S","h") 
+for(i in 1:length(opts)){ 
+  heading = paste("type=",opts[i]) 
+  plot(x, y, type="n", main=heading) 
+  lines(x, y, type=opts[i])}
+```   
+Where:   
+•mfrow = with this option we represent all the plots in the same page. To go back to only one plot per page, we write par(mfrow=c(1,1))    
+* types
+  * p = points  
+  * l = lines  
+  * o = points & lines overplotted  
+  * b = points linked by lines  
+  * c = intermittent lines  
+  * s, S = stair steps  
+  * h = vertical lines  
+  * n = nothing   
+* plot = we create a plot where we will add the lines  
+* lines = lines to add to the created plot  
+
+![Lines plot](https://raw.githubusercontent.com/biometry/APES/master/images/Lines%20plot.png)
+
+An example with our iris data:   
+```{r}
+# convert factor to numeric for convenience 
+iris$Species <- as.numeric(iris$Species) 
+ntrees <- max(iris$Species)
+
+# get the range for the x and y axis 
+xrange <- range(iris$Sepal.Width) 
+yrange <- range(iris$Sepal.Length) 
+
+# set up the plot 
+plot(xrange, yrange, type="n", xlab="Sepal Width",
+     ylab="Sepal Length " ) 
+colors <- rainbow(ntrees) 
+
+# add lines 
+for (i in 1:ntrees) { 
+  species <- subset(iris, Species==i) 
+  lines(species$Sepal.Width,species$Sepal.Length, type="b", lwd=1.5,
+        lty=linetype[i], col=colors[i], pch=plotchar[i])} 
+
+# add title and legend
+title("Iris Sepals")
+legend(xrange[1], yrange[2], 1:ntrees, cex=0.8, col=colors,
+       pch=plotchar, lty=linetype, title="Species")
+```
+
+![Iris Lines plot](https://raw.githubusercontent.com/biometry/APES/master/images/Iris%20Lines.png)
+
 
 ## Bar plots
 

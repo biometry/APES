@@ -1,11 +1,10 @@
-
-
-
-# Stats Curiculum 
+A curriculum for statistics
+===
 
 Recommendations what to teach and what you should know at different levels in your studies
 
 Level 1: Statistics 101 (BSc)
+
 1. Random variable, histograms, sample statistics (incl. median, IQR)
 2. distributions: estimates vs. statistics
 3. PDF, CDF; (mass function)
@@ -20,6 +19,7 @@ Level 1: Statistics 101 (BSc)
 
 
 Level 2: Applied and Advanced Statistics (MSc, PhD)
+
 1. mixed models
 2. zero-inflation
 3. survival analysis (censored data, Cox-prop.hazard, Weibull-> Zucchini, GÖ)
@@ -33,6 +33,7 @@ Level 2: Applied and Advanced Statistics (MSc, PhD)
 
 
 Level 3: Specific statistical topics (as separate or combined modules)
+
 1. Robust statistics & non-parametric statistics
 2. WinBUGS
 3. MCMC, from Metropolis to Gibbs & inverse modelling
