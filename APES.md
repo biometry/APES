@@ -13,7 +13,7 @@ Our aim is to provide a central website for students and researchers seeking sta
 We aim at providing
 
 * An overview, short explanations and further links on all important topics of environmental statisitics and using R
-* "Entry points" (hubs) for particular situations such as "I am planning my first experiment". "I want to start using R", "best practice for ..."
+* "Entry points" (hubs) for particular situations such as "I am planning my first experiment". "I want to start using R", "best practice for ..." 
 
 **Choose between the following options:**
 

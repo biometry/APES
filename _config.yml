@@ -1,10 +1,18 @@
 # Site settings
-title: APES - Advice for Problems in Environmental Statistics
+title: APES
 email: info@biom.uni-freiburg.de
-description: "Advice for Problems in Environmental Statistics"
-baseurl: "/APES"
-url: "http://biometry.github.io/APES"
+description: Advice for Problems in Environmental Statistics
+baseurl: /APES
+url: http://biometry.github.io
+username: biometry
 
 # Build settings
-markdown: kramdown
+markdown: redcarpet
 permalink: pretty
+
+# Excludes
+exclude: ['APES.sublime-project', 'Gemfile', 'Gemfile.lock', 'feed.xml']
+
+# github gems
+# gems:
+#   - jekyll-mentions
