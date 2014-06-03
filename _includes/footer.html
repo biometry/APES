@@ -9,7 +9,7 @@
         <li>Maintainer: {{ page.author }} </li>
         <li>Contributors:
           <ul>
-            {% for name in site.github.contributors %}
+            {% for name in site.github.contributors.login %}
               <li>{{ name }}</li>
             {% endfor %}
             {% for name in page.contributors %}

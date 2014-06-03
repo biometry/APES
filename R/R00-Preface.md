@@ -1,13 +1,13 @@
 ---
 layout: page
-category: R
-title: R Hub
+title: 'R: Preface'
+category: r
 permalink: /
 author: Florian Hartig
 contributors:
     - Matthias Theobald
     - Jemand Anderes
-tags: article
+tags: main
 ---
 
 R Help Preface - how to read this text 

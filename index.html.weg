@@ -1,19 +1,19 @@
----
+<!-- ---
 layout: default
 title: Home
----
+--- -->
 
 <div class="home">
 
   <h1>Topics</h1>
 
   <ul class="topics">
-    {% for post in site.posts %}
+    {% for page in site.pages %} {% if page.tags contains 'main' %}
       <li>
         <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
-        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+        <a class="post-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
       </li>
-    {% endfor %}
+    {% endif %} {% endfor %}
   </ul>
 
   <!-- <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p> -->

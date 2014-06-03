@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Welcome to APES
+permalink: /index.html
 ---
 
 Advice for Problems in Environmental Statistics (APES)

@@ -16,3 +16,14 @@ exclude: ['APES.sublime-project', 'Gemfile', 'Gemfile.lock', 'feed.xml']
 # github gems
 # gems:
 #   - jekyll-mentions
+
+# Default page settings, currently not working on gh-pages
+defaults:
+  -
+    scope:
+      path:
+      type: page
+    values:
+      author: Florian Hartig
+      layout: page
+  -
