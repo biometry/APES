@@ -295,9 +295,25 @@ We can represent each value in a bar instead of stacked by adding beside=TRUE to
 
 ## Pie charts
 
-Don't do them! Use Bar plots instead. But if you really must know
+Don't do them! Use Bar plots instead as it is easier to appreciate the differences between bars. But if you have to use them:
 
+```{r}
+#set up the variables
+Spcs <- table(iris$Species) 
+Spcs
+lbls <- c("Setosa", "Versicolor", "Virginica")
+# add percentages to the pie
+pct <- round(Spcs/sum(Spcs)*100)
+lbls <- paste(lbls, pct)
+lbls <- paste(lbls,"%",sep="")
+# plot the chart
+pie(Spcs,labels = lbls,
+main="Pie Chart of Countries")
+```
 
+![Pie Chart](https://raw.githubusercontent.com/biometry/APES/master/images/Pie%20chart.png)
+
+With the <b>plotrix</b> package we can create 3d pie charts
 # Others
 
 ## Box plots
