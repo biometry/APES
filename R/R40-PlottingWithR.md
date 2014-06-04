@@ -265,6 +265,34 @@ legend(xrange[1], yrange[2], 1:ntrees, cex=0.8, col=colors,
 
 ## Bar plots
 
+### Simple Bar Plot
+
+```{r}
+counts <- table(iris$Petal.Length)
+barplot(counts, main="Iris Distribution", 
+        xlab="Petal Length")
+```
+
+It is possible to plot the bars horizontal by adding horiz=TRUE to the code
+
+![Simple Bar plot](https://raw.githubusercontent.com/biometry/APES/master/images/barplot.png)
+
+### Stacked Bar Plot
+
+If we want to represent different values in each bar
+
+```{r}
+counts <- table(iris$Species, iris$Petal.Length)  
+barplot(counts, main="iris species distribution by petal leghts",
+                    xlab="Petal Length",  col=c("darkblue","red", "green"),
+                    legend = rownames(counts))
+```
+![Stacked Bar plot](https://raw.githubusercontent.com/biometry/APES/master/images/stacked%20bar%20plot.png)
+
+We can represent each value in a bar instead of stacked by adding beside=TRUE to the code
+
+![Grouped Bar plot](https://raw.githubusercontent.com/biometry/APES/master/images/grouped%20bar.png)
+
 ## Pie charts
 
 Don't do them! Use Bar plots instead. But if you really must know
