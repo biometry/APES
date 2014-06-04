@@ -291,7 +291,7 @@ barplot(counts, main="iris species distribution by petal leghts",
 
 We can represent each value in a bar instead of stacked by adding beside=TRUE to the code
 
-![Grouped Bar plot](https://raw.githubusercontent.com/biometry/APES/master/images/grouped%20bar.png)
+![Grouped Bar plot]https://raw.githubusercontent.com/biometry/APES/master/images/Grouped%20Barplot.png)
 
 ## Pie charts
 
