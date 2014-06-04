@@ -9,7 +9,7 @@ A lot more examples in the links here https://github.com/biometry/APES/blob/mast
 
 ### Simple Scatterplot
 
- ```{r}
+```r
 attach(iris)
 head(iris)
 plot(Petal.Length, Sepal.Length, main="Simple Scatterplot",xlab="Petal Length ",ylab="Sepal Length " , 
@@ -17,47 +17,50 @@ plot(Petal.Length, Sepal.Length, main="Simple Scatterplot",xlab="Petal Length ",
 ```
 
 Where:	
-•Petal.Length = x	   
-•Sepal.Length = y		 
-•main = Main title	
-•xlab = title for the x axis	
-•ylab = title for the y axis
-•pch = type of symbol	
-•col = color of pch	
-•bg = background color of pch (from 21 to 25)	  
-•lwd = size of pch	
+ * Petal.Length = x	   
+ * Sepal.Length = y		 
+ * main = Main title	
+ * xlab = title for the x axis	
+ * ylab = title for the y axis
+ * pch = type of symbol	
+ * col = color of pch	
+ * bg = background color of pch (from 21 to 25)	  
+ * lwd = size of pch	
 
 ![Simple Scatterplot](https://raw.githubusercontent.com/biometry/APES/master/images/Simple%20Scatterplot.png)
 
-It is possible to add <b>fitting lines</b>:   
+It is possible to add **fitting lines**:   
 
- 1.Regresion line, where y is dependent of x (y~x).  
- ```{r}
-abline(lm(Sepal.Length~Petal.Length), col="red")  
- ```
- 2.Lowess returns a list containing components x and y which give the coordinates of the smooth. 
- ```{r}
-lines(lowess(Petal.Length, Sepal.Length), col="blue")
- ```
- 
+1.	Regresion line, where y is dependent of x (y~x).
+
+	```r
+	abline(lm(Sepal.Length~Petal.Length), col="red")
+	```
+
+2.	Lowess returns a list containing components x and y which give the coordinates of the smooth. 
+		
+	```r
+	lines(lowess(Petal.Length, Sepal.Length), col="blue")
+	```
+
 ![adding fit lines](https://raw.githubusercontent.com/biometry/APES/master/images/Adding%20fit%20lines.png)
 By downloading the <b>car</b> package we can use more enhanced features
 
-```{r}
+```r
 library(car)
 scatterplot(Sepal.Length~Petal.Length | Species, data=iris, boxplots= "x,y",
-            xlab="Petal Length ",ylab="Sepal Length ", 
+            xlab="Petal Length ",ylab="Sepal Length ",
             main="Enhanced Scatter Plot", labels=row.names(iris))
 ```
 
-Where:   
-•Sepal.Length~Petal.Length | Species = the formula to plot by groups (x ~ y | z). It could also be a formula of the type x ~ y.  
-•data = dataframe   
-•boxplots= boxplots for x and/or y   
-•main = main title   
-•xlab = title for the x axis	  
-•ylab = title for the y axis   
-•labels = labels for the points    
+Where:
+* `Sepal.Length~Petal.Length | Species` = the formula to plot by groups `(x ~ y | z)`. It could also be a formula of the type `x ~ y`.  
+* `data` = dataframe   
+* `boxplots` = boxplots for x and/or y   
+* `main` = main title   
+* `xlab` = title for the x axis	  
+* `ylab` = title for the y axis   
+* `labels` = labels for the points    
 
 ![enhanced scatterplot](https://raw.githubusercontent.com/biometry/APES/master/images/Enhanced%20Scatterplot.png)
 
@@ -66,21 +69,21 @@ Other enhanced features include: boxplots, regresion lines, jitter factors, lege
 
 ###Scaterplott Matrices
 
-```{r}
-pairs(~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width,data=iris, 
+```r
+pairs(~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width,data=iris,
       main="Simple Scatterplot Matrix")
 ```
 
 Where:   
-•~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width = Numeric vectors that represent the variables in the plot  
-•data = the data frame    
-•main = main title   
+* `~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width` = Numeric vectors that represent the variables in the plot  
+* `data` = the data frame
+* `main` = main title   
  
 ![simple scatterplot matrix](https://raw.githubusercontent.com/biometry/APES/master/images/Simple%20Scatterplot%20Matrix.png)
 
-With the <b>lattice</b> package it is possible to condicion our matrix on a factor (tree specie in this case)
+With the **lattice** package it is possible to condicion our matrix on a factor (tree specie in this case)
 
-```{r}
+```r
 library(lattice)
 super.sym <- trellis.par.get("superpose.symbol")  
 splom(~iris[1:4], groups = Species, data = iris,  
@@ -262,14 +265,64 @@ legend(xrange[1], yrange[2], 1:ntrees, cex=0.8, col=colors,
 
 ## Bar plots
 
+### Simple Bar Plot
+
+```{r}
+counts <- table(iris$Petal.Length)
+barplot(counts, main="Iris Distribution", 
+        xlab="Petal Length")
+```
+
+It is possible to plot the bars horizontal by adding horiz=TRUE to the code
+
+![Simple Bar plot](https://raw.githubusercontent.com/biometry/APES/master/images/barplot.png)
+
+### Stacked Bar Plot
+
+If we want to represent different values in each bar
+
+```{r}
+counts <- table(iris$Species, iris$Petal.Length)  
+barplot(counts, main="iris species distribution by petal leghts",
+                    xlab="Petal Length",  col=c("darkblue","red", "green"),
+                    legend = rownames(counts))
+```
+![Stacked Bar plot](https://raw.githubusercontent.com/biometry/APES/master/images/stacked%20bar%20plot.png)
+
+We can represent each value in a bar instead of stacked by adding beside=TRUE to the code
+
+![Grouped Bar plot]https://raw.githubusercontent.com/biometry/APES/master/images/Grouped%20Barplot.png)
+
 ## Pie charts
 
-Don't do them! Use Bar plots instead. But if you really must know
+Don't do them! Use Bar plots instead as it is easier to appreciate the differences between bars. But if you have to use them:
 
+```{r}
+#set up the variables
+Spcs <- table(iris$Species) 
+Spcs
+lbls <- c("Setosa", "Versicolor", "Virginica")
+# add percentages to the pie
+pct <- round(Spcs/sum(Spcs)*100)
+lbls <- paste(lbls, pct)
+lbls <- paste(lbls,"%",sep="")
+# plot the chart
+pie(Spcs,labels = lbls,
+main="Pie Chart of Countries")
+```
+
+![Pie Chart](https://raw.githubusercontent.com/biometry/APES/master/images/Pie%20chart.png)
+
+With the <b>plotrix</b> package we can create 3d pie charts
 
 # Others
 
 ## Box plots
+
+boxplot(Petal.Length~Species,data=iris, main="Species Petal Length", 
+        xlab="Species", ylab="Petal Length")
+        
+
 
 ### Normal box plot
 
@@ -280,6 +333,13 @@ Don't do them! Use Bar plots instead. But if you really must know
 ## Density plots
 
 
+
+# Understanding graphics 
+
+
+## Colors
+
+http://www.mepheoscience.com/colourful-ecology-part-1-extracting-colours-from-an-image-and-selecting-them-using-community-phylogenetics-theory/
 
 
 
