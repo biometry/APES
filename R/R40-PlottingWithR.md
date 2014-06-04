@@ -314,9 +314,15 @@ main="Pie Chart of Countries")
 ![Pie Chart](https://raw.githubusercontent.com/biometry/APES/master/images/Pie%20chart.png)
 
 With the <b>plotrix</b> package we can create 3d pie charts
+
 # Others
 
 ## Box plots
+
+boxplot(Petal.Length~Species,data=iris, main="Species Petal Length", 
+        xlab="Species", ylab="Petal Length")
+        
+
 
 ### Normal box plot
 
