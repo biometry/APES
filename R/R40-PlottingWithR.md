@@ -284,6 +284,13 @@ Don't do them! Use Bar plots instead. But if you really must know
 
 
 
+# Understanding graphics 
+
+
+## Colors
+
+http://www.mepheoscience.com/colourful-ecology-part-1-extracting-colours-from-an-image-and-selecting-them-using-community-phylogenetics-theory/
+
 
 
 
