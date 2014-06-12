@@ -9,6 +9,8 @@ http://www.uni-kiel.de/psychologie/rexrepos/index.html
 
 Programming http://adv-r.had.co.nz/
 
+http://ecology.msu.montana.edu/labdsv/R/labs/R_ecology.html#recol
+
 
 # Misc
 
