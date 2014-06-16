@@ -342,7 +342,7 @@ boxplot(uptake~Type*Treatment, data=CO2, notch=TRUE,
 
 ### Violin Plot
 
-With a violin plot (<b>violpot</b> package) we can visualise easily the density data.		
+With a violin plot (<b>vioplot</b> package) we can visualise easily the density data.		
 
 ```{r}
 iris$Species <- as.numeric(iris$Species) 		
