@@ -318,11 +318,37 @@ With the <b>plotrix</b> package we can create 3d pie charts
 # Others
 
 ## Box plots
-
-boxplot(Petal.Length~Species,data=iris, main="Species Petal Length", 
+```{r}
+boxplot(Petal.Length~Species,data=iris, main="Species Petal Length", 		
         xlab="Species", ylab="Petal Length")
-        
+ ```       
+By adding varwidth=TRUE to the formula we can make the boxplot widths proportional to the square root of the samples sizes. 			
+By adding horizontal=TRUE we reverse the axis orientation.
 
+### Notched Boxplot
+
+It is also possible to create a notched Boxplot of a variable against 2 crossed factors.		
+This time we used the example of the Carbon Dioxide Uptake in Grass Plants against Type and treatment
+
+```{r}
+boxplot(uptake~Type*Treatment, data=CO2, notch=TRUE, 		
+        col=(c("gold","darkgreen")),		
+        main="Carbon Dioxide Uptake in Grass Plants", xlab="Type and treatment")		
+```
+### Violin Plot
+
+With a violin plot (<b>violpot</b> package) we can visualise easily the density data.		
+
+```{r}
+iris$Species <- as.numeric(iris$Species) 		
+library(vioplot)		
+x1 <- iris$Petal.Length[iris$Species==1]		
+x2 <- iris$Petal.Length[iris$Species==2]		
+x3 <- iris$Petal.Length[iris$Species==3]		
+vioplot(x1, x2, x3, names=c("setosa", "versicolor", "virginica"), 		
+        col="gold")		
+title("Violin Plots of Petal Length")		
+```
 
 ### Normal box plot
 
