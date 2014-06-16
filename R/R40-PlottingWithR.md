@@ -322,6 +322,8 @@ With the <b>plotrix</b> package we can create 3d pie charts
 boxplot(Petal.Length~Species,data=iris, main="Species Petal Length", 		
         xlab="Species", ylab="Petal Length")
  ```       
+![Box Plot](https://raw.githubusercontent.com/biometry/APES/master/images/boxplot.png)
+
 By adding varwidth=TRUE to the formula we can make the boxplot widths proportional to the square root of the samples sizes. 			
 By adding horizontal=TRUE we reverse the axis orientation.
 
@@ -330,11 +332,14 @@ By adding horizontal=TRUE we reverse the axis orientation.
 It is also possible to create a notched Boxplot of a variable against 2 crossed factors.		
 This time we used the example of the Carbon Dioxide Uptake in Grass Plants against Type and treatment
 
+
 ```{r}
 boxplot(uptake~Type*Treatment, data=CO2, notch=TRUE, 		
         col=(c("gold","darkgreen")),		
         main="Carbon Dioxide Uptake in Grass Plants", xlab="Type and treatment")		
 ```
+![Nptched Box Plot](https://raw.githubusercontent.com/biometry/APES/master/images/Notched%20Boxplot.png)
+
 ### Violin Plot
 
 With a violin plot (<b>violpot</b> package) we can visualise easily the density data.		
@@ -349,6 +354,7 @@ vioplot(x1, x2, x3, names=c("setosa", "versicolor", "virginica"),
         col="gold")		
 title("Violin Plots of Petal Length")		
 ```
+![Violin Plot](https://raw.githubusercontent.com/biometry/APES/master/images/violin%20plot.png)
 
 ### Normal box plot
 
