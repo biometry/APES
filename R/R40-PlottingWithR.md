@@ -356,6 +356,18 @@ title("Violin Plots of Petal Length")
 ```
 ![Violin Plot](https://raw.githubusercontent.com/biometry/APES/master/images/violin%20plot.png)
 
+###Bagplot
+
+Witht the <b>aplpack</b> package we can create a bivariate boxplot. 50% of the points are in the bag.
+
+```{r}
+library(aplpack)			
+bagplot(Petal.Length, Sepal.Length, xlab="Petal Length ",ylab="Sepal Length ",			
+        main="Iris Bagplot ")			
+```     		  
+
+
+
 ### Normal box plot
 
 ### Notch plot
