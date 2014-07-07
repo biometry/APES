@@ -315,6 +315,37 @@ main="Pie Chart of Countries")
 
 With the <b>plotrix</b> package we can create 3d pie charts
 
+## Histograms
+
+Not recommended as its accuracy depends of the number of bins used
+
+### Simple Histogram
+
+```{r}
+Petal<-iris$Petal.Length		
+hist(Petal)
+```
+
+```{r}
+hist(Petal,freq=FALSE, breaks=15,col="green")
+```
+* freq = to show densities instead of frequencies
+* breaks = we can set up the number of bins
+
+
+We can add a <b>normal curve</b> to our histogram
+
+```{r}
+h<-hist(Petal, breaks=15, col="green", xlab="Petal Length", 
+        main="Histogram with Normal Curve") 
+xfit<-seq(min(Petal),max(Petal),length=40) 
+yfit<-dnorm(xfit,mean=mean(Petal),sd=sd(Petal)) 
+yfit <- yfit*diff(h$mids[1:2])*length(Petal) 
+lines(xfit, yfit, col="blue", lwd=2)
+```
+
+## Density plots
+
 # Others
 
 ## Box plots
@@ -356,9 +387,9 @@ title("Violin Plots of Petal Length")
 ```
 ![Violin Plot](https://raw.githubusercontent.com/biometry/APES/master/images/violin%20plot.png)
 
-###Bagplot
+### Bagplot
 
-Witht the <b>aplpack</b> package we can create a bivariate boxplot. 50% of the points are in the bag.
+Witht the <b>aplpack</b> package we can create a bivariate (2D) boxplot. 50% of the points are in the bag.
 
 ```{r}
 library(aplpack)			
@@ -367,14 +398,6 @@ bagplot(Petal.Length, Sepal.Length, xlab="Petal Length ",ylab="Sepal Length ",
 ```     		  
 
 
-
-### Normal box plot
-
-### Notch plot
-
-### Violin plots
-
-## Density plots
 
 
 
