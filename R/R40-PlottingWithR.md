@@ -325,6 +325,7 @@ Not recommended as its accuracy depends of the number of bins used
 Petal<-iris$Petal.Length				
 hist(Petal)		
 ```
+![Density Histogram](https://raw.githubusercontent.com/biometry/APES/master/images/histogram.png)
 
 ```{r}
 hist(Petal,freq=FALSE, breaks=15,col="green")		
@@ -332,6 +333,7 @@ hist(Petal,freq=FALSE, breaks=15,col="green")
 * freq = to show densities instead of frequencies		
 * breaks = we can set up the number of bins		
 
+![Density Histogram](https://raw.githubusercontent.com/biometry/APES/master/images/Density%20histogram.png)
 
 We can add a <b>normal curve</b> to our histogram
 
@@ -343,6 +345,7 @@ yfit<-dnorm(xfit,mean=mean(Petal),sd=sd(Petal))
 yfit <- yfit*diff(h$mids[1:2])*length(Petal) 		
 lines(xfit, yfit, col="blue", lwd=2)		
 ```		
+![Histogram Normal Curve](https://raw.githubusercontent.com/biometry/APES/master/images/Histogram%20mit%20curve.png)
 
 ## Density plots
 
@@ -351,9 +354,25 @@ dens <- density(iris$Petal.Length)
 plot(dens, main="Kernel Density of Petal Length") 		
 polygon(dens, col="pink", border="purple")		
 ```
+* polygon = to color the density plot
 
+![Kernel Density](https://raw.githubusercontent.com/biometry/APES/master/images/Kernel%20Density.png)
 
+We can compare different Kernel density groups with the <b> sm package </b>
 
+```{r}
+library(sm)
+# create value labels 
+spec.f <- factor(Species,
+                labels = c("setosa", "versicolor", "virginica")) 
+# plot densities 
+sm.density.compare(Petal.Length, Species, xlab="Petal Length")
+title(main="Petal Length by Specie")
+# add legend 
+colfill<-c(2:(2+length(levels(spec.f)))) 
+legend(locator(1), levels(spec.f), fill=colfill)
+```
+![Density comparaison](https://raw.githubusercontent.com/biometry/APES/master/images/density%20comparaison.png)
 
 # Others
 
@@ -378,7 +397,7 @@ boxplot(uptake~Type*Treatment, data=CO2, notch=TRUE,
         col=(c("gold","darkgreen")),		
         main="Carbon Dioxide Uptake in Grass Plants", xlab="Type and treatment")		
 ```
-![Nptched Box Plot](https://raw.githubusercontent.com/biometry/APES/master/images/Notched%20Boxplot.png)
+![Notched Box Plot](https://raw.githubusercontent.com/biometry/APES/master/images/Notched%20Boxplot.png)
 
 ### Violin Plot
 
@@ -406,7 +425,7 @@ bagplot(Petal.Length, Sepal.Length, xlab="Petal Length ",ylab="Sepal Length ",
         main="Iris Bagplot ")			
 ```     		  
 
-
+![Bagplot](https://raw.githubusercontent.com/biometry/APES/master/images/Bagplot.png)
 
 
 
