@@ -322,29 +322,38 @@ Not recommended as its accuracy depends of the number of bins used
 ### Simple Histogram
 
 ```{r}
-Petal<-iris$Petal.Length		
-hist(Petal)
+Petal<-iris$Petal.Length				
+hist(Petal)		
 ```
 
 ```{r}
-hist(Petal,freq=FALSE, breaks=15,col="green")
-```
-* freq = to show densities instead of frequencies
-* breaks = we can set up the number of bins
+hist(Petal,freq=FALSE, breaks=15,col="green")		
+```		
+* freq = to show densities instead of frequencies		
+* breaks = we can set up the number of bins		
 
 
 We can add a <b>normal curve</b> to our histogram
 
 ```{r}
-h<-hist(Petal, breaks=15, col="green", xlab="Petal Length", 
-        main="Histogram with Normal Curve") 
-xfit<-seq(min(Petal),max(Petal),length=40) 
-yfit<-dnorm(xfit,mean=mean(Petal),sd=sd(Petal)) 
-yfit <- yfit*diff(h$mids[1:2])*length(Petal) 
-lines(xfit, yfit, col="blue", lwd=2)
-```
+h<-hist(Petal, breaks=15, col="green", xlab="Petal Length", 		
+        main="Histogram with Normal Curve") 		
+xfit<-seq(min(Petal),max(Petal),length=40) 		
+yfit<-dnorm(xfit,mean=mean(Petal),sd=sd(Petal)) 		
+yfit <- yfit*diff(h$mids[1:2])*length(Petal) 		
+lines(xfit, yfit, col="blue", lwd=2)		
+```		
 
 ## Density plots
+
+```{r}
+dens <- density(iris$Petal.Length) 		
+plot(dens, main="Kernel Density of Petal Length") 		
+polygon(dens, col="pink", border="purple")		
+```
+
+
+
 
 # Others
 
