@@ -315,22 +315,117 @@ main="Pie Chart of Countries")
 
 With the <b>plotrix</b> package we can create 3d pie charts
 
+## Histograms
+
+Not recommended as its accuracy depends of the number of bins used
+
+### Simple Histogram
+
+```{r}
+Petal<-iris$Petal.Length				
+hist(Petal)		
+```
+![Density Histogram](https://raw.githubusercontent.com/biometry/APES/master/images/histogram.png)
+
+```{r}
+hist(Petal,freq=FALSE, breaks=15,col="green")		
+```		
+* freq = to show densities instead of frequencies		
+* breaks = we can set up the number of bins		
+
+![Density Histogram](https://raw.githubusercontent.com/biometry/APES/master/images/Density%20histogram.png)
+
+We can add a <b>normal curve</b> to our histogram
+
+```{r}
+h<-hist(Petal, breaks=15, col="green", xlab="Petal Length", 		
+        main="Histogram with Normal Curve") 		
+xfit<-seq(min(Petal),max(Petal),length=40) 		
+yfit<-dnorm(xfit,mean=mean(Petal),sd=sd(Petal)) 		
+yfit <- yfit*diff(h$mids[1:2])*length(Petal) 		
+lines(xfit, yfit, col="blue", lwd=2)		
+```		
+![Histogram Normal Curve](https://raw.githubusercontent.com/biometry/APES/master/images/Histogram%20mit%20curve.png)
+
+## Density plots
+
+```{r}
+dens <- density(iris$Petal.Length) 		
+plot(dens, main="Kernel Density of Petal Length") 		
+polygon(dens, col="pink", border="purple")		
+```
+* polygon = to color the density plot
+
+![Kernel Density](https://raw.githubusercontent.com/biometry/APES/master/images/Kernel%20Density.png)
+
+We can compare different Kernel density groups with the <b> sm package </b>
+
+```{r}
+library(sm)
+# create value labels 
+spec.f <- factor(Species,
+                labels = c("setosa", "versicolor", "virginica")) 
+# plot densities 
+sm.density.compare(Petal.Length, Species, xlab="Petal Length")
+title(main="Petal Length by Specie")
+# add legend 
+colfill<-c(2:(2+length(levels(spec.f)))) 
+legend(locator(1), levels(spec.f), fill=colfill)
+```
+![Density comparaison](https://raw.githubusercontent.com/biometry/APES/master/images/density%20comparaison.png)
+
 # Others
 
 ## Box plots
-
-boxplot(Petal.Length~Species,data=iris, main="Species Petal Length", 
+```{r}
+boxplot(Petal.Length~Species,data=iris, main="Species Petal Length", 		
         xlab="Species", ylab="Petal Length")
-        
+ ```       
+![Box Plot](https://raw.githubusercontent.com/biometry/APES/master/images/boxplot.png)
+
+By adding varwidth=TRUE to the formula we can make the boxplot widths proportional to the square root of the samples sizes. 			
+By adding horizontal=TRUE we reverse the axis orientation.
+
+### Notched Boxplot
+
+It is also possible to create a notched Boxplot of a variable against 2 crossed factors.		
+This time we used the example of the Carbon Dioxide Uptake in Grass Plants against Type and treatment
 
 
-### Normal box plot
+```{r}
+boxplot(uptake~Type*Treatment, data=CO2, notch=TRUE, 		
+        col=(c("gold","darkgreen")),		
+        main="Carbon Dioxide Uptake in Grass Plants", xlab="Type and treatment")		
+```
+![Notched Box Plot](https://raw.githubusercontent.com/biometry/APES/master/images/Notched%20Boxplot.png)
 
-### Notch plot
+### Violin Plot
 
-### Violin plots
+With a violin plot (<b>vioplot</b> package) we can visualise easily the density data.		
 
-## Density plots
+```{r}
+iris$Species <- as.numeric(iris$Species) 		
+library(vioplot)		
+x1 <- iris$Petal.Length[iris$Species==1]		
+x2 <- iris$Petal.Length[iris$Species==2]		
+x3 <- iris$Petal.Length[iris$Species==3]		
+vioplot(x1, x2, x3, names=c("setosa", "versicolor", "virginica"), 		
+        col="gold")		
+title("Violin Plots of Petal Length")		
+```
+![Violin Plot](https://raw.githubusercontent.com/biometry/APES/master/images/violin%20plot.png)
+
+### Bagplot
+
+Witht the <b>aplpack</b> package we can create a bivariate (2D) boxplot. 50% of the points are in the bag.
+
+```{r}
+library(aplpack)			
+bagplot(Petal.Length, Sepal.Length, xlab="Petal Length ",ylab="Sepal Length ",			
+        main="Iris Bagplot ")			
+```     		  
+
+![Bagplot](https://raw.githubusercontent.com/biometry/APES/master/images/Bagplot.png)
 
 
 

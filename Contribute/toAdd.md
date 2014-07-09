@@ -24,6 +24,8 @@ https://www.ma.utexas.edu/users/mks/statmistakes/StatisticsMistakes.html
 
 http://www.youtube.com/watch?v=1j2Duy_xzEA
 
+Cross-validation: a blogged overview: http://robjhyndman.com/hyndsight/crossvalidation/
+
 # Intros
 
 
