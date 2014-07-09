@@ -6,7 +6,6 @@ permalink: /
 author: Florian Hartig
 contributors:
     - Matthias Theobald
-    - Jemand Anderes
 tags: main
 ---
 

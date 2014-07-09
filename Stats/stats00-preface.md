@@ -1,12 +1,16 @@
 ---
 layout: page
 title: 'Statistics: Preface'
-category: stats
+category: 
+  - stats
+  - more
+  - less
+labels: none
 permalink: /
-tags: main
 ---
 
 
 How to read this text
 ===
 
+{{ page.category[0] }}

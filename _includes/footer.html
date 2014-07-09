@@ -9,15 +9,11 @@
         <li>Maintainer: {{ page.author }} </li>
         <li>Contributors:
           <ul>
-            {% for name in site.github.contributors.login %}
-              <li>{{ name }}</li>
-            {% endfor %}
             {% for name in page.contributors %}
               <li>{{ name }}</li>
             {% endfor %}
           </ul>
         </li>
-        <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
       </ul>
     </div>
 
@@ -46,15 +42,8 @@
     </div>
 
     <div class="footer-col-3 column">
-      <p class="text">{{ site.description }}</p>
+      <p class="text">Licence, year, <a href="{{ site.baseurl }}/about/">About</a></p>
     </div>
-    
-    {% if page.tags contains 'article' %}
-    <div class="citation">
-      <h2 class="footer-heading">Cite Article</h2>
-      <span></span>
-    </div>
-    {% endif %}
 
   </div>
 

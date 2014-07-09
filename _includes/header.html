@@ -7,9 +7,10 @@
     <nav class="site-nav">
       <a href="#" class="menu-icon">{% include menu-icon.svg %}</a>
       <div class="trigger">
-        {% for page in site.pages %} {% if page.tags contains 'main' %}
-          <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
-        {% endif %} {% endfor %}
+        <a class="page-link" href="{{ site.baseurl }}/Stats">Statistics</a>
+        <a class="page-link" href="{{ site.baseurl }}/R">R</a>
+        <a class="page-link" href="{{ site.baseurl }}/Hubs">Hubs</a>
+        <a class="page-link" href="{{ site.baseurl }}/checklists">Checklists</a>
       </div>
     </nav>
 
