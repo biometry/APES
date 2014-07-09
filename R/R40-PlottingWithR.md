@@ -265,24 +265,176 @@ legend(xrange[1], yrange[2], 1:ntrees, cex=0.8, col=colors,
 
 ## Bar plots
 
+### Simple Bar Plot
+
+```{r}
+counts <- table(iris$Petal.Length)
+barplot(counts, main="Iris Distribution", 
+        xlab="Petal Length")
+```
+
+It is possible to plot the bars horizontal by adding horiz=TRUE to the code
+
+![Simple Bar plot](https://raw.githubusercontent.com/biometry/APES/master/images/barplot.png)
+
+### Stacked Bar Plot
+
+If we want to represent different values in each bar
+
+```{r}
+counts <- table(iris$Species, iris$Petal.Length)  
+barplot(counts, main="iris species distribution by petal leghts",
+                    xlab="Petal Length",  col=c("darkblue","red", "green"),
+                    legend = rownames(counts))
+```
+![Stacked Bar plot](https://raw.githubusercontent.com/biometry/APES/master/images/stacked%20bar%20plot.png)
+
+We can represent each value in a bar instead of stacked by adding beside=TRUE to the code
+
+![Grouped Bar plot]https://raw.githubusercontent.com/biometry/APES/master/images/Grouped%20Barplot.png)
+
 ## Pie charts
 
-Don't do them! Use Bar plots instead. But if you really must know
+Don't do them! Use Bar plots instead as it is easier to appreciate the differences between bars. But if you have to use them:
 
+```{r}
+#set up the variables
+Spcs <- table(iris$Species) 
+Spcs
+lbls <- c("Setosa", "Versicolor", "Virginica")
+# add percentages to the pie
+pct <- round(Spcs/sum(Spcs)*100)
+lbls <- paste(lbls, pct)
+lbls <- paste(lbls,"%",sep="")
+# plot the chart
+pie(Spcs,labels = lbls,
+main="Pie Chart of Countries")
+```
+
+![Pie Chart](https://raw.githubusercontent.com/biometry/APES/master/images/Pie%20chart.png)
+
+With the <b>plotrix</b> package we can create 3d pie charts
+
+## Histograms
+
+Not recommended as its accuracy depends of the number of bins used
+
+### Simple Histogram
+
+```{r}
+Petal<-iris$Petal.Length				
+hist(Petal)		
+```
+![Density Histogram](https://raw.githubusercontent.com/biometry/APES/master/images/histogram.png)
+
+```{r}
+hist(Petal,freq=FALSE, breaks=15,col="green")		
+```		
+* freq = to show densities instead of frequencies		
+* breaks = we can set up the number of bins		
+
+![Density Histogram](https://raw.githubusercontent.com/biometry/APES/master/images/Density%20histogram.png)
+
+We can add a <b>normal curve</b> to our histogram
+
+```{r}
+h<-hist(Petal, breaks=15, col="green", xlab="Petal Length", 		
+        main="Histogram with Normal Curve") 		
+xfit<-seq(min(Petal),max(Petal),length=40) 		
+yfit<-dnorm(xfit,mean=mean(Petal),sd=sd(Petal)) 		
+yfit <- yfit*diff(h$mids[1:2])*length(Petal) 		
+lines(xfit, yfit, col="blue", lwd=2)		
+```		
+![Histogram Normal Curve](https://raw.githubusercontent.com/biometry/APES/master/images/Histogram%20mit%20curve.png)
+
+## Density plots
+
+```{r}
+dens <- density(iris$Petal.Length) 		
+plot(dens, main="Kernel Density of Petal Length") 		
+polygon(dens, col="pink", border="purple")		
+```
+* polygon = to color the density plot
+
+![Kernel Density](https://raw.githubusercontent.com/biometry/APES/master/images/Kernel%20Density.png)
+
+We can compare different Kernel density groups with the <b> sm package </b>
+
+```{r}
+library(sm)
+# create value labels 
+spec.f <- factor(Species,
+                labels = c("setosa", "versicolor", "virginica")) 
+# plot densities 
+sm.density.compare(Petal.Length, Species, xlab="Petal Length")
+title(main="Petal Length by Specie")
+# add legend 
+colfill<-c(2:(2+length(levels(spec.f)))) 
+legend(locator(1), levels(spec.f), fill=colfill)
+```
+![Density comparaison](https://raw.githubusercontent.com/biometry/APES/master/images/density%20comparaison.png)
 
 # Others
 
 ## Box plots
+```{r}
+boxplot(Petal.Length~Species,data=iris, main="Species Petal Length", 		
+        xlab="Species", ylab="Petal Length")
+ ```       
+![Box Plot](https://raw.githubusercontent.com/biometry/APES/master/images/boxplot.png)
 
-### Normal box plot
+By adding varwidth=TRUE to the formula we can make the boxplot widths proportional to the square root of the samples sizes. 			
+By adding horizontal=TRUE we reverse the axis orientation.
 
-### Notch plot
+### Notched Boxplot
 
-### Violin plots
+It is also possible to create a notched Boxplot of a variable against 2 crossed factors.		
+This time we used the example of the Carbon Dioxide Uptake in Grass Plants against Type and treatment
 
-## Density plots
+
+```{r}
+boxplot(uptake~Type*Treatment, data=CO2, notch=TRUE, 		
+        col=(c("gold","darkgreen")),		
+        main="Carbon Dioxide Uptake in Grass Plants", xlab="Type and treatment")		
+```
+![Notched Box Plot](https://raw.githubusercontent.com/biometry/APES/master/images/Notched%20Boxplot.png)
+
+### Violin Plot
+
+With a violin plot (<b>vioplot</b> package) we can visualise easily the density data.		
+
+```{r}
+iris$Species <- as.numeric(iris$Species) 		
+library(vioplot)		
+x1 <- iris$Petal.Length[iris$Species==1]		
+x2 <- iris$Petal.Length[iris$Species==2]		
+x3 <- iris$Petal.Length[iris$Species==3]		
+vioplot(x1, x2, x3, names=c("setosa", "versicolor", "virginica"), 		
+        col="gold")		
+title("Violin Plots of Petal Length")		
+```
+![Violin Plot](https://raw.githubusercontent.com/biometry/APES/master/images/violin%20plot.png)
+
+### Bagplot
+
+Witht the <b>aplpack</b> package we can create a bivariate (2D) boxplot. 50% of the points are in the bag.
+
+```{r}
+library(aplpack)			
+bagplot(Petal.Length, Sepal.Length, xlab="Petal Length ",ylab="Sepal Length ",			
+        main="Iris Bagplot ")			
+```     		  
+
+![Bagplot](https://raw.githubusercontent.com/biometry/APES/master/images/Bagplot.png)
 
 
+
+# Understanding graphics 
+
+
+## Colors
+
+http://www.mepheoscience.com/colourful-ecology-part-1-extracting-colours-from-an-image-and-selecting-them-using-community-phylogenetics-theory/
 
 
 
