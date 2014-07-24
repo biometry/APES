@@ -31,7 +31,7 @@ groups <- as.factor(c(rep("Y1", length(Y1)), rep("Y2", length(Y2))))
 plot.default(Y ~ groups)
 ```
 
-![image](http://t-test-plot)
+![image](http://t-test-plot) link to t-test-plot in images!
 
 The points to the right scatter similar to those on the left, although a bit more asymmetrically. Although we know that they are from a log-normal distribution (right), they don't look problematic.
 
