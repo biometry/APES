@@ -5,15 +5,13 @@
 # What are the problems?
 
 
-## Correlation is not causality 
+Correlation is not causality, Explain validity, correlation != causal, reproducibility, common problems and tricks that lead to p-value inflation etc.
 
+# Goal of statistics
 
+Toolbox to help us finding out 
 
-## 
+* If observations are solid evidence, or could arise by coincidence
+* What parameters or hypotheses are most likely, and what the uncertainty is 
 
-
-Explain validity, correlation != causal, reproducibility, common problems and tricks that lead to p-value inflation etc.
-
-
-
-http://www.statisticsdonewrong.com/
+As with any complicated tool, you have to know how to use it. If you press the wrong buttons, you'll get the wrong result. 
