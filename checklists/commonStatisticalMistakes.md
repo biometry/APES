@@ -18,9 +18,11 @@ http://fxdiebold.blogspot.ca/2014/05/predictive-modeling-causal-inference.html
 
 ## Extrapolation 
 
-
 ![Extrapolation](http://imgs.xkcd.com/comics/extrapolating.png)
 
 # Reviewer checklists
 
 http://cdn.elsevier.com/assets/pdf_file/0008/110996/reviewers_statistics.pdf
+
+
+http://www.statisticsdonewrong.com/
