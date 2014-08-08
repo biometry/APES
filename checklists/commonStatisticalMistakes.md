@@ -8,6 +8,8 @@ Statistics is an approximate science. No statisitcal analysis is perfect. But th
 
 ## Correlation and causality 
 
+![CC](http://imgs.xkcd.com/comics/correlation.png)
+
 Correlation is not causality. See 
 
 www.ucl.ac.uk/statistics/research/pdfs/rr279.pdf
@@ -17,8 +19,7 @@ http://fxdiebold.blogspot.ca/2014/05/predictive-modeling-causal-inference.html
 ## Extrapolation 
 
 
-
-
+![Extrapolation](http://imgs.xkcd.com/comics/extrapolating.png)
 
 # Reviewer checklists
 
