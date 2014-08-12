@@ -1,0 +1,172 @@
+---
+output:
+  html_document:
+    keep_md: yes
+---
+Generalized linear models (GLM)
+===
+
+
+# The general idea
+
+General ideas of linear regression is that 
+
+* Response is continous, theoretically from -infinity to + infinity
+* Residuals are normally distributed around the model predictions
+
+Idea of the GLM framework is take the linear regression framework, but allow relaxing both assumptions. To do this, we have to do two things
+
+* We wrap the linear model in a transformation function that forces the response on the right interval (typical intervals are positive, or between 0 and 1). This transformation is called the link function
+* We use other distributions as the Gaussian for the fit.
+
+Those two ideas are explained in more detail below
+
+
+## Other distributions
+
+## Link function
+
+
+# Important GLM types
+
+## Logistic Regression
+
+
+```{r}
+
+## binomial data
+require(effects) # holds the data
+head(TitanicSurvival)
+attach(TitanicSurvival)
+ 
+plot(survived ~ age)
+surv <- as.numeric(survived)-1
+ 
+plot(surv ~ age)
+ 
+fmt <- glm(surv ~ age + I(age^2) + I(age^3), family=binomial)
+summary(fmt)
+ 
+ 
+# showing that residuals are not normal at all
+#hist(fmt$residuals, breaks = 100)
+#abline(v = 0, col = "red", lwd = 6, lty = 2)
+# residual plots can also be created with plot(fmt)
+ 
+ 
+newage <- seq(min(age, na.rm=T), max(age, na.rm=T), len=100)
+preds <- predict(fmt, newdata=data.frame("age"=newage), se.fit=T)
+lines(newage, plogis(preds$fit), col="purple", lwd=3)
+lines(newage, plogis(preds$fit-2*preds$se.fit), col="purple", lwd=3, lty=2)
+lines(newage, plogis(preds$fit+2*preds$se.fit), col="purple", lwd=3, lty=2)
+ 
+ 
+fmt <- glm(surv ~ age + sex + passengerClass, family=binomial)
+summary(fmt)
+ 
+detach(TitanicSurvival)
+
+```
+
+
+
+## Poisson Regression
+
+
+```{r}
+## Poisson:
+ 
+# data
+cfc <- data.frame(
+  stuecke = c(3,6,8,4,2,7,6,8,10,3,5,7,6,7,5,6,7,11,8,11,13,11,7,7,6),
+  attrakt = c(1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5) 
+)
+attach(cfc)
+plot(stuecke ~ attrakt)
+ 
+fm <- glm(stuecke ~ attrakt, family=poisson)
+summary(fm)
+ 
+newattrakt <- c(1,1.5,2,2.5,3,3.5,4,4.5,5)
+preds <- predict(fm, newdata=data.frame("attrakt"=newattrakt))
+lines(newattrakt, exp(preds), lwd=2, col="green")
+ 
+# same with 95% confidence interval:
+preds <- predict(fm, newdata=data.frame("attrakt"=newattrakt), se.fit=T)
+str(preds)
+lines(newattrakt, exp(preds$fit), lwd=2, col="green")
+lines(newattrakt, exp(preds$fit+2*preds$se.fit), lwd=2, col="green", lty=2)
+lines(newattrakt, exp(preds$fit-2*preds$se.fit), lwd=2, col="green", lty=2)
+ 
+detach(cfc)
+
+```
+
+
+# Technical details 
+
+
+```{r}
+## Poisson with optimization by hand
+ 
+# data
+cfc <- data.frame(
+  stuecke = c(3,6,8,4,2,7,6,8,10,3,5,7,6,7,5,6,7,11,8,11,13,11,7,7,6),
+  attrakt = c(1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5) 
+)
+attach(cfc)
+plot(stuecke ~ attrakt)
+ 
+# defining the likelihood of a Poisson regression
+ 
+loglikelihood <- function(par, independent = attrakt, observed = stuecke){
+  linear = par[1]*independent + par[2]  # linear predictor
+  predict = exp(linear)                 # link function
+  logprobabilities = dpois(observed, predict, log=T)  # distribution
+  return(-sum(logprobabilities))
+}
+ 
+# plotting the likelihood for different slopes, fixed intercept
+ 
+slope=seq(0.05,0.25,length.out = 100)
+intercept = rep(1.4,100)
+pars = cbind(slope, intercept)
+plot(slope, apply(pars,1, loglikelihood), main = "Likelihood profile", ylab = "Neg Log Likelihood")
+ 
+# plotting the likelihood surface (= likelihood as a function of slope, intercept)
+ 
+intercept = seq(1.2,1.7,length.out = 100)
+parametervalues = expand.grid(slope,intercept)
+parametervalues$response = apply(parametervalues,1, loglikelihood)
+contour(slope, intercept, matrix(parametervalues$response, nrow = 100), nlevels = 20, main = "Likelihood response surface", xlab = "slope parameter", ylab = "intercept parameter")
+ 
+ 
+# optimization with the optim function
+ 
+bestfit = optim(c(0.12,1.3), loglikelihood, method = "BFGS")
+points(bestfit$par[1], bestfit$par[2], col = "red", lwd = 4)
+ 
+# calculating the "Hessian" matrix (Funktionaldeterminante)
+ 
+bestfit = optim(c(0.12,1.3), loglikelihood, method = "BFGS", hessian = T)
+bestfit$hessian
+ 
+persp(slope, intercept, matrix(parametervalues$response, nrow = 100), theta = 40, phi = 30, expand = 0.7, col = c("grey","red"),  ticktype = "detailed")
+ 
+# bonus plot
+library(rgl)
+persp3d(slope, intercept, matrix(parametervalues$response, nrow = 100), col = c("grey","red"), box = FALSE)
+ 
+ 
+detach(cfc)
+
+```
+
+
+
+
+
+## Links
+
+http://blog.revolutionanalytics.com/2014/04/some-r-resources-for-glms.html
+
