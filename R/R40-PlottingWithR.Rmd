@@ -1,3 +1,8 @@
+---
+output:
+  html_document:
+    keep_md: yes
+---
 Plotting in R
 === 
 
@@ -110,6 +115,7 @@ We can also condicion our matrix on a factor with the <b>car</b> package.
 The advantage of this package is that we can include lowess and linear best fit lines,  boxplots, densities, or histograms in the principal diagonal, as well as rug plots in the margins of the cells.
 
 ```{r}
+library(car)
 scatterplot.matrix(~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width|Species, data=iris,   
                    main="Three Species Options") 
 ```
@@ -145,6 +151,7 @@ There are 2 options to plot whenever we are working with too many data points th
 The <b>hexbin</b> package creates a group of hexagonal cells and a count of points falling in each occupied cell. 
 ```{r}
 library(hexbin)  
+attach(iris) # remember to detach in the end 
 bin<-hexbin(Petal.Width ~ Petal.Length, xbins=100, xlab="Petal.Width",ylab="Petal.Length")  
 plot(bin, main="Hexagonal Binning") 
 ```
@@ -252,12 +259,12 @@ colors <- rainbow(ntrees)
 for (i in 1:ntrees) { 
   species <- subset(iris, Species==i) 
   lines(species$Sepal.Width,species$Sepal.Length, type="b", lwd=1.5,
-        lty=linetype[i], col=colors[i], pch=plotchar[i])} 
+        lty=1:ntrees, col=colors[i], pch=1:ntrees)} 
 
 # add title and legend
 title("Iris Sepals")
 legend(xrange[1], yrange[2], 1:ntrees, cex=0.8, col=colors,
-       pch=plotchar, lty=linetype, title="Species")
+       pch=1:ntrees, lty=1:ntrees, title="Species")
 ```
 
 ![Iris Lines plot](https://raw.githubusercontent.com/biometry/APES/master/images/Iris%20Lines.png)
@@ -370,7 +377,7 @@ sm.density.compare(Petal.Length, Species, xlab="Petal Length")
 title(main="Petal Length by Specie")
 # add legend 
 colfill<-c(2:(2+length(levels(spec.f)))) 
-legend(locator(1), levels(spec.f), fill=colfill)
+legend("topright", levels(spec.f), fill=colfill)
 ```
 ![Density comparaison](https://raw.githubusercontent.com/biometry/APES/master/images/density%20comparaison.png)
 
@@ -422,10 +429,16 @@ Witht the <b>aplpack</b> package we can create a bivariate (2D) boxplot. 50% of 
 ```{r}
 library(aplpack)			
 bagplot(Petal.Length, Sepal.Length, xlab="Petal Length ",ylab="Sepal Length ",			
-        main="Iris Bagplot ")			
+        main="Iris Bagplot ")		
 ```     		  
 
 ![Bagplot](https://raw.githubusercontent.com/biometry/APES/master/images/Bagplot.png)
+
+
+
+```{r}
+detach(iris)
+```
 
 
 
