@@ -1,9 +1,8 @@
 ---
 layout: page
 title: Checklists
-category: checklists
 permalink: /checklists/
-tags: main
+labels: main
 ---
 
 Checklists

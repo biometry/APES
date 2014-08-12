@@ -1,3 +1,9 @@
+---
+layout: page
+title: Plotting in R
+category: r
+---
+
 Plotting in R
 === 
 

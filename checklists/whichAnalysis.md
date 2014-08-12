@@ -1,3 +1,9 @@
+---
+layout: page
+title: Choosing an analysis
+category: checklists
+---
+
 What analysis to choose
 ===
 

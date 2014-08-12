@@ -1,3 +1,9 @@
+---
+layout: page
+title: Solving problems
+category: r
+---
+
 Solving R problems and getting help
 ===
 

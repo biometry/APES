@@ -1,11 +1,7 @@
 ---
 layout: page
 title: 'Statistics: Preface'
-category: 
-  - stats
-  - more
-  - less
-labels: none
+labels: main
 permalink: /Stats/
 ---
 

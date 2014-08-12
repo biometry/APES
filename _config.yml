@@ -7,7 +7,6 @@ url: http://biometry.github.io/APES
 username: biometry
 
 # Build settings
-markdown: redcarpet
 permalink: pretty
 
 # Excludes

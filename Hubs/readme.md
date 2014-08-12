@@ -1,9 +1,8 @@
 ---
 layout: page
 title: Hubs
-category: hubs
 permalink: /Hubs/
-tags: main
+labels: main
 ---
 
 How to use Hubs

@@ -8,21 +8,29 @@
       <a href="#" class="menu-icon">{% include menu-icon.svg %}</a>
       <div class="trigger">
         <a class="page-link" href="/Stats">Statistics</a>
-        <ul> {% for p in site.pages %} {% if p.category contains 'stats' %}
-          <li><a href="{{ p.url }}"><p>{{ p.title }}</p></a></li>
-        </ul> {% endif %} {% endfor %}
-        <a class="page-link" href="/R">R</a>
-        <ul> {% for p in site.pages %} {% if p.category contains 'r' %}
-          <li><a href="{{ p.url }}"><p>{{ p.title }}</p></a></li>
-        </ul> {% endif %} {% endfor %}
-        <a class="page-link" href="/Hubs">Hubs</a>
-        <ul> {% for p in site.pages %} {% if p.category contains 'hubs' %}
-          <li><a href="{{ p.url }}"><p>{{ p.title }}</p></a></li>
-        </ul> {% endif %} {% endfor %}
-        <a class="page-link" href="/checklists">Checklists</a>
-        <ul> {% for p in site.pages %} {% if p.category contains 'checklists' %}
+        <ul>
+          {% for p in site.pages %} {% if p.category contains 'stats' %}
           <li><a href="{{ p.url }}">{{ p.title }}</a></li>
-        </ul> {% endif %} {% endfor %}
+          {% endif %} {% endfor %}
+        </ul>
+        <a class="page-link" href="/R">R</a>
+        <ul>
+          {% for p in site.pages %} {% if p.category contains 'r' %}
+          <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+          {% endif %} {% endfor %}
+        </ul>
+        <a class="page-link" href="/Hubs">Hubs</a>
+        <ul>
+          {% for p in site.pages %} {% if p.category contains 'hubs' %}
+          <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+          {% endif %} {% endfor %}
+        </ul>
+        <a class="page-link" href="/checklists">Checklists</a>
+        <ul>
+          {% for p in site.pages %} {% if p.category contains 'checklists' %}
+          <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+          {% endif %} {% endfor %}
+        </ul>
       </div>
     </nav>
 

@@ -1,3 +1,9 @@
+---
+layout: page
+title: Analysing Data
+category: checklists
+---
+
 Analysis of data - a checklist
 ===
 

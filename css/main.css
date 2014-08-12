@@ -64,10 +64,22 @@ a:visited { color: #205caa; }
 
 .menu-icon { display: none; }
 
-.page-link {
+.site-nav .page-link {
   margin-left: 20px;
   color: #727272;
   letter-spacing: -.5px;
+}
+
+.site-nav ul {
+  margin: 0;
+  list-style: none outside none;
+  line-height: normal;
+  position: relative;
+}
+
+.site-nav li {
+  display: block;
+  position: relative;
 }
 
 /* Site footer */
