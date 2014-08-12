@@ -16,7 +16,7 @@ While the stats and r sites should be comprehensive, the hubs and checklists are
 
 As of today, most of our pages are still empty, but feel free to check out the content provided by clicking on the links above. A few pages that may be of interest and that are already been filled with some content include 
 
-* [Getting started with R](/R/R10-gettingStarted.md)
+* [Getting started with R](./R/R10-gettingStarted.md)
 * [Analyzing data](/checklists/analysingData.md)
 *	[What do do if you get an error from R](/R/R80-Problems.md)
 *	[Plotting with R](/R/R40-PlottingWithR.md)
