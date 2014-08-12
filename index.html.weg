@@ -11,12 +11,12 @@ title: Home
     {% for page in site.pages %} {% if page.tags contains 'main' %}
       <li>
         <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
-        <a class="post-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
+        <a class="post-link" href="{{ page.url }}">{{ page.title }}</a>
       </li>
     {% endif %} {% endfor %}
   </ul>
 
-  <!-- <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p> -->
+  <!-- <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" }}">via RSS</a></p> -->
 
 
 </div>

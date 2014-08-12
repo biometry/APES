@@ -6,11 +6,10 @@ category:
   - more
   - less
 labels: none
-permalink: /
+permalink: /Stats/
 ---
 
 
 How to read this text
 ===
 
-{{ page.category[0] }}

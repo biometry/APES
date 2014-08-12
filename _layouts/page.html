@@ -1,13 +1,16 @@
 ---
 layout: default
 ---
-<div class="post">
+<div class="page">
 
-  <header class="post-header">
+  <header class="page-header">
     <h1>{{ page.title }}</h1>
+    <p>{% for c in page.category %}
+    	<a href="">{{ c | capitalize | append: ' > ' }}</a>{% endfor %}
+    </p>
   </header>
 
-  <article class="post-content">
+  <article class="page-content">
   {{ content }}
   </article>
 

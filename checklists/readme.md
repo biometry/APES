@@ -2,7 +2,7 @@
 layout: page
 title: Checklists
 category: checklists
-permalink: /
+permalink: /checklists/
 tags: main
 ---
 

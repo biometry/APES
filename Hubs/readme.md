@@ -2,7 +2,7 @@
 layout: page
 title: Hubs
 category: hubs
-permalink: /
+permalink: /Hubs/
 tags: main
 ---
 

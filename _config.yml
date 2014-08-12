@@ -2,8 +2,8 @@
 title: APES
 email: info@biom.uni-freiburg.de
 description: Advice for Problems in Environmental Statistics
-baseurl: /APES
-url: http://biometry.github.io
+# baseurl: /APES
+url: http://biometry.github.io/APES
 username: biometry
 
 # Build settings

@@ -6,7 +6,7 @@ title: Table of Contents
 
 - R
 {% for page in site.pages %}
-	{% if page.category == 'R' %}
+	{% if page.category contains 'R' %}
 	- {{ page.title }}
 	{% endif %}
 {% endfor %}
