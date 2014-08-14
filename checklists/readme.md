@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Checklists
-permalink: /APES/checklists/
+permalink: /checklists/
 labels: main
 ---
 

@@ -2,7 +2,7 @@
 
   <div class="wrap">
 
-    <a class="site-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
+    <a class="site-title" href="/{{ site.baseurl }}">{{ site.title }}</a>
 
     <nav class="site-nav">
       <a href="#" class="menu-icon">{% include menu-icon.svg %}</a>
@@ -10,25 +10,25 @@
         <a class="page-link" href="{{ site.baseurl }}/Stats">Statistics</a>
         <ul>
           {% for p in site.pages %} {% if p.category contains 'stats' %}
-          <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+          <li><a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a></li>
           {% endif %} {% endfor %}
         </ul>
         <a class="page-link" href="{{ site.baseurl }}/R">R</a>
         <ul>
           {% for p in site.pages %} {% if p.category contains 'r' %}
-          <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+          <li><a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a></li>
           {% endif %} {% endfor %}
         </ul>
         <a class="page-link" href="{{ site.baseurl }}/Hubs">Hubs</a>
         <ul>
           {% for p in site.pages %} {% if p.category contains 'hubs' %}
-          <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+          <li><a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a></li>
           {% endif %} {% endfor %}
         </ul>
         <a class="page-link" href="{{ site.baseurl }}/checklists">Checklists</a>
         <ul>
           {% for p in site.pages %} {% if p.category contains 'checklists' %}
-          <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+          <li><a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a></li>
           {% endif %} {% endfor %}
         </ul>
       </div>

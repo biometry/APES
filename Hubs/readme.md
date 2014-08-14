@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Hubs
-permalink: /APES/Hubs/
+permalink: /Hubs/
 labels: main
 ---
 

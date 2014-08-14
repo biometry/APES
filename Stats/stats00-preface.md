@@ -2,7 +2,7 @@
 layout: page
 title: 'Statistics: Preface'
 labels: main
-permalink: /APES/Stats/
+permalink: /Stats/
 ---
 
 
