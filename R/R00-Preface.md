@@ -1,8 +1,7 @@
 ---
 layout: page
 title: 'R: Preface'
-category: r
-permalink: R/
+permalink: /APES/R/
 author: Florian Hartig
 contributors:
     - Matthias Theobald
