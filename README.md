@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Welcome to APES
-permalink: /index.html
+permalink: index.html
 ---
 
 Advice for Problems in Environmental Statistics (APES)
@@ -13,10 +13,10 @@ This is the collection of stats knowledge of the [Department of Biometry and Env
 
 Our aim is to provide a central website for students and researchers seeking statistical advice, including
 
-* [An overview of the standard topics in statistics](/Stats)
-* [An introduction and help on the statistical programming language R](/R)
-* ["Hubs" on special topics](/Hubs)
-* ["Checklists" for particular situations](/checklists)
+* [An overview of the standard topics in statistics](Stats)
+* [An introduction and help on the statistical programming language R](R)
+* ["Hubs" on special topics](Hubs)
+* ["Checklists" for particular situations](checklists)
 
 While the stats and r sites should be comprehensive, the hubs and checklists are supposed to be "guidebooks" on what is relevant regarding a particular topic (e.g. [hub on fitting process-based models](/Hubs/hub-fittingProcessBasedModels.md), and on what to do in a particular situation  (e.g. [Checklist on which analysis to choose](/checklists/whichAnalysis.md).
 

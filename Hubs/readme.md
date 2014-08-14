@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Hubs
-permalink: /Hubs/
+permalink: Hubs/
 labels: main
 ---
 

@@ -2,7 +2,7 @@
 layout: page
 title: 'R: Preface'
 category: r
-permalink: /R/
+permalink: R/
 author: Florian Hartig
 contributors:
     - Matthias Theobald

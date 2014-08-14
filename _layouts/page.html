@@ -5,8 +5,10 @@ layout: default
 
   <header class="page-header">
     <h1>{{ page.title }}</h1>
-    <p>{% for c in page.category %}
-    	<a href="">{{ c | capitalize | append: ' > ' }}</a>{% endfor %}
+    <p>
+    {% for c in page.category %}
+    	<a href="">{{ c | capitalize | append: ' > ' }}</a>
+    {% endfor %}
     </p>
   </header>
 
