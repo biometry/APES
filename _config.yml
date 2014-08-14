@@ -7,7 +7,7 @@ url: http://biometry.github.io/APES/
 username: biometry
 
 # Build settings
-permalink: pretty
+# permalink: pretty
 
 # Excludes
 exclude: ['APES.sublime-project', 'Gemfile', 'Gemfile.lock', 'feed.xml']
@@ -15,3 +15,12 @@ exclude: ['APES.sublime-project', 'Gemfile', 'Gemfile.lock', 'feed.xml']
 # github gems
 # gems:
 #   - jekyll-mentions
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+      author: "Florian Hartig"
