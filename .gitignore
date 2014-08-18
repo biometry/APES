@@ -4,3 +4,6 @@ _site
 Gemfile*
 *sublime*
 .ruby*
+.Rproj.user
+.Rhistory
+.RData
