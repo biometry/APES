@@ -9,6 +9,12 @@ username: biometry
 # Build settings
 # permalink: pretty
 
+# kramdown options
+kramdown:
+  input: GFM
+
+highlighter: pygments
+
 # Excludes
 exclude: ['APES.sublime-project', 'Gemfile', 'Gemfile.lock', 'feed.xml']
 
