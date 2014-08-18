@@ -1,7 +1,8 @@
+# ignore
 _site
-*sublime*
-Gemfile*
 .ruby*
+Gemfile*
+*sublime*
 .Rproj.user
 .Rhistory
 .RData
