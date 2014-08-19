@@ -1,3 +1,10 @@
+---
+layout: page
+title: R
+# category: r
+tags: main
+---
+
 R Help Preface - how to read this text 
 ===
 

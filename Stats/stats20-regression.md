@@ -1,3 +1,9 @@
+---
+layout: page
+title: Regression
+category: stats
+---
+
 Regression
 ===
 

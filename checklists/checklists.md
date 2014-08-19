@@ -1,3 +1,10 @@
+---
+layout: page
+title: Checklists
+# category: checklists
+tags: main
+---
+
 Checklists
 ===
 

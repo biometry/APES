@@ -1,3 +1,10 @@
+---
+layout: page
+title: Hubs
+# category: hubs
+tags: main
+---
+
 
 How to use Hubs
 ===

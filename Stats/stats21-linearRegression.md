@@ -1,3 +1,9 @@
+---
+layout: page
+title: Linear regression
+category: subregression
+---
+
 Linear regression
 ===
 

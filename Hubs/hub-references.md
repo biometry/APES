@@ -1,3 +1,9 @@
+---
+layout: page
+title: References
+category: hubs
+---
+
 References
 ===
 

@@ -1,4 +1,10 @@
-InferentialDefinitions
+---
+layout: page
+title: Inferential definitions
+category: subinferential
+---
+
+Inferential definitions
 ====
 
 
