@@ -1,7 +1,7 @@
 ---
 layout: page
 title: R
-permalink: /R
+permalink: /R/
 # category: r
 labels: main
 ---

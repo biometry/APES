@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Checklists
-permalink: /Checklists
+permalink: /Checklists/
 # category: checklists
 labels: main
 ---
