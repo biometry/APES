@@ -1,10 +1,11 @@
 ---
 layout: page
-title: 'R: Preface'
+title: R
 permalink: /R/
 author: Florian Hartig
 contributors:
     - Matthias Theobald
+# category: r
 tags: main
 ---
 

@@ -1,3 +1,9 @@
+---
+layout: page
+title: Linear mixed models
+category: subregression
+---
+
 Linear mixed models
 ===
 

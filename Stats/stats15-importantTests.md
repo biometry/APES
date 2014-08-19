@@ -1,3 +1,9 @@
+---
+layout: page
+title: Important tests
+category: subinferential
+---
+
 Important statistical tests
 ===
 

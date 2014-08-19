@@ -1,3 +1,9 @@
+---
+layout: page
+title: Statistical curriculum
+category: hubs
+---
+
 A curriculum for statistics
 ===
 

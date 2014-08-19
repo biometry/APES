@@ -1,3 +1,9 @@
+---
+layout: page
+title: Overview
+category: stats
+---
+
 # What are the goals of statistics data analysis
 
 

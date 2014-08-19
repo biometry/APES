@@ -3,6 +3,7 @@ layout: page
 title: Checklists
 permalink: /checklists/
 labels: main
+# category: checklists
 ---
 
 Checklists

@@ -1,4 +1,10 @@
-Ordination Methods
+---
+layout: page
+title: Ordination methods
+category: substats
+---
+
+Ordination methods
 ===
 
 

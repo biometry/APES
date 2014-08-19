@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Data Structures
+title: Data structures
 category: r
 ---
 
