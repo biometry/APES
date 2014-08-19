@@ -1,9 +1,9 @@
 ---
 layout: page
-title: 'Statistics: Preface'
+title: Preface
+permalink: /Stats
 # category: stats
 labels: main
-permalink: /Stats/
 ---
 
 How to read this text
