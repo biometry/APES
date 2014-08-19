@@ -1,8 +1,9 @@
 ---
 layout: page
 title: R
+permalink: /R
 # category: r
-tags: main
+labels: main
 ---
 
 R Help Preface - how to read this text 

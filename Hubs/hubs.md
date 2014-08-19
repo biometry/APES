@@ -1,8 +1,9 @@
 ---
 layout: page
 title: Hubs
+permalink: /Hubs
 # category: hubs
-tags: main
+labels: main
 ---
 
 

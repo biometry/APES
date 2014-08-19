@@ -1,7 +1,9 @@
 ---
 layout: page
 title: Preface
-category: stats
+permalink: /Stats
+# category: stats
+labels: main
 ---
 
 How to read this text
