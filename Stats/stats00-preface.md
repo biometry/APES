@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Preface
-permalink: /Stats
+permalink: /Stats/
 # category: stats
 labels: main
 ---
