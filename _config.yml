@@ -16,7 +16,7 @@ kramdown:
 highlighter: pygments
 
 # Excludes
-exclude: ['APES.sublime-project', 'Gemfile', 'Gemfile.lock', 'feed.xml']
+exclude: ['APES.sublime-project', 'Gemfile', 'Gemfile.lock', 'feed.xml', '*.Rmd', '*.rmd']
 
 # github gems
 # gems:
