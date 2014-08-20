@@ -4,7 +4,5 @@ title: P-value
 category: concepts
 ---
 
-
-
 P-value
 ===
