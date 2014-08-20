@@ -10,7 +10,7 @@
         <li>
           <a class="page-link" href="{{ site.baseurl }}/Stats">Statistics</a>
           <ul class="sub">
-            {% for p in site.pages %} {% if p.category contains 'stats' %}
+            {% for p in site.pages %} {% if p.category == 'stats' %}
             <li><a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a></li>
             {% endif %} {% endfor %}
           </ul>
@@ -18,7 +18,7 @@
         <li>
           <a class="page-link" href="{{ site.baseurl }}/R">R</a>
           <ul class="sub">
-            {% for p in site.pages %} {% if p.category contains 'r' %}
+            {% for p in site.pages %} {% if p.category == 'r' %}
             <li><a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a></li>
             {% endif %} {% endfor %}
           </ul>
@@ -26,7 +26,7 @@
         <li>
           <a class="page-link" href="{{ site.baseurl }}/Hubs">Hubs</a>
           <ul class="sub">
-            {% for p in site.pages %} {% if p.category contains 'hubs' %}
+            {% for p in site.pages %} {% if p.category == 'hubs' %}
             <li><a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a></li>
             {% endif %} {% endfor %}
           </ul>
@@ -34,7 +34,7 @@
         <li>
           <a class="page-link" href="{{ site.baseurl }}/Checklists">Checklists</a>
           <ul class="sub">
-            {% for p in site.pages %} {% if p.category contains 'checklists' %}
+            {% for p in site.pages %} {% if p.category == 'checklists' %}
             <li><a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a></li>
             {% endif %} {% endfor %}
           </ul>

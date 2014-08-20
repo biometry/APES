@@ -6,12 +6,15 @@
 
     <div class="footer-col-1 column">
       <ul>
-        <li>Maintainer: {{ page.author }} </li>
-        <li>Contributors:
+        <li>
+          <span>Maintainer: {{ page.author }}</span>
+          </li>
+        <li>
+          <span>Contributors:</span>
           <ul>
-            {% for name in page.contributors %}
-              <li>{{ name }}</li>
-            {% endfor %}
+          {% for name in page.contributors %}
+            <li>{{ name }}</li>
+          {% endfor %}
           </ul>
         </li>
       </ul>
@@ -20,10 +23,10 @@
     <div class="footer-col-2 column">
       <ul>
         <li>
-          {% if page.title == 'Home' %}
+          {% if page.permalink == '/index.html' %}
             <a href="https://github.com/{{ site.username }}">
               <span class="icon github">{% include github.svg %}</span>
-              <span class="username">{{ site.username }}</span>
+              <span class="username">{{ site.username | prepend: 'Github:' }}</span>
             </a>
           {% else %}
             <a href="{{ site.github.repository_url }}/blob/master/{{ page.path }}">
@@ -42,7 +45,18 @@
     </div>
 
     <div class="footer-col-3 column">
-      <p class="text">Licence, year, <a href="{{ site.baseurl }}/about/">About</a></p>
+      <ul class="text">
+        <li>
+          Licence: <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+        </li>
+        <li>2014</li>
+        <li>
+          <a href="{{ site.baseurl }}/about/">About</a>
+        </li>
+        <li>
+          <a href="{{ site.baseurl }}/contribute/">Contribute</a>
+        </li>
+      </ul>
     </div>
 
   </div>
