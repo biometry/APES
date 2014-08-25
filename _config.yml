@@ -16,7 +16,7 @@ kramdown:
 highlighter: pygments
 
 # Excludes
-exclude: ['APES.sublime-project', 'Gemfile', 'Gemfile.lock', 'feed.xml', '*.Rmd', '*.rmd']
+exclude: ['*.sublime*', 'Gemfile*', 'feed.xml', '*.Rmd', '*.rmd']
 
 # github gems
 # gems:
@@ -25,7 +25,7 @@ exclude: ['APES.sublime-project', 'Gemfile', 'Gemfile.lock', 'feed.xml', '*.Rmd'
 defaults:
   -
     scope:
-      path: ""
+      path: "" # an empty string here means all files in the project
       type: "pages"
     values:
       layout: "page"

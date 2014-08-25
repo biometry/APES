@@ -130,7 +130,17 @@ a:visited { color: #205caa; }
   font-size: 14px;
 }
 
+/* Breadcrumbs */
 
+.breadcrumbs:first-child:hover {
+  text-decoration: none;
+
+}
+
+.breadcrumbs a:after {
+  content: " >"
+  
+}
 
 /* Site footer */
 
@@ -190,13 +200,20 @@ a:visited { color: #205caa; }
   top: 3px;
 }
 
+.home-icon-svg {
+  display: inline-block;
+  /*width: 24px;
+  height: 24px;*/
+  position: relative;
+  top: 3px;
+}
 
 /* Page Content styles */
 /* ----------------------------------------------------------*/
 
 .page-content {
   padding: 30px 0;
-  background-color: #fff;
+  /*background-color: #fff;*/
 }
 
 
@@ -353,6 +370,11 @@ a:visited { color: #205caa; }
   margin: 40px 0 20px;
 }
 
+.page-content h1 {
+  font-size: 36px;
+  letter-spacing: -1.5px;
+}
+
 .page-content h2 {
   font-size: 32px;
   letter-spacing: -1.25px;
@@ -383,7 +405,7 @@ a:visited { color: #205caa; }
 
 .page pre {
   font-size: 14px;
-} 
+}
 
 .page ul,
 .page ol { margin-left: 1.35em; }
