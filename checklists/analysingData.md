@@ -1,9 +1,33 @@
-Analysis of data - a checklist
+---
+layout: page
+title: Analysing data
+category: checklists
+---
+
+Analysing data - a checklist
 ===
 
 You have done your experiment or received data from other people. We hope you have followed our recommendations about how to plan an experiment, which means that you should know what youre questions is and how to analyze your data, but we don't assume that this is the case. 
 
 Follow this checklist
+
+# Fixing the question
+
+Before we get technical, let's make sure we are certain what we want to find out. Write down the specific question that you want to answer with your data on paper, in a text document, or, even better, at the beginning of your R script! This helps you, and us if we need to help you. Make sure you formulate a QUANTITATIVE hypothesis or question.
+
+Good examples
+
+* I want to test whether variable X of the replicates in the treatment is higher than variable X in the control replicates  
+
+Bad examples (too unspecific)
+
+* I want to know what oak trees like
+* Is there a difference between sites of type A and sites of type B 
+ 
+Again, ideally your question comes before your data, but just in case you haven't quite settled down on your question, please consider again that you might have a good question, but do you also have the data for this question? Can you hope that you have more or less controlled your confounding variables? See our checklist for [Planning an Experiment](/checklists/planningAnExperiment.md)
+
+
+# Preparing and cleaning the data
 
 ## Start a new project
 
@@ -14,29 +38,6 @@ In RStudio or whatever editor you are using, created file structure that makes s
 + output
 
 It is highly advised and professional standard to put your complete project under a version control such as svn or git, but if this is the first time that you hear about this option and you are under time pressure, you may skip this for the moment.
-
-## Make sure you know your question
-
-To make sure you really know that you want to find out, write it down as a comment at the beginning of your R script! This helps you, and us if we need to help you. Make sure you formulate a QUANTITATIVE hypothesis or question.
-
-Good examples
-
-* I want to find out whether observations from the treatment group have a higher value of X than observations from the control group. 
-
-Bad examples
-
-* I want to know what oak trees like 
-* Is there a difference between sites of type A and sites of type B 
- 
-## Check again whether your question is answerable with your data
-
-Again, ideally your question comes before your data, but just in case you haven't quite settled down on your question, please consider again that you might have a good question, but do you also have the data for this question? Can you hope that you have more or less controlled your confounding variables? 
-
-## Decide on statistical method
-
-Ideally, as we recommend in our checklist for [Planning an Experiment](/checklists/planningAnExperiment.md), you can skip this step because you have already decided on an analysis method during your experimental planning, and have desiged your experiment or data collection for this method.
-
-Yet, as experience has taught us you might have not, you might want to look at the decision tree [here](/checklists/whichAnalysis.md), noting that is not a complete replacement for getting an overview of the methods of statistics.
 
 ## Import and clean your data
 
@@ -53,9 +54,26 @@ However, *it is usually not permissible to change your hypothesis after viewing 
 
 That being said, as long as you don't adjust your hypothesis, look at the data in whatever way you want. If you spot something new that looks interesting, you either have to make clear what you looked at, or just treat this as a exploratory analysis. 
 
+# Statistical analysis
+
+## Decide on statistical method
+
+Ideally, as we recommend in our checklist for [Planning an Experiment](/checklists/planningAnExperiment.md), you can skip this step because you have already decided on an analysis method during your experimental planning, and have desiged your experiment or data collection for this method.
+
+Yet, as experience has taught us you might have not, you might want to look at the decision tree [here](/checklists/whichAnalysis.md), noting that is not a complete replacement for getting an overview of the methods of statistics.
+
+
 ## Perform statistical analysis
 
-Dome
+* Record outputs, e.g. as file. Also R markdown is great to record everything you did https://support.rstudio.com/hc/en-us/articles/200552086-Using-R-Markdown
+* Hopefull you're done.
+
+
+# Some further hints 
+
+* Make sure all your analysis is scripted
+* Version control (git, svn) your scripts
+
 
 
 

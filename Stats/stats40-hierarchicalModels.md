@@ -1,3 +1,10 @@
+---
+layout: page
+title: Hierarchical statistical models
+
+category: stats
+---
+
 Hierarchical statistical models
 ===
 

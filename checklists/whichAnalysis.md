@@ -1,4 +1,10 @@
-What analysis to choose
+---
+layout: page
+title: Choose an analysis
+category: checklists
+---
+
+Choose an analysis
 ===
 
 Synopsis: this checklist provides a decision tree to get to the right type of analysis

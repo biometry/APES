@@ -1,4 +1,10 @@
-Spatial Analysis
+---
+layout: page
+title: Spatial analysis
+category: hubs
+---
+
+Spatial analysis
 ===
 
 

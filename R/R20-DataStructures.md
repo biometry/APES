@@ -1,3 +1,9 @@
+---
+layout: page
+title: Data structures
+category: r
+---
+
 Data Structures
 ===
 
