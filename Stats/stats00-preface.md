@@ -3,9 +3,10 @@ layout: page
 title: Preface
 permalink: /Stats/
 # category: stats
+
 labels: main
 ---
 
-How to read this text
+This is the mother of all stats web pages (or maybe not)
 ===
 
