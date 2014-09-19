@@ -12,6 +12,7 @@ Hierarchical models, also called multi-level models, are models in which process
 
 
 ====Structural Equation Modelling====
+
 Structural equation models (SEM) are also hierarchical models. Starting initially only as correlation summaries for normally distributed variables, SEMs have branched out substantially and are now a confusing array of methods and software.
 
 [http://openmx.psyc.virginia.edu/]
