@@ -1,3 +1,9 @@
+---
+layout: page
+title: Generalized linear models
+category: subregression
+---
+
 Generalized linear models (GLM)
 ===
 
@@ -60,7 +66,7 @@ attach(TitanicSurvival)
 plot(survived ~ age)
 ```
 
-![plot of chunk unnamed-chunk-1](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-11.png) 
+![plot of chunk unnamed-chunk-1](./stats23-generalizedLinearModels-GLM_files/figure-html/unnamed-chunk-11.png) 
 
 ```r
 surv <- as.numeric(survived)-1
@@ -113,7 +119,7 @@ lines(newage, plogis(preds$fit-2*preds$se.fit), col="purple", lwd=3, lty=2)
 lines(newage, plogis(preds$fit+2*preds$se.fit), col="purple", lwd=3, lty=2)
 ```
 
-![plot of chunk unnamed-chunk-1](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-12.png) 
+![plot of chunk unnamed-chunk-1](./stats23-generalizedLinearModels-GLM_files/figure-html/unnamed-chunk-12.png) 
 
 ```r
 fmt <- glm(surv ~ age + sex + passengerClass, family=binomial)
@@ -224,7 +230,7 @@ lines(newattrakt, exp(preds$fit+2*preds$se.fit), lwd=2, col="green", lty=2)
 lines(newattrakt, exp(preds$fit-2*preds$se.fit), lwd=2, col="green", lty=2)
 ```
 
-![plot of chunk unnamed-chunk-2](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-2.png) 
+![plot of chunk unnamed-chunk-2](./stats23-generalizedLinearModels-GLM_files/figure-html/unnamed-chunk-2.png) 
 
 ```r
 detach(cfc)
@@ -247,7 +253,7 @@ attach(cfc)
 plot(stuecke ~ attrakt)
 ```
 
-![plot of chunk unnamed-chunk-3](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-31.png) 
+![plot of chunk unnamed-chunk-3](./stats23-generalizedLinearModels-GLM_files/figure-html/unnamed-chunk-31.png) 
 
 ```r
 # defining the likelihood of a Poisson regression
@@ -267,7 +273,7 @@ pars = cbind(slope, intercept)
 plot(slope, apply(pars,1, loglikelihood), main = "Likelihood profile", ylab = "Neg Log Likelihood")
 ```
 
-![plot of chunk unnamed-chunk-3](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-32.png) 
+![plot of chunk unnamed-chunk-3](./stats23-generalizedLinearModels-GLM_files/figure-html/unnamed-chunk-32.png) 
 
 ```r
 # plotting the likelihood surface (= likelihood as a function of slope, intercept)
@@ -284,7 +290,7 @@ bestfit = optim(c(0.12,1.3), loglikelihood, method = "BFGS")
 points(bestfit$par[1], bestfit$par[2], col = "red", lwd = 4)
 ```
 
-![plot of chunk unnamed-chunk-3](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-33.png) 
+![plot of chunk unnamed-chunk-3](./stats23-generalizedLinearModels-GLM_files/figure-html/unnamed-chunk-33.png) 
 
 ```r
 # calculating the "Hessian" matrix (Funktionaldeterminante)
@@ -303,7 +309,7 @@ bestfit$hessian
 persp(slope, intercept, matrix(parametervalues$response, nrow = 100), theta = 40, phi = 30, expand = 0.7, col = c("grey","red"),  ticktype = "detailed")
 ```
 
-![plot of chunk unnamed-chunk-3](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-34.png) 
+![plot of chunk unnamed-chunk-3](./stats23-generalizedLinearModels-GLM_files/figure-html/unnamed-chunk-34.png) 
 
 ```r
 # bonus plot

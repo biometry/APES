@@ -1,3 +1,9 @@
+---
+layout: page
+title: Common mistakes
+category: checklists
+---
+
 Common statistical mistakes
 ===
 

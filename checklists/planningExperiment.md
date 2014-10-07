@@ -1,3 +1,9 @@
+---
+layout: page
+title: Planning an experiment
+category: checklists
+---
+
 Checklist for planning an experiment or a field study
 ===
 

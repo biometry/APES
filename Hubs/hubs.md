@@ -1,3 +1,11 @@
+---
+layout: page
+title: Hubs
+permalink: /Hubs/
+# category: hubs
+labels: main
+---
+
 
 How to use Hubs
 ===

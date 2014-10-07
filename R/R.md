@@ -1,3 +1,11 @@
+---
+layout: page
+title: R
+permalink: /R/
+# category: r
+labels: main
+---
+
 R Help Preface - how to read this text 
 ===
 

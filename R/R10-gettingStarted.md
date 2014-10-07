@@ -1,3 +1,9 @@
+---
+layout: page
+title: Getting started
+category: r
+---
+
 Getting started with R
 ===
 

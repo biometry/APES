@@ -1,3 +1,9 @@
+---
+layout: page
+title: Linear mixed models
+category: subregression
+---
+
 Linear mixed models
 ===
 
@@ -24,3 +30,7 @@ y = a x + b + N(0,sigmaData) + N(0, sigmaGroup)
 
 where the second term, N(0, sigmaGroup) acts on the groups and not on the individual data point.
 
+
+Material for later:
+
+Note that we need to fit the model using maximum likelihood, **not** REML (restricted/residual maximum likelihood). REML is dependent on the fixed effects and changes as the fixed part of the model changes. Hence we cannot compare likelihoods of two REML-fitted mixed models differing in their fixed structure (see, e.g., http://www.unc.edu/courses/2010fall/ecol/563/001/docs/lectures/lecture28.htm). 
