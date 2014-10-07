@@ -130,6 +130,15 @@ a:visited { color: #205caa; }
   font-size: 14px;
 }
 
+.sub li li {float:left;}
+    
+.sub li li a {
+  display: block;
+  padding: 5px 0px 0px 10px;
+  min-width: 200px;
+  font-size: 14px;
+}
+
 /* Breadcrumbs */
 
 .breadcrumbs:first-child:hover {
