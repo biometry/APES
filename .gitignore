@@ -1,12 +1,5 @@
-# ignore
-_site
-.ruby*
-Gemfile*
-*sublime*
-.ruby*
 .Rproj.user
 .Rhistory
 .RData
-APES.Rproj
-*html
 
+APES.Rproj
