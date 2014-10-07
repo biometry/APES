@@ -41,6 +41,11 @@
         </li>
         <li>
           <a class="page-link" href="{{ site.baseurl }}/Concepts">Concepts</a>
+          <ul class="sub">
+            {% for p in site.pages %} {% if p.category == 'concepts' %}
+            <li><a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a></li>
+            {% endif %} {% endfor %}
+          </ul>
         </li>
       </ul>
     </nav>
