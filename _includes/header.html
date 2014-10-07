@@ -12,13 +12,13 @@
           <ul class="sub">
             {% for p in site.pages %} 
               {% if p.category == 'stats' %}
-                {% if p.subcategory == 'none' or p.subcategory == empty %}
+                {% if p.subcategory == 'none' or p.subcategory == nil %}
                   <li><a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a></li>
                   <ul class="sub">
                   {% for sp in site.pages %}
-                    {% if sp.category == 'stats' % and sp.subcategory == p.title}
-                      <li><a href="{{ sp.url | prepend: site.baseurl }}">{{ sp.title }}</a></li>
-                    {% endif %} 
+                  	{% if sp.subcategory == p.title %}
+                  		<li><a href="{{ sp.url | prepend: site.baseurl }}">{{ sp.title }}</a></li>
+                  	{% endif %}
                   {% endfor %}
                   </ul>
                 {% endif %}
