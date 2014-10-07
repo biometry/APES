@@ -1,7 +1,8 @@
 ---
 layout: page
 title: Linear regression
-category: subregression
+category: stats
+subcategory: Regression
 ---
 
 Linear regression

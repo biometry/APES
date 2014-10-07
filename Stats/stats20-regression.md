@@ -2,6 +2,7 @@
 layout: page
 title: Regression
 category: stats
+subcategory: none
 ---
 
 Regression
