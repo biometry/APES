@@ -1,7 +1,8 @@
 ---
 layout: page
 title: Linear mixed models
-category: subregression
+category: stats
+subcategory: Regression
 ---
 
 Linear mixed models
