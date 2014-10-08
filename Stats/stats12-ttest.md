@@ -1,7 +1,8 @@
 ---
 layout: page
-title: Important tests
-category: subinferential
+title: The t-test
+category: stats
+subcategory: Hypothesis Testing
 ---
 
 Important statistical tests

@@ -1,7 +1,8 @@
 ---
 layout: page
 title: Ordination methods
-category: substats
+category: stats
+subcategory: Overview
 ---
 
 Ordination methods

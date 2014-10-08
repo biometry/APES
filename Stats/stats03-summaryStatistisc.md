@@ -1,7 +1,8 @@
 ---
 layout: page
 title: Summary statistics
-category: substats
+category: stats
+subcategory: Overview
 ---
 
 Summary statistics and correlations

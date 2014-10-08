@@ -1,7 +1,8 @@
 ---
 layout: page
 title: Explorative data analysis
-category: substats
+category: stats
+subcategory: Overview
 ---
 
 Explorative data analysis
