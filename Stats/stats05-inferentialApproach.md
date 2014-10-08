@@ -2,7 +2,7 @@
 layout: page
 title: Inferential approach
 category: stats
-subcategory: Overview
+subcategory: Basic concepts
 ---
 
 Inferential approaches
