@@ -2,7 +2,7 @@
 layout: page
 title: Ordination methods
 category: stats
-subcategory: Overview
+subcategory: Basic concepts
 ---
 
 Ordination methods

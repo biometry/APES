@@ -2,7 +2,7 @@
 layout: page
 title: Explorative data analysis
 category: stats
-subcategory: Overview
+subcategory: Basic concepts
 ---
 
 Explorative data analysis

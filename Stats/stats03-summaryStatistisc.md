@@ -2,8 +2,7 @@
 layout: page
 title: Summary statistics
 category: stats
-subcategory: Overview
----
+subcategory: Basic concepts---
 
 Summary statistics and correlations
 ===
