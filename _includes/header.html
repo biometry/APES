@@ -13,18 +13,20 @@
             {% for p in site.pages %} 
               {% if p.category == 'stats' %}
                 {% if p.subcategory == 'none' or p.subcategory == nil %}
-                  <li><a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a></li>
-                  <ul class="sub">
+                  <li><a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a>
+                  <ul>
                   {% for sp in site.pages %}
                   	{% if sp.subcategory == p.title %}
                   		<li><a href="{{ sp.url | prepend: site.baseurl }}">{{ sp.title }}</a></li>
                   	{% endif %}
                   {% endfor %}
                   </ul>
+                  </li>
                 {% endif %}
             {% endif %} {% endfor %}
           </ul>
         </li>
+        
         <li>
           <a class="page-link" href="{{ site.baseurl }}/R">R</a>
           <ul class="sub">
@@ -33,6 +35,7 @@
             {% endif %} {% endfor %}
           </ul>
         </li>
+        
         <li>
           <a class="page-link" href="{{ site.baseurl }}/Hubs">Hubs</a>
           <ul class="sub">
@@ -41,6 +44,7 @@
             {% endif %} {% endfor %}
           </ul>
         </li>
+        
         <li>
           <a class="page-link" href="{{ site.baseurl }}/Checklists">Checklists</a>
           <ul class="sub">
@@ -49,6 +53,7 @@
             {% endif %} {% endfor %}
           </ul>
         </li>
+        
         <li>
           <a class="page-link" href="{{ site.baseurl }}/Concepts">Concepts</a>
           <ul class="sub">

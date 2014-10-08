@@ -104,6 +104,20 @@ a:visited { color: #205caa; }
   left: -10px;
 }
 
+.trigger > li > ul > li > ul {
+  position: absolute;
+  left: -9999px;
+  /*top: auto;*/
+  line-height: normal;
+  /*margin-left: 10px;*/
+}
+
+.trigger > li > ul  > li:hover > ul {
+  left: 10px;
+  position: relative;
+}
+
+
 /*.trigger > li:hover > ul > li {
   max-height: 720px;
   position: relative;
@@ -129,14 +143,14 @@ a:visited { color: #205caa; }
   min-width: 200px;
   font-size: 14px;
 }
-
-.sub li li {float:left;}
+    
+   /* submenu */ 
     
 .sub li li a {
   display: block;
   padding: 5px 0px 0px 10px;
   min-width: 200px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* Breadcrumbs */
