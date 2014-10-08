@@ -29,6 +29,8 @@ The most important models used in regression are
  
 * Nonlinear regression
 
+* Generalized additive models
+
 
 
 
