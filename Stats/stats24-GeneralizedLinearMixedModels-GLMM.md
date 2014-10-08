@@ -1,7 +1,8 @@
 ---
 layout: page
 title: Generalized linear mixed models
-category: subregression
+category: stats
+subcategory: Regression
 ---
 
 Generalized linear mixed models

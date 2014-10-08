@@ -1,11 +1,12 @@
 ---
 layout: page
-title: Inferential definitions
-category: subinferential
+title: Inferential approach
+category: stats
+subcategory: Overview
 ---
 
-Inferential definitions
-====
+Inferential approach
+===
 
 
 

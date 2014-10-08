@@ -1,7 +1,8 @@
 ---
 layout: page
 title: Generalized linear models
-category: subregression
+category: stats
+subcategory: Regression
 ---
 
 Generalized linear models (GLM)

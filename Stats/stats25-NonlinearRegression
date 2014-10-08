@@ -1,7 +1,8 @@
 ---
 layout: page
 title: Nonlinear Regression
-category: subregression
+category: stats
+subcategory: Regression
 ---
 
 Nonlinear Regression
