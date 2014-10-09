@@ -7,6 +7,13 @@ category: r
 Data Structures
 ===
 
+Until we have added content, see
+
+
+
+[here](http://ecology.msu.montana.edu/labdsv/R/labs/R_ecology.html#recol)
+
+[QuickR](http://www.statmethods.net/)
 
 Read up this http://ecology.msu.montana.edu/labdsv/R/labs/R_ecology.html#recol
 
