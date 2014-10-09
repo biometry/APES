@@ -1,15 +1,17 @@
 ---
 layout: page
-title: Data structures
+title: Data in R
 category: r
 ---
 
-Data Structures
+Data in R
 ===
 
-Until we have added content, see
+Before we can work with data, we need to be able to read it in an represent it in R
 
+# Data structures
 
+An overview and examples of the available data structures in R is here
 
 [here](http://ecology.msu.montana.edu/labdsv/R/labs/R_ecology.html#recol)
 
@@ -19,22 +21,23 @@ Read up this http://ecology.msu.montana.edu/labdsv/R/labs/R_ecology.html#recol
 
 http://www.uni-kiel.de/psychologie/rexrepos/rerR_Basics.html
 
+Important data structures are
 
-# Atomic variables
+* Atomic variables (numeric, char)
+* Vectors (a sequence of atomic variables. For example c(1,2,3,4) is a vector of 4 numeric variables)
+* Lists (like a vector, but unordered)
+* A data frame (technically a list of vectors, untechnically think of it as a spreadsheat with collumns that can be of different atomic type)
 
-numeric, char
+Hint: you can find out the type and structure of an object in R with the class() and str() command
 
+# Working with and manipulating data frames
 
-# Vectors
-
-A vector is a sequence of atomic variables. For example c(1,2,3,4) is a vector of 4 numeric variables. 
-
-# Lists
-
-# Data frames
+The data frame is the most common choice to represent your field data, thefore it's important to know how to work with them and select data from them. 
 
 http://www.uni-kiel.de/psychologie/rexrepos/rerData_Frames.html
 
-# How to find out to structure of an object
+# Reading in data
 
-Use the class() and str() command
+see here http://www.statmethods.net/input/importingdata.html
+
+
