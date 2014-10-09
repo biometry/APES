@@ -37,6 +37,8 @@ Material for later:
 Note that we need to fit the model using maximum likelihood, **not** REML (restricted/residual maximum likelihood). REML is dependent on the fixed effects and changes as the fixed part of the model changes. Hence we cannot compare likelihoods of two REML-fitted mixed models differing in their fixed structure (see, e.g., http://www.unc.edu/courses/2010fall/ecol/563/001/docs/lectures/lecture28.htm). 
 
 
+http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r
+
 
 # R<sup>2</sup> for mixed models
 

@@ -1,4 +1,4 @@
----
+﻿---
 layout: page
 title: The t-test
 category: stats
@@ -8,7 +8,7 @@ subcategory: Hypothesis Testing
 Important statistical tests
 ===
 
-Recall statistical tests, or more formally, null-hypothesis significance testing (NHST) is one of severa ways in which you can approach data. The idea is that you define a null-hypothesis, and then you look a the probability that the data would occur under the assumption that the null hypothesis is true.
+Recall statistical tests, or more formally, null-hypothesis significance testing (NHST) is one of several ways in which you can approach data. The idea is that you define a null-hypothesis, and then you look a the probability that the data would occur under the assumption that the null hypothesis is true.
 
 Now, there can be many null hypothesis, so you need many tests. The most widely used tests are given here.
 
