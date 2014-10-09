@@ -17,6 +17,8 @@ Until we have added content, see
 
 Read up this http://ecology.msu.montana.edu/labdsv/R/labs/R_ecology.html#recol
 
+http://www.uni-kiel.de/psychologie/rexrepos/rerR_Basics.html
+
 
 # Atomic variables
 
