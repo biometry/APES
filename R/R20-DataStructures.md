@@ -9,11 +9,11 @@ Data in R
 
 Before we can work with data, we need to be able to read it in an represent it in R
 
-# Reading in data
+## Reading in data
 
 see here http://www.statmethods.net/input/importingdata.html
 
-# Data structures
+## Data structures
 
 An overview and examples of the available data structures in R is here
 
@@ -34,7 +34,7 @@ Important data structures are
 
 Hint: you can find out the type and structure of an object in R with the class() and str() command
 
-# Working with and manipulating data frames
+### Working with and manipulating data frames
 
 The data frame is the most common choice to represent your field data, thefore it's important to know how to work with them and select data from them. 
 
