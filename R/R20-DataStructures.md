@@ -8,6 +8,8 @@ Data Structures
 ===
 
 
+Read up this http://ecology.msu.montana.edu/labdsv/R/labs/R_ecology.html#recol
+
 
 # Atomic variables
 
