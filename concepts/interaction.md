@@ -21,4 +21,3 @@ for the case where there is an interaction between the variables. Note that, in 
 
 See also [http://en.wikipedia.org/wiki/Interaction_%28statistics%29](http://en.wikipedia.org/wiki/Interaction_%28statistics%29)
 
-http://en.wikipedia.org/wiki/Interaction_%28statistics%29
