@@ -45,4 +45,6 @@ http://www.uni-kiel.de/psychologie/rexrepos/rerData_Frames.html
 http://blog.revolutionanalytics.com/2014/08/the-iris-data-set-for-big-data.html
 
 
+"Text File Splitter": http://www.systemwidgets.com/Downloads/FreewareDownloads/TextFileSplitter/tabid/120/Default.aspx can split very larve (> several GB) textfiles 
+
 
