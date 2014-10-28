@@ -67,6 +67,8 @@ influence(fit) # regression diagnostics
 ```
 
 
+see also 
+http://advan.physiology.org/content/35/4/347
 
 
 
