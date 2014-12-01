@@ -46,3 +46,11 @@ Video demonstrating multiple linear regresssion in R
 </a>
 ```
 
+# Developers / Admins
+
+Shifting changes from md to the page is easy, just merge the main branch in the gh-pages branch. 
+
+If you want to change css and other elements in the gh-pages branch, you need to install a local Jekyll version, you can't really debug problems by commiting to GitHub and see how things change. See https://help.github.com/articles/using-jekyll-with-pages/#installing-jekyll for a tutorial on installing Jekyll
+
+Create site from terminal with bundle exec jekyll serve
+

@@ -2,18 +2,28 @@
 output:
   html_document:
     keep_md: yes
+<<<<<<< HEAD
     self_contained: no
+=======
+>>>>>>> origin/master
 ---
 Linear regression
 ===
 
 
+<<<<<<< HEAD
+=======
+# The idea of linear regression
+>>>>>>> origin/master
 
 ## Simple linear regression
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 ## Multiple linear regression
 
 Multiple linear regression is the term for the situation in which you have multiple predictor variables, but still only one continous response with the same assumptions as before. 
@@ -24,6 +34,7 @@ Video demonstrating multiple linear regresssion in R
 </a>
 
 
+<<<<<<< HEAD
 
 
 ```{r}
@@ -137,11 +148,41 @@ par(mfrow=c(1,1))
 
 
 
+=======
+# Example1  simple regression 
+
+## The data 
+
+```{r}
+myData <- women
+plot(myData)
+```
+
+## Fit the model 
+
+```{r}
+# Multiple Linear Regression Example
+fit <- lm(weight ~ height, data=myData)
+```
+
+
+```{r}
+summary(fit) # show results
+```
+
+
+## Diagnostics 
+
+```{r}
+layout(matrix(c(1,2,3,4),2,2)) # optional 4 graphs/page
+plot(fit)
+>>>>>>> origin/master
 
 ```
 
 
 
+<<<<<<< HEAD
 
 TOP-LEFT PLOT
 fitted values vs residuals; we should not see patterns here, red line relatively flat
@@ -326,3 +367,24 @@ Edited by Simone Ciuti, University of Freiburg, 9/10/2014;
 Intended for the only purpose of teaching @ Freiburg University; 
 Source: 1) Mike Marin Stat - UBC 2)Mick Crawley - The R Book, 2nd edition. 3) Simone Ciuti simulated data 
 +++++++++++++++++++++++++++++++++++++++++++++++++
+=======
+```{r}
+# Other useful functions
+coefficients(fit) # model coefficients
+confint(fit, level=0.95) # CIs for model parameters
+fitted(fit) # predicted values
+residuals(fit) # residuals
+anova(fit) # anova table
+vcov(fit) # covariance matrix for model parameters
+influence(fit) # regression diagnostics 
+```
+
+
+see also 
+http://advan.physiology.org/content/35/4/347
+
+
+
+
+
+>>>>>>> origin/master

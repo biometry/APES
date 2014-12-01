@@ -1,4 +1,11 @@
-Generalized Linear Mixed Models
+---
+layout: page
+title: Generalized linear mixed models
+category: stats
+subcategory: Regression
+---
+
+Generalized linear mixed models
 ===
 
 

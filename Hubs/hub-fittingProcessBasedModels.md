@@ -1,13 +1,17 @@
+---
+layout: page
+title: Fitting process-based models
+category: hubs
+author: Florian Hartig
+synopsis: A tutorial on how to fit complex or process-based (vegetation) models to data
+---
+
 Fitting complex or process-based models
 ===
 
-Author: Florian Hartig
-
-Synopsis: this is a tutorial with further links on how to fit complex or process-based models to data
-
 # Overview
 
-A common problem in ecological modelling is that a simulation model (forest simulator, individual-based model, movement model) has been designed, and how one would like to know
+A common problem in ecological modelling is that a simulation model (vegetation model, forest simulator, individual-based model, movement model) has been designed, and how one would like to know
 
 * How well does the model fit to data
 * Which are the parameters that deliver the best fit
@@ -39,9 +43,7 @@ Before we can start working on these questions at all, we need to make sure that
 
 How should we measure how well the model fits to the data?
 
-Will add more info later, for the momemnt read 
-
-Hartig et al. (2012): Connecting dynamic vegetation models to data - an inverse perspective. <i>J. Biogeogr.</i>, 39, 2240-2252. <a href="http://dx.doi.org/10.1111/j.1365-2699.2012.02745.x">[journal]</a> <a href="http://ecologypapers.blog.com/files/2012/10/Hartig-Connectingdynamicvegetation-2012.pdf">[pdf]</a>
+I will add more info later, for the momemnt read our discussion in Hartig et al. (2012): Connecting dynamic vegetation models to data - an inverse perspective. <i>J. Biogeogr.</i>, 39, 2240-2252. <a href="http://dx.doi.org/10.1111/j.1365-2699.2012.02745.x">[journal]</a> <a href="http://ecologypapers.blog.com/files/2012/10/Hartig-Connectingdynamicvegetation-2012.pdf">[pdf]</a>
 
 
 # Sensitivity analsis
@@ -79,6 +81,7 @@ See also <a href="http://florianhartig.wordpress.com/teaching/bayes-intro/litera
 
 *Normal Bayes with forest models*
 
+Hartig et al. (2012): Connecting dynamic vegetation models to data - an inverse perspective. <i>J. Biogeogr.</i>, 39, 2240-2252. <a href="http://dx.doi.org/10.1111/j.1365-2699.2012.02745.x">[journal]</a> <a href="http://ecologypapers.blog.com/files/2012/10/Hartig-Connectingdynamicvegetation-2012.pdf">[pdf]</a>
 
 Tutorial by Marcel van Oijen on fitting forest models with Bayes  <a href="http://nora.nerc.ac.uk/6087/1/BC%26BMC_Guidance_2008-12-18_Final.pdf">here</a>.
 
@@ -101,10 +104,9 @@ Tutorial by Marcel van Oijen on fitting forest models with Bayes  <a href="http:
 
 	<li>Jabot, F. &amp; Chave, J. (2009) Inferring the parameters of the neutral theory of biodiversity using phylogenetic information and implications for tropical forests Ecol. Lett., 12, 239-248</li>
 
-	<li><p><strong>Florian Hartig</strong>, Claudia Dislich, Thorsten Wiegand &amp; Andreas Huth (2013) Technical Note: Approximate Bayesian parameterization of a complex tropical forest model. Biogeosciences Discuss., 10, 13097-13128. <a href="http://arxiv.org/abs/1401.8205">[preprint]</a></p></li>
+	<li>Hartig et al. (2013) Technical Note: Approximate Bayesian parameterization of a complex tropical forest model. Biogeosciences. http://www.biogeosciences.net/11/1261/2014/bg-11-1261-2014.html </li>
 
-	<li> <div id="short-Hartig-Statisticalinferencestochastic-2011"> <p>  <b>Florian Hartig</b>, Justin. M. Calabrese, Björn Reineking, Thorsten Wiegand and Andreas Huth (2011): Statistical inference for stochastic simulation models - theory and application. <i>Ecol. Lett. </i> 14, 816-827. <a href="http://dx.doi.org/10.1111/j.1461-0248.2011.01640.x">[journal]</a> <a href="http://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=AdcDit0AAAAJ&amp;citation_for_view=AdcDit0AAAAJ:u-x6o8ySG0sC">[stats]</a> <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2011.01640.x/pdf">[pdf]</a></p> </div></li>
-
+	<li> Hartig et al. (2011): Statistical inference for stochastic simulation models - theory and application. <i>Ecol. Lett. </i> 14, 816-827. <a href="http://dx.doi.org/10.1111/j.1461-0248.2011.01640.x">[journal]</a> 
 </ul>
 
 

@@ -5,11 +5,7 @@ blog.revolutionanalytics.com/2014/03/an-r-meta-book.html
 http://www.uni-kiel.de/psychologie/rexrepos/index.html
 
 
-# R Stuff
 
-Programming http://adv-r.had.co.nz/
-
-http://ecology.msu.montana.edu/labdsv/R/labs/R_ecology.html#recol
 
 
 # Misc
@@ -25,6 +21,9 @@ https://www.ma.utexas.edu/users/mks/statmistakes/StatisticsMistakes.html
 http://www.youtube.com/watch?v=1j2Duy_xzEA
 
 Cross-validation: a blogged overview: http://robjhyndman.com/hyndsight/crossvalidation/
+
+Introduction & excercises to Structural Equation Modelling (using lavaan): http://www.nwrc.usgs.gov/test/SEM.html
+
 
 # Intros
 

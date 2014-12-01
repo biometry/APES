@@ -1,3 +1,10 @@
+---
+layout: page
+title: Regression
+category: stats
+subcategory: none
+---
+
 Regression
 ===
 
@@ -21,6 +28,8 @@ The most important models used in regression are
 * The generalized linear mixed models
  
 * Nonlinear regression
+
+* Generalized additive models
 
 
 
