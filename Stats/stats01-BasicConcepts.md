@@ -27,7 +27,7 @@ Experience shows that there is certain tendency of beginners to use categorical 
 ## Types of statistical analysis 
 
 * Plotting and visualisation
- *[Plotting with R](https://github.com/biometry/APES/blob/master/R/R40-plottingInR.md)
+ * [Plotting with R](https://github.com/biometry/APES/blob/master/R/R40-plottingInR.md)
 * Transformations and summary statistics
 * Statistical inference based on
  * Parametric or non-parametric models 
