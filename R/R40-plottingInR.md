@@ -225,15 +225,13 @@ reg.plane <- lm(Petal.Length ~ Sepal.Length+Sepal.Width)
 iris3d$plane3d(reg.plane)  
 ```
 
-![plot of chunk unnamed-chunk-9](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-9.pngg) 
+![plot of chunk unnamed-chunk-9](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-9.png) 
 Where:   
 •pch = type of symbol   
 •highlight.3d = the points will are colored according to the y coordinates     
 •type = "p" for points, "l" for lines, "h" for vertical lines   
 •plane3d = we draw a regression plane
 
-
-![3d scatterplot](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-10.png)
 
 It is possible to spin our 3d model with the mouse using the <b>rgl</b> package or the <b>Rcmdr</b> package.  
 
@@ -354,7 +352,6 @@ barplot(counts, main="Iris Distribution",
 
 It is possible to plot the bars horizontal by adding horiz=TRUE to the code
 
-![Simple Bar plot](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-10.png)
 
 ### Stacked Bar Plot
 
