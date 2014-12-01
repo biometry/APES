@@ -39,7 +39,7 @@ abline(lm(Sepal.Length~Petal.Length), col="red")
 lines(lowess(Petal.Length, Sepal.Length), col="blue")
 ```
 
-![plot of chunk unnamed-chunk-1](./R40-plottingInR_files/figure-html/unnamed-chunk-1.png) 
+![plot of chunk unnamed-chunk-1](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-1.png) 
 
 Where:	
  * Petal.Length = x	   
@@ -73,7 +73,7 @@ scatterplot(Sepal.Length~Petal.Length | Species, data=iris, boxplots= "x,y",
             main="Enhanced Scatter Plot", labels=row.names(iris))
 ```
 
-![plot of chunk unnamed-chunk-2](./R40-plottingInR_files/figure-html/unnamed-chunk-2.png) 
+![plot of chunk unnamed-chunk-2](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-2.png) 
 
 Where:
 * `Sepal.Length~Petal.Length | Species` = the formula to plot by groups `(x ~ y | z)`. It could also be a formula of the type `x ~ y`.  
@@ -96,7 +96,7 @@ pairs(~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width,data=iris,
       main="Simple Scatterplot Matrix")
 ```
 
-![plot of chunk unnamed-chunk-3](./R40-plottingInR_files/figure-html/unnamed-chunk-3.png) 
+![plot of chunk unnamed-chunk-3](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-3.png) 
 
 Where:   
 * `~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width` = Numeric vectors that represent the variables in the plot  
@@ -117,7 +117,7 @@ splom(~iris[1:4], groups = Species, data = iris,
                  text = list(c("Setosa", "Versicolor", "Virginica"))))  
 ```
 
-![plot of chunk unnamed-chunk-4](./R40-plottingInR_files/figure-html/unnamed-chunk-4.png) 
+![plot of chunk unnamed-chunk-4](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-4.png) 
 
 Where:   
 •~iris[1:4] = the object we want to analyse (columns 1 to 4)  
@@ -145,7 +145,7 @@ scatterplot.matrix(~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width|Species, d
 ## See help("Deprecated") and help("car-deprecated").
 ```
 
-![plot of chunk unnamed-chunk-5](./R40-plottingInR_files/figure-html/unnamed-chunk-5.png) 
+![plot of chunk unnamed-chunk-5](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-5.png) 
 
 
 With the <b>gclus</b> package we can rearrange the variables to represent those with higher correlations closer to the principal diagonal and to set up diferent colors depending of the correlation grade.  
@@ -170,7 +170,7 @@ cpairs(data, data.order, panel.colors=data.color, gap=.5,
        main="Correlation Graph" )  
 ```
 
-![plot of chunk unnamed-chunk-6](./R40-plottingInR_files/figure-html/unnamed-chunk-6.png) 
+![plot of chunk unnamed-chunk-6](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-6.png) 
 Where:   
 •data = we get the data (columns 1,2,3,4 in this case)   
 •data.corr = we get the correlations    
@@ -191,7 +191,7 @@ bin<-hexbin(Petal.Width ~ Petal.Length, xbins=100, xlab="Petal.Width",ylab="Peta
 plot(bin, main="Hexagonal Binning") 
 ```
 
-![plot of chunk unnamed-chunk-7](./R40-plottingInR_files/figure-html/unnamed-chunk-7.png) 
+![plot of chunk unnamed-chunk-7](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-7.pngg) 
 Where:  
 •xbins = number of hexagons across the x axis  
 
@@ -205,7 +205,7 @@ sunflowerplot(Petal.Width ~ Petal.Length, data = iris,
               xlab="Petal.Width",ylab="Petal.Length", main= "Sunflower Plot")  
 ```
 
-![plot of chunk unnamed-chunk-8](./R40-plottingInR_files/figure-html/unnamed-chunk-8.png) 
+![plot of chunk unnamed-chunk-8](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-8.png) 
 Where:   
 •cex = size of the center points  
 •cex.fact = size of the center points where there are flower leaves   
@@ -225,7 +225,7 @@ reg.plane <- lm(Petal.Length ~ Sepal.Length+Sepal.Width)
 iris3d$plane3d(reg.plane)  
 ```
 
-![plot of chunk unnamed-chunk-9](./R40-plottingInR_files/figure-html/unnamed-chunk-9.png) 
+![plot of chunk unnamed-chunk-9](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-9.pngg) 
 Where:   
 •pch = type of symbol   
 •highlight.3d = the points will are colored according to the y coordinates     
@@ -233,7 +233,7 @@ Where:
 •plane3d = we draw a regression plane
 
 
-![3d scatterplot](https://raw.githubusercontent.com/biometry/APES/master/images/3D%20scatterplot.png)
+![3d scatterplot](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-10.png)
 
 It is possible to spin our 3d model with the mouse using the <b>rgl</b> package or the <b>Rcmdr</b> package.  
 
@@ -291,7 +291,7 @@ for(i in 1:length(opts)){
   lines(x, y, type=opts[i])}
 ```
 
-![plot of chunk unnamed-chunk-12](./R40-plottingInR_files/figure-html/unnamed-chunk-12.png) 
+![plot of chunk unnamed-chunk-12](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-12.png) 
 Where:   
 •mfrow = with this option we represent all the plots in the same page. To go back to only one plot per page, we write par(mfrow=c(1,1))    
 * types
@@ -335,7 +335,7 @@ legend(xrange[1], yrange[2], 1:ntrees, cex=0.8, col=colors,
        pch=1:ntrees, lty=1:ntrees, title="Species")
 ```
 
-![plot of chunk unnamed-chunk-13](./R40-plottingInR_files/figure-html/unnamed-chunk-13.png) 
+![plot of chunk unnamed-chunk-13](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-13.png) 
 
 
 
@@ -350,11 +350,11 @@ barplot(counts, main="Iris Distribution",
         xlab="Petal Length")
 ```
 
-![plot of chunk unnamed-chunk-14](./R40-plottingInR_files/figure-html/unnamed-chunk-14.png) 
+![plot of chunk unnamed-chunk-14](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-14.png) 
 
 It is possible to plot the bars horizontal by adding horiz=TRUE to the code
 
-![Simple Bar plot](https://raw.githubusercontent.com/biometry/APES/master/images/barplot.png)
+![Simple Bar plot](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-10.png)
 
 ### Stacked Bar Plot
 
@@ -368,7 +368,7 @@ barplot(counts, main="iris species distribution by petal leghts",
                     legend = rownames(counts))
 ```
 
-![plot of chunk unnamed-chunk-15](./R40-plottingInR_files/figure-html/unnamed-chunk-15.png) 
+![plot of chunk unnamed-chunk-15](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-15.png) 
 
 We can represent each value in a bar instead of stacked by adding beside=TRUE to the code
 
@@ -401,7 +401,7 @@ pie(Spcs,labels = lbls,
 main="Pie Chart of Countries")
 ```
 
-![plot of chunk unnamed-chunk-16](./R40-plottingInR_files/figure-html/unnamed-chunk-16.png) 
+![plot of chunk unnamed-chunk-16](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-16.png) 
 
 
 With the <b>plotrix</b> package we can create 3d pie charts
@@ -418,14 +418,14 @@ Petal<-iris$Petal.Length
 hist(Petal)		
 ```
 
-![plot of chunk unnamed-chunk-17](./R40-plottingInR_files/figure-html/unnamed-chunk-17.png) 
+![plot of chunk unnamed-chunk-17](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-17.png) 
 
 
 ```r
 hist(Petal,freq=FALSE, breaks=15,col="green")		
 ```
 
-![plot of chunk unnamed-chunk-18](./R40-plottingInR_files/figure-html/unnamed-chunk-18.png) 
+![plot of chunk unnamed-chunk-18](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-18.png) 
 * freq = to show densities instead of frequencies		
 * breaks = we can set up the number of bins		
 
@@ -442,7 +442,7 @@ yfit <- yfit*diff(h$mids[1:2])*length(Petal)
 lines(xfit, yfit, col="blue", lwd=2)		
 ```
 
-![plot of chunk unnamed-chunk-19](./R40-plottingInR_files/figure-html/unnamed-chunk-19.png) 
+![plot of chunk unnamed-chunk-19](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-19.png) 
 
 ## Density plots
 
@@ -453,7 +453,7 @@ plot(dens, main="Kernel Density of Petal Length")
 polygon(dens, col="pink", border="purple")		
 ```
 
-![plot of chunk unnamed-chunk-20](./R40-plottingInR_files/figure-html/unnamed-chunk-20.png) 
+![plot of chunk unnamed-chunk-20](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-20.png) 
 * polygon = to color the density plot
 
 
@@ -480,7 +480,7 @@ colfill<-c(2:(2+length(levels(spec.f))))
 legend("topright", levels(spec.f), fill=colfill)
 ```
 
-![plot of chunk unnamed-chunk-21](./R40-plottingInR_files/figure-html/unnamed-chunk-21.png) 
+![plot of chunk unnamed-chunk-21](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-21.png) 
 
 # Others
 
@@ -491,7 +491,7 @@ boxplot(Petal.Length~Species,data=iris, main="Species Petal Length",
         xlab="Species", ylab="Petal Length")
 ```
 
-![plot of chunk unnamed-chunk-22](./R40-plottingInR_files/figure-html/unnamed-chunk-22.png) 
+![plot of chunk unnamed-chunk-22](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-22.png) 
 
 By adding varwidth=TRUE to the formula we can make the boxplot widths proportional to the square root of the samples sizes. 			
 By adding horizontal=TRUE we reverse the axis orientation.
@@ -513,7 +513,7 @@ boxplot(uptake~Type*Treatment, data=CO2, notch=TRUE,
 ## Warning: some notches went outside hinges ('box'): maybe set notch=FALSE
 ```
 
-![plot of chunk unnamed-chunk-23](./R40-plottingInR_files/figure-html/unnamed-chunk-23.png) 
+![plot of chunk unnamed-chunk-23](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-23.png) 
 
 ### Violin Plot
 
@@ -531,7 +531,7 @@ vioplot(x1, x2, x3, names=c("setosa", "versicolor", "virginica"),
 title("Violin Plots of Petal Length")		
 ```
 
-![plot of chunk unnamed-chunk-24](./R40-plottingInR_files/figure-html/unnamed-chunk-24.png) 
+![plot of chunk unnamed-chunk-24](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-24.png) 
 
 ### Bagplot
 
@@ -557,7 +557,7 @@ bagplot(Petal.Length, Sepal.Length, xlab="Petal Length ",ylab="Sepal Length ",
         main="Iris Bagplot ")		
 ```
 
-![plot of chunk unnamed-chunk-25](./R40-plottingInR_files/figure-html/unnamed-chunk-25.png) 
+![plot of chunk unnamed-chunk-25](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-25.png) 
 
 
 
