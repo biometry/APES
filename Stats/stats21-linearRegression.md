@@ -24,6 +24,7 @@ Multiple linear regression is the term for the situation in which you have multi
 Video demonstrating multiple linear regresssion in R
 </a>
 
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 
@@ -742,3 +743,5 @@ influence(fit) # regression diagnostics
 
 
 >>>>>>> origin/master
+=======
+>>>>>>> parent of e6856fa... d
