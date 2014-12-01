@@ -191,7 +191,7 @@ bin<-hexbin(Petal.Width ~ Petal.Length, xbins=100, xlab="Petal.Width",ylab="Peta
 plot(bin, main="Hexagonal Binning") 
 ```
 
-![plot of chunk unnamed-chunk-7](https://github.com/biometry/APES/blob/e6227e751cd2cc8c7d2594edef5dabee9ba15afb/R/R40-PlottingInR_files/figure-html/unnamed-chunk-7.pngg) 
+![plot of chunk unnamed-chunk-7](https://raw.githubusercontent.com/biometry/APES/f96f52c54a5fab4e05a7b66f9acab3cd9316c4ed/R/R40-PlottingInR_files/figure-html/unnamed-chunk-26.png) 
 Where:  
 •xbins = number of hexagons across the x axis  
 
