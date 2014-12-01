@@ -23,5 +23,5 @@ As of today, most of our pages are still empty, but feel free to check out the c
 * [Getting started with R](https://github.com/biometry/APES/blob/master/R/R10-gettingStarted.md)
 * [Analyzing data](https://github.com/biometry/APES/blob/master/checklists/analysingData.md)
 *	[What do do if you get an error from R](https://github.com/biometry/APES/blob/master/R/R80-Problems.md)
-*	[Plotting with R](https://github.com/biometry/APES)
+*	[Plotting with R](https://github.com/biometry/APES/blob/master/R/R40-plottingInR.md)
 
