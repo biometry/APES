@@ -1,0 +1,74 @@
+---
+output:
+  html_document:
+    keep_md: yes
+---
+Linear regression
+===
+
+
+# The idea of linear regression
+
+## Simple linear regression
+
+
+
+## Multiple linear regression
+
+Multiple linear regression is the term for the situation in which you have multiple predictor variables, but still only one continous response with the same assumptions as before. 
+
+<a href="http://www.youtube.com/watch?v=q1RD5ECsSB0" target="_blank">
+![Video](http://img.youtube.com/vi/q1RD5ECsSB0/0.jpg)<br/ >
+Video demonstrating multiple linear regresssion in R
+</a>
+
+
+# Example1  simple regression 
+
+## The data 
+
+```{r}
+myData <- women
+plot(myData)
+```
+
+## Fit the model 
+
+```{r}
+# Multiple Linear Regression Example
+fit <- lm(weight ~ height, data=myData)
+```
+
+
+```{r}
+summary(fit) # show results
+```
+
+
+## Diagnostics 
+
+```{r}
+layout(matrix(c(1,2,3,4),2,2)) # optional 4 graphs/page
+plot(fit)
+
+```
+
+
+
+```{r}
+# Other useful functions
+coefficients(fit) # model coefficients
+confint(fit, level=0.95) # CIs for model parameters
+fitted(fit) # predicted values
+residuals(fit) # residuals
+anova(fit) # anova table
+vcov(fit) # covariance matrix for model parameters
+influence(fit) # regression diagnostics 
+```
+
+
+
+
+
+
+
