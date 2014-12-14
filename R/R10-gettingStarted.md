@@ -49,5 +49,9 @@ The following links are tutorials on using R as a language. They are helpful if 
 ) (works only within the university network). Buy a paper version [here](http://www.springer.com/springer+spektrum/statistik/statistik+f%C3%BCr+naturwissenschaft+medizin+%26+technik/book/978-3-642-34785-6)
 * [Programmieren mit R](http://www.statistik.tu-dortmund.de/~ligges/PmitR/)
 
-
+## Finding a function in R
+* The easiest way is to use the question mark: ?FUN to find the function FUN. 
+* If you don't know the name, you can use: ??TOPIC to find functions where TOPIC features somewhere in the help page.
+* Using package "SOS" and the tripple-question mark does a websearch (on R-help search) and returns the results: ???TOPIC. In contrast to ? and ?? it searches everythink, not only the installed pacakges.
+* You may want to install Rdym (and load it) to automatically get suggestions in case you mistype a function name (see [here](http://www.r-bloggers.com/a-did-you-mean-feature-for-r/) for an example). "Is that what you mean?" (Cool!)
 
