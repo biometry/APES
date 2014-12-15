@@ -1,0 +1,444 @@
+---
+title: Mixed Effects Models Mini-Series. Part III. Detect and embrace temporal and
+  spatial non-independence
+author: "Carsten F. Dormann"
+date: "5 December 2014"
+output:
+  html_document:
+    fig_width: 5
+    keep_md: yes
+    number_sections: yes
+    toc: yes
+  pdf_document:
+    toc: yes
+---
+
+
+This session will look at a different type of non-independence than the previous one. While there data were non-independent *by design*, in this session they are (or may be not) non-independent due to mechanistic ecological processes (such as dispersal of animals) or statistical artefacts (such as "forgetting" to include an important predictor). Key terms are:
+
+ * autocorrelation (temporal and spatial)
+ * time series
+ * variance-covariance matrix of data points
+ * ACF/PACF
+ * correlogram, variogram
+ * spatial residual plot
+ 
+# Time series
+
+Imagine a data set consisting of repeated measurements of, say, CO$_2$ in the atmosphere (plots should ALWAYS be square, except in the case of time series and maps):
+```{r, echo=FALSE}
+library(knitr)
+opts_knit$set(global.par=TRUE) # keep par() from one chunck to the next!
+opts_chunk$set(cache=TRUE) # keep objects once they were produced
+```
+
+```{r, fig.width=7}
+par(las=1) # globally set las to 1!
+plot(co2)
+```
+
+We are interested in whether there is a significant trend over time, thus `time` is our fixed effect. Let's start with a simple linear model and see where we go. To do so, we first have to convert this time-series object into two vectors, one with the CO$_2$ concentrations and one with the date.
+```{r}
+TIME <- as.vector(time(co2))
+CO2 <- as.vector(co2)
+fm1 <- lm(CO2 ~ TIME)
+summary(fm1)
+```
+
+The `TIME` effect is clearly important and highly predictive (with an $R^2 = 0.97$) and we can do even better with a polynomial of `TIME`:
+
+```{r}
+fm2 <- lm(CO2 ~ poly(TIME, 2))
+fm3 <- lm(CO2 ~ poly(TIME, 3))
+fm4 <- lm(CO2 ~ poly(TIME, 4))
+anova(fm1, fm2, fm3, fm4)
+```
+
+So a cubic function fits best:
+```{r, fig.width=7}
+plot(CO2 ~ TIME, type="l", lwd=2)
+lines(TIME, predict(fm4), col="red", lwd=2)
+```
+
+## The autocorrelation function
+
+From the last session, we have the creepy feeling that this regression is some not correct. We *know* that data points are not independent, since they are taken in exactly the same place, month after month. But that is not necessarily a problem! We account for this by using `TIME` as predictor. This may already be enough to accommodate the temporal dependence of data into account. To find out whether indeed our data have a temporal dependence in the response which is **not** accounted for by the model, we use a diagnostic tool called *autocorrelation function*, short ACF. The ACF creates a new data set of `CO2`, which is displaced against the original by 1, 2, 3, ... time units. Then the new vector is correlated with the original and the correlation value is plotted against the displacement (called the *lag*). The result looks like this:
+
+```{r, fig.width=7}
+acf(residuals(fm4))
+```
+
+Thus, as we lag the data set by 1, 2, 3, ... months, the correlation decreases down to a random value (indicated by the stippled blue lines), only then to increase as negative correlation again to a maximum at lag 6. This means that CO$_2$-concentrations in half a year (and in one year, two years, ...) can be extremely well predicted from the current value, *despite* the fact that our model already accounts for a trend in time!
+
+  > The plot shows that we have **temporal autocorrelation** in our model residuals, indicating that they are indeed **not** independent!
+
+We are now left with two possible ways forward:
+
+ 1. Try to identify the reason for this temporal autocorrelation and use it as fixed effect in our model. Or,
+ 2. try some statistical trick to tell the model that the data are temporally autocorrelated, much in the same way as we did in the last session with design-based non-independence.
+ 
+Let's start with the second option, since this is a mixed-effect model series, not a time series analysis workshop.
+
+## Accommodating temporal autocorrelation in a linear model: GLS
+
+The key trick we have to do is to tell our model that it should know that data points nearer in time are more correlated than those further apart. Thus, correlation is a function of time-distance. But, you may say, the pattern repeats over and over again, so data points 2 years apart are *more* correlated that those 3 months apart. Well, yes. But they are so closely correlated because the correlation carries over from one lag to the next. So if I know the correlation in lag 12, I also know it (roughly) in lag 24, 36 and so forth. Thus, we don't need to model each lag-distance, because it automatically is predicted by that 12 months earlier.
+
+To visualise this, we use the *partial* autocorrelation function:
+
+```{r, fig.width=7}
+pacf(residuals(fm4))
+```
+
+ > The *partial* autocorrelation function shows us the lag effect *after accounting for what can be predicted from the previous lag effects*.
+ 
+In this case, it is a bit messy, since the autocorrelation doesn't simply fade away with larger lag, but goes up and down in a damped oscillation. Anyway, this is an example, and we shall now try to modify the `lm` to account for temporal autocorrelation.
+
+The way to do so is called "Generalised Least Squares", short GLS. In addition to the standard linear model, it also models the way that data point expectations covary with each other. In this case, we expect a data point of lag 1 to be highly positively correlated with the data, one of lag 2 highly negatively and so forth. If we imagine that each data point is a random variate drawn from some distribution, then we can think of a variance-covariance matrix of the data: each data point has its own column and row. On the diagonal, we have the variances, and on the off-diagonal, the covariance among data points. In a linear model, the off-diagonal entries are 0, i.e. data points are drawn independently of one another (and the diagonal is constant, i.e. all data points have the same variance). In a GLS, we can make the off-diagonal entries a function of the temporal distance between data! Isn't that cool?
+
+MAYBE A FIGURE WOULDN'T HURT HERE!
+
+In R, we use the `gls`-function from package `nlme`. (Actually, this function is also internally behind the `lme` function.)
+
+```{r}
+library(nlme)
+fgls <- gls(CO2 ~ poly(TIME, 3), correlation=corAR1(form=~TIME))
+summary(fgls)
+acf(residuals(fgls))
+```
+
+We see that a correlation of 0.95 was fitted for a lag of 1 ("Parameter estimate Phi1"), so only one lag was accommodated (thus: `corAR1`). With a look at the ACF of the residuals we can see that it is not nearly good enough.
+
+We can construct much more complicated correlation structures using the `corARMA` function, but this is only for illustration:
+```{r}
+COR3 <- corARMA(form=~TIME, p=3, q=0)
+COR3 <- Initialize(COR3, data=data.frame("TIME"=TIME))
+flag3 <- gls(CO2 ~ poly(TIME, 3), correlation=COR3) # takes a while
+summary(flag3)
+```
+<!---
+pacf(fitted.values(flag3))
+pacf does not work as a way to look at the fitted autocorrelation ... so how?
+--->
+
+So we need to be smarter about how to embrace multi-lag dependence. Luckily, someone else has thought of an automatic way to fit autoregressive models.
+```{r, fig.width=7}
+library(forecast)
+fautogls <- auto.arima(CO2, xreg=poly(TIME, 3))
+summary(fautogls)
+acf(residuals(fautogls))
+```
+
+This is indeed a much better look of the residual autocorrelation. There are occasional peaks here and there, but the overall level is dramatically reduced. Let's plot this model onto the data and see what else can be done.
+```{r, fig.width=7}
+plot(TIME, CO2, type="l", lwd=3)
+lines(TIME, fitted.values(fautogls), col="red", lwd=2, lty=2)
+```
+
+A marvellous fit! The key thing to notice here is that the *seasonal* pattern of CO$_2$ is actually fitted using the covariance matrix, **not** using a seasonal predictor. We shouldn't do that, if we can avoid it, because we may want to interpret this seasonality as an actual ecological process, rather than a statistical nuisance.
+
+So, quickly, here is a way to put seasonality into a GLS:
+
+```{r}
+COS <- cos(2*pi*TIME)
+SIN <- sin(2*pi*TIME)
+fglsseason <- gls(CO2 ~ poly(TIME, 3) + COS + SIN, correlation=COR3)
+summary(fglsseason)
+AIC(fgls)
+AIC(fglsseason) # much better fit!
+```
+
+And now the same for the auto.arima (which requires the predictors to be handed over as a matrix):
+
+```{r, fig.width=9}
+fautoglsseason <- auto.arima(CO2, xreg=cbind(poly(TIME,3), COS, SIN))
+summary(fautogls)
+summary(fautoglsseason)
+AIC(fautogls)
+AIC(fautoglsseason)
+plot(TIME, CO2, type="l", lwd=3)
+lines(TIME, fitted.values(fautogls), col="red", lwd=2, lty=2)
+lines(TIME, fitted.values(fautoglsseason), col="green", lwd=2, lty=3)
+```
+
+# Repeated measurements
+
+A very common design is to sample units (= subjects, plots) repeatedly, a.k.a. *repeated measurements*. Here we have to tell the model the structure (i.e. samples within plots over time) as well as attempt to represent the temporal dependency itself. Currently, only `lme` and `mgcv::gamm` can handle both a random effect and a correlation structure as in the previous time example.
+
+## Fitting a repeated measurement model with lme
+Let's take a typical example (actually not so typical, but rather exceptional in the long time series these data constitute). In this case, forest plots were treated in three different ways (control, logging, logging and thinning) and monitored repeatedly over decades. Response is basal area (m$^2$/ha). Additionally, the replicated treatments are arranged in five blocks. First, we make a nice "German-colourscheme" plot of the data.
+ 
+```{r, fig.width=9, fig.height=7}
+dats <- read.csv("Data_Angela2.csv")
+summary(dats)
+dats$Block <- as.factor(dats$Block)
+dats$plot <- as.factor(dats$plot)
+dats$year <- dats$year - 1983 # reset first year to 0
+attach(dats)
+plot(ba ~ year, las=1, type="n")
+points(ba ~ year, data=dats[Treat=="C",], pch=16, cex=1.5)
+points(ba ~ I(year+0.5), data=dats[Treat=="L",], pch=17, cex=1.5, col="red")
+points(ba ~ I(year+1), data=dats[Treat=="LLTI",], pch=18, cex=1.5, col="gold")
+matlines(unique(year), t(tapply(ba, list(Treat, year), mean)), lwd=2, col=c("black", "red", "gold"), lty=1)
+legend("topleft", legend=c("control", "logging", "logging & thinning"), col=c("black", "red", "gold"), lty=1, lwd=2, bty="n", cex=1.25, pch=16:18)
+```
+
+Next, we try to fit a model *for the control treatment only*, just as a warm-up exercise. We need to tell the model that `plot`s are nested in `Block` and that through the `year`s there is a (linear) dependence. For some reason, the grouping structure of the random term and the correlation must be identical. Thus, we fit a correlation for `year` effect per each `plot` in each `Block` (which actually makes sense, too).
+
+```{r}
+library(nlme)
+flmeC <- lme(ba ~ year, random=~1|Block/plot, correlation=corLin(form=~year|Block/plot), data=dats[Treat=="C",], control=list(maxIter=5000))
+summary(flmeC)
+```
+We included `year` as a fixed effect to test, whether over time there was a significant change in basal area (there wasn't, phew, because this is the control and there shouldn't be one).
+
+Now we can ramp up the model and do the same thing across the three treatments:
+
+```{r}
+flme <- lme(ba ~ Treat*year, random=~1|Block/plot, correlation=corLin(form=~year|Block/plot), data=dats, control=list(maxIter=5000))
+anova(flme)
+summary(flme)
+```
+
+We now see that the three treatments differ in their trajectory over time! They have the same intercept (basal area in year 0 = 1983), as indicated by the non-significant effect of `Treat`. The basal area increases with time (`year` effect), but this time effect is different for the three treatments (`Treat:year` interaction significant). Specifically, for the control there is no trend over time (`year` in the `summary` is not significant), but both treatments exhibit a trend (the interaction effects are significant).
+
+Our model now has various parameters fitted, but how can we "simply" visualise the effect of treatment, across years? To do so, we need to compute the expected value for each level of the random effect(s), for the desired values of the fixed effects. In other words, if we want the value for, say, control in 1990, we need to compute the model prediction *for each `block/plot` combination* and then average those, to get the *population-level* prediction. Let us as an example extract the expected value for one specific plot, treatment and year:
+
+```{r}
+newdata <- data.frame("Treat"="C", year=1990, Block="5", plot="504")
+predict(flme, newdata=newdata)
+```
+
+Luckily there is a build-in option in the `predict`-function for `lme` that aggregates across all random effects if we are only interested in the population-level prediction. If we additionally are interested in the confidence interval of this prediction (and I think we should be), then we need to resort to another package and function.
+
+```{r}
+newdata <- data.frame("Treat"="C", year=1990)
+predict(flme, newdata=newdata, level=0)
+library(AICcmodavg)
+predictSE(flme, newdata=newdata, level=0)
+```
+
+The `level=0` instructs the model to do this averaging over all random effects for us, and only returns the population-level estimate. Note, however, that we cannot just take random values for `Block` and `plot`, but rather use combinations that actually exist!
+
+So now turn this into a nice plot:
+
+```{r, fig.width=9, fig.height=7}
+attach(dats)
+plot(ba ~ year, las=1, type="n", xlim=c(0, 35))
+points(ba ~ year, data=dats[Treat=="C",], pch=16, cex=1.5)
+points(ba ~ I(year+0.5), data=dats[Treat=="L",], pch=17, cex=1.5, col="red")
+points(ba ~ I(year+1), data=dats[Treat=="LLTI",], pch=18, cex=1.5, col="gold")
+newC <- data.frame("Treat"="C", year=0:35)
+predsC <- predictSE(flme, newdata=newC, level=0)
+matlines(0:35, cbind(predsC$fit,predsC$fit + 2*predsC$se.fit, predsC$fit - 2*predsC$se.fit), lwd=2, lty=c(1,2,2), col="black")
+newL <- data.frame("Treat"="L", year=0:35)
+predsL <- predictSE(flme, newdata=newL, level=0)
+matlines(0:35, cbind(predsL$fit, predsL$fit + 2*predsL$se.fit, predsL$fit - 2*predsL$se.fit), lwd=2, lty=c(1,2,2), col="red")
+newLT <- data.frame("Treat"="LLTI", year=0:35)
+predsLT <- predictSE(flme, newdata=newLT, level=0)
+matlines(0:35, cbind(predsLT$fit, predsLT$fit + 2*predsLT$se.fit, predsLT$fit - 2*predsLT$se.fit), lwd=2, lty=c(1,2,2), col="gold")
+legend("topleft", legend=c("control", "logging", "logging & thinning"), col=c("black", "red", "gold"), lty=1, lwd=2, bty="n", cex=1.25, pch=16:18)
+```
+
+You may wonder, why the 96%-confidence intervals are so parallel to the expected values. The main reason is that they depict only the effect of the fixed effect. Another that I have not extrapolated much beyond the data. There you should see a substantial increase in spread of the CI.
+
+Finally, we should always do the usual model diagnostics: residual plots, alternative model structure, etc. Here is a plot of residuals over fitted:
+
+```{r}
+plot(residuals(flme) ~ fitted.values(flme))
+```
+
+Hm. Is it only me who can see some upwards trend in the right half of the plot? Maybe the trend is not linear through time? I add a quadratic term for `year` and its interactions, plus a cubic term for `year` alone (wouldn't converge otherwise).
+
+```{r}
+flme2 <- lme(ba ~ Treat*(year+I(year^2)) + I(year^3), random=~1|Block/plot, correlation=corLin(form=~year|Block/plot), data=dats, control=list(maxIter=5000))
+anova(flme2)
+summary(flme2)
+```
+
+Ah! So there is evidence for a non-linear trend (in the `summary`: `TreatL:poly(year, 2)2` is significant).
+What do the residuals for this model look like?
+
+```{r}
+plot(residuals(flme2)~ fitted.values(flme2))
+```
+
+Better! Now we want to see the plot with the new model as well:
+
+```{r, fig.width=9, fig.height=7}
+plot(ba ~ year, las=1, type="n", xlim=c(0, 35))
+points(ba ~ year, data=dats[Treat=="C",], pch=16, cex=1.5)
+points(ba ~ I(year+0.5), data=dats[Treat=="L",], pch=17, cex=1.5, col="red")
+points(ba ~ I(year+1), data=dats[Treat=="LLTI",], pch=18, cex=1.5, col="gold")
+newC <- data.frame("Treat"="C", year=0:35)
+predsC <- predictSE(flme2, newdata=newC, level=0)
+matlines(0:35, cbind(predsC$fit,predsC$fit + 2*predsC$se.fit, predsC$fit - 2*predsC$se.fit), lwd=2, lty=c(1,2,2), col="black")
+newL <- data.frame("Treat"="L", year=0:35)
+predsL <- predictSE(flme2, newdata=newL, level=0)
+matlines(0:35, cbind(predsL$fit, predsL$fit + 2*predsL$se.fit, predsL$fit - 2*predsL$se.fit), lwd=2, lty=c(1,2,2), col="red")
+newLT <- data.frame("Treat"="LLTI", year=0:35)
+predsLT <- predictSE(flme2, newdata=newLT, level=0)
+matlines(0:35, cbind(predsLT$fit, predsLT$fit + 2*predsLT$se.fit, predsLT$fit - 2*predsLT$se.fit), lwd=2, lty=c(1,2,2), col="gold")
+legend("topleft", legend=c("control", "logging", "logging & thinning"), col=c("black", "red", "gold"), lty=1, lwd=2, bty="n", cex=1.25, pch=16:18)
+```
+
+## Fitting a non-linear trend over time with GAMM
+
+We can also fit a spline for each treatment, using `mgcv:gamm`. The arguments in the spline call are necessary to avoid error messages: `k=3` restricts the flexibility of the spline to the equivalent of a cubic polynomial, while `bs="ts"` employs shrinkage to make the splines as straight as possible (this is a very layman's explanation of what shrinkage is). I also changed the correlation structure to `corExp`, which gives (here) a slightly better fit. And, finally, I had to increase the number of permissable iterations to allow for convergence:
+
+```{r}
+library(mgcv)
+fgamm <- gamm(ba ~ s(year, by=Treat, k=3, bs="ts"), random=list("Block"=~1, "plot"=~1), correlation=corExp(form=~year|Block/plot), data=dats, control=list(maxIter=500))
+summary(fgamm$lme)
+```
+
+The interpretation is a bit more awkward, since we now have a GAM-part of the object, and an LME-part. We can use the LME-part of the model to investigate how much variance is attributed to different hierarchical levels. And, citing from the `gamm` help page (see Value: lme), "Note that the model formulae and grouping structures may appear to be rather bizarre, because of the manner in which the GAMM is split up and the calls to lme and gammPQL are constructed." This means that we may not actually be completely sure, whether the coding of the random effects is correct. (You may want to try, e.g. `"Block"=~1|plot` to see that this gives different estimates, especially for the range of spatial autocorrelation! I used this as a guidance that it would *not* be the correct way to communicate the random effect structure to `gamm`.)
+
+First of all, the AIC is (substantially) lower for the GAMM than for the LME. (I actually had `Treat` as an additional fixed effect in the GAMM, but that model was slightly worse and so I deleted it.) Secondly, both range and `Block/plot` random effects are estimated very similarly. And finally, `year:Treat` is also indicating a different slope for the two treatments than for the control.
+
+```{r}
+summary(fgamm$gam)
+```
+
+The GAM-part of the model tells us that the "spline" for controls over time is horizontal (has virtually no estimated degree of freedom, edf), while those for the two treatments L and LLTI have a unimodal shape (2 edf). The control-trend is not significant, but those for the two logging treatments are.
+
+Let's plot also this model. Notice that we only use the GAM-part of the model, which has an `se.fit` option. Here the fixed-only structure of the predictions is more explicit than in the previous LMEs.
+
+```{r, fig.width=9, fig.height=7}
+plot(ba ~ year, las=1, type="n", xlim=c(0, 35))
+points(ba ~ year, data=dats[Treat=="C",], pch=16, cex=1.5)
+points(ba ~ I(year+0.5), data=dats[Treat=="L",], pch=17, cex=1.5, col="red")
+points(ba ~ I(year+1), data=dats[Treat=="LLTI",], pch=18, cex=1.5, col="gold")
+newC <- data.frame("Treat"="C", year=0:35)
+predsC <- predict(fgamm$gam, newdata=newC, se.fit=T)
+matlines(0:35, cbind(predsC$fit,predsC$fit + 2*predsC$se.fit, predsC$fit - 2*predsC$se.fit), lwd=2, lty=c(1,2,2), col="black")
+newL <- data.frame("Treat"="L", year=0:35)
+predsL <- predict(fgamm$gam, newdata=newL, se.fit=T)
+matlines(0:35, cbind(predsL$fit, predsL$fit + 2*predsL$se.fit, predsL$fit - 2*predsL$se.fit), lwd=2, lty=c(1,2,2), col="red")
+newLT <- data.frame("Treat"="LLTI", year=0:35)
+predsLT <- predict(fgamm$gam, newdata=newLT, se.fit=T)
+matlines(0:35, cbind(predsLT$fit, predsLT$fit + 2*predsLT$se.fit, predsLT$fit - 2*predsLT$se.fit), lwd=2, lty=c(1,2,2), col="gold")
+legend("topleft", legend=c("control", "logging", "logging & thinning"), col=c("black", "red", "gold"), lty=1, lwd=2, bty="n", cex=1.25, pch=16:18)
+```
+
+```{r}
+detach(dats)
+```
+
+# Spatial autocorrelation
+
+A typical setting, in which non-independence arises, is the analysis of spatial data. Here the "first law of geography" holds, that points near each other are more similar than those further away. This is called spatial autocorrelation, and it is the same thing as we have seen in the time-series analysis above, just now in two dimensions.
+
+Note that it is very important to tell between spatial autocorrelation in raw data and in residuals! The former may simply be a consequence of the fact that our environment is spatially autocorrelated, the second is a statistical problem. If our data are only spatially autocorrelated because the environment is, then this is also called "spatial dependence". Say we are interested in the distribution of a species, say pine marten *Martes martes* in Europe. Then we would expect that forests are a good predictor, and forests are distributed in a clumped and hence spatially autocorrelated way. As a result, the raw data of pine marten distribution are also spatially autocorrelated, due to spatial dependence on forests. However, we could hope that accounting for forest cover, the model residuals are *not* spatially autocorrelated anymore. 
+
+We will see that they still are, possibly because pine martens can move and thus are more likely to be found even in unsuitable sites near to suitable ones. This may also cause spatial autocorrelation (in the residuals).
+
+<!---
+load("data.all.Rdata")
+names(data.all)
+martes <- data.all[, c(3,4,11,12,23,90)]
+save(martes, file="martes.Rdata")
+--->
+```{r, fig.height=7, fig.width=7}
+load("martes.Rdata")
+plot(NOFORIGIN ~ EOFORIGIN, data=martes, pch=15, col=ifelse(martes_martes==0, "grey80", "black"), cex=0.7, main="Pine marten distribution in Europe")
+```
+
+```{r}
+round(cor(martes), 3) # no problematic collinearity
+fMM <- glm(martes_martes ~ GDD*PRE_YEAR*WOOD, family=binomial, data=martes)
+anova(fMM, test="Chisq")
+summary(fMM)
+```
+
+## Correlogram
+We can now analyse the residuals for spatial autocorrelation:
+```{r}
+library(ncf)
+resids <- residuals(fMM)
+COR <- correlog(martes$EOFORIGIN, martes$NOFORIGIN, resids, increment=50000, resamp=1) # takes a while!
+plot(COR)
+abline(h=0)
+```
+
+What we see here is similar to the ACF-plot for time series: with spatial distance (on the *x*-axis) the similarity of data points decreases. This plot is called a *correlogram*. People more used to GIS will know its counterpart, the (semi-)variogram. This shows how the variance between points increases with distance, to level off at some "range". This range should be the same distance when the corelogram becomes approximately 0.
+
+## Variogram
+The variogram has the advantage of being computable in different directions, e.g. towards north and east. To do so, we first have to turn the data into a specific format:
+
+```{r, fig.width=8}
+library(sp)
+resids.spdf <- SpatialPointsDataFrame(coords=cbind(martes$EOFORIGIN, martes$NOFORIGIN), data=data.frame(resids))
+library(gstat)
+plot(variogram(resids~1, data=resids.spdf, alpha=c(0,90)))
+````
+
+We notice a slightly stronger spatial autocorrelation towards the east (90°).
+
+To nicely depict the spatial pattern in the residuals, we can use `sp`'s `bubble` plot:
+
+## Spatial residual map
+```{r, fig.width=6, fig.height=6}
+bubble(resids.spdf, maxsize=1.5)
+```
+
+In a dataset without residual spatial autocorrelation there would be no pattern, a nice mixture of colours. This is clearly **not** the case here, as we could already tell from correlogram and variogram.
+
+Now, In my humble opinion, the most common causes of residual spatial autocorrelation is *model misspecification*, i.e. omitting important variables from the model or specifying the wrong functional form (e.g. no quadratic effect). Let's see whether this makes a difference here, by putting also in the interactions between predictors.
+
+```{r, fig.width=8}
+fMM2 <- glm(martes_martes ~ poly(GDD, 2) + poly(PRE_YEAR, 2) + poly(WOOD, 2) + GDD*PRE_YEAR*WOOD, family=binomial, data=martes)
+resids2 <- residuals(fMM2)
+cor(resids, resids2) # highly correlated, so probabably little change
+resids2.spdf <- SpatialPointsDataFrame(coords=cbind(martes$EOFORIGIN, martes$NOFORIGIN), data=data.frame(resids2))
+plot(variogram(resids~1, data=resids2.spdf, alpha=c(0,90))) # no correlog, takes too long
+```
+```{r, fig.width=6, fig.height=6}
+bubble(resids2.spdf, maxsize=1.5)
+```
+
+This made little difference, we cannot reduce rSAC substantially, although the model is substantially better (AIC of `fMM` = `r AIC(fMM)`, AIC of `fMM2`= `r AIC(fMM2)`). (Now there may be many other predictors missing, which will always be the case.) Instead of further complicating the fixed effects of the model, we shall 
+
+```{r, fig.width=8}
+library(MASS)
+fake <- as.factor(rep("a", nrow(martes)))
+set.seed(2)
+martes2 <- cbind(martes, fake)[sample(nrow(martes), 300),]
+fglmmPQL <- glmmPQL(martes_martes ~ poly(GDD, 2) + poly(PRE_YEAR, 2) + poly(WOOD, 2), random=~1|fake, correlation=corGaus(form=~EOFORIGIN+NOFORIGIN), family=binomial, data=martes2, control=list(maxIter=100))
+summary(fglmmPQL)
+resids2.spdf <- SpatialPointsDataFrame(coords=cbind(martes2$EOFORIGIN, martes2$NOFORIGIN), data=data.frame("resids"=residuals(fglmmPQL)))
+plot(variogram(resids~1, data=resids2.spdf, alpha=c(0,90)))
+```
+```{r, fig.width=10, fig.height=5}
+library(gridExtra)
+b1 <- bubble(resids.spdf, maxsize=1.5, main="non-spatial GLM")
+b2 <- bubble(resids2.spdf, maxsize=1.5, main="spatial GLMM")
+grid.arrange(b1, b2, ncol=2)
+```
+
+Not very untypical, the residuals are only moderately improved compared to the non-spatial GLM. Often the improvement is greater when changing to a more flexible modelling approach (say, Boosted Regression Trees), again pointing towards model misspecification rather than biological processes as being the driver behind (some part of the) residual spatial autocorrelation.
+
+Let's check whether the more flexible GAM can do better (if we have about half an hour spare):
+
+```{r}
+fgamm <- gamm(martes_martes ~ s(GDD, k=3)+s(PRE_YEAR, k=3)+s(WOOD, k=3), random=list("fake"=~1), correlation=corGaus(form=~EOFORIGIN+NOFORIGIN), family=binomial, data=martes2, niterPQL=100, verbosePQL=T)
+summary(fgamm$lme)
+resids3.spdf <- SpatialPointsDataFrame(coords=cbind(martes2$EOFORIGIN, martes2$NOFORIGIN), data=data.frame("resids"=residuals(fgamm$gam)))
+```
+
+```{r, fig.width=6, fig.height=6}
+vario1 <- variogram(resids~1, data=resids2.spdf, alpha=c(0))
+vario2 <- variogram(resids~1, data=resids3.spdf, alpha=c(0))
+plot(vario1$dist, vario1$gamma, cex=2, pch=15, type="b", las=1, ylab="semi-variance", xlab="distance [m]")
+points(vario2$dist, vario2$gamma, pch=16, cex=2, type="b")
+legend("topleft", pch=15:16, cex=2, bty="n", legend=c("GLMM", "GAMM"), lty=1)
+```
+
+There is a noticeable drop in spatial autocorrelation! So does that also indicate that the spatial pattern has changed? Let's see:
+
+```{r, fig.width=15, fig.height=5}
+b3 <- bubble(resids3.spdf, maxsize=1.5, main="spatial GAMM")
+grid.arrange(b1, b2, b3, ncol=3)
+```
+
+The point should be clear: we can use a mixed model approach to compute a spatially parameterised variance-covariance matrix. This is typically **very** slow and not always entirely satisfactory. This is not the place to go into details about spatial models, it mainly served to illustrate the point of spatial dependence as an indication of mixed effect models.
+
