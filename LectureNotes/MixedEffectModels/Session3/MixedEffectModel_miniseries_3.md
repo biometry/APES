@@ -11,11 +11,18 @@ This session will look at a different type of non-independence than the previous
  * ACF/PACF
  * correlogram, variogram
  * spatial residual plot
+<<<<<<< HEAD
  * GLMM, GAMM
  
 # Time series
 
 Imagine a data set consisting of repeated measurements of, say, CO<sub>2</sub> in the atmosphere (plots should ALWAYS be square, except in the case of time series and maps):
+=======
+ 
+# Time series
+
+Imagine a data set consisting of repeated measurements of, say, CO$_2$ in the atmosphere (plots should ALWAYS be square, except in the case of time series and maps):
+>>>>>>> FETCH_HEAD
 
 
 
@@ -26,7 +33,11 @@ plot(co2)
 
 ![](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-2-1.png) 
 
+<<<<<<< HEAD
 We are interested in whether there is a significant trend over time, thus `time` is our fixed effect. Let's start with a simple linear model and see where we go. To do so, we first have to convert this time-series object into two vectors, one with the CO<sub>2</sub> concentrations and one with the date.
+=======
+We are interested in whether there is a significant trend over time, thus `time` is our fixed effect. Let's start with a simple linear model and see where we go. To do so, we first have to convert this time-series object into two vectors, one with the CO$_2$ concentrations and one with the date.
+>>>>>>> FETCH_HEAD
 
 ```r
 TIME <- as.vector(time(co2))
@@ -56,7 +67,11 @@ summary(fm1)
 ## F-statistic: 1.479e+04 on 1 and 466 DF,  p-value: < 2.2e-16
 ```
 
+<<<<<<< HEAD
 The `TIME` effect is clearly important and highly predictive (with an R<sup>2</sup> = 0.97) and we can do even better with a polynomial of `TIME`:
+=======
+The `TIME` effect is clearly important and highly predictive (with an $R^2 = 0.97$) and we can do even better with a polynomial of `TIME`:
+>>>>>>> FETCH_HEAD
 
 
 ```r
@@ -102,7 +117,11 @@ acf(residuals(fm4))
 
 ![](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-6-1.png) 
 
+<<<<<<< HEAD
 Thus, as we lag the data set by 1, 2, 3, ... months, the correlation decreases down to a random value (indicated by the stippled blue lines), only then to increase as negative correlation again to a maximum at lag 6. This means that CO<sub>2</sub>-concentrations in half a year (and in one year, two years, ...) can be extremely well predicted from the current value, *despite* the fact that our model already accounts for a trend in time!
+=======
+Thus, as we lag the data set by 1, 2, 3, ... months, the correlation decreases down to a random value (indicated by the stippled blue lines), only then to increase as negative correlation again to a maximum at lag 6. This means that CO$_2$-concentrations in half a year (and in one year, two years, ...) can be extremely well predicted from the current value, *despite* the fact that our model already accounts for a trend in time!
+>>>>>>> FETCH_HEAD
 
   > The plot shows that we have **temporal autocorrelation** in our model residuals, indicating that they are indeed **not** independent!
 
@@ -132,12 +151,16 @@ In this case, it is a bit messy, since the autocorrelation doesn't simply fade a
 
 The way to do so is called "Generalised Least Squares", short GLS. In addition to the standard linear model, it also models the way that data point expectations covary with each other. In this case, we expect a data point of lag 1 to be highly positively correlated with the data, one of lag 2 highly negatively and so forth. If we imagine that each data point is a random variate drawn from some distribution, then we can think of a variance-covariance matrix of the data: each data point has its own column and row. On the diagonal, we have the variances, and on the off-diagonal, the covariance among data points. In a linear model, the off-diagonal entries are 0, i.e. data points are drawn independently of one another (and the diagonal is constant, i.e. all data points have the same variance). In a GLS, we can make the off-diagonal entries a function of the temporal distance between data! Isn't that cool?
 
+<<<<<<< HEAD
 To repeat this in a more mathematical way. A LM is typically written as $$y = X\beta + e \text{ , where }e\text{ is from a normal distribution: }e \sim N(0, \sigma).$$
 This latter equation means that all error has the same variance and it is independent for each data point (also abbreviated as iid). Under such "normal" circumstances, the estimated model parameters are \(\widehat \beta_{OLS} = (X' X)^{-1} X' y\). 
 This changes, as in a GLS, where our errors are not iid any more: 
 $$e \sim N(0, \Omega) \text{ , with } \Omega = \text{ a full } n \times n \text{ matrix,}$$
 with elements on the diagonal (resembling the original \(\sigma\)) and off-diagonal. Now, since every data point is represented in a row and column, we can use the distances (in time) between data points in a same-size matrix, \(D\), as a basis of how the off-diagonal cells can be parametrised: $$ \Omega \sim e^{-\varphi D}. $$ So the larger the distance between to data points, the lower is the entry on the variance-covariance matrix \(\Omega\). By fine-tuning the range of temporal autocorrelation \(\varphi\), we can accommodate different lags of temporal autocorrelation. (All this applies in the same way to spatial autocorrelation, see below.)
 
+=======
+MAYBE A FIGURE WOULDN'T HURT HERE!
+>>>>>>> FETCH_HEAD
 
 In R, we use the `gls`-function from package `nlme`. (Actually, this function is also internally behind the `lme` function.)
 
@@ -152,12 +175,18 @@ summary(fgls)
 ## Generalized least squares fit by REML
 ##   Model: CO2 ~ poly(TIME, 3) 
 ##   Data: NULL 
+<<<<<<< HEAD
 ##    AIC  BIC logLik
 ##   1465 1490 -726.7
+=======
+##       AIC      BIC    logLik
+##   1465.39 1490.229 -726.6948
+>>>>>>> FETCH_HEAD
 ## 
 ## Correlation Structure: ARMA(1,0)
 ##  Formula: ~TIME 
 ##  Parameter estimate(s):
+<<<<<<< HEAD
 ##   Phi1 
 ## 0.9511 
 ## 
@@ -167,6 +196,17 @@ summary(fgls)
 ## poly(TIME, 3)1 383.5     61.86    6.20  0.0000
 ## poly(TIME, 3)2 -36.7     43.37   -0.85  0.3980
 ## poly(TIME, 3)3  10.5     35.81    0.29  0.7695
+=======
+##      Phi1 
+## 0.9511127 
+## 
+## Coefficients:
+##                   Value Std.Error   t-value p-value
+## (Intercept)    351.3331   3.51152 100.05155  0.0000
+## poly(TIME, 3)1 383.5095  61.85704   6.19993  0.0000
+## poly(TIME, 3)2 -36.6866  43.36966  -0.84590  0.3980
+## poly(TIME, 3)3  10.5001  35.81249   0.29320  0.7695
+>>>>>>> FETCH_HEAD
 ## 
 ##  Correlation: 
 ##                (Intr) p(TIME,3)1 p(TIME,3)2
@@ -175,10 +215,17 @@ summary(fgls)
 ## poly(TIME, 3)3  0.155 -0.520      0.259    
 ## 
 ## Standardized residuals:
+<<<<<<< HEAD
 ##     Min      Q1     Med      Q3     Max 
 ## -18.466 -14.849 -12.871 -10.647   1.373 
 ## 
 ## Residual standard error: 1.185 
+=======
+##        Min         Q1        Med         Q3        Max 
+## -18.465603 -14.848658 -12.871317 -10.647402   1.372831 
+## 
+## Residual standard error: 1.185015 
+>>>>>>> FETCH_HEAD
 ## Degrees of freedom: 468 total; 464 residual
 ```
 
@@ -186,7 +233,11 @@ summary(fgls)
 acf(residuals(fgls))
 ```
 
+<<<<<<< HEAD
 ![plot of chunk unnamed-chunk-8](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-8.png) 
+=======
+![](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-8-1.png) 
+>>>>>>> FETCH_HEAD
 
 We see that a correlation of 0.95 was fitted for a lag of 1 ("Parameter estimate Phi1"), so only one lag was accommodated (thus: `corAR1`). With a look at the ACF of the residuals we can see that it is not nearly good enough.
 
@@ -203,12 +254,18 @@ summary(flag3)
 ## Generalized least squares fit by REML
 ##   Model: CO2 ~ poly(TIME, 3) 
 ##   Data: NULL 
+<<<<<<< HEAD
 ##    AIC  BIC logLik
 ##   1469 1502 -726.7
+=======
+##       AIC      BIC    logLik
+##   1469.31 1502.429 -726.6549
+>>>>>>> FETCH_HEAD
 ## 
 ## Correlation Structure: ARMA(3,0)
 ##  Formula: ~TIME 
 ##  Parameter estimate(s):
+<<<<<<< HEAD
 ##    Phi1    Phi2    Phi3 
 ##  1.8094 -1.3810  0.5404 
 ## 
@@ -218,6 +275,17 @@ summary(flag3)
 ## poly(TIME, 3)1 393.2     59.36    6.62  0.0000
 ## poly(TIME, 3)2 -32.9     41.35   -0.80  0.4264
 ## poly(TIME, 3)3   9.1     34.02    0.27  0.7903
+=======
+##       Phi1       Phi2       Phi3 
+##  1.8094257 -1.3809934  0.5403717 
+## 
+## Coefficients:
+##                   Value Std.Error  t-value p-value
+## (Intercept)    351.5273   3.54070 99.28198  0.0000
+## poly(TIME, 3)1 393.1591  59.36127  6.62316  0.0000
+## poly(TIME, 3)2 -32.9159  41.34740 -0.79608  0.4264
+## poly(TIME, 3)3   9.0507  34.02375  0.26601  0.7903
+>>>>>>> FETCH_HEAD
 ## 
 ##  Correlation: 
 ##                (Intr) p(TIME,3)1 p(TIME,3)2
@@ -226,6 +294,7 @@ summary(flag3)
 ## poly(TIME, 3)3  0.141 -0.543      0.228    
 ## 
 ## Standardized residuals:
+<<<<<<< HEAD
 ##     Min      Q1     Med      Q3     Max 
 ## -18.472 -15.121 -13.098 -10.914   1.406 
 ## 
@@ -238,12 +307,24 @@ acf(residuals(flag3))
 ```
 
 ![plot of chunk unnamed-chunk-9](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-9.png) 
+=======
+##        Min         Q1        Med         Q3        Max 
+## -18.472352 -15.120912 -13.098248 -10.914279   1.405969 
+## 
+## Residual standard error: 1.184642 
+## Degrees of freedom: 468 total; 464 residual
+```
+>>>>>>> FETCH_HEAD
 <!---
 pacf(fitted.values(flag3))
 pacf does not work as a way to look at the fitted autocorrelation ... so how?
 --->
 
+<<<<<<< HEAD
 Can we be smarter about how to embrace multi-lag dependence than trial-and-error? Luckily, someone else has thought of an automatic way to fit autoregressive models.
+=======
+So we need to be smarter about how to embrace multi-lag dependence. Luckily, someone else has thought of an automatic way to fit autoregressive models.
+>>>>>>> FETCH_HEAD
 
 ```r
 library(forecast)
@@ -296,7 +377,11 @@ lines(TIME, fitted.values(fautogls), col="red", lwd=2, lty=2)
 
 ![](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-11-1.png) 
 
+<<<<<<< HEAD
 A marvellous fit! The key thing to notice here is that the *seasonal* pattern of CO<sub>2</sub> is actually fitted using the covariance matrix, **not** using a seasonal predictor. We shouldn't do that, if we can avoid it, because we may want to interpret this seasonality as an actual ecological process, rather than a statistical nuisance.
+=======
+A marvellous fit! The key thing to notice here is that the *seasonal* pattern of CO$_2$ is actually fitted using the covariance matrix, **not** using a seasonal predictor. We shouldn't do that, if we can avoid it, because we may want to interpret this seasonality as an actual ecological process, rather than a statistical nuisance.
+>>>>>>> FETCH_HEAD
 
 So, quickly, here is a way to put seasonality into a GLS:
 
@@ -447,7 +532,11 @@ lines(TIME, fitted.values(fautoglsseason), col="green", lwd=2, lty=3)
 A very common design is to sample units (= subjects, plots) repeatedly, a.k.a. *repeated measurements*. Here we have to tell the model the structure (i.e. samples within plots over time) as well as attempt to represent the temporal dependency itself. Currently, only `lme` and `mgcv::gamm` can handle both a random effect and a correlation structure as in the previous time example.
 
 ## Fitting a repeated measurement model with lme
+<<<<<<< HEAD
 Let's take a typical example (actually not so typical, but rather exceptional in the long time series these data constitute). In this case, forest plots were treated in three different ways (control, logging, logging and thinning) and monitored repeatedly over decades. Response is basal area (m<sup>2</sup>/ha). Additionally, the replicated treatments are arranged in five blocks. First, we make a nice "German-colour scheme" plot of the data.
+=======
+Let's take a typical example (actually not so typical, but rather exceptional in the long time series these data constitute). In this case, forest plots were treated in three different ways (control, logging, logging and thinning) and monitored repeatedly over decades. Response is basal area (m$^2$/ha). Additionally, the replicated treatments are arranged in five blocks. First, we make a nice "German-colourscheme" plot of the data.
+>>>>>>> FETCH_HEAD
  
 
 ```r
@@ -795,7 +884,11 @@ legend("topleft", legend=c("control", "logging", "logging & thinning"), col=c("b
 
 ## Fitting a non-linear trend over time with GAMM
 
+<<<<<<< HEAD
 We can also fit a spline for each treatment, using `mgcv:gamm`. The arguments in the spline call are necessary to avoid error messages: `k=3` restricts the flexibility of the spline to the equivalent of a cubic polynomial, while `bs="ts"` employs shrinkage to make the splines as straight as possible (this is a very layman's explanation of what shrinkage is). I also changed the correlation structure to `corExp`, which gives (here) a slightly better fit. And, finally, I had to increase the number of permissible iterations to allow for convergence:
+=======
+We can also fit a spline for each treatment, using `mgcv:gamm`. The arguments in the spline call are necessary to avoid error messages: `k=3` restricts the flexibility of the spline to the equivalent of a cubic polynomial, while `bs="ts"` employs shrinkage to make the splines as straight as possible (this is a very layman's explanation of what shrinkage is). I also changed the correlation structure to `corExp`, which gives (here) a slightly better fit. And, finally, I had to increase the number of permissable iterations to allow for convergence:
+>>>>>>> FETCH_HEAD
 
 
 ```r
@@ -861,7 +954,11 @@ summary(fgamm$lme)
 ##                                       23
 ```
 
+<<<<<<< HEAD
 The interpretation is a bit more awkward, since we now have a GAM-part of the object, and an LME-part. We can use the LME-part of the model to investigate how much variance is attributed to different hierarchical levels. And, citing from the `gamm` help page (see there under "Value: lme""), "Note that the model formulae and grouping structures may appear to be rather bizarre, because of the manner in which the GAMM is split up and the calls to lme and gammPQL are constructed." This means that we may not actually be completely sure, whether the coding of the random effects is correct. (You may want to try, e.g. `"Block"=~1|plot` to see that this gives different estimates, especially for the range of spatial autocorrelation! I used this as a guidance that it would *not* be the correct way to communicate the random effect structure to `gamm`.)
+=======
+The interpretation is a bit more awkward, since we now have a GAM-part of the object, and an LME-part. We can use the LME-part of the model to investigate how much variance is attributed to different hierarchical levels. And, citing from the `gamm` help page (see Value: lme), "Note that the model formulae and grouping structures may appear to be rather bizarre, because of the manner in which the GAMM is split up and the calls to lme and gammPQL are constructed." This means that we may not actually be completely sure, whether the coding of the random effects is correct. (You may want to try, e.g. `"Block"=~1|plot` to see that this gives different estimates, especially for the range of spatial autocorrelation! I used this as a guidance that it would *not* be the correct way to communicate the random effect structure to `gamm`.)
+>>>>>>> FETCH_HEAD
 
 First of all, the AIC is (substantially) lower for the GAMM than for the LME. (I actually had `Treat` as an additional fixed effect in the GAMM, but that model was slightly worse and so I deleted it.) Secondly, both range and `Block/plot` random effects are estimated very similarly. And finally, `year:Treat` is also indicating a different slope for the two treatments than for the control.
 
@@ -929,10 +1026,23 @@ detach(dats)
 
 A typical setting, in which non-independence arises, is the analysis of spatial data. Here the "first law of geography" holds, that points near each other are more similar than those further away. This is called spatial autocorrelation, and it is the same thing as we have seen in the time-series analysis above, just now in two dimensions.
 
+<<<<<<< HEAD
 Note that it is very important to tell between spatial autocorrelation in raw data and in residuals! The former may simply be a consequence of the fact that our environment is spatially autocorrelated, the second is a statistical problem. If our data are only spatially autocorrelated because the environment is, then this is also called "spatial dependence". Say we are interested in the distribution of a species, say pine marten *Martes martes* in Europe. Then we would expect that forests are a good predictor, and forests are distributed in a clumped and hence spatially autocorrelated way. As a result, the raw data of pine marten distribution are also spatially autocorrelated, due to spatial dependence on forests. However, we could hope that accounting for forest cover, the model residuals are *not* spatially autocorrelated any more. 
 
 We will see that they still are, possibly because pine martens can move and thus are more likely to be found even in unsuitable sites near to suitable ones. This may also cause spatial autocorrelation (in the residuals).
 
+=======
+Note that it is very important to tell between spatial autocorrelation in raw data and in residuals! The former may simply be a consequence of the fact that our environment is spatially autocorrelated, the second is a statistical problem. If our data are only spatially autocorrelated because the environment is, then this is also called "spatial dependence". Say we are interested in the distribution of a species, say pine marten *Martes martes* in Europe. Then we would expect that forests are a good predictor, and forests are distributed in a clumped and hence spatially autocorrelated way. As a result, the raw data of pine marten distribution are also spatially autocorrelated, due to spatial dependence on forests. However, we could hope that accounting for forest cover, the model residuals are *not* spatially autocorrelated anymore. 
+
+We will see that they still are, possibly because pine martens can move and thus are more likely to be found even in unsuitable sites near to suitable ones. This may also cause spatial autocorrelation (in the residuals).
+
+<!---
+load("data.all.Rdata")
+names(data.all)
+martes <- data.all[, c(3,4,11,12,23,90)]
+save(martes, file="martes.Rdata")
+--->
+>>>>>>> FETCH_HEAD
 
 ```r
 load("martes.Rdata")
@@ -1040,7 +1150,11 @@ abline(h=0)
 
 ![](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-30-1.png) 
 
+<<<<<<< HEAD
 What we see here is similar to the ACF-plot for time series: with spatial distance (on the *x*-axis) the similarity of data points decreases. This plot is called a *correlogram*. People more used to GIS will know its counterpart, the (semi-)variogram. This shows how the variance between points increases with distance, to level off at some "range". This range should be the same distance when the correlogram becomes approximately 0.
+=======
+What we see here is similar to the ACF-plot for time series: with spatial distance (on the *x*-axis) the similarity of data points decreases. This plot is called a *correlogram*. People more used to GIS will know its counterpart, the (semi-)variogram. This shows how the variance between points increases with distance, to level off at some "range". This range should be the same distance when the corelogram becomes approximately 0.
+>>>>>>> FETCH_HEAD
 
 ## Variogram
 The variogram has the advantage of being computable in different directions, e.g. towards north and east. To do so, we first have to turn the data into a specific format:
@@ -1062,10 +1176,17 @@ To nicely depict the spatial pattern in the residuals, we can use `sp`'s `bubble
 ## Spatial residual map
 
 ```r
+<<<<<<< HEAD
 (b1 <- bubble(resids.spdf, maxsize=1.5, main="non-spatial GLM"))
 ```
 
 ![plot of chunk unnamed-chunk-32](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-32.png) 
+=======
+bubble(resids.spdf, maxsize=1.5)
+```
+
+![](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-32-1.png) 
+>>>>>>> FETCH_HEAD
 
 In a dataset without residual spatial autocorrelation there would be no pattern, a nice mixture of colours. This is clearly **not** the case here, as we could already tell from correlogram and variogram.
 
@@ -1093,18 +1214,29 @@ plot(variogram(resids~1, data=resids2.spdf, alpha=c(0,90))) # no correlog, takes
 bubble(resids2.spdf, maxsize=1.5)
 ```
 
+<<<<<<< HEAD
 ![plot of chunk unnamed-chunk-34](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-34.png) 
 
 This made little difference, we cannot reduce rSAC substantially, although the model is substantially better (AIC of `fMM` = 2219.2459, AIC of `fMM2`= 2016.6409). (Now there may be many other predictors missing, which will always be the case.) Instead of further complicating the fixed effects of the model, we shall look at how to incorporate distance-decaying similarity (i.e. residual spatial autocorrelation):
+=======
+![](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-34-1.png) 
+
+This made little difference, we cannot reduce rSAC substantially, although the model is substantially better (AIC of `fMM` = 2219.2458543, AIC of `fMM2`= 2016.6409393). (Now there may be many other predictors missing, which will always be the case.) Instead of further complicating the fixed effects of the model, we shall 
+>>>>>>> FETCH_HEAD
 
 
 ```r
 library(MASS)
 fake <- as.factor(rep("a", nrow(martes)))
 set.seed(2)
+<<<<<<< HEAD
 some.rows <- sample(nrow(martes), 300)
 martes2 <- cbind(martes, fake)[some.rows,]
 fglmmPQL <- glmmPQL(martes_martes ~ GDD*PRE_YEAR*WOOD, random=~1|fake, correlation=corGaus(form=~EOFORIGIN+NOFORIGIN), family=binomial, data=martes2, control=list(maxIter=100))
+=======
+martes2 <- cbind(martes, fake)[sample(nrow(martes), 300),]
+fglmmPQL <- glmmPQL(martes_martes ~ GDD*PRE_YEAR*WOOD, random=~1|fake, correlation=corExp(form=~EOFORIGIN+NOFORIGIN), family=binomial, data=martes2, control=list(maxIter=100))
+>>>>>>> FETCH_HEAD
 ```
 
 ```
@@ -1114,6 +1246,13 @@ fglmmPQL <- glmmPQL(martes_martes ~ GDD*PRE_YEAR*WOOD, random=~1|fake, correlati
 ## iteration 4
 ## iteration 5
 ## iteration 6
+<<<<<<< HEAD
+=======
+## iteration 7
+## iteration 8
+## iteration 9
+## iteration 10
+>>>>>>> FETCH_HEAD
 ```
 
 ```r
@@ -1128,6 +1267,7 @@ summary(fglmmPQL)
 ## 
 ## Random effects:
 ##  Formula: ~1 | fake
+<<<<<<< HEAD
 ##         (Intercept) Residual
 ## StdDev:    9.51e-05   0.8964
 ## 
@@ -1136,10 +1276,21 @@ summary(fglmmPQL)
 ##  Parameter estimate(s):
 ##  range 
 ## 111702 
+=======
+##          (Intercept)  Residual
+## StdDev: 0.0001514485 0.8466033
+## 
+## Correlation Structure: Exponential spatial correlation
+##  Formula: ~EOFORIGIN + NOFORIGIN | fake 
+##  Parameter estimate(s):
+##    range 
+## 389245.1 
+>>>>>>> FETCH_HEAD
 ## Variance function:
 ##  Structure: fixed weights
 ##  Formula: ~invwt 
 ## Fixed effects: martes_martes ~ GDD * PRE_YEAR * WOOD 
+<<<<<<< HEAD
 ##                    Value Std.Error  DF t-value p-value
 ## (Intercept)        9.564    2.4207 292   3.951  0.0001
 ## GDD               -0.003    0.0008 292  -3.483  0.0006
@@ -1158,6 +1309,26 @@ summary(fglmmPQL)
 ## GDD:WOOD          -0.671  0.685  0.768   -0.924 -0.751             
 ## PRE_YEAR:WOOD     -0.542  0.499  0.738   -0.920 -0.646        0.901
 ## GDD:PRE_YEAR:WOOD  0.465 -0.505 -0.677    0.788  0.694       -0.919
+=======
+##                       Value Std.Error  DF    t-value p-value
+## (Intercept)        3.624138 1.4937463 292  2.4262072  0.0159
+## GDD               -0.000741 0.0004819 292 -1.5364983  0.1255
+## PRE_YEAR          -0.001377 0.0013029 292 -1.0565219  0.2916
+## WOOD               0.398192 0.2643055 292  1.5065585  0.1330
+## GDD:PRE_YEAR       0.000000 0.0000005 292  0.4384001  0.6614
+## GDD:WOOD          -0.000078 0.0000647 292 -1.2034781  0.2298
+## PRE_YEAR:WOOD      0.000060 0.0003599 292  0.1677211  0.8669
+## GDD:PRE_YEAR:WOOD  0.000000 0.0000001 292 -0.3584553  0.7203
+##  Correlation: 
+##                   (Intr) GDD    PRE_YEAR WOOD   GDD:PRE_YEAR GDD:WO
+## GDD               -0.861                                           
+## PRE_YEAR          -0.850  0.861                                    
+## WOOD               0.605 -0.515 -0.636                             
+## GDD:PRE_YEAR       0.682 -0.894 -0.870    0.420                    
+## GDD:WOOD          -0.683  0.746  0.766   -0.874 -0.702             
+## PRE_YEAR:WOOD     -0.414  0.411  0.603   -0.854 -0.440        0.808
+## GDD:PRE_YEAR:WOOD  0.372 -0.495 -0.616    0.559  0.626       -0.769
+>>>>>>> FETCH_HEAD
 ##                   PRE_YEAR:
 ## GDD                        
 ## PRE_YEAR                   
@@ -1165,11 +1336,19 @@ summary(fglmmPQL)
 ## GDD:PRE_YEAR               
 ## GDD:WOOD                   
 ## PRE_YEAR:WOOD              
+<<<<<<< HEAD
 ## GDD:PRE_YEAR:WOOD -0.917   
 ## 
 ## Standardized Within-Group Residuals:
 ##     Min      Q1     Med      Q3     Max 
 ## -7.0837 -0.4586  0.2533  0.4784  1.9581 
+=======
+## GDD:PRE_YEAR:WOOD -0.827   
+## 
+## Standardized Within-Group Residuals:
+##        Min         Q1        Med         Q3        Max 
+## -2.6425316 -1.1804345  0.6051589  0.7600199  1.5495371 
+>>>>>>> FETCH_HEAD
 ## 
 ## Number of Observations: 300
 ## Number of Groups: 1
@@ -1180,11 +1359,17 @@ resids2.spdf <- SpatialPointsDataFrame(coords=cbind(martes2$EOFORIGIN, martes2$N
 plot(variogram(resids~1, data=resids2.spdf, alpha=c(0,90)))
 ```
 
+<<<<<<< HEAD
 ![plot of chunk unnamed-chunk-35](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-35.png) 
 
 ```r
 b1 <- bubble(resids.spdf[some.rows,], maxsize=1.5, main="non-spatial GLM")
 b2 <- bubble(resids2.spdf, maxsize=1.5, main="spatial GLMM")
+=======
+![](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-35-1.png) 
+
+```r
+>>>>>>> FETCH_HEAD
 library(gridExtra)
 ```
 
@@ -1193,6 +1378,7 @@ library(gridExtra)
 ```
 
 ```r
+<<<<<<< HEAD
 grid.arrange(b1, b2, ncol=2)
 ```
 
@@ -1205,11 +1391,31 @@ Let's check whether the more flexible GAM can do better (if we have about half a
 
 ```r
 fgamm <- gamm(martes_martes ~ s(GDD, k=3)+s(PRE_YEAR, k=3)+s(WOOD, k=3), random=list("fake"=~1), correlation=corGaus(form=~EOFORIGIN+NOFORIGIN), family=binomial, data=martes2, niterPQL=70, verbosePQL=T)
+=======
+b1 <- bubble(resids.spdf, maxsize=1.5, main="non-spatial GLM")
+b2 <- bubble(resids2.spdf, maxsize=1.5, main="spatial GLMM")
+grid.arrange(b1, b2, ncol=2)
+```
+
+![](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-36-1.png) 
+
+Not very untypical, the residuals are only moderately improved compared to the non-spatial GLM. Often the improvement is greater when changing to a more flexible modelling approach (say, Boosted Regression Trees), again pointing towards model misspecification rather than biological processes as being the driver behind (some part of the) residual spatial autocorrelation.
+
+Let's check whether the more flexible GAM can do better (if we have about an hour spare):
+
+
+```r
+fgamm <- gamm(martes_martes ~ s(GDD, k=3)+s(PRE_YEAR, k=3)+s(WOOD, k=3), random=list("fake"=~1), correlation=corGaus(form=~EOFORIGIN+NOFORIGIN), family=binomial, data=martes2, niterPQL=100, verbosePQL=T)
+>>>>>>> FETCH_HEAD
 ```
 
 ```
 ## 
+<<<<<<< HEAD
 ##  Maximum number of PQL iterations:  70
+=======
+##  Maximum number of PQL iterations:  100
+>>>>>>> FETCH_HEAD
 ```
 
 ```
@@ -1230,6 +1436,7 @@ summary(fgamm$lme)
 ```
 ## Linear mixed-effects model fit by maximum likelihood
 ##  Data: data 
+<<<<<<< HEAD
 ##    AIC  BIC logLik
 ##   1217 1254 -598.6
 ## 
@@ -1249,21 +1456,55 @@ summary(fgamm$lme)
 ##  Formula: ~1 | fake %in% g.1 %in% g.0 %in% g
 ##         (Intercept) Residual
 ## StdDev:   7.621e-06   0.8589
+=======
+##        AIC      BIC   logLik
+##   1217.248 1254.286 -598.624
+## 
+## Random effects:
+##  Formula: ~Xr - 1 | g
+##               Xr
+## StdDev: 16.81156
+## 
+##  Formula: ~Xr.0 - 1 | g.0 %in% g
+##               Xr.0
+## StdDev: 0.01886933
+## 
+##  Formula: ~Xr.1 - 1 | g.1 %in% g.0 %in% g
+##             Xr.1
+## StdDev: 4.895147
+## 
+##  Formula: ~1 | fake %in% g.1 %in% g.0 %in% g
+##          (Intercept)  Residual
+## StdDev: 6.386462e-06 0.8588705
+>>>>>>> FETCH_HEAD
 ## 
 ## Correlation Structure: Gaussian spatial correlation
 ##  Formula: ~EOFORIGIN + NOFORIGIN | g/g.0/g.1/fake 
 ##  Parameter estimate(s):
+<<<<<<< HEAD
 ##  range 
 ## 120275 
+=======
+##    range 
+## 120274.7 
+>>>>>>> FETCH_HEAD
 ## Variance function:
 ##  Structure: fixed weights
 ##  Formula: ~invwt 
 ## Fixed effects: list(fixed) 
+<<<<<<< HEAD
 ##                   Value Std.Error  DF t-value p-value
 ## X(Intercept)     1.0823    0.1942 296   5.573  0.0000
 ## Xs(GDD)Fx1       1.1212    0.1926 296   5.821  0.0000
 ## Xs(PRE_YEAR)Fx1  0.1046    0.1626 296   0.643  0.5208
 ## Xs(WOOD)Fx1     -0.2770    0.1379 296  -2.008  0.0456
+=======
+##                      Value Std.Error  DF   t-value p-value
+## X(Intercept)     1.0822809 0.1942020 296  5.572966  0.0000
+## Xs(GDD)Fx1       1.1212137 0.1926042 296  5.821336  0.0000
+## Xs(PRE_YEAR)Fx1  0.1045540 0.1626421 296  0.642848  0.5208
+## Xs(WOOD)Fx1     -0.2769515 0.1379380 296 -2.007797  0.0456
+>>>>>>> FETCH_HEAD
 ##  Correlation: 
 ##                 X(Int) X(GDD) X(PRE_
 ## Xs(GDD)Fx1       0.252              
@@ -1271,8 +1512,13 @@ summary(fgamm$lme)
 ## Xs(WOOD)Fx1     -0.053  0.163 -0.244
 ## 
 ## Standardized Within-Group Residuals:
+<<<<<<< HEAD
 ##     Min      Q1     Med      Q3     Max 
 ## -3.6984 -0.6232  0.4321  0.5779  3.6156 
+=======
+##        Min         Q1        Med         Q3        Max 
+## -3.6984306 -0.6231922  0.4321477  0.5778921  3.6156208 
+>>>>>>> FETCH_HEAD
 ## 
 ## Number of Observations: 300
 ## Number of Groups: 
@@ -1288,6 +1534,7 @@ resids3.spdf <- SpatialPointsDataFrame(coords=cbind(martes2$EOFORIGIN, martes2$N
 
 
 ```r
+<<<<<<< HEAD
 vario1 <- variogram(resids ~ 1, data=resids2.spdf, alpha=0)
 vario2 <- variogram(resids ~ 1, data=resids3.spdf, alpha=0)
 plot(vario1$dist, vario1$gamma, cex=2, pch=15, type="b", ylab="semi-variance", xlab="distance [m]", ylim=c(0, 20))
@@ -1297,6 +1544,18 @@ legend("topleft", pch=15:16, cex=1.5, bty="n", legend=c("GLMM", "GAMM"), lty=1)
 
 ![plot of chunk unnamed-chunk-38](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-38.png) 
 
+=======
+vario1 <- variogram(resids~1, data=resids2.spdf, alpha=c(0))
+vario2 <- variogram(resids~1, data=resids3.spdf, alpha=c(0))
+plot(vario1$dist, vario1$gamma, cex=2, pch=15, type="b", las=1, ylab="semi-variance", xlab="distance [m]")
+points(vario2$dist, vario2$gamma, pch=16, cex=2, type="b")
+legend("topleft", pch=15:16, cex=2, bty="n", legend=c("GLMM", "GAMM"), lty=1)
+```
+
+![](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-38-1.png) 
+
+There is a noticeable drop in spatial autocorrelation! So does that also indicate that the spatial pattern has changed? Let's see:
+>>>>>>> FETCH_HEAD
 
 
 ```r
@@ -1304,6 +1563,7 @@ b3 <- bubble(resids3.spdf, maxsize=1.5, main="spatial GAMM")
 grid.arrange(b1, b2, b3, ncol=3)
 ```
 
+<<<<<<< HEAD
 ![plot of chunk unnamed-chunk-39](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-39.png) 
 
 The point should be clear: we can use a mixed model approach to compute a spatially parametrised variance-covariance matrix. This is typically **very** slow and not always entirely satisfactory. This is not the place to go into details about spatial models, it mainly served to illustrate the point of spatial dependence as an indication of mixed effect models.
@@ -1318,3 +1578,8 @@ To read up on other ways to incorporate spatial autocorrelation check out `RINLA
 * (Legendre P, Dray S, Peres-Neto PR (2006) Spatial modeling: a comprehensive framework for principal coordinate analysis of neighbor matrices (PCNM). Ecol Modell 196:483–493.)
 * (Lichstein JW, Simons TR, Shriner SA, Franzreb KE (2002) Spatial autocorrelation and autoregressive models in ecology. Ecol Monogr 72:445–463.)
 * Saas Y, Gosselin F (2014) Comparison of regression methods for spatially-autocorrelated count data on regularly- and irregularly-spaced locations. Ecography (Cop) 37:476–489. doi: 10.1111/j.1600-0587.2013.00279.x
+=======
+![](MixedEffectModel_miniseries_3_files/figure-html/unnamed-chunk-39-1.png) 
+
+The point should be clear: we can use a mixed model approach to compute a spatially parameterised variance-covariance matrix. This is typically **very** slow and not always entirely satisfactory. This is not the place to go into details about spatial models, it mainly served to illustrate the point of spatial dependence as an indication of mixed effect models.
+>>>>>>> FETCH_HEAD

@@ -22,11 +22,18 @@ This session will look at a different type of non-independence than the previous
  * ACF/PACF
  * correlogram, variogram
  * spatial residual plot
+<<<<<<< HEAD
  * GLMM, GAMM
  
 # Time series
 
 Imagine a data set consisting of repeated measurements of, say, CO<sub>2</sub> in the atmosphere (plots should ALWAYS be square, except in the case of time series and maps):
+=======
+ 
+# Time series
+
+Imagine a data set consisting of repeated measurements of, say, CO$_2$ in the atmosphere (plots should ALWAYS be square, except in the case of time series and maps):
+>>>>>>> FETCH_HEAD
 ```{r, echo=FALSE}
 library(knitr)
 opts_knit$set(global.par=TRUE) # keep par() from one chunck to the next!
@@ -38,7 +45,11 @@ par(las=1) # globally set las to 1!
 plot(co2)
 ```
 
+<<<<<<< HEAD
 We are interested in whether there is a significant trend over time, thus `time` is our fixed effect. Let's start with a simple linear model and see where we go. To do so, we first have to convert this time-series object into two vectors, one with the CO<sub>2</sub> concentrations and one with the date.
+=======
+We are interested in whether there is a significant trend over time, thus `time` is our fixed effect. Let's start with a simple linear model and see where we go. To do so, we first have to convert this time-series object into two vectors, one with the CO$_2$ concentrations and one with the date.
+>>>>>>> FETCH_HEAD
 ```{r}
 TIME <- as.vector(time(co2))
 CO2 <- as.vector(co2)
@@ -46,7 +57,11 @@ fm1 <- lm(CO2 ~ TIME)
 summary(fm1)
 ```
 
+<<<<<<< HEAD
 The `TIME` effect is clearly important and highly predictive (with an R<sup>2</sup> = 0.97) and we can do even better with a polynomial of `TIME`:
+=======
+The `TIME` effect is clearly important and highly predictive (with an $R^2 = 0.97$) and we can do even better with a polynomial of `TIME`:
+>>>>>>> FETCH_HEAD
 
 ```{r}
 fm2 <- lm(CO2 ~ poly(TIME, 2))
@@ -69,7 +84,11 @@ From the last session, we have the creepy feeling that this regression is some n
 acf(residuals(fm4))
 ```
 
+<<<<<<< HEAD
 Thus, as we lag the data set by 1, 2, 3, ... months, the correlation decreases down to a random value (indicated by the stippled blue lines), only then to increase as negative correlation again to a maximum at lag 6. This means that CO<sub>2</sub>-concentrations in half a year (and in one year, two years, ...) can be extremely well predicted from the current value, *despite* the fact that our model already accounts for a trend in time!
+=======
+Thus, as we lag the data set by 1, 2, 3, ... months, the correlation decreases down to a random value (indicated by the stippled blue lines), only then to increase as negative correlation again to a maximum at lag 6. This means that CO$_2$-concentrations in half a year (and in one year, two years, ...) can be extremely well predicted from the current value, *despite* the fact that our model already accounts for a trend in time!
+>>>>>>> FETCH_HEAD
 
   > The plot shows that we have **temporal autocorrelation** in our model residuals, indicating that they are indeed **not** independent!
 
@@ -96,6 +115,7 @@ In this case, it is a bit messy, since the autocorrelation doesn't simply fade a
 
 The way to do so is called "Generalised Least Squares", short GLS. In addition to the standard linear model, it also models the way that data point expectations covary with each other. In this case, we expect a data point of lag 1 to be highly positively correlated with the data, one of lag 2 highly negatively and so forth. If we imagine that each data point is a random variate drawn from some distribution, then we can think of a variance-covariance matrix of the data: each data point has its own column and row. On the diagonal, we have the variances, and on the off-diagonal, the covariance among data points. In a linear model, the off-diagonal entries are 0, i.e. data points are drawn independently of one another (and the diagonal is constant, i.e. all data points have the same variance). In a GLS, we can make the off-diagonal entries a function of the temporal distance between data! Isn't that cool?
 
+<<<<<<< HEAD
 To repeat this in a more mathematical way. A LM is typically written as $$y = X\beta + e \text{ , where }e\text{ is from a normal distribution: }e \sim N(0, \sigma).$$
 This latter equation means that all error has the same variance and it is independent for each data point (also abbreviated as iid). Under such "normal" circumstances, the estimated model parameters are \(\widehat \beta_{OLS} = (X' X)^{-1} X' y\). 
 This changes, as in a GLS, where our errors are not iid any more: 
@@ -106,6 +126,13 @@ with elements on the diagonal (resembling the original \(\sigma\)) and off-diago
 In R, we use the `gls`-function from package `nlme`. (Actually, this function is also internally behind the `lme` function.)
 
 ```{r, fig.width=7}
+=======
+MAYBE A FIGURE WOULDN'T HURT HERE!
+
+In R, we use the `gls`-function from package `nlme`. (Actually, this function is also internally behind the `lme` function.)
+
+```{r}
+>>>>>>> FETCH_HEAD
 library(nlme)
 fgls <- gls(CO2 ~ poly(TIME, 3), correlation=corAR1(form=~TIME))
 summary(fgls)
@@ -115,19 +142,30 @@ acf(residuals(fgls))
 We see that a correlation of 0.95 was fitted for a lag of 1 ("Parameter estimate Phi1"), so only one lag was accommodated (thus: `corAR1`). With a look at the ACF of the residuals we can see that it is not nearly good enough.
 
 We can construct much more complicated correlation structures using the `corARMA` function, but this is only for illustration:
+<<<<<<< HEAD
 ```{r, fig.width=7}
+=======
+```{r}
+>>>>>>> FETCH_HEAD
 COR3 <- corARMA(form=~TIME, p=3, q=0)
 COR3 <- Initialize(COR3, data=data.frame("TIME"=TIME))
 flag3 <- gls(CO2 ~ poly(TIME, 3), correlation=COR3) # takes a while
 summary(flag3)
+<<<<<<< HEAD
 acf(residuals(flag3))
+=======
+>>>>>>> FETCH_HEAD
 ```
 <!---
 pacf(fitted.values(flag3))
 pacf does not work as a way to look at the fitted autocorrelation ... so how?
 --->
 
+<<<<<<< HEAD
 Can we be smarter about how to embrace multi-lag dependence than trial-and-error? Luckily, someone else has thought of an automatic way to fit autoregressive models.
+=======
+So we need to be smarter about how to embrace multi-lag dependence. Luckily, someone else has thought of an automatic way to fit autoregressive models.
+>>>>>>> FETCH_HEAD
 ```{r, fig.width=7}
 library(forecast)
 fautogls <- auto.arima(CO2, xreg=poly(TIME, 3))
@@ -141,7 +179,11 @@ plot(TIME, CO2, type="l", lwd=3)
 lines(TIME, fitted.values(fautogls), col="red", lwd=2, lty=2)
 ```
 
+<<<<<<< HEAD
 A marvellous fit! The key thing to notice here is that the *seasonal* pattern of CO<sub>2</sub> is actually fitted using the covariance matrix, **not** using a seasonal predictor. We shouldn't do that, if we can avoid it, because we may want to interpret this seasonality as an actual ecological process, rather than a statistical nuisance.
+=======
+A marvellous fit! The key thing to notice here is that the *seasonal* pattern of CO$_2$ is actually fitted using the covariance matrix, **not** using a seasonal predictor. We shouldn't do that, if we can avoid it, because we may want to interpret this seasonality as an actual ecological process, rather than a statistical nuisance.
+>>>>>>> FETCH_HEAD
 
 So, quickly, here is a way to put seasonality into a GLS:
 
@@ -172,7 +214,11 @@ lines(TIME, fitted.values(fautoglsseason), col="green", lwd=2, lty=3)
 A very common design is to sample units (= subjects, plots) repeatedly, a.k.a. *repeated measurements*. Here we have to tell the model the structure (i.e. samples within plots over time) as well as attempt to represent the temporal dependency itself. Currently, only `lme` and `mgcv::gamm` can handle both a random effect and a correlation structure as in the previous time example.
 
 ## Fitting a repeated measurement model with lme
+<<<<<<< HEAD
 Let's take a typical example (actually not so typical, but rather exceptional in the long time series these data constitute). In this case, forest plots were treated in three different ways (control, logging, logging and thinning) and monitored repeatedly over decades. Response is basal area (m<sup>2</sup>/ha). Additionally, the replicated treatments are arranged in five blocks. First, we make a nice "German-colour scheme" plot of the data.
+=======
+Let's take a typical example (actually not so typical, but rather exceptional in the long time series these data constitute). In this case, forest plots were treated in three different ways (control, logging, logging and thinning) and monitored repeatedly over decades. Response is basal area (m$^2$/ha). Additionally, the replicated treatments are arranged in five blocks. First, we make a nice "German-colourscheme" plot of the data.
+>>>>>>> FETCH_HEAD
  
 ```{r, fig.width=9, fig.height=7}
 dats <- read.csv("Data_Angela2.csv")
@@ -290,7 +336,11 @@ legend("topleft", legend=c("control", "logging", "logging & thinning"), col=c("b
 
 ## Fitting a non-linear trend over time with GAMM
 
+<<<<<<< HEAD
 We can also fit a spline for each treatment, using `mgcv:gamm`. The arguments in the spline call are necessary to avoid error messages: `k=3` restricts the flexibility of the spline to the equivalent of a cubic polynomial, while `bs="ts"` employs shrinkage to make the splines as straight as possible (this is a very layman's explanation of what shrinkage is). I also changed the correlation structure to `corExp`, which gives (here) a slightly better fit. And, finally, I had to increase the number of permissible iterations to allow for convergence:
+=======
+We can also fit a spline for each treatment, using `mgcv:gamm`. The arguments in the spline call are necessary to avoid error messages: `k=3` restricts the flexibility of the spline to the equivalent of a cubic polynomial, while `bs="ts"` employs shrinkage to make the splines as straight as possible (this is a very layman's explanation of what shrinkage is). I also changed the correlation structure to `corExp`, which gives (here) a slightly better fit. And, finally, I had to increase the number of permissable iterations to allow for convergence:
+>>>>>>> FETCH_HEAD
 
 ```{r}
 library(mgcv)
@@ -298,7 +348,11 @@ fgamm <- gamm(ba ~ s(year, by=Treat, k=3, bs="ts"), random=list("Block"=~1, "plo
 summary(fgamm$lme)
 ```
 
+<<<<<<< HEAD
 The interpretation is a bit more awkward, since we now have a GAM-part of the object, and an LME-part. We can use the LME-part of the model to investigate how much variance is attributed to different hierarchical levels. And, citing from the `gamm` help page (see there under "Value: lme""), "Note that the model formulae and grouping structures may appear to be rather bizarre, because of the manner in which the GAMM is split up and the calls to lme and gammPQL are constructed." This means that we may not actually be completely sure, whether the coding of the random effects is correct. (You may want to try, e.g. `"Block"=~1|plot` to see that this gives different estimates, especially for the range of spatial autocorrelation! I used this as a guidance that it would *not* be the correct way to communicate the random effect structure to `gamm`.)
+=======
+The interpretation is a bit more awkward, since we now have a GAM-part of the object, and an LME-part. We can use the LME-part of the model to investigate how much variance is attributed to different hierarchical levels. And, citing from the `gamm` help page (see Value: lme), "Note that the model formulae and grouping structures may appear to be rather bizarre, because of the manner in which the GAMM is split up and the calls to lme and gammPQL are constructed." This means that we may not actually be completely sure, whether the coding of the random effects is correct. (You may want to try, e.g. `"Block"=~1|plot` to see that this gives different estimates, especially for the range of spatial autocorrelation! I used this as a guidance that it would *not* be the correct way to communicate the random effect structure to `gamm`.)
+>>>>>>> FETCH_HEAD
 
 First of all, the AIC is (substantially) lower for the GAMM than for the LME. (I actually had `Treat` as an additional fixed effect in the GAMM, but that model was slightly worse and so I deleted it.) Secondly, both range and `Block/plot` random effects are estimated very similarly. And finally, `year:Treat` is also indicating a different slope for the two treatments than for the control.
 
@@ -335,10 +389,23 @@ detach(dats)
 
 A typical setting, in which non-independence arises, is the analysis of spatial data. Here the "first law of geography" holds, that points near each other are more similar than those further away. This is called spatial autocorrelation, and it is the same thing as we have seen in the time-series analysis above, just now in two dimensions.
 
+<<<<<<< HEAD
 Note that it is very important to tell between spatial autocorrelation in raw data and in residuals! The former may simply be a consequence of the fact that our environment is spatially autocorrelated, the second is a statistical problem. If our data are only spatially autocorrelated because the environment is, then this is also called "spatial dependence". Say we are interested in the distribution of a species, say pine marten *Martes martes* in Europe. Then we would expect that forests are a good predictor, and forests are distributed in a clumped and hence spatially autocorrelated way. As a result, the raw data of pine marten distribution are also spatially autocorrelated, due to spatial dependence on forests. However, we could hope that accounting for forest cover, the model residuals are *not* spatially autocorrelated any more. 
 
 We will see that they still are, possibly because pine martens can move and thus are more likely to be found even in unsuitable sites near to suitable ones. This may also cause spatial autocorrelation (in the residuals).
 
+=======
+Note that it is very important to tell between spatial autocorrelation in raw data and in residuals! The former may simply be a consequence of the fact that our environment is spatially autocorrelated, the second is a statistical problem. If our data are only spatially autocorrelated because the environment is, then this is also called "spatial dependence". Say we are interested in the distribution of a species, say pine marten *Martes martes* in Europe. Then we would expect that forests are a good predictor, and forests are distributed in a clumped and hence spatially autocorrelated way. As a result, the raw data of pine marten distribution are also spatially autocorrelated, due to spatial dependence on forests. However, we could hope that accounting for forest cover, the model residuals are *not* spatially autocorrelated anymore. 
+
+We will see that they still are, possibly because pine martens can move and thus are more likely to be found even in unsuitable sites near to suitable ones. This may also cause spatial autocorrelation (in the residuals).
+
+<!---
+load("data.all.Rdata")
+names(data.all)
+martes <- data.all[, c(3,4,11,12,23,90)]
+save(martes, file="martes.Rdata")
+--->
+>>>>>>> FETCH_HEAD
 ```{r, fig.height=7, fig.width=7}
 load("martes.Rdata")
 plot(NOFORIGIN ~ EOFORIGIN, data=martes, pch=15, col=ifelse(martes_martes==0, "grey80", "black"), cex=0.7, main="Pine marten distribution in Europe")
@@ -361,7 +428,11 @@ plot(COR)
 abline(h=0)
 ```
 
+<<<<<<< HEAD
 What we see here is similar to the ACF-plot for time series: with spatial distance (on the *x*-axis) the similarity of data points decreases. This plot is called a *correlogram*. People more used to GIS will know its counterpart, the (semi-)variogram. This shows how the variance between points increases with distance, to level off at some "range". This range should be the same distance when the correlogram becomes approximately 0.
+=======
+What we see here is similar to the ACF-plot for time series: with spatial distance (on the *x*-axis) the similarity of data points decreases. This plot is called a *correlogram*. People more used to GIS will know its counterpart, the (semi-)variogram. This shows how the variance between points increases with distance, to level off at some "range". This range should be the same distance when the corelogram becomes approximately 0.
+>>>>>>> FETCH_HEAD
 
 ## Variogram
 The variogram has the advantage of being computable in different directions, e.g. towards north and east. To do so, we first have to turn the data into a specific format:
@@ -371,7 +442,11 @@ library(sp)
 resids.spdf <- SpatialPointsDataFrame(coords=cbind(martes$EOFORIGIN, martes$NOFORIGIN), data=data.frame(resids))
 library(gstat)
 plot(variogram(resids~1, data=resids.spdf, alpha=c(0,90)))
+<<<<<<< HEAD
 ```
+=======
+````
+>>>>>>> FETCH_HEAD
 
 We notice a slightly stronger spatial autocorrelation towards the east (90°).
 
@@ -379,7 +454,11 @@ To nicely depict the spatial pattern in the residuals, we can use `sp`'s `bubble
 
 ## Spatial residual map
 ```{r, fig.width=6, fig.height=6}
+<<<<<<< HEAD
 (b1 <- bubble(resids.spdf, maxsize=1.5, main="non-spatial GLM"))
+=======
+bubble(resids.spdf, maxsize=1.5)
+>>>>>>> FETCH_HEAD
 ```
 
 In a dataset without residual spatial autocorrelation there would be no pattern, a nice mixture of colours. This is clearly **not** the case here, as we could already tell from correlogram and variogram.
@@ -397,23 +476,38 @@ plot(variogram(resids~1, data=resids2.spdf, alpha=c(0,90))) # no correlog, takes
 bubble(resids2.spdf, maxsize=1.5)
 ```
 
+<<<<<<< HEAD
 This made little difference, we cannot reduce rSAC substantially, although the model is substantially better (AIC of `fMM` = `r AIC(fMM)`, AIC of `fMM2`= `r AIC(fMM2)`). (Now there may be many other predictors missing, which will always be the case.) Instead of further complicating the fixed effects of the model, we shall look at how to incorporate distance-decaying similarity (i.e. residual spatial autocorrelation):
+=======
+This made little difference, we cannot reduce rSAC substantially, although the model is substantially better (AIC of `fMM` = `r AIC(fMM)`, AIC of `fMM2`= `r AIC(fMM2)`). (Now there may be many other predictors missing, which will always be the case.) Instead of further complicating the fixed effects of the model, we shall 
+>>>>>>> FETCH_HEAD
 
 ```{r, fig.width=8}
 library(MASS)
 fake <- as.factor(rep("a", nrow(martes)))
 set.seed(2)
+<<<<<<< HEAD
 some.rows <- sample(nrow(martes), 300)
 martes2 <- cbind(martes, fake)[some.rows,]
 fglmmPQL <- glmmPQL(martes_martes ~ GDD*PRE_YEAR*WOOD, random=~1|fake, correlation=corGaus(form=~EOFORIGIN+NOFORIGIN), family=binomial, data=martes2, control=list(maxIter=100))
+=======
+martes2 <- cbind(martes, fake)[sample(nrow(martes), 300),]
+fglmmPQL <- glmmPQL(martes_martes ~ poly(GDD, 2) + poly(PRE_YEAR, 2) + poly(WOOD, 2), random=~1|fake, correlation=corGaus(form=~EOFORIGIN+NOFORIGIN), family=binomial, data=martes2, control=list(maxIter=100))
+>>>>>>> FETCH_HEAD
 summary(fglmmPQL)
 resids2.spdf <- SpatialPointsDataFrame(coords=cbind(martes2$EOFORIGIN, martes2$NOFORIGIN), data=data.frame("resids"=residuals(fglmmPQL)))
 plot(variogram(resids~1, data=resids2.spdf, alpha=c(0,90)))
 ```
 ```{r, fig.width=10, fig.height=5}
+<<<<<<< HEAD
 b1 <- bubble(resids.spdf[some.rows,], maxsize=1.5, main="non-spatial GLM")
 b2 <- bubble(resids2.spdf, maxsize=1.5, main="spatial GLMM")
 library(gridExtra)
+=======
+library(gridExtra)
+b1 <- bubble(resids.spdf, maxsize=1.5, main="non-spatial GLM")
+b2 <- bubble(resids2.spdf, maxsize=1.5, main="spatial GLMM")
+>>>>>>> FETCH_HEAD
 grid.arrange(b1, b2, ncol=2)
 ```
 
@@ -422,12 +516,17 @@ Not very untypical, the residuals are only moderately improved compared to the n
 Let's check whether the more flexible GAM can do better (if we have about half an hour spare):
 
 ```{r}
+<<<<<<< HEAD
 fgamm <- gamm(martes_martes ~ s(GDD, k=3)+s(PRE_YEAR, k=3)+s(WOOD, k=3), random=list("fake"=~1), correlation=corGaus(form=~EOFORIGIN+NOFORIGIN), family=binomial, data=martes2, niterPQL=70, verbosePQL=T)
+=======
+fgamm <- gamm(martes_martes ~ s(GDD, k=3)+s(PRE_YEAR, k=3)+s(WOOD, k=3), random=list("fake"=~1), correlation=corGaus(form=~EOFORIGIN+NOFORIGIN), family=binomial, data=martes2, niterPQL=100, verbosePQL=T)
+>>>>>>> FETCH_HEAD
 summary(fgamm$lme)
 resids3.spdf <- SpatialPointsDataFrame(coords=cbind(martes2$EOFORIGIN, martes2$NOFORIGIN), data=data.frame("resids"=residuals(fgamm$gam)))
 ```
 
 ```{r, fig.width=6, fig.height=6}
+<<<<<<< HEAD
 vario1 <- variogram(resids ~ 1, data=resids2.spdf, alpha=0)
 vario2 <- variogram(resids ~ 1, data=resids3.spdf, alpha=0)
 plot(vario1$dist, vario1$gamma, cex=2, pch=15, type="b", ylab="semi-variance", xlab="distance [m]", ylim=c(0, 20))
@@ -435,12 +534,23 @@ points(vario2$dist, vario2$gamma, pch=16, cex=2, type="b")
 legend("topleft", pch=15:16, cex=1.5, bty="n", legend=c("GLMM", "GAMM"), lty=1)
 ```
 
+=======
+vario1 <- variogram(resids~1, data=resids2.spdf, alpha=c(0))
+vario2 <- variogram(resids~1, data=resids3.spdf, alpha=c(0))
+plot(vario1$dist, vario1$gamma, cex=2, pch=15, type="b", las=1, ylab="semi-variance", xlab="distance [m]")
+points(vario2$dist, vario2$gamma, pch=16, cex=2, type="b")
+legend("topleft", pch=15:16, cex=2, bty="n", legend=c("GLMM", "GAMM"), lty=1)
+```
+
+There is a noticeable drop in spatial autocorrelation! So does that also indicate that the spatial pattern has changed? Let's see:
+>>>>>>> FETCH_HEAD
 
 ```{r, fig.width=15, fig.height=5}
 b3 <- bubble(resids3.spdf, maxsize=1.5, main="spatial GAMM")
 grid.arrange(b1, b2, b3, ncol=3)
 ```
 
+<<<<<<< HEAD
 The point should be clear: we can use a mixed model approach to compute a spatially parametrised variance-covariance matrix. This is typically **very** slow and not always entirely satisfactory. This is not the place to go into details about spatial models, it mainly served to illustrate the point of spatial dependence as an indication of mixed effect models.
 
 To read up on other ways to incorporate spatial autocorrelation check out `RINLA`, `spBayes` and the following publications (those in parentheses are more of historical interest):
@@ -453,3 +563,7 @@ To read up on other ways to incorporate spatial autocorrelation check out `RINLA
 * (Legendre P, Dray S, Peres-Neto PR (2006) Spatial modeling: a comprehensive framework for principal coordinate analysis of neighbor matrices (PCNM). Ecol Modell 196:483–493.)
 * (Lichstein JW, Simons TR, Shriner SA, Franzreb KE (2002) Spatial autocorrelation and autoregressive models in ecology. Ecol Monogr 72:445–463.)
 * Saas Y, Gosselin F (2014) Comparison of regression methods for spatially-autocorrelated count data on regularly- and irregularly-spaced locations. Ecography (Cop) 37:476–489. doi: 10.1111/j.1600-0587.2013.00279.x
+=======
+The point should be clear: we can use a mixed model approach to compute a spatially parameterised variance-covariance matrix. This is typically **very** slow and not always entirely satisfactory. This is not the place to go into details about spatial models, it mainly served to illustrate the point of spatial dependence as an indication of mixed effect models.
+
+>>>>>>> FETCH_HEAD
