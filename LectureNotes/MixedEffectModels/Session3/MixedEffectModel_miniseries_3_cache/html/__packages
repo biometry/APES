@@ -1,0 +1,13 @@
+AICcmodavg
+base
+forecast
+gridExtra
+gstat
+knitr
+MASS
+mgcv
+ncf
+nlme
+sp
+timeDate
+zoo

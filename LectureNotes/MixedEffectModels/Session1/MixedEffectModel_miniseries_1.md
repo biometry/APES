@@ -83,7 +83,7 @@ hist(rnbinom(1000, mu=2.7, size=2.4), las=1, col="grey", border="white")
 
 # The log-likelihood
 
-The likelihood is a value that quantifies how likely a dataset $y$ is, given the parameters of the distribution: $P(y | \theta)$. For independent observations, the likelihood is simply the product of probability densities under the distribution specified by parameters $\theta$. 
+The likelihood is a value that quantifies how a (set of) parameters is, given a dataset $y$: $L(\theta | y)$. For independent observations, the likelihood is simply the product of probability densities under the distribution specified by parameters $\theta$: $L(\theta | y) = P(y | \theta)$. 
 
 Take, for example, the following observations, `obs`:
 
@@ -282,7 +282,7 @@ rnorm(1, summary(fm)$coefficients[3,1], summary(fm)$coefficients[3,2]))
 
 ```
 ##          [,1]
-## [1,] 62.98809
+## [1,] 29.78053
 ```
 
 We can do this, say, 1000 times and plot the distribution of predicted values:
@@ -303,7 +303,7 @@ summary(wrong.preds)
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   16.06   52.62   62.94   62.82   72.78  106.40
+##   12.80   53.22   62.67   62.41   71.90  112.00
 ```
 
 Why is this **wrong**?
@@ -328,7 +328,7 @@ summary(right.preds)
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   56.95   62.13   63.28   63.28   64.46   68.50
+##   57.71   62.21   63.33   63.31   64.48   68.61
 ```
 
 So at first glance this looks just the same, doesn't it? Well, let us plot the two together (either as density plot or as histogram), and we notice a *slight* difference:
