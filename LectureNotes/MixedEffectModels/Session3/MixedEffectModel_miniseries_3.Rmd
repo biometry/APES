@@ -1,4 +1,4 @@
----
+I---
 title: Mixed Effects Models Mini-Series. Part III. Detect and embrace temporal and
   spatial non-independence
 author: "Carsten F. Dormann"
@@ -257,7 +257,7 @@ plot(residuals(flme) ~ fitted.values(flme))
 Hm. Is it only me who can see some upwards trend in the right half of the plot? Maybe the trend is not linear through time? I add a quadratic term for `year` and its interactions, plus a cubic term for `year` alone (wouldn't converge otherwise).
 
 ```{r}
-flme2 <- lme(ba ~ Treat*(year+I(year^2)) + I(year^3), random=~1|Block/plot, correlation=corLin(form=~year|Block/plot), data=dats, control=list(maxIter=5000))
+flme2 <- lme(ba ~ Treat*(year+I(year^2)) + I(year^3), random=~1|Block/plot, correlation=corExp(form=~year|Block/plot), data=dats, control=list(maxIter=5000))
 anova(flme2)
 summary(flme2)
 ```

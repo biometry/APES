@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 AICcmodavg
 base
 forecast
@@ -12,18 +11,3 @@ nlme
 sp
 timeDate
 zoo
-=======
-base
-knitr
-nlme
-zoo
-timeDate
-forecast
-AICcmodavg
-mgcv
-ncf
-sp
-gstat
-MASS
-gridExtra
->>>>>>> FETCH_HEAD
