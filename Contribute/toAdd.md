@@ -25,6 +25,8 @@ Cross-validation: a blogged overview: http://robjhyndman.com/hyndsight/crossvali
 Introduction & excercises to Structural Equation Modelling (using lavaan): http://www.nwrc.usgs.gov/test/SEM.html
 
 
+http://ryouready.wordpress.com/2014/12/15/qq-plots-in-r-vs-spss-a-look-at-the-differences/
+
 # Intros
 
 
