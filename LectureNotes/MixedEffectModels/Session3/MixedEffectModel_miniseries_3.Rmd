@@ -175,7 +175,7 @@ A very common design is to sample units (= subjects, plots) repeatedly, a.k.a. *
 Let's take a typical example (actually not so typical, but rather exceptional in the long time series these data constitute). In this case, forest plots were treated in three different ways (control, logging, logging and thinning) and monitored repeatedly over decades. Response is basal area (m<sup>2</sup>/ha). Additionally, the replicated treatments are arranged in five blocks. First, we make a nice "German-colour scheme" plot of the data.
  
 ```{r, fig.width=9, fig.height=7}
-dats <- read.csv("Data_Angela2.csv")
+dats <- read.csv("../../../Data/MixedEffectModelsLectureData/Data_Angela2.csv")
 summary(dats)
 dats$Block <- as.factor(dats$Block)
 dats$plot <- as.factor(dats$plot)
@@ -340,7 +340,7 @@ Note that it is very important to tell between spatial autocorrelation in raw da
 We will see that they still are, possibly because pine martens can move and thus are more likely to be found even in unsuitable sites near to suitable ones. This may also cause spatial autocorrelation (in the residuals).
 
 ```{r, fig.height=7, fig.width=7}
-load("martes.Rdata")
+load("../../../Data/MixedEffectModelsLectureData/martes.Rdata")
 plot(NOFORIGIN ~ EOFORIGIN, data=martes, pch=15, col=ifelse(martes_martes==0, "grey80", "black"), cex=0.7, main="Pine marten distribution in Europe")
 ```
 
