@@ -57,7 +57,7 @@ hist(rnbinom(1000, mu=2.7, size=2.4), las=1, col="grey", border="white")
 
 # The log-likelihood
 
-The likelihood is a value that quantifies how a (set of) parameters is, given a dataset $y$: $L(\theta | y)$. For independent observations, the likelihood is simply the product of probability densities under the distribution specified by parameters $\theta$: $L(\theta | y) = P(y | \theta)$. 
+The likelihood is a value that quantifies how likely a dataset $y$ is, given the parameters of the distribution: $P(y | \theta)$. For independent observations, the likelihood is simply the product of probability densities under the distribution specified by parameters $\theta$. 
 
 Take, for example, the following observations, `obs`:
 
