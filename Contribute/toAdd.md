@@ -27,6 +27,8 @@ Introduction & excercises to Structural Equation Modelling (using lavaan): http:
 
 http://ryouready.wordpress.com/2014/12/15/qq-plots-in-r-vs-spss-a-look-at-the-differences/
 
+Cam, L. L. (1990) Maximum Likelihood: An Introduction. International Statistical Review  pp. 153-171.
+
 # Intros
 
 
