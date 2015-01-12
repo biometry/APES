@@ -1,4 +1,11 @@
-# Getting started
+---
+title: "Getting started"
+layout: page
+output:
+  html_document:
+    keep_md: yes
+category: r
+---
 
 Getting started with R
 ===
@@ -64,13 +71,8 @@ Use of run (top right) to run your script in the R consol (shortcut: Ctrl + ente
 While using RStudio, the working space is divided into 4 windows:
 1) At the top righ window it is stored the work in the workspace memory.
 we can also check ir by using the "ls" command
-
-```r
+```{r}
 ls()
-```
-
-```
-## [1] "metadata"
 ```
 2) At the top left we can write our script and save it for future uses
 

@@ -9,3 +9,4 @@ Gemfile*
 .RData
 Data_Angela.csv
 APES.Rproj
+*.html
