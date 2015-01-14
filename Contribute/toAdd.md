@@ -29,6 +29,9 @@ http://ryouready.wordpress.com/2014/12/15/qq-plots-in-r-vs-spss-a-look-at-the-di
 
 Cam, L. L. (1990) Maximum Likelihood: An Introduction. International Statistical Review  pp. 153-171.
 
+
+Specify different contrasts for categorical predictors https://biologyforfun.wordpress.com/2015/01/13/using-and-interpreting-different-contrasts-in-linear-models-in-r/
+
 # Intros
 
 
