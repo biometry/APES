@@ -1,5 +1,6 @@
 ---
 layout: page
+author: Florian Hartig
 title: Analysing data
 category: checklists
 ---
