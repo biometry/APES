@@ -1,9 +1,11 @@
 ---
-title: "Getting started"
-layout: page
 output:
   html_document:
     keep_md: yes
+---
+---
+layout: page
+title: Getting started
 category: r
 ---
 

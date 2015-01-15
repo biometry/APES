@@ -1,4 +1,8 @@
-# Data in R
+---
+layout: page
+title: Data in R
+category: r
+---
 
 Data in R
 ===

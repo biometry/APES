@@ -1,11 +1,13 @@
 ---
-title: "Explorative data analysis"
-layout: page
 output:
   html_document:
     keep_md: yes
-subcategory: Basic concepts
+---
+---
+layout: page
+title: Explorative data analysis
 category: stats
+subcategory: Basic concepts
 ---
 
 Explorative data analysis

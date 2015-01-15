@@ -1,11 +1,12 @@
 ﻿---
-title: "The t-test"
-layout: page
-output:
   html_document:
     keep_md: yes
-subcategory: Hypothesis Testing
+---
+---
+layout: page
+title: The t-test
 category: stats
+subcategory: Hypothesis testing
 ---
 
 Important statistical tests

@@ -1,9 +1,11 @@
 ---
-title: "Data in R"
-layout: page
 output:
   html_document:
     keep_md: yes
+---
+---
+layout: page
+title: Data in R
 category: r
 ---
 
