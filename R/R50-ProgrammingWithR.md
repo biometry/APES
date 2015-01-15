@@ -15,4 +15,6 @@ A "web book" (in html) called "[Ramarrow](http://www.quantide.com/R/ramarro/)" (
 
 Ben Bolker's [Ecological models and data with R](http://ms.mcmaster.ca/~bolker/emdbook/)
 
+Pitfalls of the R language http://www.burns-stat.com/documents/books/the-r-inferno/
+
 

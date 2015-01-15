@@ -365,6 +365,11 @@ boxplot(Petal.Length~Species,data=iris, main="Species Petal Length",
 By adding varwidth=TRUE to the formula we can make the boxplot widths proportional to the square root of the samples sizes. 			
 By adding horizontal=TRUE we reverse the axis orientation.
 
+### Interpreting boxplots 
+
+From Naomi Robbins’ book: Creating More Effective Graphs: “The rectangle shows the interquartile range (IQR); it goes from the first quartile (the 25th percentile) to the third quartile (the 75th percentile). The whiskers go from the minimum value to the maximum value unless the distance from the minimum value to the first quartile is more than 1.5 times the IQR. In that case the whisker extends out to the smallest value within 1.5 times the IQR from the first quartile. A similar rule is used for values larger than 1.5 times IQR from the third quartile. A special symbol shows the values, called outliers, which are smaller or larger than the whiskers.” pg.91
+
+
 ### Notched Boxplot
 
 It is also possible to create a notched Boxplot of a variable against 2 crossed factors.		

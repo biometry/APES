@@ -3,6 +3,10 @@ _site
 .ruby*
 Gemfile*
 *sublime*
+.ruby*
 .Rproj.user
 .Rhistory
 .RData
+Data_Angela.csv
+APES.Rproj
+*.html

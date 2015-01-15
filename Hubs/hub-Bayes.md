@@ -4,6 +4,19 @@ title: Bayesian statistics
 category: hubs
 ---
 
+# Basic idea
+
+
+
+# Typical questions
+
+## Summaries of the posterior 
+
+http://www.sumsar.net/blog/2014/10/probable-points-and-credible-intervals-part-one/
+
+
+
+
 # Literature Bayesian Statistics
 
 A necessarily subjective and incomplete list of textbooks and papers that are interesting in the context of learning Bayesian statistics, compiled with input from Joe Chipperfield and Jörn Pagel for our summer schools on Bayesian statistics.

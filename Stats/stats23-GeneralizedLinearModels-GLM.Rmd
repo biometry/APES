@@ -31,10 +31,22 @@ Those two ideas are explained in more detail below
 
 ## Logistic Regression
 
+Presence / absence data - binary data
+Logistic regression is a method for fitting a regression curve, y = f(x), when y consists of proportions or probabilities, or binary coded (0,1--failure,success) data. When the response is a binary (dichotomous) variable, and x is numerical, logistic regression fits a logistic curve to the relationship between x and y. 
 
+
+Assumptions:
+The true conditional probabilities are a logistic function of the independent variables.
+No important variables are omitted.
+No extraneous variables are included.
+The independent variables are measured without error.
+The observations are independent.
+The independent variables are not linear combinations of each other.
+
+### Example 1 - Logistic regresion
+
+Binomial data
 ```{r}
-
-## binomial data
 require(effects) # holds the data
 head(TitanicSurvival)
 attach(TitanicSurvival)
@@ -46,37 +58,239 @@ plot(surv ~ age)
  
 fmt <- glm(surv ~ age + I(age^2) + I(age^3), family=binomial)
 summary(fmt)
+```
  
+Showing that residuals are not normal at all
+hist(fmt$residuals, breaks = 100)
+abline(v = 0, col = "red", lwd = 6, lty = 2)
+residual plots can also be created with plot(fmt)
  
-# showing that residuals are not normal at all
-#hist(fmt$residuals, breaks = 100)
-#abline(v = 0, col = "red", lwd = 6, lty = 2)
-# residual plots can also be created with plot(fmt)
- 
- 
+```{r}
 newage <- seq(min(age, na.rm=T), max(age, na.rm=T), len=100)
+plot.new()
 preds <- predict(fmt, newdata=data.frame("age"=newage), se.fit=T)
 lines(newage, plogis(preds$fit), col="purple", lwd=3)
 lines(newage, plogis(preds$fit-2*preds$se.fit), col="purple", lwd=3, lty=2)
-lines(newage, plogis(preds$fit+2*preds$se.fit), col="purple", lwd=3, lty=2)
- 
+lines(newage, plogis(preds$fit+2*preds$se.fit), col="purple", lwd=3, lty=2) 
  
 fmt <- glm(surv ~ age + sex + passengerClass, family=binomial)
 summary(fmt)
  
 detach(TitanicSurvival)
+```
+
+
+### Example 2 - Logistic regresion 
+
+Wild boar with/without tubercolosis as a function of body lenght (age is collinear with length)
+```{r}
+Boar <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/10_GLM binomial/Boar.txt")
+Boar <- Boar[!(is.na(Boar$LengthCT)) & !(is.na(Boar$Tb)),]
+head(Boar)
+summary(Boar)
+cor(Boar[,c(3,4)], use="pairwise.complete.obs")
+```
+
+Data exploration
+```{r}
+attach(Boar)
+boxplot(LengthCT~Tb,ylab='body length',xlab='Tb')
+
+plot(x=Boar$LengthCT, y = Boar$Tb,xlab="Length", ylab="Tb")
+
+B0=lm(Tb ~LengthCT, data = Boar)
+abline(B0) 
+```
+The wrong model, as we are working with probabilities, while linear regression also predicts negative probabilities and it is not possible a negative probability of getting sick
+
+We need a function that maps the values between 0 and 1 (e.g., logit link, probit link, clog-log link, log-log link).
+The default is logit link
+
+```{r}
+B1=glm(Tb ~LengthCT, family = binomial, data = Boar) # logit link is the default
+summary(B1)
+```
+
+Probability that an animal is infected is:
+p=(e^(-3.89+0.03length))/ (1 + e^( -3.89+0.03length))
+
+```{r}
+plot(x=Boar$LengthCT, y = Boar$Tb,xlab="Length", ylab="Tb")
+MyData=data.frame(LengthCT= seq(from = 46.5, to =165, by = 1))
+Pred<- predict(B1,newdata = MyData, type = "response")
+lines(MyData$LengthCT,Pred,col=2,lty=2)
+```
+
+Alternatively
+```{r}
+plot.new()
+curve(predict(B1,data.frame(LengthCT=x),type="resp"),add=TRUE,col=3) 
+```
+
+or we can use the "popbio" package
+```{r}
+library(popbio)
+logi.hist.plot(LengthCT,Tb,boxp=FALSE,type="hist",col="gray")
+```
+
+another option is to use a GLM
+```{r}
+B1.A=glm(Tb ~LengthCT, family = binomial(link="probit"), data = Boar)
+summary(B1.A)
+```
+logit and probit links assume that there are about the same number of zeros and ones
+clog-log is a good option if there are a lots of zeros, or viceversa family = binomial(link="cloglog")
+
+```{r}
+plot(x=Boar$LengthCT, y = Boar$Tb,xlab="Length", ylab="Tb")
+MyData=data.frame(LengthCT= seq(from = 46.5, to =165, by = 1))
+Pred<- predict(B1.A,newdata = MyData, type = "response")
+lines(MyData$LengthCT,Pred,col=2,lty=2)
+```
+
+Pseudo R Square
+```{r}
+#Null Deviance - residual Deviance / Null Deviance
+((B1.A$null.deviance-B1.A$deviance)/B1.A$null.deviance)*100   #5% of total variability explained
+```
+
+
+### Example 3 - Logistic regresion 
+
+Parasites in cod (fish)
+```{r}
+ParasiteCod <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/10_GLM binomial/ParasiteCod.txt")
+head(ParasiteCod)
+```
+
+Response variable: Prevalance 0 1
+Explanatories: year, area, depth at which the fishes were caught
+Depth and area are collinear; other explanatories are sex, length, weight, stage, age..all collinear except for sex
+
+```{r}
+ParasiteCod$fArea = factor(ParasiteCod$Area)
+
+attach(ParasiteCod)
+P1 = glm(Prevalence ~ fArea + Length,
+               family = binomial, data = ParasiteCod)  
+
+summary(P1)
+
+plot(Length,Prevalence)
+
+MyData=data.frame(Length= seq(from = 20, to =100, by = 1),fArea="1")
+Pred<- predict(P1,newdata = MyData, type = "response")
+lines(MyData$Length,Pred,col=1,lty=1)
+
+MyData=data.frame(Length= seq(from = 20, to =100, by = 1),fArea="2")
+Pred<- predict(P1,newdata = MyData, type = "response")
+lines(MyData$Length,Pred,col=2,lty=2)
+
+MyData=data.frame(Length= seq(from = 20, to =100, by = 1),fArea="3")
+Pred<- predict(P1,newdata = MyData, type = "response")
+lines(MyData$Length,Pred,col=3,lty=3)
+
+MyData=data.frame(Length= seq(from = 20, to =100, by = 1),fArea="4")
+Pred<- predict(P1,newdata = MyData, type = "response")
+lines(MyData$Length,Pred,col=4,lty=4)
+```
+
+A much handier way
+```{r}
+plot.new()
+curve(predict(P1,data.frame(Length=x,fArea="1"),type="resp"),add=TRUE,col=1,lwd=2)
+curve(predict(P1,data.frame(Length=x,fArea="2"),type="resp"),add=TRUE,col=2,lwd=2)
+curve(predict(P1,data.frame(Length=x,fArea="3"),type="resp"),add=TRUE,col=3,lwd=2)
+curve(predict(P1,data.frame(Length=x,fArea="4"),type="resp"),add=TRUE,col=4,lwd=2)
+```
+
+
+### Example 4 - Logistic regresion  
+
+Tubercolosis in deer, this time proportion data (ranging from 0 to 1)
+```{r}
+Tbdeer <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/10_GLM binomial/Tbdeer.txt")
+head(Tbdeer)
+Tbdeer$DeerPosProp = Tbdeer$DeerPosCervi / Tbdeer$DeerSampledCervi  # proportion of deer infected
+
+Tbdeer$fFenced = factor(Tbdeer$Fenced)
+```
+
+Effect of percentage open land, scrubs, pine plantation, number of quercus per unit area, red deer abundance index, estate size, estate fenced ON probability of getting infected
+
+```{r}
+Deer2 <- glm(DeerPosProp~OpenLand+ScrubLand+ReedDeerIndex+
+        fFenced,
+        family=binomial,weights=DeerSampledCervi,data = Tbdeer)
+
+summary(Deer2)
+```
+
+This is a Binomial GLM with proportion data.
+We can have overdispersion. 
+Residual deviance / df should be ~1
+
+```{r}
+Deer2$deviance / Deer2$df.residual #~9
+
+library(effects)
+plot(allEffects(Deer2))
+```
+
+We add a dispersion parameter to the variance of Y
+```{r}
+Deer3 <- glm(DeerPosProp~OpenLand+ScrubLand+ReedDeerIndex+
+        fFenced,
+             family=quasibinomial,weights=DeerSampledCervi,data = Tbdeer)
+summary(Deer3)
+Deer3$deviance / Deer3$df.residual
+
+plot(allEffects(Deer3))
+```
+
+We have lost many of the significant patters that were biased by overdispersion.
+The new results look pretty different
+
+```{r}
+plot(Tbdeer$OpenLand,Tbdeer$DeerPosProp)
+
+curve(predict(Deer3,data.frame(OpenLand=x,   # scenario "no fenced"
+      ScrubLand=mean(Tbdeer$ScrubLand),
+      ReedDeerIndex=mean(Tbdeer$ReedDeerIndex),
+      fFenced="0"),type="resp"),add=TRUE,col=1,lwd=2)
+
+curve(predict(Deer3,data.frame(OpenLand=x,  # scenario "fenced"
+      ScrubLand=mean(Tbdeer$ScrubLand),
+      ReedDeerIndex=mean(Tbdeer$ReedDeerIndex),
+      fFenced="1"),type="resp"),add=TRUE,col=2,lwd=2)
+```
+
+Plotting predictions with 95% CIs
+```{r}
+Boar <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/10_GLM binomial/Boar.txt")
+Boar <- Boar[!(is.na(Boar$LengthCT)) & !(is.na(Boar$Tb)),]
+head(Boar)
+summary(Boar)
+
+B1=glm(Tb ~LengthCT, family = binomial, data = Boar) # logit link is the default
+summary(B1)
+
+plot(x=Boar$LengthCT, y = Boar$Tb,xlab="Length", ylab="Tb")
+MyData=data.frame(LengthCT= seq(from = 46.5, to =165, by = 1))
+Pred<- predict(B1,newdata = MyData, type = "response",se=T)
+
+lines(MyData$LengthCT,Pred$fit,col=2,lty=2)
+lines(MyData$LengthCT,Pred$fit+1.96*Pred$se.fit,col=3,lty=1)
+lines(MyData$LengthCT,Pred$fit-1.96*Pred$se.fit,col=3,lty=1)
 
 ```
 
 
-
 ## Poisson Regression
 
+### Example 1 - Poisson Regression
 
 ```{r}
-## Poisson:
- 
-# data
 cfc <- data.frame(
   stuecke = c(3,6,8,4,2,7,6,8,10,3,5,7,6,7,5,6,7,11,8,11,13,11,7,7,6),
   attrakt = c(1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5) 
@@ -90,18 +304,129 @@ summary(fm)
 newattrakt <- c(1,1.5,2,2.5,3,3.5,4,4.5,5)
 preds <- predict(fm, newdata=data.frame("attrakt"=newattrakt))
 lines(newattrakt, exp(preds), lwd=2, col="green")
- 
-# same with 95% confidence interval:
+```
+
+same with 95% confidence interval:
+```{r}
 preds <- predict(fm, newdata=data.frame("attrakt"=newattrakt), se.fit=T)
+plot.new()
 str(preds)
 lines(newattrakt, exp(preds$fit), lwd=2, col="green")
 lines(newattrakt, exp(preds$fit+2*preds$se.fit), lwd=2, col="green", lty=2)
 lines(newattrakt, exp(preds$fit-2*preds$se.fit), lwd=2, col="green", lty=2)
  
 detach(cfc)
-
 ```
 
+
+### Example 2 - Poisson Regression 
+
+Road kills data of amphibians species along a road in Portugal
+```{r}
+load("Z:/GitHub/RMarkdowns - Stat with R/11_GLM Poisson & quasi_poisson/RK.RData")
+head(RK)
+```
+
+First plot the relationship between the distance to the closest Park and the number of road kills (TOT.N) 
+```{r}
+plot(RK$D.PARK,RK$TOT.N,xlab="Distance to park",
+     ylab="Road kills")
+```
+
+Next we fit out the Poisson GLM
+```{r}
+M1<-glm(TOT.N~D.PARK,family=poisson,data=RK)
+summary(M1)
+```
+There is a log link between the mean of Y and the predictor function that ensures that fitted values are always non negative, unlike linear regression
+
+Pseudo R-squared for Poisson GLMs
+```{r}
+100*(M1$null.deviance-M1$deviance)/M1$null.deviance
+```
+
+Null and residual deviance:
+1) null and residual deviance are sort of equivalent of sum of squares and residual sum of squares
+2) null deviance is the residual deviance in the only-intercept model, e.g the worst possible model
+
+Plotting the fitted values
+```{r}
+MyData=data.frame(D.PARK=seq(from=0,to=25000,by=1000))
+G<-predict(M1,newdata=MyData,type="link",se=T)
+F<-exp(G$fit)
+FSEUP<-exp(G$fit+1.96*G$se.fit)
+FSELOW<-exp(G$fit-1.96*G$se.fit)
+plot(RK$D.PARK,RK$TOT.N,xlab="Distance to park",
+     ylab="Road kills")
+lines(MyData$D.PARK,F,lty=1)
+lines(MyData$D.PARK,FSEUP,lty=2)
+lines(MyData$D.PARK,FSELOW,lty=2)
+```
+
+Back to the summary
+```{r}
+summary(M1)
+```
+Remember that the potential problem with Poisson GLMs is overdispersion
+Overdispersion means that the variance is LARGER than the mean (when we compare  what we could expect from a poisson distribution)
+
+There are 3 options to check for overdispersion:
+1) Residual Deviance / degrees of freedom
+```{r}
+M1$deviance/M1$df.residual
+```
+Model clearly over-dispersed, it is 7.8 when it should be 1
+
+2) 1-pchisq(residual deviance,df)
+```{r}
+1-pchisq(M1$deviance,M1$df.residual)
+```
+Model overdispersed
+
+
+3)In the R package AER we can find  the function dispersiontest, which implements a Test for Overdispersion by Cameron & Trivedi (1990)
+```{r}
+library(AER)
+dispersiontest(M1,trafo=1)  
+```
+Model clearly over-dispersed, alfa should be 0
+
+
+There 2 ways to solve this:
+1) By running a quasi-Poisson model 
+2) Moving to the next level with a Negative-Binomial model
+
+Quasi-Poisson model:
+Sometimes spread in count data is larger than what is possible to be modelled with a POISSON distribution
+It is possible to introduce a dispersion parameter p [p > 1 allows more spread than the standard Poisson mean-variance relationship (overdispersion); on the other hand, p < 1 means underdispersion] 
+The estimation of a Poisson regression model with a dispersion parameter p is called quasi-likelihood (or quasi-Poisson), technically is no longer a poisson model.
+As we introduce a dispersion parameter p, all SEs are multiplied with the square root of p.
+
+```{r}
+M2<-glm(TOT.N~D.PARK,family=quasipoisson,data=RK)
+```
+This is not a quasipoisson distribution (it does not exist)
+This is a Poisson corrected for overdispersion, a quasi-GLM model
+
+```{r}
+summary(M2)
+```
+
+Plot the predictions one more time but this time corrected for overdispersion
+
+```{r}
+MyData=data.frame(D.PARK=seq(from=0,to=25000,by=1000))
+G<-predict(M2,newdata=MyData,type="link",se=T)
+F<-exp(G$fit)
+FSEUP<-exp(G$fit+1.96*G$se.fit)
+FSELOW<-exp(G$fit-1.96*G$se.fit)
+plot(RK$D.PARK,RK$TOT.N,xlab="Distance to park",
+     ylab="Road kills")
+lines(MyData$D.PARK,F,lty=1,col=2,lwd=4)
+lines(MyData$D.PARK,FSEUP,lty=2,col=2)
+lines(MyData$D.PARK,FSELOW,lty=2,col=2)
+```
+When comparing this model predictions (where we deal with overdispersion) with the first Poisson model, we can observe the same fitted values but completely different errors.
 
 # Technical details 
 

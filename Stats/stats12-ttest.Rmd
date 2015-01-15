@@ -1,0 +1,285 @@
+﻿---
+title: "The t-test"
+layout: page
+output:
+  html_document:
+    keep_md: yes
+subcategory: Hypothesis Testing
+category: stats
+---
+
+Important statistical tests
+===
+
+Recall statistical tests, or more formally, null-hypothesis significance testing (NHST) is one of several ways in which you can approach data. The idea is that you define a null-hypothesis, and then you look a the probability that the data would occur under the assumption that the null hypothesis is true.
+
+Now, there can be many null hypothesis, so you need many tests. The most widely used tests are given here.
+
+
+# *t*-test
+The *t*-test can be used to test whether one sample is different from a reference value (e.g. 0: one-sample *t*-test), whether two samples are different (two-sample *t*-test) or whether two paired samples are different (paired *t*-test).
+
+The *t*-test assumes that the data are normally distributed. It can handle samples with same or different variances, but needs to be "told" so. 
+
+
+## t-test for 1 sample (PARAMETRIC TEST)
+
+The one-sample t-test compares the MEAN score of a sample to a known value, usually the population MEAN (the average for the outcome of some population of interest). 
+
+```{r}
+data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
+attach(data)
+boxplot(y)
+```
+
+Our null hypothesis is that the mean of the sample is not less than 2.5 (real example: weight data of 200 lizards collected for a research, we want to compare it with the known average weights available in the scientific literature)
+
+```{r}
+t.test(y,mu=2.5,alt="less",conf=0.95)  # mean = 2.5, alternative hypothesis one-sided; we get a one-sided 95% CI for the mean 
+```
+
+
+```{r}
+t.test(y,mu=2.5,alt="two.sided",conf=0.95) #2 sided-version
+detach(data)
+```
+
+
+## t-test for 1 sample (NON-PARAMETRIC TEST)
+
+One-sample Wilcoxon signed rank test is a non-parametric alternative method of one-sample t-test, which is used to test whether the location (MEDIAN) of the measurement is equal to a specified value
+
+
+Create fake data log-normally distributed and verify data distribution
+```{r}
+x<-exp(rnorm(15))
+plot(x)
+boxplot(x)
+qqnorm(x)
+qqline(x,lty=2,col=2,lwd=3)
+shapiro.test(x) # not normally distributed
+summary(x)
+```
+
+Our null hypothesis is that the median of x is not different from 1
+
+```{r}
+wilcox.test(x, alternative="two.sided", mu=1) # high p value-> median of x is not different from 1
+```
+
+
+## Two Independent Samples T-test (PARAMETRIC TEST)
+```
+Parametric method for examining the difference in MEANS between two independent populations. 
+The *t*-test should be preceeded by a graphical depiction of the data in order to check for normality within groups and for evidence of heteroscedasticity (= differences in variance), like so:
+
+Reshape the data:
+
+```{r}
+Y1 <- rnorm(20)
+Y2 <- rlnorm(20)
+Y <- c(Y1, Y2)
+groups <- as.factor(c(rep("Y1", length(Y1)), rep("Y2", length(Y2))))
+```
+
+Now plot them as points (not box-n-whiskers):
+
+```{r}
+plot.default(Y ~ groups)
+```
+
+
+The points to the right scatter similar to those on the left, although a bit more asymmetrically. Although we know that they are from a log-normal distribution (right), they don't look problematic.
+
+If data are **not** normally distributed, we sometimes succeed making data normal by using transformations, such as square-root, log, or alike (see section on transformations).
+
+While *t*-tests on transformed data now actually test for differences between these transformed data, that is typically fine. Think of the pH-value, which is only a log-transform of the proton concentration. Do we care whether two treatments are different in pH or in proton concentrations? If so, then we need to choose the right data set. Most likely, we don't and only choose the log-transform because the data are actually lognormally distributed, not normally.
+
+A non-parametric alternative is the Mann-Whitney-U-test, or, the ANOVA-equivalent, the Kruskal-Wallis test. Both are available in R and explained later, but instead we recommend the following:
+
+Use rank-transformations, which replaces the values by their rank (i.e. the lowest value receives a 1, the second lowest a 2 and so forth). A *t*-test of rank-transformed data is not the same as the Mann-Whitney-U-test, but it is more sensitive and hence preferable (Ruxton 2006) or at least equivalent (Zimmerman 2012).
+
+```{r}
+t.test(rank(Y) ~ groups)
+```
+To use the rank, we need to employ the "formula"-invokation of t.test!
+In this case, results are the same, indicating that our hunch about acceptable skew and scatter was correct.
+
+(Note that the original *t*-test is a test for differences between means, while the rank-*t*-test becomes a test for general differences in values between the two groups, not specifically of the mean.)
+
+
+Cars example:
+```{r}
+head(mtcars)
+
+mtcars$fam=factor(mtcars$am, levels=c(0,1), labels=c("automatic","manual")) #transform "am" into a factor (fam) [Transmission (0 = automatic, 1 = manual)]
+
+attach(mtcars)
+head(mtcars)
+summary(mtcars$fam)
+```
+
+Test the difference in car consumption depending on the transmission type. 
+Check wherever the 2 'independent populations' are normally distributed
+
+```{r}
+par(mfrow=c(1,2))
+qqnorm(mpg[fam=="manual"]);qqline(mpg[fam=="manual"])
+qqnorm(mpg[fam=="automatic"]); qqline(mpg[fam=="automatic"])
+shapiro.test(mpg[fam=="manual"])  #normal distributed
+shapiro.test(mpg[fam=="automatic"])   #normal distributed
+par(mfrow=c(1,1))
+```
+
+Graphic representation
+```{r}
+boxplot(mpg~fam, ylab="Miles/gallon",xlab="Transmission",las=1)
+```
+
+We have two ~normally distributed populations.
+In order to test for differences in means, we applied a t-test for independent samples. 
+
+Any time we work with the t-test, we have to verify whether the variance is equal betwenn the 2 populations or not, then we fit the t-test accordingly.  
+Our Ho or null hypothesis is that the consumption is the same irrespective to transmission. We assume non-equal variances
+
+```{r}
+t.test(mpg~fam,mu=0, alt="two.sided",conf=0.95,var.eq=F,paired=F)
+```
+From the output: please note that CIs are the confidence intervales for differences in means
+
+Same results if you run the following (meaning that the other commands were all by default)
+```{r}
+t.test(mpg~fam) 
+```
+The alternative could be one-sided (greater, lesser) as we discussed earlier for one-sample t-tests
+
+If we assume equal variance, we run the following 
+
+```{r}
+t.test(mpg~fam,var.eq=TRUE,paired=F)
+```
+
+Ways to check for equal / not equal variance
+
+1) To examine the boxplot visually
+
+```{r}
+boxplot(mpg~fam, ylab="Miles/gallon",xlab="Transmission",las=1)
+```
+
+2) To compute the actual variance
+```{r}
+var(mpg[fam=="manual"])
+var(mpg[fam=="automatic"])
+```
+There is 2/3 times difference in variance.
+
+3) Levene's test
+```{r}
+library(car)
+leveneTest(mpg~fam) # Ho is that the population variances are equal
+# Ho rejected, non-equal variances
+```
+
+## Mann-Whitney U test/Wilcoxon rank-sum test for two independent samples  (NON-PARAMETRIC TEST) 
+
+We change the response variable to hp (Gross horsepower)
+
+```{r}
+qqnorm(hp[fam=="manual"]);qqline(hp[fam=="manual"])
+qqnorm(hp[fam=="automatic"]);qqline(hp[fam=="automatic"])
+shapiro.test(hp[fam=="manual"])  #not normally distributed
+shapiro.test(hp[fam=="automatic"])  #normally distributed
+```
+
+The 'population' of cars with manual transmission has a hp not normally distributed, so we have to use a test for independent samples - non-parametric
+
+We want to test a difference in hp depending on the transmission
+Using a non-parametric test, we test for differences in MEDIANS between 2 independent populations
+
+```{r}
+boxplot(hp~fam)
+```
+
+Our null hypothesis will be that the medians are equal (two-sided)
+
+```{r}
+wilcox.test(hp~fam,mu=0,alt="two.sided",conf.int=T,conf.level=0.95,paired=F,exact=F) ## non parametric conf.int are reported
+```
+
+```{r}
+detach(mtcars)
+```
+
+## Wilcoxon signed rank test for two dependend samples (NON PARAMETRIC)
+This is a non-parametric method appropriate for examining the median difference in 2 populations observations that are paired or dependent one of the other.
+
+This is a dataset about some water measurements taken at different levels of a river: 'up' and 'down' are water quality measurements of the same river taken before and after a water treatment filter, respectively 
+
+```{r}
+streams = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/streams.txt",header=T)
+head(streams)
+```
+
+
+```{r}
+attach(streams)
+summary(streams)
+plot(up,down)
+abline(a=0,b=1) #add a line with intercept 0 and slope 1
+
+```
+The line you see in the plot corresponds to x=y, that is, the same water measuremets before and after the water treatment (it seems to be true in 2 rivers only, 5 and 15)
+
+Our null hypothesis is that the median before and after the treatment are not different
+
+```{r}
+shapiro.test(down) #not normally distributed
+shapiro.test(up) #normally distributed
+#the assumption of normality is certainly not met for the measurements after the treatment
+
+summary(up)
+summary(down)
+wilcox.test(up,down,mu=0,paired=T,conf.int=T,exact=F) #paired =T, low p ->reject Ho, medians are different
+detach(streams)
+```
+
+
+## Paired T-test for two dependend samples test. (PARAMETRIC)
+This parametric method examinates the difference in means for two populations that are paired or dependent one of the other
+
+```{r}
+fish = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/fishing.txt",header=T)
+```
+
+This is a dataset about the density of a fish prey species (fish/km2) in 121 lakes before and after removing a non-native predator
+
+```{r}
+attach(fish)
+head(fish)
+boxplot(before,after,ylab="Fish Density",
+        names=c("before", "after"))
+
+shapiro.test(before) #normally distributed
+shapiro.test(after)  #normally distributed
+
+plot(before,after)
+abline(a=0,b=1) 
+```
+
+
+```{r}
+t.test(before,after,mu=0,paired=T)
+
+t.test(after,before,mu=0,paired=T) #changing the order of variables, we have a change in the sign of the t-test estimated mean of differences
+
+#low p ->reject Ho, means are equal 
+
+detach(fish)
+```
+
+
+####References
+Ruxton, G. D. (2006). The unequal variance t-test is an underused alternative to Student’s t-test and the Mann-Whitney U test. Behavioral Ecology, 17, 688–690.
+
+Zimmerman, D. W. (2012). A note on consistency of non-parametric rank tests and related rank transformations. British Journal of Mathematical and Statistical Psychology, 65, 122–44.

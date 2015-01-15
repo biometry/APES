@@ -6,3 +6,8 @@ category: r
 
 Package development
 ===
+
+
+
+
+http://dirk.eddelbuettel.com/code/bh.html
