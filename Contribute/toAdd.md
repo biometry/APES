@@ -16,7 +16,7 @@ runjags: An R Package Providing Interface Utilities,
 Distributed Computing Methods and Additional
 Distributions For MCMC Models in JAGS
 
-https://www.ma.utexas.edu/users/mks/statmistakes/StatisticsMistakes.html
+
 
 http://www.youtube.com/watch?v=1j2Duy_xzEA
 
