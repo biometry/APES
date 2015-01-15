@@ -15,7 +15,7 @@ The relationship between age and lung capacity
 
 
 ```r
-load("Z:/GitHub/RMarkdowns - Stat with R/5_Simple Linear Regression/lung.Rdata")
+load("../Data/lung.Rdata")
 head(lung)
 ```
 
@@ -92,7 +92,7 @@ attributes(mod)
 ## [1] "lm"
 ```
  
-Selection of the coefficient´s attribute
+Selection of the coefficient?s attribute
 
 ```r
 mod$coefficients 
@@ -317,10 +317,10 @@ The Lung Capacity linear regression met the assumptions of a linear regression.
 
 ### Example3  simple regression 
 
-Now an example that doesn´t met these assumptions. This data shows the decay of a biodegradable plastic in soil: the response, y, is the mass of plastic remaining and the explanatory variable, x, is duration of burial.
+Now an example that doesn?t met these assumptions. This data shows the decay of a biodegradable plastic in soil: the response, y, is the mass of plastic remaining and the explanatory variable, x, is duration of burial.
 
 ```r
-load("Z:/GitHub/RMarkdowns - Stat with R/5_Simple Linear Regression/problems.RData")
+load("../Data/problems.RData")
 ```
 
 
@@ -378,7 +378,7 @@ Assumption of linearity and homoscedasticity (top-left plot) are hardly met in t
 Relation between decay and time
 
 ```r
-decay <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/5_Simple Linear Regression//Decay.txt")
+decay <- read.delim("../Data/Decay.txt")
 
 summary(decay)
 ```
@@ -727,9 +727,6 @@ Video demonstrating multiple linear regresssion in R
 
 
 ```r
-setwd("Z:/GitHub/RMarkdowns - Stat with R/7_regression & ANCOVA")
-load("lung.RData")
-
 head(lung)
 ```
 
@@ -786,7 +783,9 @@ library(effects)
 ```
 
 ```
-## Warning: package 'effects' was built under R version 3.0.3
+## Loading required package: lattice
+## Loading required package: grid
+## Loading required package: colorspace
 ```
 
 ```r
@@ -1193,7 +1192,7 @@ detach(lung)
 Forest bird densities measured in 56 forest patches in Australia
 
 ```r
-Birds <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/7_regression & ANCOVA/birds.txt")
+Birds <- read.delim("../Data/birds.txt")
 head(Birds)
 ```
 
@@ -1400,7 +1399,7 @@ Because initial plant size was thought likely to influence fruit production, the
 
 
 ```r
-regrowth <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/7_regression & ANCOVA/regrowth.txt")
+regrowth <- read.delim("../Data/regrowth.txt")
 head(regrowth)
 ```
 
@@ -1468,14 +1467,10 @@ library(car)
 ```
 
 ```
-## Warning: package 'car' was built under R version 3.0.3
-```
-
-```
 ## 
 ## Attaching package: 'car'
 ## 
-## Das folgende Objekt ist maskiert from 'package:effects':
+## The following object is masked from 'package:effects':
 ## 
 ##     Prestige
 ```
@@ -1520,7 +1515,7 @@ Now we will take the root size in consideration
 
 
 ```r
-regrowth <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/7_regression & ANCOVA/regrowth.txt")
+regrowth <- read.delim("../Data/regrowth.txt")
 head(regrowth)
 ```
 
