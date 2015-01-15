@@ -29,6 +29,7 @@ http://fxdiebold.blogspot.ca/2014/05/predictive-modeling-causal-inference.html
 
 https://www.ma.utexas.edu/users/mks/statmistakes/StatisticsMistakes.html
 
+http://www.burns-stat.com/documents/books/the-r-inferno/
 
 
 # Reviewer checklists
