@@ -1,11 +1,13 @@
 ---
-title: "Summary statistics"
-layout: page
 output:
   html_document:
     keep_md: yes
-subcategory: Basic concepts
+---
+---
+layout: page
+title: Summary statistics
 category: stats
+subcategory: Basic concepts
 ---
 
 Summary statistics and correlations
