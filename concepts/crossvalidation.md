@@ -27,6 +27,7 @@ Stone, M. (1977) An Asymptotic Equivalence of Choice of Model by Cross-Validatio
 
 ### Further links
 
-cross-validation - http://robjhyndman.com/hyndsight/crossvalidation/
+* http://www.petrkeil.com/?p=836
+* http://robjhyndman.com/hyndsight/crossvalidation/
 
 
