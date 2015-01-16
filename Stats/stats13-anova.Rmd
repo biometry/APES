@@ -1,0 +1,510 @@
+---
+title: "ANOVA"
+layout: page
+output:
+  html_document:
+    keep_md: yes
+subcategory: Hypothesis Testing
+category: stats
+---
+
+Analysis of variance (ANOVA)
+===
+
+Anova or analysis of variance makes basically the same assumptions as a t-test (normally distributed responses), but allows for more than two groups. More precisely, the measured response (i.e. the dependent variable) can be influence by several categorical variables that could also interact. Here a simple example for testing whether weight depends on group, where group is a variable that codes for three different options control, treatment1 and treatment2:
+
+```{r}
+aovresult <- aov(extra~group,  data = sleep)
+summary(aovresult)
+```
+
+We find a p-value of 0.0159, which is significant at an $\alpha$ level of 0.05. Note that in this case, we don't get any parameter estimates. If you want those, there are two options for the ANOVA:
+\begin{itemize}
+\item Either you apply what is called post-hoc testing, which means that you test for differences (e.g. with a t-test) between the subgroups, i.e. control vs. treatment1, treatment1 vs. treatment2, etc.
+\item Or you switch to a regression, which is described in the next chapter
+\end{itemize}
+If you do post-hoc testing, you are doing multiple tests on the same data. This is a problem - the idea of the p-value is that you calculate the probability of seeing the data under ONE null hypothesis. If you do this, you will get at most 5\% error at an $\alpha$ level of 0.05. \marginnote{When doing multiple tests on the same data, we need to correct the p-values for multiple testing.} However, if we do multiple tests, we are testing multiple null hypotheses, and there are more options for the test statistics to get significant just by chance. Hence, we need to correct the p-values for multiple testing. There are a number of options to do so, google is your friend. 
+
+
+# ONE-WAY ANOVA 
+
+ANOVA is a parametric method appropriate to compare means of two or more INDEPENDENT populations by using variances.
+Do not confuse with ANCOVA, a model which blends ANOVA and regression 
+
+
+Model validation, assumptions:
+1) Random sampling, or at the very least, random assignment to groups. Independence of scores on the response variable. What we get from one subject should be in no way influenced by what we get from any of the others.
+2) Variation of observations around the regression line
+(the residual standard error) is CONSTANT (homoscedasticity)
+3) Y values (or the errors) are INDEPENDENT (independence)
+4) For a given X value, Y values (or the errors) are NORMALLY DISTRIBUTED (normality)
+
+Example, clay's yield depending on the soil
+```{r}
+results <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/6_ANOVA/yields.txt")
+results
+attach(results)
+names(results)
+
+#the datset is horizonetal, first we will flip it to vertical
+sapply(list(sand,clay,loam),mean) #for horizontal datasets
+boxplot(sand,clay,loam)
+
+#to flip the dataset
+frame <- stack(results)
+names(frame) <- c("yield","soil")
+detach(results)
+attach(frame)
+head(frame)
+
+#now, the dataset is vertical
+tapply(yield,soil,var)
+
+plot(yield~soil,col="green")
+
+#test for homoscedasticity, one of the model assumptions
+fligner.test(yield~soil)   # Fligner-Killeen test of homogeneity of variances
+bartlett.test(yield~soil)  #Bartlett.test
+
+#Once tested the assumptions, we can compute the ANOVA
+model=aov(yield~soil)
+summary(model)
+
+par(mfrow=c(2,2))
+plot(aov(yield~soil))
+par(mfrow=c(1,1))
+
+#we can see that the assumptions are met
+
+detach(frame)
+```
+
+ONE-WAY ANOVA example: Load weight loss depending on 4 different diets
+```{r}
+diets <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/6_ANOVA/DietWeigthLoss.txt")
+head(diets)
+summary(diets)
+attach(diets)
+
+class(WeightLoss) #our response variable
+class(Diet) # our predictor variable (categorical)
+
+levels(Diet)
+length(WeightLoss)
+```
+
+```{r}
+boxplot(WeightLoss~Diet, ylab="Weight loss (kg)", xlab="Diet ",col=c(0,2,3,4))
+
+# Ho = mean equal for all diets
+
+model1= aov(WeightLoss~Diet)
+
+summary(model1) 
+
+attributes(model1)
+model1$coefficients  #we subset the coefficients from the model's attributes
+mean(WeightLoss[Diet=="A"])  #coefficients have been estimated with respect to Diet A
+```
+
+Multiple comparisons
+```{r}
+TukeyHSD(model1) #all possible combinations between the different diets
+plot(TukeyHSD(model1), las=1)  #graphic visualization
+```
+
+ANOVA's assumptions
+```{r}
+par(mfrow=c(2,2))
+plot(model1)
+par(mfrow=c(1,1))
+
+qqnorm(model1$residuals);qqline(model1$residuals)
+shapiro.test(model1$residuals) # we cannot reject the null hypothesis, but with poor confidence. However, as discussed for the linear regression, the assumption of normality is not that strict.
+```
+If our data is no normally distributed:
+The one-way ANOVA is considered a robust test against the normality assumption. This means that it tolerates violations to its normality assumption rather well. Regarding the normality of the group data, the one-way ANOVA can tolerate data that is non-normal . However, platykurtosis can have a profound effect when the group sizes are small. 
+(Kurtosis.jpg)
+
+There are two options: 
+1) Transform the data using various algorithms so that the shape of the distributions become normally distributed 
+2) Choose the non-parametric Kruskal-Wallis H Test which does not require the assumption of normality.
+
+```{r}
+par(mfrow=c(1,2))
+hist(model1$residuals,freq=F,ylim=c(0,0.4),breaks=10);lines(density(model1$residuals))
+hist(WeightLoss,freq=F,ylim=c(0,0.4),breaks=10);lines(density(WeightLoss))
+par(mfrow=c(1,1))
+#Platykurtosis was not used here, the sample size is not small neither.
+```
+It is important to remember, that the homogeneity of variances is more important than the normality of residuals
+
+Other option to run a parametric one-way ANOVA with correction for non-equal variances, limited to very simple ANOVAs:
+```{r}
+data(InsectSprays)
+attach(InsectSprays)
+fligner.test(count ~ spray) # variances are not equal
+boxplot(count ~ spray)
+model3=oneway.test(count ~ spray) #this is not assuming equal variances
+model3
+detach(InsectSprays)
+```
+
+More complex example: Serum_iron(microg/dL) dosis in 120 patients
+```{r}
+iron <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/6_ANOVA/hospital_ANOVA.txt")
+
+head(iron)   
+dim(iron)  #dimensions of the data
+attach(iron)
+levels(treatment)   
+```
+
+Running a parametric ANOVA
+```{r}
+boxplot(Serum_iron~treatment)
+ANOVA1=aov(Serum_iron~treatment)
+summary(ANOVA1)
+TukeyHSD(ANOVA1)
+
+op=par(mar=c(4,8,4,4))
+plot(TukeyHSD(ANOVA1),las=1)
+par(op)
+
+op=par(mfrow=c(2,2))
+plot(ANOVA1)
+par(op)
+par(mfrow=c(1,1))
+fligner.test(Serum_iron~treatment)
+bartlett.test(Serum_iron~treatment, iron)
+#increasing spred in residuals, different spread in residuals depending on drugs
+
+boxplot(ANOVA1$residuals~treatment)
+
+# There is an independence problem, we need more information: are patients all from the same hospital? what about sex and age of patient?
+```
+
+## Non-parametric version of the Analysis of Variance
+
+KRUSKAS WALLIS 1-WAY Analysis of Variance is a non-parametric equivalent of ANOVA for independent samples.
+```{r}
+model2=kruskal.test(WeightLoss~Diet)
+library(pgirmess)
+kruskalmc(WeightLoss~Diet)
+plot(TukeyHSD(model1), las=1) #compare with results of Tukey plot (line 91) 
+
+detach(diets)
+```
+However, the Kruskal-Wallis test should not be regarded as an universal solution, it is primarily intended to solve normality problems. 
+It performs better when the distributions have all the same shape, and when there is homogeneity of variance.
+
+```{r}
+kruskal.test(Serum_iron~treatment)
+library(pgirmess)
+kruskalmc(Serum_iron~treatment)  #compare with the results of Tukey plot, they are the same
+
+detach(iron)
+```
+
+## hovPlot
+
+The hovPlot( ) function in the HH package provides a graphic test of homogeneity of variances 
+based on Brown-Forsyth. Oneway analysis of variance makes the assumption that the variances of the groups are equal.
+
+Example 1  (clearly not homogeneous variances)
+```{r}
+# Homogeneity of Variance Plot
+library(HH)
+boxplot(count ~ spray,data = InsectSprays)
+hov(count ~ spray, data = InsectSprays)
+hovPlot(count ~ spray, data = InsectSprays) 
+```
+
+Example 2  (homogeneous variances)
+```{r}
+data(turkey)
+head(turkey)
+boxplot(wt.gain ~ diet, data=turkey)
+model3=aov(wt.gain ~ diet, data=turkey)
+summary(model3)
+par(mfrow=c(2,2))
+plot(model3)
+par(mfrow=c(1,1))
+
+hov(wt.gain ~ diet, data=turkey)
+hovPlot(wt.gain ~ diet, data=turkey)
+
+#compare it with the example1 plot 
+hovPlot(count ~ spray, data = InsectSprays) 
+
+```
+
+## Contrasts in ANOVA
+
+1) Treatment contrasts in ANOVA using summary.lm instead of summary()
+
+When the design consists of a control condition and several treatments, or when there is a distinct baseline condition to which the other groups can be logically compared, then treatment constrasts offers a mechanism to visualize the treatment effects. 
+
+```{r}
+attach(PlantGrowth)
+summary(PlantGrowth)
+boxplot(weight ~ group)
+bartlett.test(weight ~ group)
+results =  aov(weight ~ group)
+summary.aov(results)  #classical approach
+TukeyHSD(results) #classical approach
+plot(TukeyHSD(results))
+
+summary.lm(results)
+
+detach(PlantGrowth)
+```
+
+The treatment contrasts are in the Coefficients table. The estimated coefficient for the Intercept is the mean of the baseline or control group. But if the final aim is to do all the possible comparisons anyway, the better solution is to use the Tukey's HSD test, which controls the experimentwise error rate.
+
+
+2) More on contrasts - controlling the significance in multiple comparisons
+
+The following example concerns the yield of fungus gathered from 16 different habitats:
+```{r}
+data <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/6_ANOVA/Fungi.txt")
+attach(data)
+```
+
+First we establish whether there is any variation in fungus yield to explain:
+```{r}
+model <- aov(Fugus.yield~Habitat)
+summary(model)
+```
+
+There is (p < 0.000 001). 
+But this is not too interesting, because it just shows that some habitats produce more fungus than others. We are interested in which habitats produce significantly more fungi than others. 
+Multiple comparisons can be an issue since there are 16 habitats (16 × 15)/2 = 120 possible pairwise comparisons. 
+
+There are two options:
+
+```{r}
+TukeyHSD(model)
+plot(TukeyHSD(model))
+```
+Habitats on opposite sides of the dotted line and not overlapping it are significantly different one from another.
+
+Alternatively, it is possible to use the pairwise.t.test function in which we specify the response variable,
+and then the categorical explanatory variable containing the factorlevels we want to compare, separated
+by a comma:
+
+```{r}
+pairwise.t.test(Fugus.yield,Habitat)
+```
+The default method of adjustment of the p values is holm, but other adjustment methods include
+hochberg, hommel, bonferroni, BH, BY, fdr and none. 
+
+## Factorial ANOVA
+
+A factorial experiment has two or more factors, each with two or more levels, plus replication for each combination of factors levels. 
+This means that we can investigate statistical interactions, in which the response to one factor depends on the level of another factor. 
+
+Our example comes from a farm-scale trial of animal diets. There are two factors: diet and supplement. Diet is a factor with three levels: barley, oats and wheat.
+Supplement is a factor with four levels: agrimore, control, supergain and supersupp. The response variable is
+weight gain after 6 weeks.
+```{r}
+weight <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/6_ANOVA/growth.txt")
+
+```
+
+Tools for data exploration
+```{r}
+# attach(weight)
+# replications(gain ~ diet * supplement, data=weight)  #this shows that the design is fully balanced
+# 
+# #try to unbalance the design
+# replications(gain ~ diet * supplement,data=weight[1:40,])
+# 
+# boxplot(gain ~ diet + supplement, ylab="Weight gain" )
+# 
+# #interaction plot
+# interaction.plot(diet, supplement,                 #x.factor=diet, trace.factor=supplement,response=gain
+#                      gain, fun=mean, type="b", legend=T,  #type b plots either lines and points
+#                      ylab="Weight gain", main="Interaction Plot",
+#                      pch=c(1,19))
+# 
+# coplot(gain ~ diet | supplement, data = weight, panel = panel.smooth,
+#        xlab = "Weight gain data: diet vs gain, given type of supplement")
+# 
+# plot.design(gain ~ diet * supplement, data=ToothGrowth)
+
+```
+
+
+```{r}
+# barplot(tapply(gain,list(diet,supplement),mean), 
+#         beside=T,ylim=c(0,30),col=c("orange","yellow","cornsilk"))   #(note the use of beside=T to get the bars in adjacent clusters rather than vertical stacks
+# 
+# labs <- c("Barley","Oats","Wheat")
+# legend(3,29,labs,fill= c("orange","yellow","cornsilk"))
+# #legend(locator(1),labs,fill= c("orange","yellow","cornsilk"))
+# 
+# tapply(gain,list(diet,supplement),mean)
+```
+
+We use either lm and aov to run a a factorial analysis of variance
+```{r}
+# model <- aov(gain~diet*supplement)
+# summary(model)
+```
+No hint about a role of the interaction. 
+
+Model simplification
+```{r}
+
+# model <- aov(gain~diet+supplement)
+# 
+# par(mfrow=c(1,2))
+# boxplot(gain~diet); boxplot(gain~supplement)
+# par(mfrow=c(1,1))
+# 
+# summary(model)
+```
+
+The disadvantage of the ANOVA table is that it does not show us the effect sizes. Let's check the summary.lm
+
+```{r}
+# summary.lm(model)
+```
+
+```{r}
+library(effects) # explore the library(effects) and make sure you know which model classes you can deal with
+plot(allEffects(model))  
+```
+
+## Pseudoreplication: Nested designs and split plots
+
+The model-fitting functions aov, lme and lmer have the ease to deal with complicated error structures, and
+it is important to be able to recognize such error structures, and hence avoid the pitfalls of pseudoreplication.
+
+There are two general cases:
+
+1) split-plot analysis, when designed experiments have different treatments applied to plots of different
+sizes 
+
+2) nested sampling, when repeated measurements are taken from the same individual, or observational
+studies are conducted at several different spatial scales (mostly random effects);
+
+
+### Split-plot experiments
+
+In a split-plot experiment, different treatments are applied to plots of different sizes. Each different plot size
+is associated with its own error variance, so instead of having one error variance (as in all the ANOVA tables
+up to this point), we have as many error terms as there are different plot sizes. The analysis is presented as a
+series of component ANOVA tables, one for each plot size, in a hierarchy from the largest plot size with the
+lowest replication at the top, down to the smallest plot size with the greatest replication at the bottom.
+
+
+The following example refers to a designed field experiment on crop yield with three treatments: irrigation
+(with two levels, irrigated or not), sowing density (with three levels, low, medium and high), and fertilizer
+application (with three levels, low, medium and high).
+```{r}
+yields <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/6_ANOVA/splityield.txt")
+attach(yields)
+names(yields)
+head(yields)
+
+summary(yields)
+```
+level 1 -> 4 blocks
+level 2 -> irrigation (each half of a block)
+level 3 -> seed-sowing densities (in each 1/3 of irrigation splits)
+level 4-> each density plot was split into 3, and one of the fertilizer nutrient treatment N, P, N and P together (only one of the )
+
+```{r}
+model =aov(yield~irrigation*density*fertilizer+Error(block/irrigation/density)) #Note that the smallest plot size, fertilizer, does not need to appear in the Error term
+summary(model)
+```
+
+It is possible to see the four ANOVA tables, one for each plot size: blocks are the biggest plots, half blocks
+get the irrigation treatment, one third of each half block gets a sowing density treatment, and one third of a
+sowing density treatment gets each fertilizer treatment. Note that the non-significant main effect for density
+(p = 0.053) does not mean that density is unimportant, because density appears in a significant interaction
+with irrigation (the density terms cancel out, when averaged over the two irrigation treatments; see below).
+
+The best way to understand the two significant interaction terms is to plot them using interaction.plot:
+```{r}
+interaction.plot(fertilizer,irrigation,yield)
+```
+
+Irrigation increases yield proportionately more on the N-fertilized plots than on the P-fertilized plots. The
+irrigation-density interaction is more complicated:
+
+```{r}
+interaction.plot(density,irrigation,yield)
+```
+On the irrigated plots, yield is lowest on the low-density plots, but on control plots yield is lowest on the high-density plots. 
+
+## Effect sizes in ANOVA: aov or lm?
+
+The difference between lm and aov is mainly in the output form: 
+The summary table with aov is in the traditional form for the analysis of variance, with one row for each categorical variable and each interaction term. 
+On the other hand, the summary table for lm produces one row per estimated parameter (i.e. one
+row for each factor level and one row for each interaction level). 
+If there are multiple error terms (spatial pseudoreplication) then an aov approach must be used because lm does not support the Error term.
+
+Here is a three-way analysis of variance fittdtted firstrst using aov first and lm after:
+```{r}
+daphnia <- read.delim("Z:/GitHub/RMarkdowns - Stat with R/6_ANOVA/daphnia.txt")
+attach(daphnia)
+names(daphnia)
+
+model1 <- aov(Growth.rate~Water*Detergent*Daphnia)
+summary(model1)
+```
+
+All three factors are likely to stay in the model because every of them is involved in at least one significant interaction.
+We must not be misled by the apparently non-significant main effect for detergent. The three-way interaction
+is clearly non-significant and can be deleted (p = 0.234). 
+
+Here is the output from the same analysis using the linear model function:
+
+```{r}
+model2 <- lm(Growth.rate~Water*Detergent*Daphnia)
+summary(model2)
+```
+
+Note that the two significant interactions from the aov table do not show up in the summary.lm table (Water-
+Daphnia and Detergent-Daphnia). This is because summary.lm shows treatment contrasts, comparing
+everything to the Intercept, rather than orthogonal contrasts. In the aov table, the p values are 'on deletion' p
+values, which is a big advantage.
+
+In complicated designed experiments, it is easier to summarize the effect sizes with plot.design and
+model.tables functions. 
+
+For main effects:
+```{r}
+plot.design(Growth.rate~Water*Detergent*Daphnia)
+```
+
+This simple graphical device provides a very clear summary of the three sets of main effects. It is no ideal,
+however, at illustrating the interactions. 
+The model.tables function takes the name of the fitted model object as its firrst argument, and then it is possible to specify whether we want the standard errors (as we typically would):
+
+Attractive plots of effect sizes can be obtained using the effects library.
+
+```{r}
+library(effects)
+plot(allEffects(model2))
+```
+
+## ANOVA for repeated measures
+This time, we have repeated measures of the same animal, sample sampling unit etc, producing a set of dependent populations.
+As long as we have only categorical predictors and balanced designs, it is possible to deal with it using repeated measures ANOVAs
+
+Examples: measures of the same individual before and after the treatment ("client of a psycological clinic"). It is inappropriate to just compare the before and after observations as if they were independent, because they are not. The "after" observations are usually dependent upon the "before" observations and the effect of order. That is, a client who was very anxious at the initial occasion of measurement is likely to be less anxious at subsequent occasions, and because of the selection of clients on the basis of their disturbed psychological state and the change that state over time, our clients (who tended to be more disturbed than usual when they were recruited) will be likely to get somewhat better even if we just tell them to come back in six weeks.
+
+```{r}
+# the aov for repeated measures will take the general form: summary(aov(response~contrasts+Error(ID),mydata))
+```
+
+The NON-PARAMETRIC version of the ANOVA for repeated measures is the Friedman test
+
+The next level includes nested and crossed random effects, categorical and/or numerical predictors, unbalanced sample designs, spatial and temporal autocorrelations --->> MIXED-EFFECTS models
+
+
