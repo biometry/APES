@@ -2,6 +2,7 @@
 layout: page
 title: Interaction
 category: concepts
+maintainer: Florian Hartig
 ---
 
 Interaction
