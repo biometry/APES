@@ -15,3 +15,11 @@ Structural equation models (SEM) are a special class of hierarchical models. Sta
 
 
 http://www.imachordata.com/space-and-sems-2/
+
+
+## Terminology 
+
+- exogenous variables is not influenced by other variables. Opposite is an endogenous variable
+- a manifest variable is observed directly (also called indicator variable)
+- a latent variable is not observed directly
+- moderation - something like an interaction, i.e. that one variable incfluences the effect of two other variables on each other. 

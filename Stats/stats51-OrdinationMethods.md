@@ -2,7 +2,7 @@
 layout: page
 title: Ordination methods
 category: stats
-subcategory: Basic concepts
+subcategory: Multivariate statistics
 ---
 
 Ordination methods

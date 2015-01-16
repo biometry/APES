@@ -27,7 +27,6 @@ Field, A.; Miles, J. & Field, Z. (2012) Discovering statistics Using R. Sage,
 Stats Book + MOOC http://www-bcf.usc.edu/~gareth/ISL/
 
 
-
 ## videos
 
 https://www.youtube.com/channel/UCaNIxVagLhqupvUiDK01Mgg

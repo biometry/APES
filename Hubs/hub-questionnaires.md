@@ -11,6 +11,3 @@ However, there are a few problems that are more pressing for questionnaires, e.g
 * [Survey methods and practices](http://www.statcan.gc.ca/pub/12-587-x/12-587-x2003001-eng.pdf) - free relatively comprehensive book
 * [Survey Design Tutorial](https://www.statpac.com/surveys/) - website with shorter topics 
 
-
-Literature
-==
