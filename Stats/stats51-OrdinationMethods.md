@@ -10,22 +10,22 @@ Ordination methods
 ===
 
 
-# Principal component analysis (PCA)
+## Principal component analysis (PCA)
 
 http://liorpachter.wordpress.com/2014/05/26/what-is-principal-component-analysis/
 
-# Correspondence analysis (CA) 
+## Correspondence analysis (CA) 
 
-# Redundancy analysis (RDA)
+## Redundancy analysis (RDA)
 
-# Multidimensional scaling (MDS)
-
-
+## Multidimensional scaling (MDS)
 
 
 
 
-# Comments about assumptions and when to choose what
+
+
+## Comments about assumptions and when to choose what
 
 1) The original motivation for the algorithms that underlie PCA and RDA involve a multivariate normal distribution, in the sense that someone said: if the data is multivariate normal, then this is a good way to summarize the variability in this data.
 
