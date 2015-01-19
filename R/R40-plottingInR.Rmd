@@ -15,13 +15,33 @@ A lot more examples in the links here https://github.com/biometry/APES/blob/mast
 
 # Simple standard plots
 
+The basic plotting command in R is the "plot()" function. Depending on which data type it is provided with, it will do different plots. 
+
 ## Scatter plot
+
+The most basic plot that can be done with the plot() function is a scatter plot. This option will be chosen if you provide plot() with one or two vectors. If provided with one vector, plot will use this as the y-axis. If provided with two vectors, plot() will use the first as x-values, and the second vector as y-values. 
 
 ### Simple Scatterplot
 
+We ll use the dataset Iris
 ```{r}
 attach(iris) # remember to detach in the end 
 head(iris)
+```
+
+To plot Sepal.Length against Petal.Length, use the following command
+
+```{r}
+plot(Petal.Length, Sepal.Length)
+```
+We can improve this plot by adding graphic options. The most basic options are provided in the help
+
+```{r}
+?plot
+```
+For example
+
+```{r}
 plot(Petal.Length, Sepal.Length, main="Simple Scatterplot",xlab="Petal Length ",ylab="Sepal Length " , 
      pch=22, col="red", bg="blue",cex=3, lwd=2)
 
