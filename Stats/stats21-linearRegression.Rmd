@@ -334,7 +334,7 @@ influence(fit) # regression diagnostics
 ```
 
 
-## Multiple linear regression
+# Multiple linear regression
 
 Multiple linear regression is the term for the situation in which you have multiple predictor variables, but still only one continous response with the same assumptions as before. 
 
