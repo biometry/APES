@@ -11,13 +11,14 @@ category: stats
 subcategory: Regression
 ---
 
-Linear regression
-===
-```{r}
+```{r, echo = False}
 library(knitr)
 opts_knit$set(global.par=TRUE) 
 opts_chunk$set(cache=TRUE,fig.align='center')
 ```
+
+Linear regression
+===
 
 # Linear regression summary and idea
 
