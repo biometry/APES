@@ -2,6 +2,7 @@
 output:
   html_document:
     keep_md: yes
+    fig_width: 5
 ---
 ---
 layout: page
@@ -12,7 +13,11 @@ subcategory: Basic concepts
 
 Explorative data analysis
 ===
-
+```{r}
+library(knitr)
+opts_knit$set(global.par=TRUE) 
+opts_chunk$set(cache=TRUE,fig.align='center')
+```
 For more details about plotting, please visit: https://github.com/biometry/APES/blob/master/R/R40-plottingInR.md
 
 We will classify here the different plot methods according to their suitability to the variable analysis

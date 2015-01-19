@@ -1,4 +1,9 @@
-# basic tests
+---
+layout: page
+title: basic tests
+category: stats
+subcategory: Hypothesis testing
+---
 
 Important statistical tests
 ===
@@ -7,6 +12,20 @@ Recall statistical tests, or more formally, null-hypothesis significance testing
 
 Now, there can be many null hypothesis, so you need many tests. The most widely used tests are given here.
 
+
+
+```r
+library(knitr)
+```
+
+```
+## Warning: package 'knitr' was built under R version 3.0.3
+```
+
+```r
+opts_knit$set(global.par=TRUE) 
+opts_chunk$set(cache=TRUE,fig.align='center')
+```
 
 # *t*-test
 The *t*-test can be used to test whether one sample is different from a reference value (e.g. 0: one-sample *t*-test), whether two samples are different (two-sample *t*-test) or whether two paired samples are different (paired *t*-test).
@@ -26,7 +45,7 @@ attach(data)
 boxplot(y)
 ```
 
-![plot of chunk unnamed-chunk-1](./stats12-basic_tests_files/figure-html/unnamed-chunk-1.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
 
 
 Our null hypothesis is that the mean of the sample is not less than 2.5 (real example: weight data of 200 lizards collected for a research, we want to compare it with the known average weights available in the scientific literature)
@@ -90,7 +109,7 @@ x<-exp(rnorm(15))
 plot(x)
 ```
 
-![plot of chunk unnamed-chunk-5](./stats12-basic_tests_files/figure-html/unnamed-chunk-5.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-6.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
 
 
 
@@ -98,7 +117,7 @@ plot(x)
 boxplot(x)
 ```
 
-![plot of chunk unnamed-chunk-6](./stats12-basic_tests_files/figure-html/unnamed-chunk-6.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-7.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 
 ```r
@@ -106,7 +125,7 @@ qqnorm(x)
 qqline(x,lty=2,col=2,lwd=3)
 ```
 
-![plot of chunk unnamed-chunk-7](./stats12-basic_tests_files/figure-html/unnamed-chunk-7.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 
 
@@ -119,7 +138,7 @@ shapiro.test(x) # not normally distributed
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  x
-## W = 0.8594, p-value = 0.02369
+## W = 0.732, p-value = 0.0005585
 ```
 
 
@@ -130,7 +149,7 @@ summary(x)
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.080   0.300   0.715   1.150   1.730   4.000
+##   0.274   0.446   0.727   1.750   2.710   6.290
 ```
 
 Our null hypothesis is that the median of x is not different from 1
@@ -146,7 +165,7 @@ wilcox.test(x, alternative="two.sided", mu=1) # high p value-> median of x is no
 ## 	Wilcoxon signed rank test
 ## 
 ## data:  x
-## V = 59, p-value = 0.978
+## V = 65, p-value = 0.804
 ## alternative hypothesis: true location is not equal to 1
 ```
 
@@ -175,7 +194,7 @@ Now plot them as points (not box-n-whiskers):
 plot.default(Y ~ groups)
 ```
 
-![plot of chunk unnamed-chunk-12](./stats12-basic_tests_files/figure-html/unnamed-chunk-12.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" />
 
 
 The points to the right scatter similar to those on the left, although a bit more asymmetrically. Although we know that they are from a log-normal distribution (right), they don't look problematic.
@@ -199,13 +218,13 @@ t.test(rank(Y) ~ groups)
 ## 	Welch Two Sample t-test
 ## 
 ## data:  rank(Y) by groups
-## t = -3.541, df = 37.86, p-value = 0.001075
+## t = -4.975, df = 37.31, p-value = 1.494e-05
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -18.075  -4.925
+##  -20.403  -8.597
 ## sample estimates:
 ## mean in group Y1 mean in group Y2 
-##            14.75            26.25
+##            13.25            27.75
 ```
 
 
@@ -281,7 +300,7 @@ qqnorm(mpg[fam=="manual"]);qqline(mpg[fam=="manual"])
 qqnorm(mpg[fam=="automatic"]); qqline(mpg[fam=="automatic"])
 ```
 
-![plot of chunk unnamed-chunk-17](./stats12-basic_tests_files/figure-html/unnamed-chunk-17.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-18.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" style="display: block; margin: auto;" />
 
 
 
@@ -323,7 +342,7 @@ Graphic representation
 boxplot(mpg~fam, ylab="Miles/gallon",xlab="Transmission",las=1)
 ```
 
-![plot of chunk unnamed-chunk-21](./stats12-basic_tests_files/figure-html/unnamed-chunk-21.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-22.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" style="display: block; margin: auto;" />
 
 
 We have two ~normally distributed populations.
@@ -410,7 +429,7 @@ Ways to check for equal / not equal variance
 boxplot(mpg~fam, ylab="Miles/gallon",xlab="Transmission",las=1)
 ```
 
-![plot of chunk unnamed-chunk-25](./stats12-basic_tests_files/figure-html/unnamed-chunk-25.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-26.png" title="plot of chunk unnamed-chunk-26" alt="plot of chunk unnamed-chunk-26" style="display: block; margin: auto;" />
 
 2) To compute the actual variance
 
@@ -440,10 +459,6 @@ There is 2/3 times difference in variance.
 
 ```r
 library(car)
-```
-
-```
-## Warning: package 'car' was built under R version 3.0.3
 ```
 
 
@@ -477,14 +492,14 @@ We change the response variable to hp (Gross horsepower)
 qqnorm(hp[fam=="manual"]);qqline(hp[fam=="manual"])
 ```
 
-![plot of chunk unnamed-chunk-31](./stats12-basic_tests_files/figure-html/unnamed-chunk-31.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-32.png" title="plot of chunk unnamed-chunk-32" alt="plot of chunk unnamed-chunk-32" style="display: block; margin: auto;" />
 
 
 ```r
 qqnorm(hp[fam=="automatic"]);qqline(hp[fam=="automatic"])
 ```
 
-![plot of chunk unnamed-chunk-32](./stats12-basic_tests_files/figure-html/unnamed-chunk-32.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-33.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" />
 
 
 ```r
@@ -524,7 +539,7 @@ Using a non-parametric test, we test for differences in MEDIANS between 2 indepe
 boxplot(hp~fam)
 ```
 
-![plot of chunk unnamed-chunk-35](./stats12-basic_tests_files/figure-html/unnamed-chunk-35.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-36.png" title="plot of chunk unnamed-chunk-36" alt="plot of chunk unnamed-chunk-36" style="display: block; margin: auto;" />
 
 Our null hypothesis will be that the medians are equal (two-sided)
 
@@ -598,7 +613,7 @@ plot(up,down)
 abline(a=0,b=1) #add a line with intercept 0 and slope 1
 ```
 
-![plot of chunk unnamed-chunk-40](./stats12-basic_tests_files/figure-html/unnamed-chunk-40.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-41.png" title="plot of chunk unnamed-chunk-41" alt="plot of chunk unnamed-chunk-41" style="display: block; margin: auto;" />
 
 The line you see in the plot corresponds to x=y, that is, the same water measuremets before and after the water treatment (it seems to be true in 2 rivers only, 5 and 15)
 
@@ -718,7 +733,7 @@ boxplot(before,after,ylab="Fish Density",
         names=c("before", "after"))
 ```
 
-![plot of chunk unnamed-chunk-49](./stats12-basic_tests_files/figure-html/unnamed-chunk-49.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-50.png" title="plot of chunk unnamed-chunk-50" alt="plot of chunk unnamed-chunk-50" style="display: block; margin: auto;" />
 
 
 
@@ -755,7 +770,7 @@ plot(before,after)
 abline(a=0,b=1) 
 ```
 
-![plot of chunk unnamed-chunk-52](./stats12-basic_tests_files/figure-html/unnamed-chunk-52.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-53.png" title="plot of chunk unnamed-chunk-53" alt="plot of chunk unnamed-chunk-53" style="display: block; margin: auto;" />
 
 
 
@@ -826,7 +841,7 @@ data1=rnorm(1570,mean=75,sd=8)
 hist(data1,main="Adult male weights",xlab="adult male weight",col="red",las=1)
 ```
 
-![plot of chunk unnamed-chunk-56](./stats12-basic_tests_files/figure-html/unnamed-chunk-56.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-57.png" title="plot of chunk unnamed-chunk-57" alt="plot of chunk unnamed-chunk-57" style="display: block; margin: auto;" />
 
 Load example data
 
@@ -859,7 +874,7 @@ y2[52]=21.75 # to change the 52nd value for 21.75 instead of 2.175:
 plot(y2)     #very good to spot mistakes, outliers
 ```
 
-![plot of chunk unnamed-chunk-58](./stats12-basic_tests_files/figure-html/unnamed-chunk-58.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-59.png" title="plot of chunk unnamed-chunk-59" alt="plot of chunk unnamed-chunk-59" style="display: block; margin: auto;" />
 
 
 
@@ -880,7 +895,7 @@ qqnorm(y)
 qqline(y,lty=2,col=2,lwd=3)
 ```
 
-![plot of chunk unnamed-chunk-60](./stats12-basic_tests_files/figure-html/unnamed-chunk-60.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-61.png" title="plot of chunk unnamed-chunk-61" alt="plot of chunk unnamed-chunk-61" style="display: block; margin: auto;" />
 
 ## Normality test: the shapiro.test
 
@@ -913,7 +928,7 @@ x=exp(rnorm(30))  #rnorm without specification (normal distributed or not) picks
 plot(x)
 ```
 
-![plot of chunk unnamed-chunk-63](./stats12-basic_tests_files/figure-html/unnamed-chunk-63.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-64.png" title="plot of chunk unnamed-chunk-64" alt="plot of chunk unnamed-chunk-64" style="display: block; margin: auto;" />
 
 
 
@@ -921,7 +936,7 @@ plot(x)
 boxplot(x)
 ```
 
-![plot of chunk unnamed-chunk-64](./stats12-basic_tests_files/figure-html/unnamed-chunk-64.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-65.png" title="plot of chunk unnamed-chunk-65" alt="plot of chunk unnamed-chunk-65" style="display: block; margin: auto;" />
 
 
 
@@ -929,7 +944,7 @@ boxplot(x)
 hist(x,breaks=50)
 ```
 
-![plot of chunk unnamed-chunk-65](./stats12-basic_tests_files/figure-html/unnamed-chunk-65.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-66.png" title="plot of chunk unnamed-chunk-66" alt="plot of chunk unnamed-chunk-66" style="display: block; margin: auto;" />
 
 
 
@@ -938,7 +953,7 @@ qqnorm(x)
 qqline(x,lty=2,col=2,lwd=3)
 ```
 
-![plot of chunk unnamed-chunk-66](./stats12-basic_tests_files/figure-html/unnamed-chunk-66.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-67.png" title="plot of chunk unnamed-chunk-67" alt="plot of chunk unnamed-chunk-67" style="display: block; margin: auto;" />
 
 
 
@@ -951,7 +966,7 @@ shapiro.test(x)  #p-value=8.661e-07, not normally distributed
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  x
-## W = 0.7702, p-value = 1.963e-05
+## W = 0.3978, p-value = 5.192e-10
 ```
 
 
@@ -972,7 +987,7 @@ attach(mtcars)
 plot(hp,wt, main="scatterplot",las=1, xlab ="gross horse power", ylab="Weight (lb/1000)")
 ```
 
-![plot of chunk unnamed-chunk-68](./stats12-basic_tests_files/figure-html/unnamed-chunk-68.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-69.png" title="plot of chunk unnamed-chunk-69" alt="plot of chunk unnamed-chunk-69" style="display: block; margin: auto;" />
 
 
 Compute the three correlation coefficients
@@ -1108,7 +1123,7 @@ Plot all possible combinations with "pairs"
 pairs(mtcars)  # all possible pairwise plots
 ```
 
-![plot of chunk unnamed-chunk-77](./stats12-basic_tests_files/figure-html/unnamed-chunk-77.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-78.png" title="plot of chunk unnamed-chunk-78" alt="plot of chunk unnamed-chunk-78" style="display: block; margin: auto;" />
 
 
 To make it simpler we select what we are interested
@@ -1128,7 +1143,7 @@ names(mtcars)
 pairs(mtcars[,c(1,4,6)]) # subsetting the categories we will use
 ```
 
-![plot of chunk unnamed-chunk-79](./stats12-basic_tests_files/figure-html/unnamed-chunk-79.png) 
+<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-80.png" title="plot of chunk unnamed-chunk-80" alt="plot of chunk unnamed-chunk-80" style="display: block; margin: auto;" />
 
 
 Building a correlation matrix

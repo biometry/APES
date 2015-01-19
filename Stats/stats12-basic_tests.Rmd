@@ -1,11 +1,14 @@
 ---
-title: "basic tests"
-layout: page
 output:
   html_document:
     keep_md: yes
-subcategory: Hypothesis testing
+    fig_width: 5
+---
+---
+layout: page
+title: basic tests
 category: stats
+subcategory: Hypothesis testing
 ---
 
 Important statistical tests
@@ -15,6 +18,12 @@ Recall statistical tests, or more formally, null-hypothesis significance testing
 
 Now, there can be many null hypothesis, so you need many tests. The most widely used tests are given here.
 
+
+```{r}
+library(knitr)
+opts_knit$set(global.par=TRUE) 
+opts_chunk$set(cache=TRUE,fig.align='center')
+```
 
 # *t*-test
 The *t*-test can be used to test whether one sample is different from a reference value (e.g. 0: one-sample *t*-test), whether two samples are different (two-sample *t*-test) or whether two paired samples are different (paired *t*-test).

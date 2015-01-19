@@ -8,6 +8,18 @@ subcategory: Regression
 Linear regression
 ===
 
+```r
+library(knitr)
+```
+
+```
+## Warning: package 'knitr' was built under R version 3.0.3
+```
+
+```r
+opts_knit$set(global.par=TRUE) 
+opts_chunk$set(cache=TRUE,fig.align='center')
+```
 
 # The idea of linear regression
 
@@ -46,7 +58,7 @@ mod=lm(LungCap~Age) # the linear model function
 abline(mod,lwd=2,col="grey")
 ```
 
-![plot of chunk unnamed-chunk-2](./stats21-linearRegression_files/figure-html/unnamed-chunk-2.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-3.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" style="display: block; margin: auto;" />
 
 ```r
 summary(mod)
@@ -136,7 +148,7 @@ abline(mod,lwd=2,col="grey")
 points(Age,mod$fitted.values, pch=20, col=2)
 ```
 
-![plot of chunk unnamed-chunk-5](./stats21-linearRegression_files/figure-html/unnamed-chunk-5.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-6.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
 
 Plotting the residuals
 
@@ -145,7 +157,7 @@ plot(Age,mod$residuals,pch=20,col="blue" )
 abline(h=0, lwd=3)
 ```
 
-![plot of chunk unnamed-chunk-6](./stats21-linearRegression_files/figure-html/unnamed-chunk-6.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-7.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 Plot the regression line
 
@@ -155,7 +167,7 @@ plot(Age,LungCap,main="Relation between age and lung capacity"
 abline(mod,col=2,lwd=4)
 ```
 
-![plot of chunk unnamed-chunk-7](./stats21-linearRegression_files/figure-html/unnamed-chunk-7.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 ### Example2  simple regression
 
@@ -195,13 +207,13 @@ summary(mod2)
 points(x1,mod2$fitted.values, pch=20, col="blue",cex=3)
 ```
 
-![plot of chunk unnamed-chunk-8](./stats21-linearRegression_files/figure-html/unnamed-chunk-81.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-91.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" style="display: block; margin: auto;" />
 
 ```r
 plot(x1,mod2$residuals,pch=20,col="blue" ); abline(h=0, lwd=3)
 ```
 
-![plot of chunk unnamed-chunk-8](./stats21-linearRegression_files/figure-html/unnamed-chunk-82.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-92.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" style="display: block; margin: auto;" />
 
 z are the residuals of the model (mod2), we can see them on the summary
 
@@ -265,7 +277,7 @@ par(mfrow=c(2,2))
 plot(mod)
 ```
 
-![plot of chunk unnamed-chunk-12](./stats21-linearRegression_files/figure-html/unnamed-chunk-12.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))
@@ -303,7 +315,7 @@ hist(mod$residuals, freq=F,breaks=20)
 lines(density(mod$residuals))
 ```
 
-![plot of chunk unnamed-chunk-13](./stats21-linearRegression_files/figure-html/unnamed-chunk-13.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-14.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto;" />
 
 
 ```r
@@ -314,7 +326,7 @@ points(Age[114],LungCap[114],pch=20) #to highlight a specific point
 points(Age[293],LungCap[293],pch=20)
 ```
 
-![plot of chunk unnamed-chunk-14](./stats21-linearRegression_files/figure-html/unnamed-chunk-14.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-15.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto;" />
 
 ```r
 detach(lung)
@@ -338,7 +350,7 @@ mod1=lm(y~x,problems)
 abline(mod1,col="red")
 ```
 
-![plot of chunk unnamed-chunk-16](./stats21-linearRegression_files/figure-html/unnamed-chunk-16.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-17.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" style="display: block; margin: auto;" />
 
 ```r
 summary(mod1)
@@ -371,7 +383,7 @@ par(mfrow=c(2,2))
 plot(mod1)
 ```
 
-![plot of chunk unnamed-chunk-17](./stats21-linearRegression_files/figure-html/unnamed-chunk-17.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-18.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1)) 
@@ -407,14 +419,14 @@ mod3=lm(amount~time)
 abline(mod3,lwd=2,col=2)
 ```
 
-![plot of chunk unnamed-chunk-18](./stats21-linearRegression_files/figure-html/unnamed-chunk-181.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-191.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(2,2))
 plot(mod3)
 ```
 
-![plot of chunk unnamed-chunk-18](./stats21-linearRegression_files/figure-html/unnamed-chunk-182.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-192.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))
@@ -442,7 +454,7 @@ hist(mod3$residuals, freq=F,breaks=20)
 lines(density(mod3$residuals))
 ```
 
-![plot of chunk unnamed-chunk-19](./stats21-linearRegression_files/figure-html/unnamed-chunk-19.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-20.png" title="plot of chunk unnamed-chunk-20" alt="plot of chunk unnamed-chunk-20" style="display: block; margin: auto;" />
 
 Plot 3: a positive-valued version of the first graph; it is good to detect non-constancy of variance (heteroscedasticity), which shows up as a triangular scatter. 
 
@@ -460,7 +472,7 @@ points(time[30],amount[30],pch=20,cex=1.5)
 points(time,mod3$fitted.values, pch=20, col="blue")
 ```
 
-![plot of chunk unnamed-chunk-20](./stats21-linearRegression_files/figure-html/unnamed-chunk-20.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-21.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" style="display: block; margin: auto;" />
 
 Positive and negative residuals
 
@@ -471,7 +483,7 @@ points(time[mod3$residuals>=0],mod3$residuals[mod3$residuals>=0],pch=20,col="blu
 points(time[mod3$residuals<0],mod3$residuals[mod3$residuals<0],pch=20,col="red" )      
 ```
 
-![plot of chunk unnamed-chunk-21](./stats21-linearRegression_files/figure-html/unnamed-chunk-21.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-22.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" style="display: block; margin: auto;" />
 
 
 ```r
@@ -480,14 +492,14 @@ plot(time,amount)
 lines(mod4$fitted.values, type="l", lwd=2,lty=3)# abline is no longer working here. 
 ```
 
-![plot of chunk unnamed-chunk-22](./stats21-linearRegression_files/figure-html/unnamed-chunk-221.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-231.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(2,2))
 plot(mod4)
 ```
 
-![plot of chunk unnamed-chunk-22](./stats21-linearRegression_files/figure-html/unnamed-chunk-222.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-232.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,2))
@@ -502,7 +514,7 @@ points(time[mod3$residuals>=0],mod3$residuals[mod3$residuals>=0],pch=20,col="blu
 points(time[mod3$residuals<0],mod3$residuals[mod3$residuals<0],pch=20,col="red" )
 ```
 
-![plot of chunk unnamed-chunk-23](./stats21-linearRegression_files/figure-html/unnamed-chunk-231.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-241.png" title="plot of chunk unnamed-chunk-24" alt="plot of chunk unnamed-chunk-24" style="display: block; margin: auto;" />
 
 ```r
 plot(time,mod4$residuals)
@@ -516,7 +528,7 @@ points(time[5],mod4$residuals[5],pch=20,col="yellow" )
 points(time[3],mod4$residuals[3],pch=20,col="yellow" )
 ```
 
-![plot of chunk unnamed-chunk-23](./stats21-linearRegression_files/figure-html/unnamed-chunk-232.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-242.png" title="plot of chunk unnamed-chunk-24" alt="plot of chunk unnamed-chunk-24" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))
@@ -529,7 +541,7 @@ mod5=lm(amount~time+I(time^2)+I(time^3))
 lines(mod5$fitted.values, type="l", lwd=2,lty=3)
 ```
 
-![plot of chunk unnamed-chunk-24](./stats21-linearRegression_files/figure-html/unnamed-chunk-241.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-251.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" style="display: block; margin: auto;" />
 
 ```r
 plot(time,mod5$residuals)
@@ -540,14 +552,14 @@ points(time[1],mod5$residuals[1],pch=20,col="yellow" )
 points(time[5],mod5$residuals[5],pch=20,col="yellow" )
 ```
 
-![plot of chunk unnamed-chunk-24](./stats21-linearRegression_files/figure-html/unnamed-chunk-242.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-252.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(2,2))
 plot(mod5)
 ```
 
-![plot of chunk unnamed-chunk-24](./stats21-linearRegression_files/figure-html/unnamed-chunk-243.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-253.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))
@@ -564,7 +576,7 @@ myData <- women
 plot(myData)
 ```
 
-![plot of chunk unnamed-chunk-25](./stats21-linearRegression_files/figure-html/unnamed-chunk-25.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-26.png" title="plot of chunk unnamed-chunk-26" alt="plot of chunk unnamed-chunk-26" style="display: block; margin: auto;" />
 
 Fit the model 
 
@@ -606,7 +618,7 @@ layout(matrix(c(1,2,3,4),2,2)) # optional 4 graphs/page
 plot(fit)
 ```
 
-![plot of chunk unnamed-chunk-28](./stats21-linearRegression_files/figure-html/unnamed-chunk-28.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-29.png" title="plot of chunk unnamed-chunk-29" alt="plot of chunk unnamed-chunk-29" style="display: block; margin: auto;" />
 
 
 ```r
@@ -787,31 +799,22 @@ Whenever the time is increased by 1 year, so it does the lung capacity by 0.126
 
 ```r
 library(effects)
-```
-
-```
-## Loading required package: lattice
-## Loading required package: grid
-## Loading required package: colorspace
-```
-
-```r
 plot(allEffects(model1))
 ```
 
-![plot of chunk unnamed-chunk-32](./stats21-linearRegression_files/figure-html/unnamed-chunk-321.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-331.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" />
 
 ```r
 plot(effect("Age",model1))
 ```
 
-![plot of chunk unnamed-chunk-32](./stats21-linearRegression_files/figure-html/unnamed-chunk-322.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-332.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" />
 
 ```r
 plot(effect("Height",model1))
 ```
 
-![plot of chunk unnamed-chunk-32](./stats21-linearRegression_files/figure-html/unnamed-chunk-323.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-333.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" />
 
 Now the same dataset with the ANCOVA (covariance analysis)
 
@@ -849,7 +852,7 @@ summary(model2)
 plot(allEffects(model2))
 ```
 
-![plot of chunk unnamed-chunk-33](./stats21-linearRegression_files/figure-html/unnamed-chunk-33.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-34.png" title="plot of chunk unnamed-chunk-34" alt="plot of chunk unnamed-chunk-34" style="display: block; margin: auto;" />
 
 Checking that assumptions are met
 
@@ -858,7 +861,7 @@ par(mfrow=c(2,2))
 plot(model2)
 ```
 
-![plot of chunk unnamed-chunk-34](./stats21-linearRegression_files/figure-html/unnamed-chunk-341.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-351.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))
@@ -866,31 +869,31 @@ par(mfrow=c(1,1))
 plot(Height,model2$residuals);abline(h=0)
 ```
 
-![plot of chunk unnamed-chunk-34](./stats21-linearRegression_files/figure-html/unnamed-chunk-342.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-352.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
 
 ```r
 plot(Age,model2$residuals);abline(h=0)
 ```
 
-![plot of chunk unnamed-chunk-34](./stats21-linearRegression_files/figure-html/unnamed-chunk-343.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-353.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
 
 ```r
 plot(model2$residuals~Smoke);abline(h=0)
 ```
 
-![plot of chunk unnamed-chunk-34](./stats21-linearRegression_files/figure-html/unnamed-chunk-344.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-354.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
 
 ```r
 plot(model2$residuals~Gender);abline(h=0)
 ```
 
-![plot of chunk unnamed-chunk-34](./stats21-linearRegression_files/figure-html/unnamed-chunk-345.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-355.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
 
 ```r
 plot(model2$residuals~Caesarean);abline(h=0)
 ```
 
-![plot of chunk unnamed-chunk-34](./stats21-linearRegression_files/figure-html/unnamed-chunk-346.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-356.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
 
 ### Example2  Multiple linear regression - Collinearity Issues
 
@@ -903,7 +906,7 @@ This can be a problem since it increases the standard errors of the coefficients
 plot(Height,Age)
 ```
 
-![plot of chunk unnamed-chunk-35](./stats21-linearRegression_files/figure-html/unnamed-chunk-35.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-36.png" title="plot of chunk unnamed-chunk-36" alt="plot of chunk unnamed-chunk-36" style="display: block; margin: auto;" />
 
 ```r
 cor(Height,Age)
@@ -1085,7 +1088,7 @@ pairs(Z, lower.panel=panel.smooth2,
       upper.panel=panel.cor,diag.panel=panel.hist)
 ```
 
-![plot of chunk unnamed-chunk-41](./stats21-linearRegression_files/figure-html/unnamed-chunk-41.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-42.png" title="plot of chunk unnamed-chunk-42" alt="plot of chunk unnamed-chunk-42" style="display: block; margin: auto;" />
 rule of thumb: when |r|>0.7, there is collinearity
 
 
@@ -1380,7 +1383,7 @@ summary(M0)
 abline(v=0,lwd=2) # to see the intercept better
 ```
 
-![plot of chunk unnamed-chunk-49](./stats21-linearRegression_files/figure-html/unnamed-chunk-49.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-50.png" title="plot of chunk unnamed-chunk-50" alt="plot of chunk unnamed-chunk-50" style="display: block; margin: auto;" />
 
 
 
@@ -1389,7 +1392,7 @@ library(effects)
 plot(allEffects(M0))
 ```
 
-![plot of chunk unnamed-chunk-50](./stats21-linearRegression_files/figure-html/unnamed-chunk-50.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-51.png" title="plot of chunk unnamed-chunk-51" alt="plot of chunk unnamed-chunk-51" style="display: block; margin: auto;" />
 
 
 ### Example4  Multiple linear regression - ANCOVA
@@ -1442,7 +1445,7 @@ attach(regrowth)
 plot(Fruit~Grazing)
 ```
 
-![plot of chunk unnamed-chunk-52](./stats21-linearRegression_files/figure-html/unnamed-chunk-52.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-53.png" title="plot of chunk unnamed-chunk-53" alt="plot of chunk unnamed-chunk-53" style="display: block; margin: auto;" />
 
 ```r
 #normality test
@@ -1471,18 +1474,6 @@ shapiro.test(Fruit[Grazing=="Ungrazed"])
 
 ```r
 library(car)
-```
-
-```
-## 
-## Attaching package: 'car'
-## 
-## The following object is masked from 'package:effects':
-## 
-##     Prestige
-```
-
-```r
 leveneTest(Fruit~Grazing)
 ```
 
@@ -1544,7 +1535,7 @@ plot(Fruit~Grazing) # it looks like fruit production is higher if plants are gra
 plot(Root,Fruit)
 ```
 
-![plot of chunk unnamed-chunk-53](./stats21-linearRegression_files/figure-html/unnamed-chunk-53.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-54.png" title="plot of chunk unnamed-chunk-54" alt="plot of chunk unnamed-chunk-54" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))
@@ -1612,7 +1603,7 @@ summary(model2)
 plot(Root,Fruit,col=Grazing,pch=20,cex=3)
 ```
 
-![plot of chunk unnamed-chunk-54](./stats21-linearRegression_files/figure-html/unnamed-chunk-54.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-55.png" title="plot of chunk unnamed-chunk-55" alt="plot of chunk unnamed-chunk-55" style="display: block; margin: auto;" />
 
 Predict the scenario for Grazed plants with 95% confidence
 
@@ -1628,7 +1619,7 @@ lines(mydata$Root,myfit1CIup,col="black",lty=2)
 lines(mydata$Root,myfit1CIdown,col="black",lty=2)
 ```
 
-![plot of chunk unnamed-chunk-55](./stats21-linearRegression_files/figure-html/unnamed-chunk-55.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-56.png" title="plot of chunk unnamed-chunk-56" alt="plot of chunk unnamed-chunk-56" style="display: block; margin: auto;" />
 
 Predict the scenario for Ungrazed plants with 95% confidence
 
@@ -1646,7 +1637,7 @@ legend("topleft",c("Grazed","Ungrazed"), col=c("black","red"),title="Grazing",
        bty="n", pch=c(20,20),cex=2)
 ```
 
-![plot of chunk unnamed-chunk-56](./stats21-linearRegression_files/figure-html/unnamed-chunk-56.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-57.png" title="plot of chunk unnamed-chunk-57" alt="plot of chunk unnamed-chunk-57" style="display: block; margin: auto;" />
 
 
 ```r
@@ -1654,7 +1645,7 @@ par(mfrow=c(2,2))
 plot(model2)
 ```
 
-![plot of chunk unnamed-chunk-57](./stats21-linearRegression_files/figure-html/unnamed-chunk-57.png) 
+<img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-58.png" title="plot of chunk unnamed-chunk-58" alt="plot of chunk unnamed-chunk-58" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))

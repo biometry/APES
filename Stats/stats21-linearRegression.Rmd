@@ -2,6 +2,7 @@
 output:
   html_document:
     keep_md: yes
+    fig_width: 5
 ---
 ---
 layout: page
@@ -12,7 +13,11 @@ subcategory: Regression
 
 Linear regression
 ===
-
+```{r}
+library(knitr)
+opts_knit$set(global.par=TRUE) 
+opts_chunk$set(cache=TRUE,fig.align='center')
+```
 
 # The idea of linear regression
 

@@ -1,8 +1,25 @@
-# Explorative data analysis
+---
+layout: page
+title: Explorative data analysis
+category: stats
+subcategory: Basic concepts
+---
 
 Explorative data analysis
 ===
 
+```r
+library(knitr)
+```
+
+```
+## Warning: package 'knitr' was built under R version 3.0.3
+```
+
+```r
+opts_knit$set(global.par=TRUE) 
+opts_chunk$set(cache=TRUE,fig.align='center')
+```
 For more details about plotting, please visit: https://github.com/biometry/APES/blob/master/R/R40-plottingInR.md
 
 We will classify here the different plot methods according to their suitability to the variable analysis
@@ -91,13 +108,13 @@ Graphic representation of both with barplots
 barplot(count)
 ```
 
-![plot of chunk unnamed-chunk-4](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-41.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-51.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
 
 ```r
 barplot(percent)
 ```
 
-![plot of chunk unnamed-chunk-4](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-42.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-52.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
 
 We add a title and x/y labels
 
@@ -105,7 +122,7 @@ We add a title and x/y labels
 barplot(percent,main="the title", xlab="transmission",ylab="%",las=1,ylim=c(0,1), names.arg=c("auto transm", "manual transm") )
 ```
 
-![plot of chunk unnamed-chunk-5](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-5.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-6.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
 
 # Numerical Variables
 ## Boxplot 
@@ -143,19 +160,19 @@ quantile(mpg,probs=c(0,0.20,0.40,0.60,0.80,1))
 boxplot(mpg,main="title", ylab="mpg", ylim=c(0,50), las=1)
 ```
 
-![plot of chunk unnamed-chunk-6](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-61.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-71.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 ```r
 boxplot(mpg~fam, main="mpg by transmission")
 ```
 
-![plot of chunk unnamed-chunk-6](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-62.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-72.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 ```r
 boxplot(mpg[fam=="automatic"],xlab="automatic")
 ```
 
-![plot of chunk unnamed-chunk-6](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-63.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-73.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 ## Histograms 
 
@@ -165,13 +182,13 @@ Histograms are appropiate to summarize numerical variables distributions
 hist(mpg)
 ```
 
-![plot of chunk unnamed-chunk-7](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-71.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-81.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 ```r
 hist(mpg,freq=FALSE,main="my histogram") #instead of counting the number of datapoints per bin, R can give the probability densities by using freq=FALSE 
 ```
 
-![plot of chunk unnamed-chunk-7](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-72.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-82.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 ```r
 hist(mpg,prob=TRUE,ylim=c(0,0.1)) #prob=T changes the y-axis from frequency counts to probability (to create density curves)
@@ -180,13 +197,13 @@ lines(density(mpg))  #add a density curve
 lines(density(mpg),col="red",lwd=3)
 ```
 
-![plot of chunk unnamed-chunk-7](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-73.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-83.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 ```r
 hist(mpg,breaks=seq(10,36,by=2),las=1)
 ```
 
-![plot of chunk unnamed-chunk-7](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-74.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-84.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 ## Stem and Leaf Plots 
 
@@ -227,33 +244,33 @@ Relation ship between horsepower hp and consumption mpg
 plot(mpg~hp) # y~x
 ```
 
-![plot of chunk unnamed-chunk-9](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-91.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-101.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
 
 ```r
 plot(hp, mpg) # x,y
 ```
 
-![plot of chunk unnamed-chunk-9](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-92.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-102.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
 
 ```r
 plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon",las=1,col="red", xlim=c(0,400), cex =2 )  #cex (plotting characters size times 2)
 ```
 
-![plot of chunk unnamed-chunk-9](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-93.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-103.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
 
 ```r
 plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon",las=1,col="red", xlim=c(0,400), pch=8)  #pch (symbol type)
 abline(lm(mpg~hp),col="blue",lwd=5,lty=3) #add linear regression, line width and type
 ```
 
-![plot of chunk unnamed-chunk-9](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-94.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-104.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
 
 ```r
 x = 1:20
 plot(x,pch=x,cex=3)
 ```
 
-![plot of chunk unnamed-chunk-9](./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-95.png) 
+<img src="./stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-105.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
 
 
 # Summary statistics
