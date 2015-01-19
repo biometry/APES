@@ -3,6 +3,12 @@ output:
   html_document:
     keep_md: yes
 ---
+---
+layout: page
+title: Generalized linear models
+category: stats
+subcategory: Regression
+---
 Generalized linear models (GLM)
 ===
 
