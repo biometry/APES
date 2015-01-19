@@ -1,6 +1,6 @@
 ---
 layout: page
-title: The t-test
+title: basic tests
 category: stats
 subcategory: Hypothesis testing
 ---
