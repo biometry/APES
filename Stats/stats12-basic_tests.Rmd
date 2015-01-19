@@ -1,13 +1,11 @@
 ---
+title: "basic tests"
+layout: page
 output:
   html_document:
     keep_md: yes
----
----
-layout: page
-title: basic tests
-category: stats
 subcategory: Hypothesis testing
+category: stats
 ---
 
 Important statistical tests
@@ -28,21 +26,27 @@ The *t*-test assumes that the data are normally distributed. It can handle sampl
 
 The one-sample t-test compares the MEAN score of a sample to a known value, usually the population MEAN (the average for the outcome of some population of interest). 
 
+
 ```{r}
 data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
 attach(data)
 boxplot(y)
 ```
 
+
 Our null hypothesis is that the mean of the sample is not less than 2.5 (real example: weight data of 200 lizards collected for a research, we want to compare it with the known average weights available in the scientific literature)
+
 
 ```{r}
 t.test(y,mu=2.5,alt="less",conf=0.95)  # mean = 2.5, alternative hypothesis one-sided; we get a one-sided 95% CI for the mean 
 ```
 
-
 ```{r}
 t.test(y,mu=2.5,alt="two.sided",conf=0.95) #2 sided-version
+```
+
+
+```{r}
 detach(data)
 ```
 
@@ -53,17 +57,34 @@ One-sample Wilcoxon signed rank test is a non-parametric alternative method of o
 
 
 Create fake data log-normally distributed and verify data distribution
+
 ```{r}
 x<-exp(rnorm(15))
 plot(x)
+```
+
+
+```{r}
 boxplot(x)
+```
+
+```{r}
 qqnorm(x)
 qqline(x,lty=2,col=2,lwd=3)
+```
+
+
+```{r}
 shapiro.test(x) # not normally distributed
+```
+
+
+```{r}
 summary(x)
 ```
 
 Our null hypothesis is that the median of x is not different from 1
+
 
 ```{r}
 wilcox.test(x, alternative="two.sided", mu=1) # high p value-> median of x is not different from 1
@@ -71,11 +92,12 @@ wilcox.test(x, alternative="two.sided", mu=1) # high p value-> median of x is no
 
 
 ## Two Independent Samples T-test (PARAMETRIC TEST)
-```
+
 Parametric method for examining the difference in MEANS between two independent populations. 
 The *t*-test should be preceeded by a graphical depiction of the data in order to check for normality within groups and for evidence of heteroscedasticity (= differences in variance), like so:
 
 Reshape the data:
+
 
 ```{r}
 Y1 <- rnorm(20)
@@ -85,6 +107,7 @@ groups <- as.factor(c(rep("Y1", length(Y1)), rep("Y2", length(Y2))))
 ```
 
 Now plot them as points (not box-n-whiskers):
+
 
 ```{r}
 plot.default(Y ~ groups)
@@ -101,9 +124,12 @@ A non-parametric alternative is the Mann-Whitney-U-test, or, the ANOVA-equivalen
 
 Use rank-transformations, which replaces the values by their rank (i.e. the lowest value receives a 1, the second lowest a 2 and so forth). A *t*-test of rank-transformed data is not the same as the Mann-Whitney-U-test, but it is more sensitive and hence preferable (Ruxton 2006) or at least equivalent (Zimmerman 2012).
 
+
 ```{r}
 t.test(rank(Y) ~ groups)
 ```
+
+
 To use the rank, we need to employ the "formula"-invokation of t.test!
 In this case, results are the same, indicating that our hunch about acceptable skew and scatter was correct.
 
@@ -111,32 +137,55 @@ In this case, results are the same, indicating that our hunch about acceptable s
 
 
 Cars example:
+
 ```{r}
 head(mtcars)
+```
 
+
+```{r}
 mtcars$fam=factor(mtcars$am, levels=c(0,1), labels=c("automatic","manual")) #transform "am" into a factor (fam) [Transmission (0 = automatic, 1 = manual)]
 
 attach(mtcars)
 head(mtcars)
+```
+
+
+```{r}
 summary(mtcars$fam)
 ```
 
+
 Test the difference in car consumption depending on the transmission type. 
 Check wherever the 2 'independent populations' are normally distributed
+
 
 ```{r}
 par(mfrow=c(1,2))
 qqnorm(mpg[fam=="manual"]);qqline(mpg[fam=="manual"])
 qqnorm(mpg[fam=="automatic"]); qqline(mpg[fam=="automatic"])
+```
+
+
+```{r}
 shapiro.test(mpg[fam=="manual"])  #normal distributed
+```
+
+
+```{r}
 shapiro.test(mpg[fam=="automatic"])   #normal distributed
+```
+
+```{r}
 par(mfrow=c(1,1))
 ```
 
 Graphic representation
+
 ```{r}
 boxplot(mpg~fam, ylab="Miles/gallon",xlab="Transmission",las=1)
 ```
+
 
 We have two ~normally distributed populations.
 In order to test for differences in means, we applied a t-test for independent samples. 
@@ -144,42 +193,64 @@ In order to test for differences in means, we applied a t-test for independent s
 Any time we work with the t-test, we have to verify whether the variance is equal betwenn the 2 populations or not, then we fit the t-test accordingly.  
 Our Ho or null hypothesis is that the consumption is the same irrespective to transmission. We assume non-equal variances
 
+
 ```{r}
 t.test(mpg~fam,mu=0, alt="two.sided",conf=0.95,var.eq=F,paired=F)
 ```
+
 From the output: please note that CIs are the confidence intervales for differences in means
 
 Same results if you run the following (meaning that the other commands were all by default)
+
 ```{r}
 t.test(mpg~fam) 
 ```
+
 The alternative could be one-sided (greater, lesser) as we discussed earlier for one-sample t-tests
 
 If we assume equal variance, we run the following 
+
 
 ```{r}
 t.test(mpg~fam,var.eq=TRUE,paired=F)
 ```
 
+
 Ways to check for equal / not equal variance
 
 1) To examine the boxplot visually
+
 
 ```{r}
 boxplot(mpg~fam, ylab="Miles/gallon",xlab="Transmission",las=1)
 ```
 
 2) To compute the actual variance
+
 ```{r}
 var(mpg[fam=="manual"])
+```
+
+```{r}
 var(mpg[fam=="automatic"])
 ```
+
+
 There is 2/3 times difference in variance.
 
 3) Levene's test
+
 ```{r}
 library(car)
+```
+
+
+```{r}
 leveneTest(mpg~fam) # Ho is that the population variances are equal
+```
+
+
+```{r}
 # Ho rejected, non-equal variances
 ```
 
@@ -187,10 +258,21 @@ leveneTest(mpg~fam) # Ho is that the population variances are equal
 
 We change the response variable to hp (Gross horsepower)
 
+
 ```{r}
 qqnorm(hp[fam=="manual"]);qqline(hp[fam=="manual"])
+```
+
+```{r}
 qqnorm(hp[fam=="automatic"]);qqline(hp[fam=="automatic"])
+```
+
+```{r}
 shapiro.test(hp[fam=="manual"])  #not normally distributed
+```
+
+
+```{r}
 shapiro.test(hp[fam=="automatic"])  #normally distributed
 ```
 
@@ -199,11 +281,13 @@ The 'population' of cars with manual transmission has a hp not normally distribu
 We want to test a difference in hp depending on the transmission
 Using a non-parametric test, we test for differences in MEDIANS between 2 independent populations
 
+
 ```{r}
 boxplot(hp~fam)
 ```
 
 Our null hypothesis will be that the medians are equal (two-sided)
+
 
 ```{r}
 wilcox.test(hp~fam,mu=0,alt="two.sided",conf.int=T,conf.level=0.95,paired=F,exact=F) ## non parametric conf.int are reported
@@ -218,6 +302,7 @@ This is a non-parametric method appropriate for examining the median difference 
 
 This is a dataset about some water measurements taken at different levels of a river: 'up' and 'down' are water quality measurements of the same river taken before and after a water treatment filter, respectively 
 
+
 ```{r}
 streams = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/streams.txt",header=T)
 head(streams)
@@ -227,22 +312,46 @@ head(streams)
 ```{r}
 attach(streams)
 summary(streams)
+```
+
+```{r}
 plot(up,down)
 abline(a=0,b=1) #add a line with intercept 0 and slope 1
-
 ```
+
 The line you see in the plot corresponds to x=y, that is, the same water measuremets before and after the water treatment (it seems to be true in 2 rivers only, 5 and 15)
 
 Our null hypothesis is that the median before and after the treatment are not different
 
+
 ```{r}
 shapiro.test(down) #not normally distributed
+```
+
+
+```{r}
 shapiro.test(up) #normally distributed
+```
+
+
+```{r}
 #the assumption of normality is certainly not met for the measurements after the treatment
 
 summary(up)
+```
+
+
+```{r}
 summary(down)
+```
+
+
+```{r}
 wilcox.test(up,down,mu=0,paired=T,conf.int=T,exact=F) #paired =T, low p ->reject Ho, medians are different
+```
+
+
+```{r}
 detach(streams)
 ```
 
@@ -250,21 +359,37 @@ detach(streams)
 ## Paired T-test for two dependend samples test. (PARAMETRIC)
 This parametric method examinates the difference in means for two populations that are paired or dependent one of the other
 
+
 ```{r}
 fish = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/fishing.txt",header=T)
 ```
 
 This is a dataset about the density of a fish prey species (fish/km2) in 121 lakes before and after removing a non-native predator
 
+
 ```{r}
 attach(fish)
 head(fish)
+```
+
+
+```{r}
 boxplot(before,after,ylab="Fish Density",
         names=c("before", "after"))
+```
 
+
+```{r}
 shapiro.test(before) #normally distributed
-shapiro.test(after)  #normally distributed
+```
 
+
+```{r}
+shapiro.test(after)  #normally distributed
+```
+
+
+```{r}
 plot(before,after)
 abline(a=0,b=1) 
 ```
@@ -272,16 +397,217 @@ abline(a=0,b=1)
 
 ```{r}
 t.test(before,after,mu=0,paired=T)
+```
 
+
+```{r}
 t.test(after,before,mu=0,paired=T) #changing the order of variables, we have a change in the sign of the t-test estimated mean of differences
+```
 
+
+```{r}
 #low p ->reject Ho, means are equal 
 
 detach(fish)
 ```
 
+# Testing for normality
+
+The normal distribution is the most important and most widely used distribution in statistics.
+We can say that a distribution is normally distributed when:
+1) is symmetric around their mean.
+2) the mean, median, and mode of a normal distribution are equal.
+3) the area under the normal curve is equal to 1.0.
+4) distributions are denser in the center and less dense in the tails.
+5) distributions are defined by two parameters, the mean and the standard deviation (sd).
+6) 68% of the area of a normal distribution is within one standard deviation of the mean.
+7) Approximately 95% of the area of a normal distribution is within two standard deviations of the mean.
+
+Normal distribution 
+
+```{r}
+#Simulation of the weight of 1570 adult males normally distributed
+data1=rnorm(1570,mean=75,sd=8)
+hist(data1,main="Adult male weights",xlab="adult male weight",col="red",las=1)
+```
+
+Load example data
+
+```{r}
+data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
+summary(data)
+```
+Visualize example data
+
+```{r}
+attach(data) #command search() helps to verify what is/is not attached)
+par(mfrow=c(2,2)) #to divide the plot window
+plot(y)
+boxplot(y)
+hist(y,breaks=20)
+y2=y
+y2[52]=21.75 # to change the 52nd value for 21.75 instead of 2.175:
+plot(y2)     #very good to spot mistakes, outliers
+```
+
+
+```{r}
+par(mfrow=c(1,1)) #back to one plot window
+```
+
+## Visual Check for Normality: quantile-quantile plot
+
+This one plots the ranked samples from our distribution against a similar number of ranked quantiles taken from a normal distribution.
+If our sample is normally distributed then the line will be straight. 
+Exceptions from normality show up different sorts of non-linearity (e.g. S-shapes or banana shapes). 
+
+
+```{r}
+qqnorm(y)
+qqline(y,lty=2,col=2,lwd=3)
+```
+
+## Normality test: the shapiro.test
+
+
+```{r}
+shapiro.test(y)  # p-value=0.753, these data are normally distributed
+```
+
+
+```{r}
+detach(data)
+```
+
+
+As an example we will create a fake data log-normally distributed and verify the assumption of normality
+
+```{r}
+x=exp(rnorm(30))  #rnorm without specification (normal distributed or not) picks data from the standard normal, mean = 0, sd = 1
+plot(x)
+```
+
+
+```{r}
+boxplot(x)
+```
+
+
+```{r}
+hist(x,breaks=50)
+```
+
+
+```{r}
+qqnorm(x)
+qqline(x,lty=2,col=2,lwd=3)
+```
+
+
+```{r}
+shapiro.test(x)  #p-value=8.661e-07, not normally distributed
+```
+
+
+# Correlations tests
+
+Correlation tests measure the relationship between variables. This relationship can goes from +1 to -1, where 0 means no relation. Some of the tests that we can use to estimate this relationship are the following:
+
+-Pearson's correlation is a parametric measure of the linear association between 2 numeric variables (PARAMETRIC TEST)
+
+-Spearman's rank correlation is a non-parametric measure of the monotonic association between 2 numeric variables (NON-PARAMETRIC TEST)
+
+-Kendall's rank correlation is another non-parametric measure of the associtaion, based on concordance or discordance of x-y pairs (NON-PARAMETRIC TEST)
+
+
+```{r}
+attach(mtcars)  
+plot(hp,wt, main="scatterplot",las=1, xlab ="gross horse power", ylab="Weight (lb/1000)")
+```
+
+
+Compute the three correlation coefficients
+
+```{r}
+cor(hp,wt,method="pearson")
+```
+
+
+```{r}
+cor(hp,wt)#Pearson is the default method; the order of variables is not important
+```
+
+
+```{r}
+cor(hp,wt,method="spearman")
+```
+
+```{r}
+cor(hp,wt,method="kendal")
+```
+`
+
+Test the null hypothesis, that means that the correlation is 0 (there is no correlation)
+
+```{r}
+cor.test(hp,wt,method="pearson") #Pearson correlation test
+```
+
+
+```{r}
+cor.test(hp,wt,method="spearman") #Spearmn is a non-parametric, thus it is not possible to get CIs. There is a error message because R cannot compute exact p values (the test is based on ranks, we have few cars with the same hp or wt).We can get rid off the warning letting R know that approximate values are fine
+```
+
+
+```{r}
+cor.test(hp,wt,method="spearman",exact=F) 
+```
+
+
+```{r}
+cor.test(hp,wt,method="kendal",exact=F) #same happens with Kendal correlation test
+```
+
+
+When we have non-parametric data and we do not know which correlation method to choose, as a rule of thumb, if the correlation looks non-linear, Kendall tau should be better than Spearman Rho.
+
+
+## Further handy functions for correlations
+
+Plot all possible combinations with "pairs"
+
+```{r}
+pairs(mtcars)  # all possible pairwise plots
+```
+
+
+To make it simpler we select what we are interested
+
+```{r}
+names(mtcars)
+```
+
+```{r}
+pairs(mtcars[,c(1,4,6)]) # subsetting the categories we will use
+```
+
+
+Building a correlation matrix
+
+```{r}
+#cor(mtcars)
+cor(mtcars[,c(1,4,6)])
+```
+
+
+```{r}
+detach(mtcars)
+```
+
+http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html
+
 
 ####References
-Ruxton, G. D. (2006). The unequal variance t-test is an underused alternative to Student’s t-test and the Mann-Whitney U test. Behavioral Ecology, 17, 688–690.
+Ruxton, G. D. (2006). The unequal variance t-test is an underused alternative to Studentâs t-test and the Mann-Whitney U test. Behavioral Ecology, 17, 688â690.
 
-Zimmerman, D. W. (2012). A note on consistency of non-parametric rank tests and related rank transformations. British Journal of Mathematical and Statistical Psychology, 65, 122–44.
+Zimmerman, D. W. (2012). A note on consistency of non-parametric rank tests and related rank transformations. British Journal of Mathematical and Statistical Psychology, 65, 122â44.

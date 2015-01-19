@@ -1,9 +1,4 @@
----
-layout: page
-title: basic tests
-category: stats
-subcategory: Hypothesis testing
----
+# basic tests
 
 Important statistical tests
 ===
@@ -24,6 +19,7 @@ The *t*-test assumes that the data are normally distributed. It can handle sampl
 The one-sample t-test compares the MEAN score of a sample to a known value, usually the population MEAN (the average for the outcome of some population of interest). 
 
 
+
 ```r
 data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
 attach(data)
@@ -32,7 +28,9 @@ boxplot(y)
 
 ![plot of chunk unnamed-chunk-1](./stats12-basic_tests_files/figure-html/unnamed-chunk-1.png) 
 
+
 Our null hypothesis is that the mean of the sample is not less than 2.5 (real example: weight data of 200 lizards collected for a research, we want to compare it with the known average weights available in the scientific literature)
+
 
 
 ```r
@@ -54,7 +52,6 @@ t.test(y,mu=2.5,alt="less",conf=0.95)  # mean = 2.5, alternative hypothesis one-
 ```
 
 
-
 ```r
 t.test(y,mu=2.5,alt="two.sided",conf=0.95) #2 sided-version
 ```
@@ -73,6 +70,8 @@ t.test(y,mu=2.5,alt="two.sided",conf=0.95) #2 sided-version
 ##     2.419
 ```
 
+
+
 ```r
 detach(data)
 ```
@@ -85,25 +84,31 @@ One-sample Wilcoxon signed rank test is a non-parametric alternative method of o
 
 Create fake data log-normally distributed and verify data distribution
 
+
 ```r
 x<-exp(rnorm(15))
 plot(x)
 ```
 
-![plot of chunk unnamed-chunk-4](./stats12-basic_tests_files/figure-html/unnamed-chunk-41.png) 
+![plot of chunk unnamed-chunk-5](./stats12-basic_tests_files/figure-html/unnamed-chunk-5.png) 
+
+
 
 ```r
 boxplot(x)
 ```
 
-![plot of chunk unnamed-chunk-4](./stats12-basic_tests_files/figure-html/unnamed-chunk-42.png) 
+![plot of chunk unnamed-chunk-6](./stats12-basic_tests_files/figure-html/unnamed-chunk-6.png) 
+
 
 ```r
 qqnorm(x)
 qqline(x,lty=2,col=2,lwd=3)
 ```
 
-![plot of chunk unnamed-chunk-4](./stats12-basic_tests_files/figure-html/unnamed-chunk-43.png) 
+![plot of chunk unnamed-chunk-7](./stats12-basic_tests_files/figure-html/unnamed-chunk-7.png) 
+
+
 
 ```r
 shapiro.test(x) # not normally distributed
@@ -114,8 +119,10 @@ shapiro.test(x) # not normally distributed
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  x
-## W = 0.8123, p-value = 0.005319
+## W = 0.8594, p-value = 0.02369
 ```
+
+
 
 ```r
 summary(x)
@@ -123,10 +130,11 @@ summary(x)
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.277   0.438   0.898   1.250   1.560   4.060
+##   0.080   0.300   0.715   1.150   1.730   4.000
 ```
 
 Our null hypothesis is that the median of x is not different from 1
+
 
 
 ```r
@@ -138,17 +146,18 @@ wilcox.test(x, alternative="two.sided", mu=1) # high p value-> median of x is no
 ## 	Wilcoxon signed rank test
 ## 
 ## data:  x
-## V = 63, p-value = 0.8904
+## V = 59, p-value = 0.978
 ## alternative hypothesis: true location is not equal to 1
 ```
 
 
 ## Two Independent Samples T-test (PARAMETRIC TEST)
-```
+
 Parametric method for examining the difference in MEANS between two independent populations. 
 The *t*-test should be preceeded by a graphical depiction of the data in order to check for normality within groups and for evidence of heteroscedasticity (= differences in variance), like so:
 
 Reshape the data:
+
 
 
 ```r
@@ -161,11 +170,12 @@ groups <- as.factor(c(rep("Y1", length(Y1)), rep("Y2", length(Y2))))
 Now plot them as points (not box-n-whiskers):
 
 
+
 ```r
 plot.default(Y ~ groups)
 ```
 
-![plot of chunk unnamed-chunk-7](./stats12-basic_tests_files/figure-html/unnamed-chunk-7.png) 
+![plot of chunk unnamed-chunk-12](./stats12-basic_tests_files/figure-html/unnamed-chunk-12.png) 
 
 
 The points to the right scatter similar to those on the left, although a bit more asymmetrically. Although we know that they are from a log-normal distribution (right), they don't look problematic.
@@ -179,6 +189,7 @@ A non-parametric alternative is the Mann-Whitney-U-test, or, the ANOVA-equivalen
 Use rank-transformations, which replaces the values by their rank (i.e. the lowest value receives a 1, the second lowest a 2 and so forth). A *t*-test of rank-transformed data is not the same as the Mann-Whitney-U-test, but it is more sensitive and hence preferable (Ruxton 2006) or at least equivalent (Zimmerman 2012).
 
 
+
 ```r
 t.test(rank(Y) ~ groups)
 ```
@@ -188,14 +199,16 @@ t.test(rank(Y) ~ groups)
 ## 	Welch Two Sample t-test
 ## 
 ## data:  rank(Y) by groups
-## t = -3.837, df = 37.07, p-value = 0.0004686
+## t = -3.541, df = 37.86, p-value = 0.001075
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -18.642  -5.758
+##  -18.075  -4.925
 ## sample estimates:
 ## mean in group Y1 mean in group Y2 
-##             14.4             26.6
+##            14.75            26.25
 ```
+
+
 To use the rank, we need to employ the "formula"-invokation of t.test!
 In this case, results are the same, indicating that our hunch about acceptable skew and scatter was correct.
 
@@ -203,6 +216,7 @@ In this case, results are the same, indicating that our hunch about acceptable s
 
 
 Cars example:
+
 
 ```r
 head(mtcars)
@@ -217,6 +231,8 @@ head(mtcars)
 ## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
 ## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
 ```
+
+
 
 ```r
 mtcars$fam=factor(mtcars$am, levels=c(0,1), labels=c("automatic","manual")) #transform "am" into a factor (fam) [Transmission (0 = automatic, 1 = manual)]
@@ -242,6 +258,8 @@ head(mtcars)
 ## Valiant           automatic
 ```
 
+
+
 ```r
 summary(mtcars$fam)
 ```
@@ -251,8 +269,10 @@ summary(mtcars$fam)
 ##        19        13
 ```
 
+
 Test the difference in car consumption depending on the transmission type. 
 Check wherever the 2 'independent populations' are normally distributed
+
 
 
 ```r
@@ -261,7 +281,9 @@ qqnorm(mpg[fam=="manual"]);qqline(mpg[fam=="manual"])
 qqnorm(mpg[fam=="automatic"]); qqline(mpg[fam=="automatic"])
 ```
 
-![plot of chunk unnamed-chunk-10](./stats12-basic_tests_files/figure-html/unnamed-chunk-10.png) 
+![plot of chunk unnamed-chunk-17](./stats12-basic_tests_files/figure-html/unnamed-chunk-17.png) 
+
+
 
 ```r
 shapiro.test(mpg[fam=="manual"])  #normal distributed
@@ -275,6 +297,8 @@ shapiro.test(mpg[fam=="manual"])  #normal distributed
 ## W = 0.9458, p-value = 0.5363
 ```
 
+
+
 ```r
 shapiro.test(mpg[fam=="automatic"])   #normal distributed
 ```
@@ -287,23 +311,27 @@ shapiro.test(mpg[fam=="automatic"])   #normal distributed
 ## W = 0.9768, p-value = 0.8987
 ```
 
+
 ```r
 par(mfrow=c(1,1))
 ```
 
 Graphic representation
 
+
 ```r
 boxplot(mpg~fam, ylab="Miles/gallon",xlab="Transmission",las=1)
 ```
 
-![plot of chunk unnamed-chunk-11](./stats12-basic_tests_files/figure-html/unnamed-chunk-11.png) 
+![plot of chunk unnamed-chunk-21](./stats12-basic_tests_files/figure-html/unnamed-chunk-21.png) 
+
 
 We have two ~normally distributed populations.
 In order to test for differences in means, we applied a t-test for independent samples. 
 
 Any time we work with the t-test, we have to verify whether the variance is equal betwenn the 2 populations or not, then we fit the t-test accordingly.  
 Our Ho or null hypothesis is that the consumption is the same irrespective to transmission. We assume non-equal variances
+
 
 
 ```r
@@ -323,9 +351,11 @@ t.test(mpg~fam,mu=0, alt="two.sided",conf=0.95,var.eq=F,paired=F)
 ## mean in group automatic    mean in group manual 
 ##                   17.15                   24.39
 ```
+
 From the output: please note that CIs are the confidence intervales for differences in means
 
 Same results if you run the following (meaning that the other commands were all by default)
+
 
 ```r
 t.test(mpg~fam) 
@@ -344,9 +374,11 @@ t.test(mpg~fam)
 ## mean in group automatic    mean in group manual 
 ##                   17.15                   24.39
 ```
+
 The alternative could be one-sided (greater, lesser) as we discussed earlier for one-sample t-tests
 
 If we assume equal variance, we run the following 
+
 
 
 ```r
@@ -367,18 +399,21 @@ t.test(mpg~fam,var.eq=TRUE,paired=F)
 ##                   17.15                   24.39
 ```
 
+
 Ways to check for equal / not equal variance
 
 1) To examine the boxplot visually
+
 
 
 ```r
 boxplot(mpg~fam, ylab="Miles/gallon",xlab="Transmission",las=1)
 ```
 
-![plot of chunk unnamed-chunk-15](./stats12-basic_tests_files/figure-html/unnamed-chunk-15.png) 
+![plot of chunk unnamed-chunk-25](./stats12-basic_tests_files/figure-html/unnamed-chunk-25.png) 
 
 2) To compute the actual variance
+
 
 ```r
 var(mpg[fam=="manual"])
@@ -388,6 +423,7 @@ var(mpg[fam=="manual"])
 ## [1] 38.03
 ```
 
+
 ```r
 var(mpg[fam=="automatic"])
 ```
@@ -395,9 +431,12 @@ var(mpg[fam=="automatic"])
 ```
 ## [1] 14.7
 ```
+
+
 There is 2/3 times difference in variance.
 
 3) Levene's test
+
 
 ```r
 library(car)
@@ -406,6 +445,8 @@ library(car)
 ```
 ## Warning: package 'car' was built under R version 3.0.3
 ```
+
+
 
 ```r
 leveneTest(mpg~fam) # Ho is that the population variances are equal
@@ -420,6 +461,8 @@ leveneTest(mpg~fam) # Ho is that the population variances are equal
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
+
+
 ```r
 # Ho rejected, non-equal variances
 ```
@@ -429,17 +472,20 @@ leveneTest(mpg~fam) # Ho is that the population variances are equal
 We change the response variable to hp (Gross horsepower)
 
 
+
 ```r
 qqnorm(hp[fam=="manual"]);qqline(hp[fam=="manual"])
 ```
 
-![plot of chunk unnamed-chunk-18](./stats12-basic_tests_files/figure-html/unnamed-chunk-181.png) 
+![plot of chunk unnamed-chunk-31](./stats12-basic_tests_files/figure-html/unnamed-chunk-31.png) 
+
 
 ```r
 qqnorm(hp[fam=="automatic"]);qqline(hp[fam=="automatic"])
 ```
 
-![plot of chunk unnamed-chunk-18](./stats12-basic_tests_files/figure-html/unnamed-chunk-182.png) 
+![plot of chunk unnamed-chunk-32](./stats12-basic_tests_files/figure-html/unnamed-chunk-32.png) 
+
 
 ```r
 shapiro.test(hp[fam=="manual"])  #not normally distributed
@@ -452,6 +498,8 @@ shapiro.test(hp[fam=="manual"])  #not normally distributed
 ## data:  hp[fam == "manual"]
 ## W = 0.7676, p-value = 0.00288
 ```
+
+
 
 ```r
 shapiro.test(hp[fam=="automatic"])  #normally distributed
@@ -471,13 +519,15 @@ We want to test a difference in hp depending on the transmission
 Using a non-parametric test, we test for differences in MEDIANS between 2 independent populations
 
 
+
 ```r
 boxplot(hp~fam)
 ```
 
-![plot of chunk unnamed-chunk-19](./stats12-basic_tests_files/figure-html/unnamed-chunk-19.png) 
+![plot of chunk unnamed-chunk-35](./stats12-basic_tests_files/figure-html/unnamed-chunk-35.png) 
 
 Our null hypothesis will be that the medians are equal (two-sided)
+
 
 
 ```r
@@ -507,6 +557,7 @@ detach(mtcars)
 This is a non-parametric method appropriate for examining the median difference in 2 populations observations that are paired or dependent one of the other.
 
 This is a dataset about some water measurements taken at different levels of a river: 'up' and 'down' are water quality measurements of the same river taken before and after a water treatment filter, respectively 
+
 
 
 ```r
@@ -541,15 +592,18 @@ summary(streams)
 ##  Max.   :20.00   Max.   :23.00
 ```
 
+
 ```r
 plot(up,down)
 abline(a=0,b=1) #add a line with intercept 0 and slope 1
 ```
 
-![plot of chunk unnamed-chunk-23](./stats12-basic_tests_files/figure-html/unnamed-chunk-23.png) 
+![plot of chunk unnamed-chunk-40](./stats12-basic_tests_files/figure-html/unnamed-chunk-40.png) 
+
 The line you see in the plot corresponds to x=y, that is, the same water measuremets before and after the water treatment (it seems to be true in 2 rivers only, 5 and 15)
 
 Our null hypothesis is that the median before and after the treatment are not different
+
 
 
 ```r
@@ -564,6 +618,8 @@ shapiro.test(down) #not normally distributed
 ## W = 0.866, p-value = 0.02367
 ```
 
+
+
 ```r
 shapiro.test(up) #normally distributed
 ```
@@ -576,6 +632,8 @@ shapiro.test(up) #normally distributed
 ## W = 0.9361, p-value = 0.3038
 ```
 
+
+
 ```r
 #the assumption of normality is certainly not met for the measurements after the treatment
 
@@ -587,6 +645,8 @@ summary(up)
 ##    4.00    9.25   13.00   13.40   17.20   23.00
 ```
 
+
+
 ```r
 summary(down)
 ```
@@ -595,6 +655,8 @@ summary(down)
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##    5.00    5.75   12.50   12.00   15.80   20.00
 ```
+
+
 
 ```r
 wilcox.test(up,down,mu=0,paired=T,conf.int=T,exact=F) #paired =T, low p ->reject Ho, medians are different
@@ -614,6 +676,8 @@ wilcox.test(up,down,mu=0,paired=T,conf.int=T,exact=F) #paired =T, low p ->reject
 ##            1.5
 ```
 
+
+
 ```r
 detach(streams)
 ```
@@ -623,11 +687,13 @@ detach(streams)
 This parametric method examinates the difference in means for two populations that are paired or dependent one of the other
 
 
+
 ```r
 fish = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/fishing.txt",header=T)
 ```
 
 This is a dataset about the density of a fish prey species (fish/km2) in 121 lakes before and after removing a non-native predator
+
 
 
 ```r
@@ -645,12 +711,16 @@ head(fish)
 ## 6     6  9.776 15.776
 ```
 
+
+
 ```r
 boxplot(before,after,ylab="Fish Density",
         names=c("before", "after"))
 ```
 
-![plot of chunk unnamed-chunk-26](./stats12-basic_tests_files/figure-html/unnamed-chunk-261.png) 
+![plot of chunk unnamed-chunk-49](./stats12-basic_tests_files/figure-html/unnamed-chunk-49.png) 
+
+
 
 ```r
 shapiro.test(before) #normally distributed
@@ -664,6 +734,8 @@ shapiro.test(before) #normally distributed
 ## W = 0.9958, p-value = 0.9777
 ```
 
+
+
 ```r
 shapiro.test(after)  #normally distributed
 ```
@@ -676,12 +748,14 @@ shapiro.test(after)  #normally distributed
 ## W = 0.9946, p-value = 0.9258
 ```
 
+
+
 ```r
 plot(before,after)
 abline(a=0,b=1) 
 ```
 
-![plot of chunk unnamed-chunk-26](./stats12-basic_tests_files/figure-html/unnamed-chunk-262.png) 
+![plot of chunk unnamed-chunk-52](./stats12-basic_tests_files/figure-html/unnamed-chunk-52.png) 
 
 
 
@@ -703,6 +777,8 @@ t.test(before,after,mu=0,paired=T)
 ##                   -2.16
 ```
 
+
+
 ```r
 t.test(after,before,mu=0,paired=T) #changing the order of variables, we have a change in the sign of the t-test estimated mean of differences
 ```
@@ -720,6 +796,8 @@ t.test(after,before,mu=0,paired=T) #changing the order of variables, we have a c
 ## mean of the differences 
 ##                    2.16
 ```
+
+
 
 ```r
 #low p ->reject Ho, means are equal 
@@ -741,15 +819,17 @@ We can say that a distribution is normally distributed when:
 
 Normal distribution 
 
+
 ```r
 #Simulation of the weight of 1570 adult males normally distributed
 data1=rnorm(1570,mean=75,sd=8)
 hist(data1,main="Adult male weights",xlab="adult male weight",col="red",las=1)
 ```
 
-![plot of chunk unnamed-chunk-28](./stats12-basic_tests_files/figure-html/unnamed-chunk-28.png) 
+![plot of chunk unnamed-chunk-56](./stats12-basic_tests_files/figure-html/unnamed-chunk-56.png) 
 
 Load example data
+
 
 ```r
 data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
@@ -765,8 +845,8 @@ summary(data)
 ##  3rd Qu.:2.57  
 ##  Max.   :2.98
 ```
-
 Visualize example data
+
 
 ```r
 attach(data) #command search() helps to verify what is/is not attached)
@@ -779,7 +859,9 @@ y2[52]=21.75 # to change the 52nd value for 21.75 instead of 2.175:
 plot(y2)     #very good to spot mistakes, outliers
 ```
 
-![plot of chunk unnamed-chunk-30](./stats12-basic_tests_files/figure-html/unnamed-chunk-30.png) 
+![plot of chunk unnamed-chunk-58](./stats12-basic_tests_files/figure-html/unnamed-chunk-58.png) 
+
+
 
 ```r
 par(mfrow=c(1,1)) #back to one plot window
@@ -792,14 +874,16 @@ If our sample is normally distributed then the line will be straight.
 Exceptions from normality show up different sorts of non-linearity (e.g. S-shapes or banana shapes). 
 
 
+
 ```r
 qqnorm(y)
 qqline(y,lty=2,col=2,lwd=3)
 ```
 
-![plot of chunk unnamed-chunk-31](./stats12-basic_tests_files/figure-html/unnamed-chunk-31.png) 
+![plot of chunk unnamed-chunk-60](./stats12-basic_tests_files/figure-html/unnamed-chunk-60.png) 
 
 ## Normality test: the shapiro.test
+
 
 
 ```r
@@ -814,6 +898,8 @@ shapiro.test(y)  # p-value=0.753, these data are normally distributed
 ## W = 0.9911, p-value = 0.753
 ```
 
+
+
 ```r
 detach(data)
 ```
@@ -821,31 +907,40 @@ detach(data)
 
 As an example we will create a fake data log-normally distributed and verify the assumption of normality
 
+
 ```r
 x=exp(rnorm(30))  #rnorm without specification (normal distributed or not) picks data from the standard normal, mean = 0, sd = 1
 plot(x)
 ```
 
-![plot of chunk unnamed-chunk-33](./stats12-basic_tests_files/figure-html/unnamed-chunk-331.png) 
+![plot of chunk unnamed-chunk-63](./stats12-basic_tests_files/figure-html/unnamed-chunk-63.png) 
+
+
 
 ```r
 boxplot(x)
 ```
 
-![plot of chunk unnamed-chunk-33](./stats12-basic_tests_files/figure-html/unnamed-chunk-332.png) 
+![plot of chunk unnamed-chunk-64](./stats12-basic_tests_files/figure-html/unnamed-chunk-64.png) 
+
+
 
 ```r
 hist(x,breaks=50)
 ```
 
-![plot of chunk unnamed-chunk-33](./stats12-basic_tests_files/figure-html/unnamed-chunk-333.png) 
+![plot of chunk unnamed-chunk-65](./stats12-basic_tests_files/figure-html/unnamed-chunk-65.png) 
+
+
 
 ```r
 qqnorm(x)
 qqline(x,lty=2,col=2,lwd=3)
 ```
 
-![plot of chunk unnamed-chunk-33](./stats12-basic_tests_files/figure-html/unnamed-chunk-334.png) 
+![plot of chunk unnamed-chunk-66](./stats12-basic_tests_files/figure-html/unnamed-chunk-66.png) 
+
+
 
 ```r
 shapiro.test(x)  #p-value=8.661e-07, not normally distributed
@@ -856,7 +951,7 @@ shapiro.test(x)  #p-value=8.661e-07, not normally distributed
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  x
-## W = 0.812, p-value = 0.0001092
+## W = 0.7702, p-value = 1.963e-05
 ```
 
 
@@ -871,14 +966,17 @@ Correlation tests measure the relationship between variables. This relationship 
 -Kendall's rank correlation is another non-parametric measure of the associtaion, based on concordance or discordance of x-y pairs (NON-PARAMETRIC TEST)
 
 
+
 ```r
 attach(mtcars)  
 plot(hp,wt, main="scatterplot",las=1, xlab ="gross horse power", ylab="Weight (lb/1000)")
 ```
 
-![plot of chunk unnamed-chunk-34](./stats12-basic_tests_files/figure-html/unnamed-chunk-34.png) 
+![plot of chunk unnamed-chunk-68](./stats12-basic_tests_files/figure-html/unnamed-chunk-68.png) 
+
 
 Compute the three correlation coefficients
+
 
 ```r
 cor(hp,wt,method="pearson")
@@ -888,6 +986,8 @@ cor(hp,wt,method="pearson")
 ## [1] 0.6587
 ```
 
+
+
 ```r
 cor(hp,wt)#Pearson is the default method; the order of variables is not important
 ```
@@ -895,6 +995,8 @@ cor(hp,wt)#Pearson is the default method; the order of variables is not importan
 ```
 ## [1] 0.6587
 ```
+
+
 
 ```r
 cor(hp,wt,method="spearman")
@@ -904,6 +1006,7 @@ cor(hp,wt,method="spearman")
 ## [1] 0.7747
 ```
 
+
 ```r
 cor(hp,wt,method="kendal")
 ```
@@ -911,8 +1014,10 @@ cor(hp,wt,method="kendal")
 ```
 ## [1] 0.6113
 ```
+`
 
 Test the null hypothesis, that means that the correlation is 0 (there is no correlation)
+
 
 ```r
 cor.test(hp,wt,method="pearson") #Pearson correlation test
@@ -931,6 +1036,8 @@ cor.test(hp,wt,method="pearson") #Pearson correlation test
 ##    cor 
 ## 0.6587
 ```
+
+
 
 ```r
 cor.test(hp,wt,method="spearman") #Spearmn is a non-parametric, thus it is not possible to get CIs. There is a error message because R cannot compute exact p values (the test is based on ranks, we have few cars with the same hp or wt).We can get rid off the warning letting R know that approximate values are fine
@@ -952,6 +1059,8 @@ cor.test(hp,wt,method="spearman") #Spearmn is a non-parametric, thus it is not p
 ## 0.7747
 ```
 
+
+
 ```r
 cor.test(hp,wt,method="spearman",exact=F) 
 ```
@@ -967,6 +1076,8 @@ cor.test(hp,wt,method="spearman",exact=F)
 ##    rho 
 ## 0.7747
 ```
+
+
 
 ```r
 cor.test(hp,wt,method="kendal",exact=F) #same happens with Kendal correlation test
@@ -984,6 +1095,7 @@ cor.test(hp,wt,method="kendal",exact=F) #same happens with Kendal correlation te
 ## 0.6113
 ```
 
+
 When we have non-parametric data and we do not know which correlation method to choose, as a rule of thumb, if the correlation looks non-linear, Kendall tau should be better than Spearman Rho.
 
 
@@ -991,13 +1103,16 @@ When we have non-parametric data and we do not know which correlation method to 
 
 Plot all possible combinations with "pairs"
 
+
 ```r
 pairs(mtcars)  # all possible pairwise plots
 ```
 
-![plot of chunk unnamed-chunk-37](./stats12-basic_tests_files/figure-html/unnamed-chunk-37.png) 
+![plot of chunk unnamed-chunk-77](./stats12-basic_tests_files/figure-html/unnamed-chunk-77.png) 
+
 
 To make it simpler we select what we are interested
+
 
 ```r
 names(mtcars)
@@ -1008,13 +1123,16 @@ names(mtcars)
 ## [11] "carb" "fam"
 ```
 
+
 ```r
 pairs(mtcars[,c(1,4,6)]) # subsetting the categories we will use
 ```
 
-![plot of chunk unnamed-chunk-38](./stats12-basic_tests_files/figure-html/unnamed-chunk-38.png) 
+![plot of chunk unnamed-chunk-79](./stats12-basic_tests_files/figure-html/unnamed-chunk-79.png) 
+
 
 Building a correlation matrix
+
 
 ```r
 #cor(mtcars)
@@ -1028,6 +1146,8 @@ cor(mtcars[,c(1,4,6)])
 ## wt  -0.8677  0.6587  1.0000
 ```
 
+
+
 ```r
 detach(mtcars)
 ```
@@ -1036,6 +1156,6 @@ http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html
 
 
 ####References
-Ruxton, G. D. (2006). The unequal variance t-test is an underused alternative to Studentâs t-test and the Mann-Whitney U test. Behavioral Ecology, 17, 688â690.
+Ruxton, G. D. (2006). The unequal variance t-test is an underused alternative to StudentÃ¢ÂÂs t-test and the Mann-Whitney U test. Behavioral Ecology, 17, 688Ã¢ÂÂ690.
 
-Zimmerman, D. W. (2012). A note on consistency of non-parametric rank tests and related rank transformations. British Journal of Mathematical and Statistical Psychology, 65, 122â44.
+Zimmerman, D. W. (2012). A note on consistency of non-parametric rank tests and related rank transformations. British Journal of Mathematical and Statistical Psychology, 65, 122Ã¢ÂÂ44.
