@@ -27,6 +27,9 @@ Cam, L. L. (1990) Maximum Likelihood: An Introduction. International Statistical
 Specify different contrasts for categorical predictors https://biologyforfun.wordpress.com/2015/01/13/using-and-interpreting-different-contrasts-in-linear-models-in-r/
 
 
+k-means clustering assumptions http://varianceexplained.org/r/kmeans-free-lunch/
+
+
 
 
 
