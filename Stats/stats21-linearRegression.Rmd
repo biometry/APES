@@ -17,6 +17,20 @@ opts_knit$set(global.par=TRUE)
 opts_chunk$set(cache=TRUE,fig.align='center')
 ```
 
+Contents
+
+* Linear regression summary and idea
+* Univariate
+  * Continous predictor
+    * Interpreting the output   
+    * Residual diagnostics
+  * Categorical predictor
+* Multiple linear regression
+  * 
+
+
+
+
 Linear regression
 ===
 
