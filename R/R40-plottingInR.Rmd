@@ -9,6 +9,35 @@ layout: page
 title: Plotting in R
 category: r
 ---
+
+Contents
+
+* Simple standard plot
+	* Scatterplot
+		* Simple scatterplot
+	 	* Scatterplot matrices
+	 	* High Density Scatterplot
+		* Three-dimensional scatterplot
+    	* Line plots
+    	* Bar plots
+	 	* Simple Bar Plot
+	 	* Stacked Bar Plot
+	* Pie charts
+	* Histograms
+  		* Simple Histogram
+	* Density plots
+* Others
+	* Box plots
+		* Interpreting boxplots
+		* Notched Boxplot
+		* Violin Plot
+		* Bag Plot
+* Understanding graphics
+	* Colors
+
+
+
+
 Plotting in R
 === 
 
