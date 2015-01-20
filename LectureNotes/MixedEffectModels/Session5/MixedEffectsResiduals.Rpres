@@ -1,0 +1,655 @@
+Assumptions, power analysis, validation and model comparison of mixed effects models II: Residuals diagnostics
+========================================================
+author: Florian Hartig
+date: 5th mixed model session, Jan 21, 2015
+
+Reminder previous session
+===
+incremental: true
+
+Mixed models add a random effect to the normal GLM structure
+
+- Random intercept: $y_{obs} \sim ErrorDistr(mean = link (A \cdot X + b + R_i)$ 
+- Random slope: $y_{obs} \sim ErrorDistr(mean = link (R_i * A \cdot X + b))$ 
+
+**Random effect $R_i$**, which assigns a different value to each group $i$ not independently (as for a fixed effects model), but from a distribution
+
+- $R_i \sim Norm(0, \sigma)$ 
+
+for which we fit the $\sigma$ (and the $R_i$ of course)
+
+Example
+===
+
+```{r, echo=F}
+library(lme4)
+library(mlmRev)
+library(lmerTest)
+attach(Exam)
+```
+
+To strengthen our understanding, let's again look at the school exam example from last time 
+
+```{r}
+?Exam
+```
+
+We have a data frame with 4059 observations of 9 variables, of which we use 
+
+- normexam - Normalized exam score, Response
+- standLRT - Standardised LR test score, main predictor
+- school - School ID - a grouping variable that could be a random effect
+
+
+As a reminder
+===
+
+I will go through the four basic cases to show you the differences
+
+1. School modifies the intercept (normexam):
+  - school as **fixed main effect**
+  - school as **random interecept** (mixed model)
+
+
+2. School modifies the slope (influence of standLRT):
+  - school as **fixed interaction**
+  - school as **random intercept** (mixed model)
+
+
+Assumption 1: School -> Intercept
+===
+
+Assumption: in each school students are higher or lower in their normalized exam score, independently of standLRT
+
+In this case, the options to include school are:
+
+- as a **fixed main effect**, meaning that for each school we estimate an independent value
+- as a **random intercept**, meaning that the values for each school are connected by the assumption that they come from a normal distribution
+
+
+
+School as fixed main effect
+===
+
+
+<font size="5">
+```{r, cache = T}
+fixedInterceptFit <- lm(normexam ~ standLRT + school)
+summary(fixedInterceptFit)
+```
+</font>
+
+Distribution of estimates for school
+===
+
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+coef = fixedInterceptFit$coefficients
+plot(normexam, standLRT)
+abline(a = coef[1], b = coef[2])
+for (i in 3:66) abline(a = coef[1] + coef[i], b = coef[2], col = i)
+hist(coef[3:66])
+```
+
+
+School as random intercept
+===
+
+<font size="6">
+```{r, cache = T}
+randomInterceptFit <- lmer(normexam ~ standLRT + (1 | school))
+summary(randomInterceptFit)
+```
+</font>
+
+Distribution of estimates for school
+===
+
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+randcoef = ranef(randomInterceptFit)$school[,1]
+fixedcoef = fixef(randomInterceptFit)
+plot(normexam, standLRT)
+for (i in 1:65) abline(a = fixedcoef[1] + randcoef[i], b = fixedcoef[2], col = i)
+hist(randcoef)
+```
+
+Comparison fixed and random intercepts
+===
+
+<font size="6">
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+hist(coef[3:66], main = "Fixed intercept for schools", xlim = c(-2,1), breaks = 30)
+hist(randcoef, main = "Random intercept for schools", xlim = c(-2,1), breaks = 30)
+sd(coef[3:66]) 
+sd(randcoef) 
+```
+</font>
+
+
+Comparison parameter estimates 
+===
+
+<font size="4">
+```{r}
+summary(fixedInterceptFit)
+```
+</font>
+
+***
+
+<font size="4">
+```{r}
+summary(randomInterceptFit) 
+```
+</font>
+
+Conclusion: variance slightly different, parameter estimates pretty much the same
+
+
+Assumption 2: School -> Slope
+===
+
+Assumption: in each school, the effect of standLRT on normalized exam score is different
+
+In this case, the options are to include school:
+
+- as an **interaction**, meaning that for each school, we estimate an independent different value for the effect of standLRT
+- as a **random slope**, meaning that the different standLRT values for each school are connected by the assumption that they come from a normal distribution
+
+School as a (fixed) interaction
+===
+
+
+<font size="5">
+```{r, cache = T}
+fixedInteractionFit <- lm(normexam ~ standLRT + standLRT:school)
+
+summary(fixedInteractionFit)
+```
+</font>
+
+Distribution of estimates for school
+===
+
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+coef = fixedInteractionFit$coefficients
+plot(normexam, standLRT)
+abline(a = coef[1], b = coef[2])
+for (i in 3:66) abline(a = coef[1] , b = coef[2] + coef[i], col = i)
+hist(coef[3:66])
+```
+
+
+School as random slope
+===
+
+<font size="5">
+
+```{r, cache = T}
+randomSlopeFit <- lmer(normexam ~ standLRT + (0 + standLRT | school))
+summary(randomSlopeFit)
+```
+</font>
+
+Distribution of estimates for school
+===
+
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+randcoef = ranef(randomSlopeFit)$school[,1]
+fixedcoef = fixef(randomSlopeFit)
+plot(normexam, standLRT)
+for (i in 1:65) abline(a = fixedcoef[1] , b = fixedcoef[2] + randcoef[i], col = i)
+hist(randcoef)
+```
+
+Comparison interaction and random slope effects for school
+===
+
+<font size="6">
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+hist(coef[3:66], main = "Fixed intercept for schools", xlim = c(-2,1), breaks = 30)
+hist(randcoef, main = "Random intercept for schools", xlim = c(-2,1), breaks = 30)
+
+sd(coef[3:66]) 
+sd(randcoef) 
+```
+</font>
+
+
+Comparison parameter estimates 
+===
+
+<font size="4">
+```{r}
+summary(fixedInteractionFit)
+```
+</font>
+
+***
+
+<font size="4">
+```{r}
+summary(randomSlopeFit) 
+```
+</font>
+
+Conclusion: variance different, parameter estimates not the same. Random slope more closely to the intercept models.
+
+```{r, echo=F}
+detach(Exam)
+```
+
+
+Obvious question
+===
+
+Which of the four models should we use?
+
+- All are sensible 
+- All predict a significant effect of standLRT
+- **But with different p-values and different effect sizes**
+  - For a school administrator, this may really make a difference!
+
+What to do?
+
+- **Residual diagnostics** to detect problems in the model specification
+- **Model selection** on the random effect structure (in two weeks)
+
+
+Residual Diagnostics
+=== 
+
+Each model makes assumptions about
+
+- The mean value of the response as a function of the predictors
+- The stochasticity (error) around this mean value
+  
+Model diagnostics (or residual diagnostics) means that we check whether the observed residuals (residual = data - model prediction) are in line with the model assumptions
+
+
+New Dataset
+===
+
+
+```{r, echo=F, cache = T}
+altitude = rep(seq(0,1000,len = 20), each = 50)
+moisture = runif(1000, 0,1)
+dataID = 1:1000
+
+# random effects
+plot = rep(1:20, each = 50)
+year = rep(1:10, each = 10, times = 10)
+
+#plotRandom = 0 - rexp(20, rate = 1)
+
+yearRandom = rnorm(10, 1)
+plotRandom = rnorm(20,0,0.5)
+overdispersion = rnorm(1000, sd = 0.5)
+
+beetles <- rpois(1000, exp( 
+  
+  ( 1 + yearRandom[year]) * moisture 
+  
+  + 0.05*altitude - 0.00005*altitude^2 
+  
+  + overdispersion +  plotRandom[plot]))
+
+# beetles[rbinom(1,200,0.1)] = 0  #zero-inflation
+data = data.frame(dataID, beetles, moisture, altitude, plot, year)
+```
+
+Measured beetle counts over 5 years on 20 different plots, with the predictors moisture and altitude
+
+<font size="5">
+```{r}
+head(data)
+str(data)
+```
+</font>
+
+Univariate environmental responses
+===
+
+<font size="6">
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+plot(moisture, beetles, col = plot)
+plot(altitude, beetles, col = plot)
+```
+</font>
+
+Plot and year
+===
+
+<font size="6">
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+plot(plot, beetles, col = plot)
+plot(year, beetles, col = plot)
+```
+</font>
+
+How do we model this?
+===
+
+Error distribution
+
+- Poisson
+
+Fixed effects
+- moisture
+- altitude
+
+Random effects
+
+- plot
+- year
+
+A first try
+===
+
+<font size="5">
+```{r, echo = T, cache = T}
+fit1 <- glmer(beetles ~ moisture + altitude + (1|year) + (1|plot), family = "poisson")
+summary(fit1)
+```
+</font>
+
+Let's look at the residual first
+===
+
+lme4 has a function to plot residuals, for details see help
+
+```{r, eval = F}
+?plot.merMod
+```
+
+```{r, eval= F}
+## S3 method for class 'merMod'
+plot(x, form = resid(., type = "pearson") ~ fitted(.), abline, id = NULL, idLabels = NULL, grid, ...)
+```
+
+Btw, what are pearson residuals?
+===
+
+- For lm(), the error is iid normal, which implies constant variance 
+  - For heteroskedasticity and misfit, we can therefore look at the normal residuals 
+  - To see whether the normality assumptions holds, we can do qq-plots
+
+- For poisson or logistic errors, variance is not constant, it doesn't make sense to look at absolute residuals
+  - Pearson residuals divide the observed residual against the expected variance at the fitted point
+  - Residual variance should now be constant, but the shape doesn't need to be normal and can change 
+
+Residuals against fitted values
+===
+
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+plot(fit1, form = resid(., type = "pearson") ~ log(fitted(.)))
+```
+
+Heteroskedasticity (more variablity to the right) and overdispersion (values tend to exceed 1)
+</font>
+
+Residuals against moisture and altitude
+===
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit1, resid(.) ~ moisture, abline = 0)
+```
+</font>
+
+***
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit1, resid(.) ~ altitude, abline = 0)
+```
+</font>
+
+
+
+Observation - variance increases in the middle.
+
+Add a quadratic effect for altitude
+===
+
+<font size="5">
+```{r, echo = T, cache = T}
+fit2 <- glmer(beetles ~ moisture + altitude + I(altitude^2) + (1|year) + (1|plot), family = "poisson")
+summary(fit2)
+```
+</font>
+
+Residuals against moisture and altitude
+===
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit2, resid(.) ~ moisture, abline = 0)
+```
+</font>
+
+***
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit2, resid(.) ~ altitude, abline = 0)
+```
+</font>
+
+
+
+What's going on?
+===
+
+OK, so the quadratic effect is very significantly supported, but the overdispersion around the mean altitudues is not much better. Could it be that we simply have a general overdispersion phenomenon here, that is more visible for the places where there are lots of beetles?
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 4, fig.width = 6, cache = T}
+plot(fit2, form = resid(., type = "pearson") ~ log(fitted(.)))
+```
+</font>
+
+Checking for overdispersion
+====
+
+
+
+Here, it's obvious that we have a lot of overdispersion in the model, but if you want to prove it a quick and dirty parametric way approximation comes from http://glmm.wikidot.com/faq . I will mention a better way based on simulations later. 
+
+<font size="5">
+```{r}
+overdisp_fun <- function(model) {
+  ## number of variance parameters in 
+  ##   an n-by-n variance-covariance matrix
+  vpars <- function(m) {
+    nrow(m)*(nrow(m)+1)/2
+  }
+  model.df <- sum(sapply(VarCorr(model),vpars))+length(fixef(model))
+  rdf <- nrow(model.frame(model))-model.df
+  rp <- residuals(model,type="pearson")
+  Pearson.chisq <- sum(rp^2)
+  prat <- Pearson.chisq/rdf
+  pval <- pchisq(Pearson.chisq, df=rdf, lower.tail=FALSE)
+  c(chisq=Pearson.chisq,ratio=prat,rdf=rdf,p=pval)
+}
+overdisp_fun(fit2)
+```
+</font>
+
+OK, so let's add an overdispersion term
+===
+
+<font size="5">
+```{r, echo = T, cache = T}
+fit3 <- glmer(beetles ~ moisture + altitude + I(altitude^2) + (1|year) + (1|plot) + (1|dataID), family = "poisson")
+summary(fit3)
+```
+</font>
+
+Residual plot for GLMM Poisson with overdisp
+===
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 4, fig.width = 6, cache = T}
+plot(fit3, form = resid(., type = "pearson") ~ log(fitted(.)))
+overdisp_fun(fit3)
+```
+</font>
+
+Residuals against moisture and altitude
+===
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit3, resid(.) ~ moisture, abline = 0)
+```
+</font>
+
+***
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit3, resid(.) ~ altitude, abline = 0)
+```
+</font>
+
+Comparison with / without
+===
+
+<font size="6">
+```{r, cache = T}
+fixef(fit2)
+confint(fit2)
+fixef(fit3)
+confint(fit3)
+```
+</font>
+
+Including overdispersion makes quite a bit of difference for both fixed effect estimates and CIs!
+
+- The fixed effect influence comes from the nonlinearity of the GLM structure (exponential link)
+
+Are we OK now?
+===
+
+We have 
+
+- Checked the fixed effect structure, significance for all variables
+- Residuals seem to look ok (with reservation)
+- Overdispersion is controlled
+
+Random effect estimates
+===
+
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit3, resid(.) ~ moisture, abline = 0)
+```
+</font>
+
+***
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit3, resid(.) ~ altitude, abline = 0)
+```
+</font>
+
+
+
+
+Residuals against fitted values for each year
+===
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = F}
+plot(fit3, resid(.) ~ fitted(.) | year, abline = 0)
+```
+
+Can't see anything
+</font>
+
+
+Residuals against fitted values for each plot
+===
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+plot(fit3, resid(.) ~ fitted(.) | plot, abline = 0)
+```
+
+Seem to have different variance in the plots!
+</font>
+
+
+Residuals against fitted values for each plot
+===
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+plot(fit2, resid(.) ~ moisture | year, abline = 0)
+```
+
+Seem to have different variance in the plots!
+</font>
+
+
+
+
+<font size="6">
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+library(effects)
+
+
+```
+</font>
+
+
+Best model
+===
+
+<font size="5">
+```{r, echo = T, cache = T}
+fit6 <- glmer(beetles ~ moisture + altitude + I(altitude^2) + (0+moisture|year) + (1|plot) + (1|dataID), family = "poisson")
+summary(fit6)
+```
+</font>
+
+
+Best model2
+===
+
+<font size="5">
+```{r, echo = T, cache = T}
+altitude <- scale(altitude, center = T, scale = F)
+altitude <- scale(altitude, center = T, scale = F)
+fit7 <- glmer(beetles ~ moisture + altitude + I(altitude^2) + (0+moisture|year) + (1|plot) + (1|dataID), family = "poisson")
+summary(fit7)
+```
+</font>
+
+
+
+
+Plot
+===
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+plot(fit6, form = resid(., type = "pearson") ~ log(fitted(.)))
+```
+
+
+
+
+
