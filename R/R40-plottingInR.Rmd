@@ -349,7 +349,16 @@ legend(xrange[1], yrange[2], 1:ntrees, cex=0.8, col=colors,
 
 ## Bar plots
 
+Bar plots are charts with rectangular bars with lengths proportional to the values that they represent. They become handy when we deal with categorical variables distributions
+
 ### Simple Bar Plot
+
+To do a bar plot Sepal.Length against Petal.Length, use the following command
+
+```{r}
+barplot(Petal.Length, Sepal.Length)
+```
+As usual we can add a large range of extra features
 
 ```{r}
 counts <- table(iris$Petal.Length)
