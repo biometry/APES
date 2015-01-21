@@ -85,7 +85,7 @@ The most basic plot that can be done with the plot() function is a scatter plot.
 
 ### Simple Scatterplot
 
-We ll use the dataset Iris
+We'll use the dataset Iris
 ```{r}
 attach(iris) # remember to detach in the end 
 head(iris)
@@ -106,10 +106,8 @@ For example
 ```{r}
 plot(Petal.Length, Sepal.Length, main="Simple Scatterplot",xlab="Petal Length ",ylab="Sepal Length " , 
      pch=22, col="red", bg="blue",cex=3, lwd=2)
-
-abline(lm(Sepal.Length~Petal.Length), col="red")
-lines(lowess(Petal.Length, Sepal.Length), col="blue")
 ```
+
 
 Where:	
  * Petal.Length = x	   
@@ -123,15 +121,16 @@ Where:
  * lwd = size of pch	
 
 
-It is possible to add **fitting lines**:   
+It is possible to add **fitting lines**, that is, a line on a graph showing the general direction that a group of points seem to be heading.:   
 
 1.	Regresion line, where y is dependent of x (y~x).
-
-
-
+```{r}
+abline(lm(Sepal.Length~Petal.Length), col="red")
+```
 2.	Lowess returns a list containing components x and y which give the coordinates of the smooth. 
-		
-
+```{r}		
+lines(lowess(Petal.Length, Sepal.Length), col="blue")
+```
 
 By downloading the <b>car</b> package we can use more enhanced features
 
@@ -155,9 +154,16 @@ Where:
 Other enhanced features include: boxplots, regresion lines, jitter factors, legend options, etc.
 
 
-###Scaterplott Matrices
+### Scatterplot Matrices
+
+It is possible to assess the relationships between multiple variables simultaneously by using a Scatterplot Matrix. 
+It is an ordered collection of bivariate graphs, making it easy to look at all pairwise correlations in one place.
+
+The scatterplot matrices command is pairs()
 
 ```{r}
+pairs(iris)
+
 pairs(~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width,data=iris,
       main="Simple Scatterplot Matrix")
 ```
