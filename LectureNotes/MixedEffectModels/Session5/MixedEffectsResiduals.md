@@ -9,8 +9,8 @@ incremental: true
 
 Mixed models add a random effect to the normal GLM structure
 
-- Random intercept: $y_{obs} \sim ErrorDistr(mean = link (A \cdot X + b + R_i)$ 
-- Random slope: $y_{obs} \sim ErrorDistr(mean = link (R_i * A \cdot X + b))$ 
+- Random intercept: $y_{obs} \sim ErrorDistr(mean = link (A \cdot X + (b + R_i))$ 
+- Random slope: $y_{obs} \sim ErrorDistr(mean = link ( (A  + R_i)  \cdot X + b))$ 
 
 **Random effect $R_i$** assigns a different value to each group $i$, but not independently (as for a fixed effects model), but from a common distribution
 

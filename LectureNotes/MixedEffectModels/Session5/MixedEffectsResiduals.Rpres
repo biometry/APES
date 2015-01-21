@@ -9,8 +9,8 @@ incremental: true
 
 Mixed models add a random effect to the normal GLM structure
 
-- Random intercept: $y_{obs} \sim ErrorDistr(mean = link (A \cdot X + b + R_i)$ 
-- Random slope: $y_{obs} \sim ErrorDistr(mean = link (R_i * A \cdot X + b))$ 
+- Random intercept: $y_{obs} \sim ErrorDistr(mean = link (A \cdot X + (b + R_i))$ 
+- Random slope: $y_{obs} \sim ErrorDistr(mean = link ( (A  + R_i)  \cdot X + b))$ 
 
 **Random effect $R_i$** assigns a different value to each group $i$, but not independently (as for a fixed effects model), but from a common distribution
 
@@ -87,7 +87,7 @@ Distribution of estimates for school
 ```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
 par(mfrow=c(1,2))
 coef = fixedInterceptFit$coefficients
-plot(normexam, standLRT)
+plot(standLRT, normexam)
 abline(a = coef[1], b = coef[2])
 for (i in 3:66) abline(a = coef[1] + coef[i], b = coef[2], col = i)
 hist(coef[3:66])
@@ -101,7 +101,7 @@ School as random intercept
 ```{r, cache = T}
 randomInterceptFit <- lmer(normexam ~ standLRT + (1 | school))
 summary(randomInterceptFit)
-```
+ ```
 Note the comments about "REML t-tests use Satterthwaite approximations" --> this is because I have loaded the lmerTest package
 </font>
 
@@ -212,7 +212,7 @@ Distribution of estimates for school
 par(mfrow=c(1,2))
 randcoef = ranef(randomSlopeFit)$school[,1]
 fixedcoef = fixef(randomSlopeFit)
-plot(normexam, standLRT)
+plot(standLRT, normexam)
 for (i in 1:65) abline(a = fixedcoef[1] , b = fixedcoef[2] + randcoef[i], col = i)
 hist(randcoef)
 ```
