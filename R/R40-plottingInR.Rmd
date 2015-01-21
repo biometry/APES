@@ -108,7 +108,6 @@ plot(Petal.Length, Sepal.Length, main="Simple Scatterplot",xlab="Petal Length ",
      pch=22, col="red", bg="blue",cex=3, lwd=2)
 ```
 
-
 Where:	
  * Petal.Length = x	   
  * Sepal.Length = y		 
@@ -173,7 +172,8 @@ Where:
 * `data` = the data frame
 * `main` = main title   
 
-With the **lattice** package it is possible to condicion our matrix on a factor (tree specie in this case)
+With the **lattice** package we can condicion our matrix on a factor (tree specie in this case)
+the package supports the creation of trellis graphs - a family of techniques for viewing complex, multi-variable data sets
 
 ```{r}
 library(lattice)
@@ -193,7 +193,6 @@ Where:
 •superpanel = function that sets up the splom display, by default as a scatterplot matrix   
 •key = legend   
 •text = labels for levels of the grouping variable   
-
 
 
 We can also condicion our matrix on a factor with the <b>car</b> package.   
@@ -230,7 +229,10 @@ Where:
 
 ### High Density Scatterplot
 
-There are 2 options to plot whenever we are working with too many data points that overlap.  
+High Density Scatterplot allow the visualization of large amounts of data without overlapping. 
+
+There are 2 options to plot whenever we are working with too many data points:  
+
 The <b>hexbin</b> package creates a group of hexagonal cells and a count of points falling in each occupied cell. 
 ```{r}
 library(hexbin)  
@@ -289,6 +291,8 @@ scatter3d(Sepal.Length,Sepal.Width,Petal.Length)
 
 ## Line plots
 
+A line plot shows data on a number line with x or other marks to show frequency. It is best to use a line plot when comparing less than 25 numbers
+
 we will represent the diferent <b>types of lines</b> in one plot with random x and y data:
 ```{r}
 x <- c(1:5); y <- x 
@@ -341,7 +345,6 @@ title("Iris Sepals")
 legend(xrange[1], yrange[2], 1:ntrees, cex=0.8, col=colors,
        pch=1:ntrees, lty=1:ntrees, title="Species")
 ```
-
 
 
 ## Bar plots
