@@ -372,7 +372,8 @@ It is possible to plot the bars horizontal by adding horiz=TRUE to the code
 
 ### Stacked Bar Plot
 
-If we want to represent different values in each bar
+If we want to represent different values in each bar the Stacked bar is our graph. 
+It is used to compare the different parts in relation to the total. The bars are divided into categories and each bar represents the whole.
 
 ```{r}
 counts <- table(iris$Species, iris$Petal.Length)  
@@ -386,35 +387,39 @@ We can represent each value in a bar instead of stacked by adding beside=TRUE to
 
 ## Pie charts
 
-Don't do them! Use Bar plots instead as it is easier to appreciate the differences between bars. But if you have to use them:
+Don't use them! 
+Use Bar plots instead as it is easier to appreciate the differences between bars. Percentages are difficult to discern in a pie chart, but can be 
+accurately discerned in a bar graph, thanks to the quantitative scale. But if you have to use them:
 
+Set up the variables
 ```{r}
-#set up the variables
 Spcs <- table(iris$Species) 
 Spcs
 lbls <- c("Setosa", "Versicolor", "Virginica")
-# add percentages to the pie
-pct <- round(Spcs/sum(Spcs)*100)
-lbls <- paste(lbls, pct)
-lbls <- paste(lbls,"%",sep="")
-# plot the chart
+```
+
+Plot the chart
+```{r}
 pie(Spcs,labels = lbls,
 main="Pie Chart of Countries")
 ```
-
 
 With the <b>plotrix</b> package we can create 3d pie charts
 
 ## Histograms
 
-Not recommended as its accuracy depends of the number of bins used
+A histogram is constructed from a frequency table. The intervals from the table are placed on the x-axis and the values needed for the frequencies are represented on the y-axis.  
+The shapes of histograms may vary by changing the size of the intervals.Due to this, they are not recommended, as its accuracy depends of the number of bins used
 
 ### Simple Histogram
+
+A histogram can be ploted with the command hist()
 
 ```{r}
 Petal<-iris$Petal.Length				
 hist(Petal)		
 ```
+Depending of the number of breaks (bins), the shape of the histogram will vary
 
 ```{r}
 hist(Petal,freq=FALSE, breaks=15,col="green")		
@@ -436,13 +441,14 @@ lines(xfit, yfit, col="blue", lwd=2)
 
 ## Density plots
 
+
 ```{r}
 dens <- density(iris$Petal.Length) 		
 plot(dens, main="Kernel Density of Petal Length") 		
-polygon(dens, col="pink", border="purple")		
+polygon(dens, col="pink", border="purple") # polygon = to color the density plot		
 ```
-* polygon = to color the density plot
 
+The kernel density estimation is a non-parametric way to estimate the probability density function of a random variable
 
 We can compare different Kernel density groups with the <b> sm package </b>
 
