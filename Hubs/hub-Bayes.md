@@ -81,7 +81,15 @@ http://www.sumsar.net/blog/2014/10/probable-points-and-credible-intervals-part-o
 
 # Bayesian Model selection
 
+* DIC
+* Bayes Factor
+* Reversible Jump MCMC (RJ-MCMC)
+
+While DIC is really a different idea, it should be noted that BF and RJ-MCMC have the same underlying logic, i.e. they are based on the full posterior P(D|M, \phi) p(M) p(\phi) , just that for the BF the parameters are marginalized out. 
+
 ## DIC
+
+* Note that there are potentially differences in DIC calculations in bugs and jags. 
 
 ## Bayes Factors
 
@@ -94,7 +102,7 @@ http://www.biomedcentral.com/1471-2105/14/85
 http://hedibert.org/bayes-factor-computing-marginal-likelihoods-savage-dickey-ratio-reversible-jump-mcmc-bayesian-model-averaging-and-deviance-information-criterion/
 
 
-## RJMCMC
+## RJ-MCMC
 
 
 
