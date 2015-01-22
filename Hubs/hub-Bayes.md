@@ -89,6 +89,10 @@ http://www.sumsar.net/blog/2014/10/probable-points-and-credible-intervals-part-o
 
 https://radfordneal.wordpress.com/2008/08/17/the-harmonic-mean-of-the-likelihood-worst-monte-carlo-method-ever/
 
+http://www.biomedcentral.com/1471-2105/14/85
+
+http://hedibert.org/bayes-factor-computing-marginal-likelihoods-savage-dickey-ratio-reversible-jump-mcmc-bayesian-model-averaging-and-deviance-information-criterion/
+
 
 ## RJMCMC
 
