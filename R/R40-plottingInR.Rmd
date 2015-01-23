@@ -468,6 +468,10 @@ legend("topright", levels(spec.f), fill=colfill)
 # Others
 
 ## Box plots
+
+Box plots are useful for identifying outliers and for comparing distributions. 
+The whiskers above and below each box give additional information about the spread of the data
+
 ```{r}
 boxplot(Petal.Length~Species,data=iris, main="Species Petal Length", 		
         xlab="Species", ylab="Petal Length")
@@ -483,9 +487,10 @@ From Naomi Robbins’ book: Creating More Effective Graphs: “The rectangle sho
 
 ### Notched Boxplot
 
+The differernce with the normal boxplots is the the "Notch" that displays a confidence interval around the median, if two boxes' notches do not overlap there is strong evidence (95% confidence) their medians differ
 It is also possible to create a notched Boxplot of a variable against 2 crossed factors.		
-This time we used the example of the Carbon Dioxide Uptake in Grass Plants against Type and treatment
 
+This time we used the example of the Carbon Dioxide Uptake in Grass Plants against Type and treatment
 
 ```{r}
 boxplot(uptake~Type*Treatment, data=CO2, notch=TRUE, 		
@@ -494,6 +499,8 @@ boxplot(uptake~Type*Treatment, data=CO2, notch=TRUE,
 ```
 
 ### Violin Plot
+
+Violin plots are a combinotion of kernel density plots and boxplots
 
 With a violin plot (<b>vioplot</b> package) we can visualise easily the density data.		
 
@@ -511,6 +518,7 @@ title("Violin Plots of Petal Length")
 ### Bagplot
 
 Witht the <b>aplpack</b> package we can create a bivariate (2D) boxplot. 50% of the points are in the bag.
+The bagplot eases the visualization of the location, spread, skewness, and outliers of the data set.
 
 ```{r}
 library(aplpack)			
