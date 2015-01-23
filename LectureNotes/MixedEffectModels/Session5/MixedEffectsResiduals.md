@@ -1,4 +1,4 @@
-Digging deeper with mixed models: Residuals diagnostics
+Digging deeper with mixed models: Residual diagnostics
 ========================================================
 author: Florian Hartig
 date: 5th mixed model session, Jan 21, 2015
@@ -960,12 +960,10 @@ Btw, what are pearson residuals?
   - Residual variance should now be constant, but the shape doesn't need to be normal and can change 
   
 
-However
+Normal mixed Poisson 
 ===
 
 <font size="6">
-
-The pearson residuals standardize to the top error structure (in our example Poisson). They don't properly standardize variance that comes from the random effect components. E.g.
 
 
 ```r
@@ -1017,22 +1015,23 @@ plot(testFit)
 <img src="MixedEffectsResiduals-figure/unnamed-chunk-31-1.png" title="plot of chunk unnamed-chunk-31" alt="plot of chunk unnamed-chunk-31" style="display: block; margin: auto;" />
 </font>
 
-Simulation
+Verify this by simulation
 ===
 
 <font size="6">
 
 ```r
-simulatedResiduals <- function(fittedModel){
-  results <- simulate(fittedModel, nsim = 500)
+simulatedResiduals <- function(fittedModel, response){
+  len = nobs(fittedModel)
+  results <- simulate(fittedModel, nsim = 1000, use.u = T)
   results <- data.matrix(results)
-  ecdf.p <- numeric(1000)
-  for (i in 1:1000){
-    ecdf.p[i] <- ecdf(results[i,])(beetles[i])
+  ecdf.p <- numeric(len)
+  for (i in 1:len){
+    ecdf.p[i] <- ecdf(results[i,])(response[i])
   }
   return(ecdf.p)
 }
-residuals <- simulatedResiduals(testFit)
+residuals <- simulatedResiduals(testFit, resp)
 ```
 This returns, for each data point, the quantile of the data point for the simulated distribution of residuals.
 
@@ -1043,8 +1042,6 @@ Plot of the simulated residuals
 
 
 <font size="5">
-
-Overall - note that our expectation would be flat
 
 
 ```r
@@ -1058,7 +1055,7 @@ hist(residuals)
 
 <font size="5">
 
-As a function of the predicted value - not that our expectation would be flat in y-direction, but not neccessarily in x direction
+As a function of the predicted value
 
 
 ```r
@@ -1073,7 +1070,7 @@ Summary simulation
 
 <font size="5">
 
-We are fitting the correct model - it should look good in the simulation. I does look a lot better than for the Pearson residuals, but there are some deviations. I think the problem is that random effect estimates are very instable! Original values were 1 for plot and 0.5 for ID. I ran this several times, the values for the random effects vary strongly. Doing the simulation with parameter uncertainty (this is often called the Bayesian p-value) might solve this problem. 
+We are fitting the correct model. Still, residual structure is not heterogenous, is this underdispersed? Seems difficult to say whether there is a problem. Doing the simulation with parameter uncertainty (this is often called the Bayesian p-value) might solve this problem. 
 </font>
 
 ***
@@ -1117,7 +1114,7 @@ treatment4 -0.708
 </font>
 
 
-Conclusion Person / simulated residuals
+Conclusion Pearson / simulated residuals
 ===
 
 Careful with the interpreation of Pearson residuals, specially of heteroskedasticity, for complicated random effect structures.
@@ -1604,17 +1601,17 @@ overdisp_fun(fit6)
 <font size="5">
 
 ```r
-residuals <- simulatedResiduals(fit6)
+residuals <- simulatedResiduals(fit6, beetles)
 hist(residuals)
 ```
 
 <img src="MixedEffectsResiduals-figure/unnamed-chunk-56-1.png" title="plot of chunk unnamed-chunk-56" alt="plot of chunk unnamed-chunk-56" style="display: block; margin: auto;" />
 </font>
 
-Looks really good! Funny that it is not the correct model ;)
+Hmm ... looks good, or underdispersed? Well, it's not the "true" model?
 
 
-True model
+Solution: the true model
 ===
   
 The true model (look it up in my code) didn't have an overdispersion term. If I remove the 1|plotId, we get this
@@ -1691,13 +1688,13 @@ overdisp_fun(fit7)
 <font size="5">
 
 ```r
-residuals <- simulatedResiduals(fit7)
+residuals <- simulatedResiduals(fit7, beetles)
 hist(residuals)
 ```
 
 <img src="MixedEffectsResiduals-figure/unnamed-chunk-59-1.png" title="plot of chunk unnamed-chunk-59" alt="plot of chunk unnamed-chunk-59" style="display: block; margin: auto;" />
 
-I seem to think the overdispersion looks worse for the pearson residuals than for the simulation. According to the Pearson and the overdispersion test, we would definitely diagnose overdispersion. 
+Both according Pearson residuals, overdispersion test and simulations, we would definitely diagnose overdispersion. 
 
 </font>
 
@@ -1774,7 +1771,7 @@ Summary Residual Analysis
 incremental: true
 
 - Main residuals in principle like for a GLM. Careful because 
-  - Expected variance from Pearson is not exact -> possibility to move to simulations 
+  - Expected variance from Pearson is not exact -> maybe better to move to Bayesian methods (Bayesian p-value), but that's another topic
   - Random effect estimates are often shaky, which can result in diagnosed under- and specially over-dispersion
   
 - Random effects assumptions
@@ -1830,7 +1827,7 @@ shapiro.test(randcoef)
 	Shapiro-Wilk normality test
 
 data:  randcoef
-W = 0.7702, p-value = 0.0003211
+W = 0.8738, p-value = 0.01369
 ```
 Note that the two distributions differ because the model tries to fit the data to a normal distribution.
 </font>
