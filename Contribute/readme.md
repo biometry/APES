@@ -6,6 +6,7 @@ We need your help to fill the stats help with content and remove problems. Below
 ## How to report a problem
 
 If you see a problem or if you have a suggestion, log in to GitHub and report the issue at https://github.com/biometry/APES/issues
+Issues can also be assigned to someone in particular
 
 ## How to contribute content
 
