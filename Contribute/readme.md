@@ -17,7 +17,7 @@ Ordered with increasing technical demands, and decreasing work for us. Please ch
 2. Write your text in R markdown (see help below) and send it to http://www.biom.uni-freiburg.de/mitarbeiter/hartig or to https://www.biom.uni-freiburg.de/mitarbeiter/janeiro
 3. If you know how to use GitHub, clone our repository, change the text, and issue a pull request so that we can include your changes 
 
-## Getting started with R markdown
+### Getting started with R markdown
 
 We use R markdown to write the text for this site. 
 
@@ -27,6 +27,10 @@ If you start working with R markdown, you will see that it's extremely simple an
 
 * http://jeromyanglim.blogspot.de/2012/05/getting-started-with-r-markdown-knitr.html
 * https://support.rstudio.com/hc/en-us/articles/200552086-Using-R-Markdown
+
+### Page maintainer
+
+You can assign yourself as a maintainer of one or more pages of your choice to keep them up to date.
 
 ## Special tasks
 
