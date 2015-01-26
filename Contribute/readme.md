@@ -28,9 +28,10 @@ If you start working with R markdown, you will see that it's extremely simple an
 * http://jeromyanglim.blogspot.de/2012/05/getting-started-with-r-markdown-knitr.html
 * https://support.rstudio.com/hc/en-us/articles/200552086-Using-R-Markdown
 
-### Page maintainer
+### Page maintainer and contributors
 
-You can assign yourself as a maintainer of one or more pages of your choice to keep them up to date.
+You can ask to be assigned as a maintainer of one or more pages of your choice to keep them up to date.
+If you prefer, you can only be set up as a contributor.
 
 ## Special tasks
 
