@@ -14,7 +14,7 @@ Contents
 
 * Useful Links
 * Simple standard plot
-  * Scatterplot
+	* Scatterplot
 		* Simple scatterplot
 	 	* Scatterplot matrices
 	 	* High Density Scatterplot
@@ -40,7 +40,8 @@ Contents
 
 
 Plotting in R
-=== 
+
+=======
 
 
 # Simple standard plots
@@ -163,7 +164,6 @@ Where:
 .superpanel = function that sets up the splom display, by default as a scatterplot matrix   
 .key = legend   
 .text = labels for levels of the grouping variable   
-
 
 We can also condicion our matrix on a factor with the <b>car</b> package.   
 The advantage of this package is that we can include lowess and linear best fit lines,  boxplots, densities, or histograms in the principal diagonal, as well as rug plots in the margins of the cells.

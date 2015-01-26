@@ -1,0 +1,932 @@
+Digging deeper with mixed models: Residual diagnostics
+========================================================
+author: Florian Hartig
+date: 5th mixed model session, Jan 21, 2015
+
+Reminder previous session
+===
+incremental: true
+
+Mixed models add a random effect to the normal GLM structure
+
+- Random intercept: $y_{obs} \sim ErrorDistr(mean = link (A \cdot X + (b + R_i))$ 
+- Random slope: $y_{obs} \sim ErrorDistr(mean = link ( (A  + R_i)  \cdot X + b))$ 
+
+**Random effect $R_i$** assigns a different value to each group $i$, but not independently (as for a fixed effects model), but from a common distribution
+
+- $R_i \sim Norm(0, \sigma)$ 
+
+for which we estimate the $\sigma$ (and the $R_i$ of course)
+
+Example
+===
+
+```{r, echo=F}
+set.seed(2)
+library(lme4)
+library(mlmRev)
+library(lmerTest)
+library(msm)
+attach(Exam)
+```
+
+To strengthen our understanding, let's again look at the school exam example from last time 
+
+```{r, eval = F}
+?Exam
+```
+
+We have a data frame with 4059 observations of 9 variables, of which we use 
+
+- normexam - Normalized exam score, **response**
+- standLRT - Standardised LR test score, **main predictor**
+- school - School ID - a grouping variable that could be a **random effect**
+
+
+As a reminder
+===
+
+I will go through the four basic cases to show you the differences
+
+1. School modifies the intercept (normexam):
+  - school as **fixed main effect**
+  - school as **random interecept** (mixed model)
+
+
+2. School modifies the slope (influence of standLRT):
+  - school as **fixed interaction**
+  - school as **random slope** (mixed model)
+
+
+Possibility 1: School -> Intercept
+===
+
+Assumption: in each school students are higher or lower in their normalized exam score, independently of standLRT
+
+In this case, the options to include school are:
+
+- as a **fixed main effect**, meaning that for each school we estimate an independent value
+- as a **random intercept**, meaning that the values for each school are connected by the assumption that they come from a normal distribution
+
+
+
+School as fixed main effect
+===
+
+
+<font size="5">
+```{r, cache = T}
+fixedInterceptFit <- lm(normexam ~ standLRT + school)
+summary(fixedInterceptFit)
+```
+</font>
+
+Distribution of estimates for school
+===
+
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+coef = fixedInterceptFit$coefficients
+plot(standLRT, normexam)
+abline(a = coef[1], b = coef[2])
+for (i in 3:66) abline(a = coef[1] + coef[i], b = coef[2], col = i)
+hist(coef[3:66])
+```
+
+
+School as random intercept
+===
+
+<font size="5">
+```{r, cache = T}
+randomInterceptFit <- lmer(normexam ~ standLRT + (1 | school))
+summary(randomInterceptFit)
+ ```
+Note the comments about "REML t-tests use Satterthwaite approximations" --> this is because I have loaded the lmerTest package
+</font>
+
+Distribution of estimates for school
+===
+
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+randcoef = ranef(randomInterceptFit)$school[,1]
+fixedcoef = fixef(randomInterceptFit)
+plot(standLRT, normexam)
+for (i in 1:65) abline(a = fixedcoef[1] + randcoef[i], b = fixedcoef[2], col = i)
+hist(randcoef)
+```
+
+Comparison fixed and random intercepts
+===
+
+<font size="5">
+```{r, echo = F, fig.align = "center", fig.height = 5, fig.width = 5, cache = T}
+hist(coef[3:66], main = "Fixed intercept for schools", xlim = c(-2,1), breaks = 30)
+sd(coef[3:66]) 
+shapiro.test(coef[3:66])
+```
+</font>
+
+***
+
+<font size="5">
+```{r, echo = F, fig.align = "center", fig.height = 5, fig.width = 5, cache = T}
+hist(randcoef, main = "Random intercept for schools", xlim = c(-2,1), breaks = 30)
+sd(randcoef) 
+shapiro.test(randcoef)
+```
+</font>
+
+
+Comparison parameter estimates 
+===
+
+<font size="4">
+```{r}
+summary(fixedInterceptFit)
+```
+</font>
+
+***
+
+<font size="4">
+```{r}
+summary(randomInterceptFit) 
+```
+</font>
+
+Conclusion: variance slightly different, parameter estimates pretty much the same
+
+
+Possibility 2: School -> Slope
+===
+
+Assumption: in each school, the effect of standLRT on normalized exam score is different
+
+In this case, the options are to include school:
+
+- as an **interaction**, meaning that for each school, we estimate an independent different value for the effect of standLRT
+- as a **random slope**, meaning that the different standLRT values for each school are connected by the assumption that they come from a normal distribution
+
+School as a (fixed) interaction
+===
+
+
+<font size="5">
+```{r, cache = T}
+fixedInteractionFit <- lm(normexam ~ standLRT + standLRT:school)
+
+summary(fixedInteractionFit)
+```
+</font>
+
+Distribution of estimates for school
+===
+
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+coef = fixedInteractionFit$coefficients
+plot(standLRT, normexam)
+abline(a = coef[1], b = coef[2])
+for (i in 3:66) abline(a = coef[1] , b = coef[2] + coef[i], col = i)
+hist(coef[3:66])
+```
+
+
+School as random slope
+===
+
+<font size="5">
+
+```{r, cache = T}
+randomSlopeFit <- lmer(normexam ~ standLRT + (0 + standLRT | school))
+summary(randomSlopeFit)
+```
+</font>
+
+Distribution of estimates for school
+===
+
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+randcoef = ranef(randomSlopeFit)$school[,1]
+fixedcoef = fixef(randomSlopeFit)
+plot(standLRT, normexam)
+for (i in 1:65) abline(a = fixedcoef[1] , b = fixedcoef[2] + randcoef[i], col = i)
+hist(randcoef)
+```
+
+Comparison interaction and random slope effects for school
+===
+
+<font size="5">
+```{r, echo = F, fig.align = "center", fig.height = 5, fig.width = 5, cache = T}
+hist(coef[3:66], main = "Interaction estimates for schools", xlim = c(-2,1), breaks = 30)
+sd(coef[3:66]) 
+shapiro.test(coef[3:66])
+```
+</font>
+
+***
+
+<font size="5">
+```{r, echo = F, fig.align = "center", fig.height = 5, fig.width = 5, cache = T}
+hist(randcoef, main = "Random slope for schools", xlim = c(-2,1), breaks = 30)
+sd(randcoef) 
+shapiro.test(randcoef)
+```
+</font>
+
+
+Comparison parameter estimates 
+===
+
+<font size="4">
+```{r}
+summary(fixedInteractionFit)
+```
+</font>
+
+***
+
+<font size="4">
+```{r}
+summary(randomSlopeFit) 
+```
+
+Note that we can't directly compare the standLRT in this case because the interaction shifts the estimate due to the fact that the effect of schools is calculated relative to the first school!
+
+</font>
+
+```{r, echo=F}
+detach(Exam)
+```
+
+
+Obvious question
+===
+
+Which of the four models should we use?
+
+- All are sensible 
+- All predict a significant effect of standLRT
+- **But with different p-values and different effect sizes**
+
+What to do?
+
+- **Model diagnostics** to detect problems in the model specification
+  - We saw already a problem (randon slope not normal!)
+- **Model selection** on the random effect structure (in two weeks)
+
+Some more things to consider
+===
+
+In this short repetition, we were only considering independent random effects
+
+- Last lecture, I have mentioned already the difference between **crossed** and **nested** random effects, which is that
+  - crossed = independent random terms, usually also means that the terms appear in a factorial design
+  - nested = A is nested in B if all subgroups of A appear only in one subgroup of B
+
+- Lots of possibilities to modify the **variance-covariance structure** in the random effects (covariance between fixed and random effects, but also covariance within the random effects like in a GLS)
+
+
+But today: Model Diagnostics
+=== 
+
+Each model makes assumptions about
+
+- The mean value of the response as a function of the predictors
+- The stochasticity (error) around this mean value
+  
+Model diagnostics (or residual diagnostics) means that we check whether the observed residuals (residual = data - model prediction) are in line with the model assumptions
+
+
+New Dataset
+===
+
+
+```{r, echo=F, cache = T}
+altitude = rep(seq(0,1,len = 20), each = 50)
+moisture = runif(1000, 0,1)
+dataID = 1:1000
+
+# random effects
+plot = rep(1:50, each = 20)
+year = rep(1:20, times = 50)
+
+#plotRandom = 0 - rexp(20, rate = 1)
+
+yearRandom = rtnorm(20, 0, 2, upper = 2)
+plotRandom = rtnorm(50,0,1, upper = 1)
+#overdispersion = rtnorm(1000, sd = 1, upper = 1)
+
+beetles <- rpois(1000, exp( 1 +   
+  
+  ( 2 + yearRandom[year]) * moisture 
+  
+  + 10*altitude - 10*altitude^2 
+  
+  #+ overdispersion 
+  + plotRandom[plot]) )
+
+# beetles[rbinom(1,200,0.1)] = 0  #zero-inflation
+data = data.frame(dataID, beetles, moisture, altitude, plot, year)
+```
+
+Measured beetle counts over 20 years on 50 different plots across an altitudinal gradient, with the predictors moisture (varying from year to year) and altitude (fix for each plot)
+
+<font size="5">
+```{r}
+head(data)
+str(data)
+```
+</font>
+
+Univariate environmental responses
+===
+
+<font size="6">
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+plot(moisture, beetles, col = plot)
+plot(altitude, beetles, col = plot)
+```
+</font>
+
+Plot and year
+===
+
+<font size="6">
+```{r, echo = F, fig.align = "center", fig.width = 12, cache = T}
+par(mfrow=c(1,2))
+plot(plot, beetles, col = plot)
+plot(year, beetles, col = plot)
+```
+</font>
+
+How do we model this?
+===
+
+Error distribution
+
+- Poisson
+
+Fixed effects
+- moisture
+- altitude
+
+Random effects
+
+- plot
+- year
+
+A first try
+===
+
+<font size="5">
+```{r, echo = T, cache = T}
+fit1 <- glmer(beetles ~ moisture + altitude + (1|year) + (1|plot), family = "poisson")
+summary(fit1)
+```
+</font>
+
+Note: centering is usually good 
+===
+
+<font size="4">
+
+Correlations are strongly reduced by centering, algorithms converge better through scaling.
+
+```{r, echo = T, cache = T}
+altitude <- scale(altitude, center = F, scale = F)
+moisture <- scale(moisture, center = T, scale = F)
+fit1 <- glmer(beetles ~ moisture + altitude + (1|year) + (1|plot), family = "poisson")
+summary(fit1)
+```
+
+I just didn't center and scale everything here because I want to compare to my original parameters later.
+
+For a real example, you will likely really have to scale, because lme4 gets numerical problems otherwise!
+
+</font>
+
+
+
+
+Let's look at the residual first
+===
+
+lme4 has a function to plot residuals, for details see help
+
+```{r, eval = F}
+?plot.merMod
+```
+
+```{r, eval= F}
+## S3 method for class 'merMod'
+plot(x, form = resid(., type = "pearson") ~ fitted(.), abline, id = NULL, idLabels = NULL, grid, ...)
+```
+
+Btw, what are pearson residuals?
+===
+
+- For lm(), the error is iid normal, which implies constant variance 
+  - For heteroskedasticity and misfit, we can therefore look at the normal residuals 
+  - To see whether the normality assumptions holds, we can do qq-plots
+
+- For poisson or logistic errors, variance is not constant, it doesn't make sense to look at absolute residuals
+  - Pearson residuals divide the observed residual against the expected variance at the fitted point
+  - Residual variance should now be constant, but the shape doesn't need to be normal and can change 
+  
+
+Normal mixed Poisson 
+===
+
+<font size="6">
+
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+treatment = c(rep(2, 1000), rep(4, 1000))
+group = rep(1:10, each = 200)
+groupRandom = rnorm(10, sd = 1)
+resp = rpois(2000, exp(treatment + groupRandom[group]))
+treatment <- as.factor(treatment)
+```
+</font>
+
+***
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+
+plot(glmer(resp ~ treatment + (1|group) , family = "poisson"))
+```
+</font>
+
+Now with strong overdispersion
+===
+
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+treatment = c(rep(2, 1000), rep(4, 1000))
+group = rep(1:10, each = 200)
+groupRandom = rnorm(10, sd = 1)
+resp = rpois(2000, exp(treatment + groupRandom[group] + rnorm(2000, sd = 0.5)))
+ID = 1:2000
+treatment <- as.factor(treatment)
+```
+Overdispersion is introduced and corrected here via a random term on each data point (1|ID)
+</font>
+
+***
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+testFit <- glmer(resp ~ treatment + (1|group) + (1|ID) , family = "poisson")
+plot(testFit)
+```
+</font>
+
+Verify this by simulation
+===
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+
+simulatedResiduals <- function(fittedModel, response){
+  len = nobs(fittedModel)
+  results <- simulate(fittedModel, nsim = 1000, use.u = T)
+  results <- data.matrix(results)
+  ecdf.p <- numeric(len)
+  for (i in 1:len){
+    ecdf.p[i] <- ecdf(results[i,])(response[i])
+  }
+  return(ecdf.p)
+}
+residuals <- simulatedResiduals(testFit, resp)
+```
+This returns, for each data point, the quantile of the data point for the simulated distribution of residuals.
+
+</font>
+
+Plot of the simulated residuals
+===
+
+
+<font size="5">
+
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+hist(residuals)
+```
+</font>
+
+***
+
+<font size="5">
+
+As a function of the predicted value
+
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(log(sort(fitted(testFit))), residuals[order(fitted(testFit))], pch = 3)
+```
+</font>
+
+Summary simulation
+===
+
+<font size="5">
+
+We are fitting the correct model. Still, residual structure is not heterogenous, is this underdispersed? Seems difficult to say whether there is a problem. Doing the simulation with parameter uncertainty (this is often called the Bayesian p-value) might solve this problem. 
+</font>
+
+***
+
+<font size="4">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+summary(testFit)
+```
+</font>
+
+
+Conclusion Pearson / simulated residuals
+===
+
+Careful with the interpreation of Pearson residuals, specially of heteroskedasticity, for complicated random effect structures.
+
+In general, it may be that the true model shows a bit of overdispersion or structure in the residuals due to the more "shaky" nature of the random effect estimates.
+
+- Will be a topic in the next lecture on model selection
+
+OK, but now back to our example
+  
+  
+
+Residuals against fitted values
+===
+
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+plot(fit1, form = resid(., type = "pearson") ~ log(fitted(.)))
+```
+
+Definitely overdispersion (values tend to exceed 2)
+</font>
+
+Residuals against moisture and altitude
+===
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit1, resid(.) ~ moisture, abline = 0)
+```
+</font>
+
+***
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit1, resid(.) ~ altitude, abline = 0)
+```
+Observation - variance increases in the middle.
+</font>
+
+
+
+Add a quadratic effect for altitude
+===
+  
+<font size="5">
+```{r, echo = T, cache = T}
+fit2 <- glmer(beetles ~ moisture + altitude + I(altitude^2) + (1|year) + (1|plot), family = "poisson")
+summary(fit2)
+```
+</font>
+  
+Residuals against moisture and altitude
+===
+  
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit2, resid(.) ~ moisture, abline = 0)
+```
+</font>
+  
+  ***
+  
+  <font size="6">
+  ```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit2, resid(.) ~ altitude, abline = 0)
+```
+</font>
+  
+  
+  
+What's going on?
+===
+
+<font size="6">
+
+OK, so the quadratic effect is very significantly supported, but the overdispersion around the mean altitudues is not much better. Could it be that we simply have a general overdispersion phenomenon here, that is more visible for the places where there are lots of beetles?
+
+```{r, fig.align = "center", fig.height = 4, fig.width = 6, cache = T}
+plot(fit2, form = resid(., type = "pearson") ~ log(fitted(.)))
+```
+</font>
+
+Checking for overdispersion
+====
+
+<font size="5">
+
+Here, it's obvious that we have a lot of overdispersion in the model, but if you want to prove it a quick and dirty parametric way approximation comes from http://glmm.wikidot.com/faq . This is quick and dirty. It may be more efficient to work with simualations, as I showed before. 
+
+```{r}
+overdisp_fun <- function(model) {
+  ## number of variance parameters in 
+  ##   an n-by-n variance-covariance matrix
+  vpars <- function(m) {
+    nrow(m)*(nrow(m)+1)/2
+  }
+  model.df <- sum(sapply(VarCorr(model),vpars))+length(fixef(model))
+  rdf <- nrow(model.frame(model))-model.df
+  rp <- residuals(model,type="pearson")
+  Pearson.chisq <- sum(rp^2)
+  prat <- Pearson.chisq/rdf
+  pval <- pchisq(Pearson.chisq, df=rdf, lower.tail=FALSE)
+  c(chisq=Pearson.chisq,ratio=prat,rdf=rdf,p=pval)
+}
+overdisp_fun(fit2)
+```
+</font>
+  
+OK, so let's add an overdispersion term
+===
+
+<font size="5">
+```{r, echo = T, cache = T}
+fit3 <- glmer(beetles ~ moisture + altitude + I(altitude^2) + (1|year) + (1|plot) + (1|dataID), family = "poisson")
+summary(fit3)
+```
+</font>
+
+Residual plot for GLMM Poisson with overdisp
+===
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 4, fig.width = 6, cache = T}
+plot(fit3, form = resid(., type = "pearson") ~ log(fitted(.)))
+overdisp_fun(fit3)
+```
+</font>
+
+Residuals against moisture and altitude
+===
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit3, resid(.) ~ moisture, abline = 0)
+```
+</font>
+
+***
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit3, resid(.) ~ altitude, abline = 0)
+```
+</font>
+
+Parameters with / without overdispersion
+===
+
+<font size="5">
+```{r, cache = T}
+fixef(fit2)
+confint(fit2, method = "Wald")
+```
+</font>
+***
+<font size="5">
+```{r, cache = T}
+fixef(fit3)
+confint(fit3, method = "Wald")
+```
+</font>
+
+Conclusion
+===
+
+- Including overdispersion makes quite a bit of difference for both fixed effect estimates and CIs!
+
+- The fixed effect influence comes from the nonlinearity of the GLM structure (exponential link)
+
+Are we OK now?
+===
+
+We have 
+
+- Checked the fixed effect structure, significance for all variables
+- Residuals seem to look ok (with reservation)
+- Overdispersion is controlled
+
+Random effect estimates
+===
+
+
+<font size="5">
+```{r, fig.align = "center", fig.height = 4, fig.width = 6, cache = T}
+hist(ranef(fit3)$plot[,1], breaks = 50)
+shapiro.test(ranef(fit3)$plot[,1])
+```
+</font>
+
+***
+
+<font size="5">
+```{r, fig.align = "center", fig.height = 4, fig.width = 6, cache = T}
+hist(ranef(fit3)$year[,1], breaks = 50)
+shapiro.test(ranef(fit3)$year[,1])
+```
+Although not significant, we could suspect something is not right for the year random effect!
+</font>
+
+
+Residuals against fitted values for each year
+===
+
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = F}
+plot(fit3, resid(.) ~ fitted(.) | year, abline = 0)
+```
+
+A lot of variation, despite the fact that we have already include a random effect
+</font>
+  
+  
+Residuals against moisture for each year
+===
+  
+<font size="6">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+plot(fit2, resid(.) ~ moisture | year, abline = 0)
+```
+Aha, the plots differ in the effect of moisture!
+</font>
+  
+  
+Include year as random slope on moisture
+===
+  
+<font size="4">
+```{r, echo = T, cache = T}
+fit6 <- glmer(beetles ~ moisture + altitude + I(altitude^2) + (0+moisture|year) + (1|plot) + (1|dataID), family = "poisson")
+summary(fit6)
+```
+</font>
+  
+
+  
+Plot
+===
+  
+<font size="5">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit6, form = resid(., type = "pearson") ~ log(fitted(.))) 
+overdisp_fun(fit6)
+```
+</font>
+
+***
+
+<font size="5">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+residuals <- simulatedResiduals(fit6, beetles)
+hist(residuals)
+```
+</font>
+
+Hmm ... looks good, or underdispersed? Well, it's not the "true" model?
+
+
+Solution: the true model
+===
+  
+The true model (look it up in my code) didn't have an overdispersion term. If I remove the 1|plotId, we get this
+  
+<font size="4">
+```{r, echo = T, cache = T}
+fit7 <- glmer(beetles ~ moisture + altitude + I(altitude^2) + (0+moisture|year) + (1|plot) , family = "poisson")
+summary(fit7)
+```
+</font>
+  
+
+  
+Residuals for the true model
+===
+  
+<font size="5">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(fit7, form = resid(., type = "pearson") ~ log(fitted(.))) 
+overdisp_fun(fit7)
+```
+</font>
+
+***
+
+<font size="5">
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+residuals <- simulatedResiduals(fit7, beetles)
+hist(residuals)
+```
+
+Both according Pearson residuals, overdispersion test and simulations, we would definitely diagnose overdispersion. 
+
+</font>
+
+
+So, how did we learn?
+===
+left:60%
+
+<font size="5">
+
+- Possible to improve model structure by looking at the residuals 
+
+  - Admittedly, I knew what I was looking for. We should make a blind test!
+
+- True parameters were retrieved quite OK
+
+  - moisture effect = 2
+  - altitude = 10
+  - altitude^2 = -10
+
+- According to standard diagnostics, we would probably have included an overdispersion term. We can argue whether this is correct or not. Parameter estimates are somewhat influenced by that, but the model with overdispersion is not horrible.
+
+</font>
+
+***
+
+<font size="4">
+
+```{r, echo = T, cache = T}
+summary(fit7)
+```
+
+</font>
+
+Summary Residual Analysis
+===
+incremental: true
+
+- Main residuals in principle like for a GLM. Careful because 
+  - Expected variance from Pearson is not exact -> maybe better to move to Bayesian methods (Bayesian p-value), but that's another topic
+  - Random effect estimates are often shaky, which can result in diagnosed under- and specially over-dispersion
+  
+- Random effects assumptions
+  - Typical (because convenient) to test normality of estimated random effects. Because the mixed structure forces the random effects towards normality, this is potentially not sensitve enough to diagnose all problems
+    - But if you see something here, you can be pretty sure that things are wrong.
+  
+
+To demonstrate the last point
+===
+
+Data where a random effects on group comes from an exponential distribution
+
+<font size="4">
+
+
+
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+treatment = c(rep(2, 1000), rep(4, 1000))
+group = rep(1:20, each = 100)
+groupRandom = rexp(20)
+hist(groupRandom, breaks = 30, xlim = c(-5,10), main = "True random effects")
+resp = rpois(2000, exp(treatment + groupRandom[group]))
+treatment <- as.factor(treatment)
+fitTest <- glmer(resp ~ treatment + (1|group) , family = "poisson")
+```
+</font>
+
+***
+
+This is caught by the normality test 
+
+<font size="4">
+```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
+randcoef = ranef(fitTest)$group[,1]
+hist(randcoef,  breaks = 30, xlim = c(-5,10) , main = "Estimated random effects")
+shapiro.test(randcoef)
+```
+Note that the two distributions differ because the model tries to fit the data to a normal distribution.
+</font>
+
+
+
+
+
+
+
+
