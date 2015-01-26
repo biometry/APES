@@ -24,7 +24,8 @@ library(knitr)
 
 ```r
 opts_knit$set(global.par=TRUE) 
-opts_chunk$set(cache=TRUE,fig.align='center')
+opts_chunk$set(cache.extra = rand_seed,fig.align='center')
+set.seed(12)
 ```
 
 # *t*-test
@@ -138,7 +139,7 @@ shapiro.test(x) # not normally distributed
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  x
-## W = 0.732, p-value = 0.0005585
+## W = 0.5674, p-value = 1.297e-05
 ```
 
 
@@ -149,7 +150,7 @@ summary(x)
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.274   0.446   0.727   1.750   2.710   6.290
+##   0.136   0.391   0.534   0.901   0.879   4.840
 ```
 
 Our null hypothesis is that the median of x is not different from 1
@@ -165,7 +166,7 @@ wilcox.test(x, alternative="two.sided", mu=1) # high p value-> median of x is no
 ## 	Wilcoxon signed rank test
 ## 
 ## data:  x
-## V = 65, p-value = 0.804
+## V = 23, p-value = 0.03534
 ## alternative hypothesis: true location is not equal to 1
 ```
 
@@ -218,13 +219,13 @@ t.test(rank(Y) ~ groups)
 ## 	Welch Two Sample t-test
 ## 
 ## data:  rank(Y) by groups
-## t = -4.975, df = 37.31, p-value = 1.494e-05
+## t = -3.925, df = 35.27, p-value = 0.000384
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -20.403  -8.597
+##  -18.812  -5.988
 ## sample estimates:
 ## mean in group Y1 mean in group Y2 
-##            13.25            27.75
+##             14.3             26.7
 ```
 
 
@@ -459,6 +460,10 @@ There is 2/3 times difference in variance.
 
 ```r
 library(car)
+```
+
+```
+## Warning: package 'car' was built under R version 3.0.3
 ```
 
 
@@ -966,7 +971,7 @@ shapiro.test(x)  #p-value=8.661e-07, not normally distributed
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  x
-## W = 0.3978, p-value = 5.192e-10
+## W = 0.7796, p-value = 2.842e-05
 ```
 
 

@@ -11,6 +11,20 @@ category: stats
 subcategory: Hypothesis Testing
 ---
 
+Contents
+
+* Analysis of variance (ANOVA)
+* ONE-WAY ANOVA
+	* Non-parametric version of the Analysis of Variance
+	* hovPlot
+	* Contrasts in ANOVA
+	* Factorial ANOVA
+	* Pseudoreplication: Nested designs and split plots
+	    * Split-plot experiments
+	* Effect sizes in ANOVA: aov or lm?
+	* ANOVA for repeated measures
+
+
 Analysis of variance (ANOVA)
 ===
 
@@ -19,7 +33,8 @@ Anova or analysis of variance makes basically the same assumptions as a t-test (
 ```{r}
 library(knitr)
 opts_knit$set(global.par=TRUE) 
-opts_chunk$set(cache=TRUE,fig.align='center')
+opts_chunk$set(cache.extra = rand_seed,fig.align='center')
+set.seed(13)
 
 aovresult <- aov(extra~group,  data = sleep)
 summary(aovresult)

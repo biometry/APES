@@ -18,12 +18,18 @@ library(knitr)
 
 ```r
 opts_knit$set(global.par=TRUE) 
-opts_chunk$set(cache=TRUE,fig.align='center')
+opts_chunk$set(cache.extra = rand_seed,fig.align='center')
+set.seed(21)
 ```
 
-# The idea of linear regression
+# Linear regression summary and idea
 
-## Simple linear regression
+# Univariate linear regression
+
+Univariate means that we have one predictor (independent) variable only. This predictor can be continous or categorical. We will first look at the continous case, because that is easier to understand, and move to the categorical case then. 
+
+
+## Univariate linear regression with continous data
 
 A simple linear regression model allows modelling the dependence of a continuous response y on a single linear predictor x
 
@@ -799,6 +805,13 @@ Whenever the time is increased by 1 year, so it does the lung capacity by 0.126
 
 ```r
 library(effects)
+```
+
+```
+## Warning: package 'effects' was built under R version 3.0.3
+```
+
+```r
 plot(allEffects(model1))
 ```
 
@@ -1395,6 +1408,16 @@ plot(allEffects(M0))
 <img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-51.png" title="plot of chunk unnamed-chunk-51" alt="plot of chunk unnamed-chunk-51" style="display: block; margin: auto;" />
 
 
+## Univariate linear regression with categorical data
+
+TODO
+
+
+# Multiple linear regression
+
+Multiple linear regression is when you have more than one predictor variable.
+
+
 ### Example4  Multiple linear regression - ANCOVA
 
 Experiment on the impact of grazing on the fruit production of a biennial plant. 
@@ -1474,6 +1497,22 @@ shapiro.test(Fruit[Grazing=="Ungrazed"])
 
 ```r
 library(car)
+```
+
+```
+## Warning: package 'car' was built under R version 3.0.3
+```
+
+```
+## 
+## Attaching package: 'car'
+## 
+## Das folgende Objekt ist maskiert from 'package:effects':
+## 
+##     Prestige
+```
+
+```r
 leveneTest(Fruit~Grazing)
 ```
 

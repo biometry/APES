@@ -17,7 +17,8 @@ library(knitr)
 
 ```r
 opts_knit$set(global.par=TRUE) 
-opts_chunk$set(cache=TRUE,fig.align='center')
+opts_chunk$set(cache.extra = rand_seed,fig.align='center')
+set.seed(23)
 ```
 
 # The general idea

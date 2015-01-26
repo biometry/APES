@@ -15,6 +15,13 @@ Summary statistics and correlations
 
 # Testing for normality
 
+```{r}
+library(knitr)
+opts_knit$set(global.par=TRUE) 
+opts_chunk$set(cache.extra = rand_seed,fig.align='center')
+set.seed(3)
+```
+
 The normal distribution is the most important and most widely used distribution in statistics.
 We can say that a distribution is normally distributed when:
 1) is symmetric around their mean.

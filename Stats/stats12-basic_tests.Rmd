@@ -22,7 +22,8 @@ Now, there can be many null hypothesis, so you need many tests. The most widely 
 ```{r}
 library(knitr)
 opts_knit$set(global.par=TRUE) 
-opts_chunk$set(cache=TRUE,fig.align='center')
+opts_chunk$set(cache.extra = rand_seed,fig.align='center')
+set.seed(12)
 ```
 
 # *t*-test
