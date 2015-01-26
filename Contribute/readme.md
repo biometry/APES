@@ -31,7 +31,8 @@ If you start working with R markdown, you will see that it's extremely simple an
 
 ### Code
 
-We use chunks to display our codes. The chunks can be manually added by writting ```{r} code ``` or inserted automaticly by clicking on the chunk button at the top right corner of the script window.
+We use chunks to display our codes. The chunks can be manually added by writting ```{r} at the beginning and
+``` at the end or inserted automaticly by clicking on the chunk button at the top right corner of the script window.
 Some extra info about R Code Chunks:
 
 * http://rmarkdown.rstudio.com/authoring_rcodechunks.html
