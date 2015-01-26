@@ -1,0 +1,20 @@
+
+
+# Frequentist methods
+
+## AIC
+
+## BIC
+
+## Cross-validation
+
+
+
+# Bayesian methods
+
+## DIC
+
+## Bayes Factors
+
+## RJ-MCMC
+

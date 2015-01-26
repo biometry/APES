@@ -38,3 +38,9 @@ http://cdn.elsevier.com/assets/pdf_file/0008/110996/reviewers_statistics.pdf
 
 
 http://www.statisticsdonewrong.com/
+
+## More links
+
+http://stats.stackexchange.com/questions/4551/what-are-common-statistical-sins/
+
+

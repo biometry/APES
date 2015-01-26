@@ -40,6 +40,12 @@ Note that we need to fit the model using maximum likelihood, **not** REML (restr
 http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r
 
 
+# Confidence intervals and predictive uncertainty
+
+http://stackoverflow.com/questions/14358811/extract-prediction-band-from-lme-fit/14435982#14435982
+
+
+
 # R<sup>2</sup> for mixed models
 
 <!--![Mou icon](http://mouapp.com/Mou_128.png)-->
