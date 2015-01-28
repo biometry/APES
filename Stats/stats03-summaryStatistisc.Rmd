@@ -23,18 +23,27 @@ set.seed(3)
 ```
 
 The normal distribution is the most important and most widely used distribution in statistics.
+
 We can say that a distribution is normally distributed when:
+
 1) is symmetric around their mean.
+
 2) the mean, median, and mode of a normal distribution are equal.
+
 3) the area under the normal curve is equal to 1.0.
+
 4) distributions are denser in the center and less dense in the tails.
+
 5) distributions are defined by two parameters, the mean and the standard deviation (sd).
+
 6) 68% of the area of a normal distribution is within one standard deviation of the mean.
+
 7) Approximately 95% of the area of a normal distribution is within two standard deviations of the mean.
 
 Normal distribution 
+
+Simulation of the weight of 1570 adult males normally distributed
 ```{r}
-#Simulation of the weight of 1570 adult males normally distributed
 data1=rnorm(1570,mean=75,sd=8)
 hist(data1,main="Adult male weights",xlab="adult male weight",col="red",las=1)
 ```
