@@ -24,6 +24,11 @@ For more details about plotting, please visit: https://github.com/biometry/APES/
 We will classify here the different plot methods according to their suitability to the variable analysis
 
 # Categorical Variables
+Categorical variables can have two or more categories with no ordering among the categories.  
+For example, eye color is a categorical variable consisting in 4 categories (blue, green, black or brown) and there is no particular order for the different categories.   
+
+We will explain the most appropiate methods to explore categorical variables below:
+
 ## Bar charts
 
 Bar charts are appropiate to summarize categorical variables distributions
@@ -59,6 +64,10 @@ barplot(percent,main="the title", xlab="transmission",ylab="%",las=1,ylim=c(0,1)
 ```
 
 # Numerical Variables
+On numerical variables, on the other hand, there is an order among the variables.  
+An example could be, the scores achieve by a group of student on a test, from 1 to 5. 
+We could evaluate the success of the students depending on their scores.
+
 ## Boxplot 
 
 Boxplots are appropiate to summarize numerical variables distributions
@@ -121,7 +130,8 @@ plot(x,pch=x,cex=3)
 
 # Summary statistics
 
-Some piece of information that gives a quick and simple description of the data.
+The summary statistics tries to give the largest amount of information possible of the data in the simplest and quickest way possible.
+This usually includes mean, median, minimum and maximum value, standard deviation, etc.
 
 For a categorical variable, like "fam"
 ```{r}
