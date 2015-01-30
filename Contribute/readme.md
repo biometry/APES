@@ -39,11 +39,12 @@ If you prefer, you can only be set up as a contributor.
 
 We use chunks to display our codes. The chunks can be manually added by writting
 ```
-```{r} 
-code 
+
+```{r} code ```
 ```
-```
- or inserted automaticly by clicking on the chunk button at the top right corner of the script window.
+
+
+Or inserted automaticly by clicking on the chunk button at the top right corner of the script window.
 Some extra info about R Code Chunks:
 
 * http://rmarkdown.rstudio.com/authoring_rcodechunks.html
@@ -54,9 +55,9 @@ To add an image, save the image on the folder /img/ and commit it. Once on the r
 
 ```
 ![My image] (username.github.com/repository/img/image.jpg)
-
-By default, images should be in the folder /img/ and labeled according to the file in which they are first used. If the file is R50-plotting.md , the image should be callded R50-ScatterPlot.png.
 ```
+By default, images should be in the folder /img/ and labeled according to the file in which they are first used. If the file is R50-plotting.md , the image should be callded R50-ScatterPlot.png.
+
 
 
 ### Linking Videos 
