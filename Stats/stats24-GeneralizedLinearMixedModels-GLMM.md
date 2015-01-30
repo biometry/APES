@@ -18,3 +18,10 @@ http://jaredknowles.com/journal/2014/5/17/mixed-effects-tutorial-2-fun-with-merm
 
 Material from "in silico ecology", with link to e.g. model selection in mixed effect models
 http://www.r-bloggers.com/notes-on-shrinkage-prediction-in-hierarchical-models/
+
+
+# Literature
+
+Bayesian 
+
+Fong, Y.; Rue, H. & Wakefield, J. (2010) Bayesian inference for generalized linear mixed models. Biostatistics, 11, 397-412.
