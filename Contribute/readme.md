@@ -44,6 +44,10 @@ Some extra info about R Code Chunks:
 
 ### Images 
 
+To add an image, save the image on the folder /img/ and commit it. Once on the repo, you can copy the raw version of the image and add it to the markdown, e.g:
+
+![Image Name](https://raw.github.com/username/projectname/branch/path/to/img.png)
+
 By default, images should be in the folder /img/ and labeled according to the file in which they are first used. If the file is R50-plotting.md , the image should be callded R50-ScatterPlot.png.
 
 
