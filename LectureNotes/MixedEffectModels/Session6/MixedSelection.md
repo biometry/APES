@@ -3,13 +3,7 @@ Model selection with mixed models
 author: Florian Hartig
 date: 6th mixed model session, Feb 04, 2015
 
-```{r, echo=F}
-library(lme4)
-library(mlmRev)
-library(lmerTest)
-library(msm)
-attach(Exam)
-```
+
 
 What we have learned so far
 ===
@@ -42,84 +36,7 @@ Demonstration of the shrinkage
 ===
 
 
-```{r, echo = F, fig.align = "center", fig.width = 8, cache = T}
-# from mbjoseph.github.io/blog/2015/01/20/shrink/
-## 2d shrikage for random slope, random intercept model
-library(lme4)
-library(ggplot2)
-library(grid)
-library(mvtnorm)
-library(reshape2)
-library(ellipse)
-
-# fit models
-m0 <- lm(Reaction ~ Days * Subject, data=sleepstudy)
-m1 <- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
-
-# extract fixed effect estimates
-intercepts <- grepl("Days", names(coef(m0))) == FALSE
-m0_intercepts <- coef(m0)[intercepts]
-m0_intercepts[-1] <- m0_intercepts[-1] + m0_intercepts[1]
-slopes <- !intercepts
-m0_slopes <- coef(m0)[slopes]
-m0_slopes[-1] <- m0_slopes[-1] + m0_slopes[1]
-
-# extract random effect estimates
-m1_intercepts <- coef(m1)$Subject[, 1]
-m1_slopes <- coef(m1)$Subject[, 2]
-
-d <- data.frame(interceptF = m0_intercepts,
-                slopeF = m0_slopes,
-                interceptR = m1_intercepts,
-                slopeR = m1_slopes
-                )
-
-# 95% bivariate normal ellipse for random effects
-df_ell <- data.frame(ellipse(VarCorr(m1)$Subject, centre=fixef(m1)))
-names(df_ell) <- c("intercept", "slope")
-
-# bivariate normal density surface
-lo <- 200 # length.out of x and y grid
-xvals <- seq(from = min(df_ell$intercept) - .1 * abs(min(df_ell$intercept)),
-             to = max(df_ell$intercept) + .05 * abs(max(df_ell$intercept)),
-             length.out = lo)
-yvals <- seq(from = min(df_ell$slope) - .4 * abs(min(df_ell$slope)),
-             to = max(df_ell$slope) + .1 * abs(max(df_ell$slope)),
-             length.out = lo)
-
-z <- matrix(0, lo, lo)
-for (i in 1:lo) {
-  x = xvals
-  y = yvals[i]
-  z[,i] = dmvnorm(cbind(x,y),
-                  mean = fixef(m1),
-                  sigma = VarCorr(m1)$Subject)
-}
-
-mv_ranef <- melt(z)
-names(mv_ranef) <- c("x", "y", "z")
-mv_ranef$x <- xvals[mv_ranef$x]
-mv_ranef$y <- yvals[mv_ranef$y]
-
-
-p <- ggplot(d) +
-  geom_raster(aes(x=x, y=y, fill=z), data=mv_ranef) +
-  scale_fill_gradient(low="white", high="red") +
-  guides(fill=FALSE) +
-  geom_path(data=df_ell, aes(x=intercept, y=slope), size=.5) +
-  geom_contour(aes(x=x, y=y, z=z), data=mv_ranef, size=.1, color="black") +
-  geom_segment(aes(x=interceptF, y=slopeF,
-                   xend=interceptR, yend=slopeR),
-               arrow = arrow(length = unit(0.3, "cm")),
-               alpha=.7) +
-  xlab("Estimated intercepts") +
-  ylab("Estimated slopes") +
-  theme(legend.position="none") +
-  ggtitle("Bivariate shrinkage plot") +
-  theme_bw()  +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-p
-```
+<img src="MixedSelection-figure/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
 
 <font size="5">
 
@@ -182,7 +99,8 @@ Function to create virtual datasets
 ===
 
 <font size="6">
-```{r}
+
+```r
 createData <- function(n=250, numGroups = 10, sampleSize = 1000){
   out = list()
   for (i in 1:n){
@@ -198,7 +116,8 @@ createData <- function(n=250, numGroups = 10, sampleSize = 1000){
 
 Fit this with 
 
-```{r, eval= F}
+
+```r
 glmer(counts ~ environment1 + (1|group) + (1|ID) , family = "poisson")
 ```
 
@@ -208,58 +127,22 @@ glmer(counts ~ environment1 + (1|group) + (1|ID) , family = "poisson")
 Fitting mixed model with 10 groups
 ===
 
-```{r, echo = F, fig.align = "center", fig.width = 8, cache = T}
-
-dataList <- createData()
-resultList <- matrix(NA,length(dataList), 4)
-for (i in 1:length(dataList)){
-  fit <- glmer(counts ~ environment1 + (1|group) + (1|ID) , family = "poisson", data = dataList[[i]])
-  resultList[i,] = c( fixef(fit), as.data.frame(VarCorr(fit))[,5])
-}
-
-par(mfrow = c(2,2))
-hist(resultList[,1], breaks = 50, main = "Bias Intercept")
-abline(v=0, col = "red")
-hist(resultList[,2]-1, breaks = 50, main = "Bias Slope")
-abline(v=0, col = "red")
-hist(resultList[,3]-0.5, breaks = 50, main = "Bias Overdispersion")
-abline(v=0, col = "red")
-hist(resultList[,4]-1, breaks = 50, main = "Bias Random Group")
-abline(v=0, col = "red")
-```
+<img src="MixedSelection-figure/unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
 
 
 Fitting mixed model with 4 groups
 ===
 
 
-```{r, echo = F, fig.align = "center", fig.width = 8, cache = T}
-
-dataList <- createData(numGroups = 4)
-resultList <- matrix(NA,length(dataList), 4)
-for (i in 1:length(dataList)){
-  fit <- glmer(counts ~ environment1 + (1|group) + (1|ID) , family = "poisson", data = dataList[[i]])
-  resultList[i,] = c( fixef(fit), as.data.frame(VarCorr(fit))[,5])
-}
-
-par(mfrow = c(2,2))
-hist(resultList[,1], breaks = 50, main = "Bias Intercept")
-abline(v=0, col = "red")
-hist(resultList[,2]-1, breaks = 50, main = "Bias Slope")
-abline(v=0, col = "red")
-hist(resultList[,3]-0.5, breaks = 50, main = "Bias Overdispersion")
-abline(v=0, col = "red")
-hist(resultList[,4]-1, breaks = 50, main = "Bias Random Group")
-abline(v=0, col = "red")
-
-```
+<img src="MixedSelection-figure/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
 
 Comparing to group as fixed effect
 ===
 
 <font size="5">
 
-```{r, eval= F}
+
+```r
 glmer(counts ~ environment1 + (1|group) + (1|ID) , family = "poisson")
 glmer(counts ~ environment1 + group + (1|ID) , family = "poisson")
 ```
@@ -267,23 +150,7 @@ glmer(counts ~ environment1 + group + (1|ID) , family = "poisson")
 </font>
 
 
-```{r, echo = F, fig.align = "center", fig.width = 8, cache = T}
-resultListFixed <- matrix(NA,length(dataList), 2)
-for (i in 1:length(dataList)){
-  fit <- glmer(counts ~ environment1 + group + (1|ID) , family = "poisson", data = dataList[[i]])
-  resultListFixed[i,] = fixef(fit)[1:2]
-}
-par(mfrow = c(2,2))
-hist(resultList[,1], breaks = 50, main = "Bias Intercept")
-abline(v=0, col = "red")
-hist(resultListFixed[,1], breaks = 50, main = "Bias Intercept Fixed")
-abline(v=0, col = "red")
-hist(resultList[,2]-1, breaks = 50, main = "Bias Slope")
-abline(v=0, col = "red")
-hist(resultListFixed[,2]-1, breaks = 50, main = "Bias Slope Fixed")
-abline(v=0, col = "red")
-
-```
+<img src="MixedSelection-figure/unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 Conclusion "at least 7 rule"
 ===
@@ -343,62 +210,18 @@ Best model != Best fit
 
 Imagine we have some data that comes from a quadradic function (polynomial order 2)
 
-```{r, echo = F, fig.align = "center", fig.width = 8, cache = T}
-#Based on code from Cosma Shalizi
-#http://www.stat.cmu.edu/~cshalizi/uADA/15/lectures/03-in-class.R
-
-# In-class demos for 2015-01-20
-
-
-### Illustration of over-fitting and model selection
-# 20 standard-Gaussian X's
-x = rnorm(20)
-# Quadratic Y's
-y = 7*x^2 - 0.5*x + rnorm(20)
-
-# Initial plot of training data plus true regression curve
-plot(x,y)
-curve(7*x^2-0.5*x,col="grey",add=TRUE)
-
-```
+<img src="MixedSelection-figure/unnamed-chunk-9-1.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" style="display: block; margin: auto;" />
 
 
 Fit for different polynomials
 ===
 
 
-```{r, echo = F, fig.align = "center", fig.width = 6, cache = T}
-plot(x,y)
-curve(7*x^2-0.5*x,col="grey",add=TRUE)
-
-# Fit polynomials and add them to the plot
-# Make a list of model formulae for polynomials of degree 0 to 9
-poly.formulae <- c("y~1", paste("y ~ poly(x,", 1:9, ")", sep=""))
-# because "y ~ poly(x,0)" doesn't work
-poly.formulae <- sapply(poly.formulae, as.formula)
-# Get evenly spaced points for pretty plotting models
-df.plot <- data.frame(x=seq(min(x),max(x),length.out=200))
-# Fit polynomials of order 0 to 9
-# Store them in a list
-fitted.models <- list(length=length(poly.formulae))
-for (model_index in 1:length(poly.formulae)) {
-  fm <- lm(formula=poly.formulae[[model_index]])
-  lines(df.plot$x, predict(fm,newdata=df.plot),lty=model_index)
-  fitted.models[[model_index]] <- fm
-}
-legend("top",legend=paste("degree",0:9),lty=1:10, ncol=2, cex=0.5)
-
-```
+<img src="MixedSelection-figure/unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
 
 ***
 
-```{r, echo = F, fig.align = "center", fig.width = 6, cache = T}
-# Calculate and plot in-sample errors
-mse.q <- sapply(fitted.models, function(mdl) { mean(residuals(mdl)^2) })
-plot(0:9,mse.q,type="b",xlab="polynomial degree",ylab="mean squared error",
-     log="y")
-
-```
+<img src="MixedSelection-figure/unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
 
 The more complex the model, the better it fits! 
 
@@ -407,46 +230,13 @@ Complex models fit great!
 
 Here again in terms of R2 and adjusted R2
 
-```{r, echo = F, fig.align = "center", fig.width = 6, cache = T}
-extract.rsqd <- function(mdl) {
-  c( summary(mdl)$r.squared, summary(mdl)$adj.r.squared)
-}
-rsqd.q <- sapply(fitted.models, extract.rsqd)
-plot(0:9,rsqd.q[1,],type="b",xlab="polynomial degree",ylab=expression(R^2),
-     ylim=c(0,1))
-lines(0:9,rsqd.q[2,],type="b",lty="dashed")
-legend("bottomright",legend=c(expression(R^2),expression(R[adj]^2)),
-       lty=c("solid","dashed"))
-```
+<img src="MixedSelection-figure/unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" style="display: block; margin: auto;" />
 
 ***
 
 But here's the error for predicting on new data
 
-```{r, echo = F, fig.align = "center", fig.width = 6, cache = T}
-x.new = rnorm(2e4)
-y.new = 7*x.new^2 - 0.5*x.new + rnorm(length(x.new))
-
-# Calculate an already-fitted model's MSE on new data
-# Inputs: the model object
-# Outputs: the MSE
-# ATTN: Hard-wired to use "x.new" and "y.new" --- can you improve this?
-gmse <- function(mdl) {
-  predictions <- predict(mdl, data.frame(x=x.new))
-  residuals <- y.new - predictions
-  return(mean(residuals^2))
-}
-gmse.q <- sapply(fitted.models, gmse)
-plot(0:9,mse.q,type="b",xlab="polynomial degree",
-     ylab="mean squared error",log="y",ylim=c(min(mse.q),max(gmse.q)))
-lines(0:9,gmse.q,lty=2,col="blue")
-points(0:9,gmse.q,pch=24,col="blue")
-# Note: logarithmic scale of vertical axis!
-
-legend("topleft",legend=c("In-sample","New data"),
-       col=c("black","blue"),lty=1:2,pch=1:2)
-
-```
+<img src="MixedSelection-figure/unnamed-chunk-13-1.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" />
 
 
 Anticipate this via cross-validation
@@ -458,73 +248,7 @@ Anticipate this via cross-validation
 
 ***
 
-```{r, echo = F, fig.align = "center", fig.width = 6, cache = T}
-# General function to do k-fold CV for a bunch of linear models
-# Inputs: dataframe to fit all models on, list or vector of model formulae,
-# number of folds of cross-validation
-# Output: vector of cross-validated MSEs for the models
-cv.lm <- function(data, formulae, nfolds=5) {
-  # Strip data of NA rows
-  # ATTN: Better to check whether NAs are in variables used by the models
-  data <- na.omit(data)
-  # Make sure the formulae have type "formula"
-  formulae <- sapply(formulae, as.formula)
-  # Extract the name of the response variable from each formula
-  # ATTN: CV doesn't make a lot of sense unless these are all the same!
-  responses <- sapply(formulae, response.name)
-  names(responses) <- as.character(formulae)
-  n <- nrow(data)
-  # Assign each data point to a fold, at random
-  # see ?sample for the effect of sample(x) on a vector x
-  fold.labels <- sample(rep(1:nfolds, length.out=n))
-  mses <- matrix(NA, nrow=nfolds, ncol=length(formulae))
-  colnames <- as.character(formulae)
-  # EXERCISE: Replace the double for() loop below by defining a new
-  # function and then calling outer()
-  for (fold in 1:nfolds) {
-    test.rows <- which(fold.labels == fold)
-    train <- data[-test.rows,]
-    test <- data[test.rows,]
-    for (form in 1:length(formulae)) {
-      # Fit the model on the training data
-      current.model <- lm(formula=formulae[[form]], data=train)
-      # Generate predictions on the testing data
-      predictions <- predict(current.model, newdata=test)
-      # Get the responses on the testing data
-      test.responses <- test[,responses[form]]
-      test.errors <- test.responses - predictions
-      mses[fold, form] <- mean(test.errors^2)
-    }
-  }
-  return(colMeans(mses))
-}
-
-# Extract the name of the response variable from a regression formula
-# Presumes response is the left-most variable
-# EXERCISE: Write a more robust version using terms()
-# Inputs: regression formula
-# Outputs: name of the response variable
-response.name <- function(formula) {
-  var.names <- all.vars(formula)
-  return(var.names[1])
-}
-
-
-# How well does cross-validation work?
-# Remember that our original data had 20 points, and we're seeing how
-# we generalize to 20,000 points from the same distribution
-# Make a little data frame out of our little data
-little.df <- data.frame(x=x, y=y)
-# CV for the polynomials (defaults to five-fold)
-cv.q <- cv.lm(little.df, poly.formulae)
-plot(0:9,mse.q,type="b",xlab="polynomial degree",
-     ylab="mean squared error",log="y",ylim=c(min(mse.q),max(gmse.q)))
-lines(0:9,gmse.q,lty=2,col="blue",type="b",pch=2)
-lines(0:9,cv.q,lty=3,col="red",type="b",pch=3)
-legend("topleft",legend=c("In-sample","New data","CV"),
-       col=c("black","blue","red"),lty=1:3,pch=1:3)
-
-```
+<img src="MixedSelection-figure/unnamed-chunk-14-1.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto;" />
 
 
 What did we learn?
@@ -628,8 +352,19 @@ Compare 2 nested fixed structures
 ===
 
 <font size="6">
-```{r, cache = T}
+
+```r
 str(sleepstudy)
+```
+
+```
+'data.frame':	180 obs. of  3 variables:
+ $ Reaction: num  250 259 251 321 357 ...
+ $ Days    : num  0 1 2 3 4 5 6 7 8 9 ...
+ $ Subject : Factor w/ 18 levels "308","309","310",..: 1 1 1 1 1 1 1 1 1 1 ...
+```
+
+```r
 fm0 <- lmer(Reaction ~ 1 + (1|Subject), sleepstudy, REML = F)
 fm1 <- lmer(Reaction ~ Days + (1|Subject), sleepstudy, REML = F)
 ```
@@ -641,8 +376,21 @@ We can do anova()
 ===
 
 <font size="5">
-```{r, cache = T}
+
+```r
 anova(fm0, fm1)
+```
+
+```
+Data: sleepstudy
+Models:
+object: Reaction ~ 1 + (1 | Subject)
+..1: Reaction ~ Days + (1 | Subject)
+       Df    AIC    BIC  logLik deviance  Chisq Chi Df Pr(>Chisq)    
+object  3 1916.5 1926.1 -955.27   1910.5                             
+..1     4 1802.1 1814.8 -897.04   1794.1 116.46      1  < 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 </font>
 
@@ -674,7 +422,8 @@ Parametric bootstrapping
 ===
 
 <font size="4">
-```{r, cache = T}
+
+```r
 pboot <- function(m0,m1) {
   s <- simulate(m0)
   L0 <- logLik(refit(m0,s))
@@ -686,17 +435,25 @@ sleepstudy_PB <- replicate(500,pboot(fm0,fm1))
 
 We can read off the p-value for the likelihod ratio test (frequency observed difference > expected difference under the null hypothesis fm0)
 
-```{r, cache = T}
+
+```r
 obsLLDiff <- -2*(logLik(fm0)-logLik(fm1))
 pValue = mean(sleepstudy_PB>=obsLLDiff) 
 pValue
 ```
 
+```
+[1] 0
+```
+
 *** 
-```{r, fig.align = "center", fig.width = 6, cache = T}
+
+```r
 hist(sleepstudy_PB, breaks = 50, xlim = c(0,120))
 abline(v = obsLLDiff, col = "red", lwd = 2)
 ```
+
+<img src="MixedSelection-figure/unnamed-chunk-19-1.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" style="display: block; margin: auto;" />
 </font>
 
 
@@ -704,7 +461,8 @@ Compare 2 nested random structures
 ===
 
 <font size="6">
-```{r, cache = T}
+
+```r
 fm2 <- lmer(Reaction ~ Days + (Days|Subject), sleepstudy, REML = F)
 fm3 <- lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), sleepstudy, REML = F)
 ```
@@ -716,15 +474,81 @@ Compare the output
 ===
 
 <font size="4">
-```{r, cache = T}
+
+```r
 summary(fm2)
+```
+
+```
+Linear mixed model fit by maximum likelihood t-tests use Satterthwaite
+  approximations to degrees of freedom [merModLmerTest]
+Formula: Reaction ~ Days + (Days | Subject)
+   Data: sleepstudy
+
+     AIC      BIC   logLik deviance df.resid 
+  1763.9   1783.1   -876.0   1751.9      174 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.9416 -0.4656  0.0289  0.4636  5.1793 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr
+ Subject  (Intercept) 565.52   23.781       
+          Days         32.68    5.717   0.08
+ Residual             654.94   25.592       
+Number of obs: 180, groups:  Subject, 18
+
+Fixed effects:
+            Estimate Std. Error      df t value Pr(>|t|)    
+(Intercept)  251.405      6.632  18.000  37.906  < 2e-16 ***
+Days          10.467      1.502  18.000   6.968 1.65e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+     (Intr)
+Days -0.138
 ```
 </font>
 
 ***
 <font size="4">
-```{r, cache = T}
+
+```r
 summary(fm3)
+```
+
+```
+Linear mixed model fit by maximum likelihood t-tests use Satterthwaite
+  approximations to degrees of freedom [merModLmerTest]
+Formula: Reaction ~ Days + (1 | Subject) + (0 + Days | Subject)
+   Data: sleepstudy
+
+     AIC      BIC   logLik deviance df.resid 
+    1762     1778     -876     1752      175 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.9535 -0.4673  0.0239  0.4625  5.1883 
+
+Random effects:
+ Groups    Name        Variance Std.Dev.
+ Subject   (Intercept) 584.25   24.171  
+ Subject.1 Days         33.63    5.799  
+ Residual              653.12   25.556  
+Number of obs: 180, groups:  Subject, 18
+
+Fixed effects:
+            Estimate Std. Error      df t value Pr(>|t|)    
+(Intercept)  251.405      6.708  19.349  37.480  < 2e-16 ***
+Days          10.467      1.519  19.349   6.889  1.3e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+     (Intr)
+Days -0.194
 ```
 </font>
 
@@ -736,25 +560,44 @@ Likelihood ratio tests
 
 Parametric, chisq. Note: chisq for random terms tends to be too conservative, although not here
 
-```{r, cache = T}
+
+```r
 anova(fm2, fm3)
+```
+
+```
+Data: sleepstudy
+Models:
+..1: Reaction ~ Days + (1 | Subject) + (0 + Days | Subject)
+object: Reaction ~ Days + (Days | Subject)
+       Df    AIC    BIC  logLik deviance  Chisq Chi Df Pr(>Chisq)
+..1     5 1762.0 1778.0 -876.00   1752.0                         
+object  6 1763.9 1783.1 -875.97   1751.9 0.0639      1     0.8004
 ```
 
 
 LRT based on non-parametric bootstrap
 
-```{r, cache = T}
+
+```r
 sleepstudy_PB <- replicate(500,pboot(fm3,fm2))
 obsLLDiff <- -2*(logLik(fm3)-logLik(fm2))
 pValue = mean(sleepstudy_PB>=obsLLDiff) 
 pValue
 ```
 
+```
+[1] 0.78
+```
+
 *** 
-```{r, fig.align = "center", fig.width = 6, cache = T}
+
+```r
 hist(sleepstudy_PB, breaks = 50, xlim = c(0,120))
 abline(v = obsLLDiff, col = "red", lwd = 2)
 ```
+
+<img src="MixedSelection-figure/unnamed-chunk-25-1.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" style="display: block; margin: auto;" />
 </font>
 
 Deviation from chisq minimal
@@ -764,18 +607,7 @@ Deviation from chisq minimal
 
 To see whether the bootstrapped distribution deviates from a chisq distribution with df = 1.
 
-```{r, echo = F, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
-library(lattice)
-## null value for correlation parameter is *not* on the boundary
-## of its feasible space, so we would expect chisq(1)
-qqmath(sleepstudy_PB,distribution=function(p) qchisq(p,df=1),
-     type="l",
-            prepanel = prepanel.qqmathline,
-            panel = function(x, ...) {
-               panel.qqmathline(x, ...)
-               panel.qqmath(x, ...)
-            })
-```
+<img src="MixedSelection-figure/unnamed-chunk-26-1.png" title="plot of chunk unnamed-chunk-26" alt="plot of chunk unnamed-chunk-26" style="display: block; margin: auto;" />
 </font>
 
 Should you select the random effect structure?
@@ -815,42 +647,26 @@ $$AIC = 2 k - 2 log (L(\phi))$$
 Our "old" dataset
 ===
 
-```{r, echo=F, cache = T}
-set.seed(2)
-altitude = rep(seq(0,1,len = 50), each = 20)
-moisture = runif(1000, 0,1)
-temperature =  runif(1000, 0,1) - moisture - altitude + 2
-dataID = 1:1000
-spatialCoordinate = rep(seq(0,30, len = 50), each = 20)
 
-# random effects
-plot = rep(1:50, each = 20)
-year = rep(1:20, times = 50)
-
-#plotRandom = 0 - rexp(20, rate = 1)
-
-yearRandom = rtnorm(20, 0, 2, upper = 2)
-plotRandom = rtnorm(50,0,1, upper = 1)
-#overdispersion = rtnorm(1000, sd = 1, upper = 1)
-
-beetles <- rpois(1000, exp( 1 +   
-  
-  ( 2 + yearRandom[year]) * moisture 
-  
-  + 10*altitude - 10*altitude^2 
-  
-  #+ overdispersion 
-  + plotRandom[plot]) )
-
-# beetles[rbinom(1,200,0.1)] = 0  #zero-inflation
-data = data.frame(dataID, beetles, moisture, altitude, temperature, plot, year, spatialCoordinate)
-```
 
 Measured beetle counts over 20 years on 50 different plots across an altitudinal gradient, with the predictors moisture (varying from year to year) and altitude (fix for each plot). I added another variable temperature which shows some colinearity with altitude and moisture, and which could have an effect
 
 <font size="5">
-```{r}
+
+```r
 str(data)
+```
+
+```
+'data.frame':	1000 obs. of  8 variables:
+ $ dataID           : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ beetles          : int  2 32 5 1 1 46 6 1 6 4 ...
+ $ moisture         : num  0.185 0.702 0.573 0.168 0.944 ...
+ $ altitude         : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ temperature      : num  2.14 1.34 2.16 2.32 1.29 ...
+ $ plot             : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ year             : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ spatialCoordinate: num  0 0 0 0 0 0 0 0 0 0 ...
 ```
 </font>
 
@@ -858,43 +674,13 @@ Visually
 ===
 
 <font size="4">
-```{r, echo = F, fig.align = "center", fig.width = 7, fig.height = 7, cache = T}
-
-plot(spatialCoordinate , 200 + altitude * 1000 + 20* year, cex = beetles/200, pch =2, main = "Beetle counts across altitudinal gradient", ylim = c(-50,1500), ylab = "Altitude / counts ")
-lines(spatialCoordinate, altitude * 1000)
-points(unique(spatialCoordinate), unique(altitude * 1000) , pch = 3)
-text(unique(spatialCoordinate), unique(altitude * 1000) - 50, unique(plot), cex = 0.7 )
-curve(1000* dnorm(x, 15,3), 0, 30, add = T, col = "red")
-```
+<img src="MixedSelection-figure/unnamed-chunk-29-1.png" title="plot of chunk unnamed-chunk-29" alt="plot of chunk unnamed-chunk-29" style="display: block; margin: auto;" />
 </font>
 
 *** 
 
 <font size="4">
-```{r, echo = F, fig.align = "center", fig.width = 7, fig.height = 7, cache = T}
-
-panel.hist <- function(x, ...)
-{
-    usr <- par("usr"); on.exit(par(usr))
-    par(usr = c(usr[1:2], 0, 1.5) )
-    h <- hist(x, plot = FALSE)
-    breaks <- h$breaks; nB <- length(breaks)
-    y <- h$counts; y <- y/max(y)
-    rect(breaks[-nB], 0, breaks[-1], y, col = "cyan", ...)
-}
-panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...)
-{
-    usr <- par("usr"); on.exit(par(usr))
-    par(usr = c(0, 1, 0, 1))
-    r <- cor(x, y, use = "complete.obs", method = "kendall")
-    txt <- format(c(r, 0.123456789), digits = digits)[1]
-    txt <- paste0(prefix, txt)
-    if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
-    text(0.5, 0.5, txt, cex = cex.cor * r)
-}
-pairs(data[2:5], lower.panel = panel.smooth, diag.panel = panel.hist, upper.panel = panel.cor)
-
-```
+<img src="MixedSelection-figure/unnamed-chunk-30-1.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
 </font>
 
 Question
@@ -910,7 +696,8 @@ Define full model
 
 
 <font size="4">
-```{r, echo = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+
+```r
 fullModel <- glmer(beetles ~ moisture + I(moisture^2) + altitude + I(altitude^2) + temperature + I(temperature^2) + (0 + moisture|year) + (1|plot) + (1|dataID), family = "poisson", na.action="na.fail")
 ```
 </font>
@@ -922,12 +709,45 @@ Using dredge() in MuMIn
 This tests all possible submodels 
 
 <font size="4">
-```{r, echo = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+
+```r
 library(MuMIn)
 
 submodels <- dredge(fullModel)
 print(submodels[1:10])
+```
 
+```
+Global model call: glmer(formula = beetles ~ moisture + I(moisture^2) + altitude + 
+    I(altitude^2) + temperature + I(temperature^2) + (0 + moisture | 
+    year) + (1 | plot) + (1 | dataID), family = "poisson", na.action = "na.fail")
+---
+Model selection table 
+   (Intrc) alttd alttd^2 mostr  mostr^2     tmprt tmprt^2 df    logLik
+40  0.8783 7.458  -7.127 1.879                    0.01089  8 -3203.306
+24  0.8680 7.447  -7.118 1.875           0.027800          8 -3203.605
+8   0.9367 7.414  -7.113 1.850                             7 -3205.171
+56  0.8850 7.460  -7.130 1.879          -0.010330 0.01442  9 -3203.285
+48  0.8806 7.458  -7.127 1.871 0.006990           0.01079  9 -3203.301
+32  0.8737 7.447  -7.118 1.854 0.018610  0.027350          9 -3203.568
+16  0.9442 7.415  -7.113 1.815 0.030930                    8 -3205.067
+64  0.8859 7.460  -7.130 1.874 0.003919 -0.009677 0.01413 10 -3203.283
+36  0.8833 7.456  -7.127                          0.01029  7 -3213.963
+20  0.8738 7.445  -7.118                 0.026180          7 -3214.237
+     AICc delta weight
+40 6422.8  0.00  0.287
+24 6423.4  0.60  0.213
+8  6424.5  1.70  0.123
+56 6424.8  1.99  0.106
+48 6424.8  2.03  0.104
+32 6425.3  2.56  0.080
+16 6426.3  3.52  0.049
+64 6426.8  4.03  0.038
+36 6442.0 19.28  0.000
+20 6442.6 19.83  0.000
+Models ranked by AICc(x) 
+Random terms (all models): 
+'0 + moisture | year', '1 | plot', '1 | dataID'
 ```
 </font>
 
@@ -935,9 +755,49 @@ Best model
 ===
 
 <font size="4">
-```{r, echo = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+
+```r
 best <- get.models(submodels, subset = 1)[[1]]
 summary(best)
+```
+
+```
+Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: poisson  ( log )
+Formula: beetles ~ altitude + I(altitude^2) + moisture + temperature +  
+    (0 + moisture | year) + (1 | plot) + (1 | dataID)
+
+     AIC      BIC   logLik deviance df.resid 
+  6423.2   6462.5  -3203.6   6407.2      992 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.3553 -0.6306 -0.0415  0.5366  4.2107 
+
+Random effects:
+ Groups Name        Variance Std.Dev.
+ dataID (Intercept) 0.0000   0.0000  
+ plot   (Intercept) 0.4541   0.6739  
+ year   moisture    1.8459   1.3586  
+Number of obs: 1000, groups:  dataID, 1000; plot, 50; year, 20
+
+Fixed effects:
+              Estimate Std. Error z value Pr(>|z|)    
+(Intercept)     0.8680     0.2789   3.113  0.00185 ** 
+altitude        7.4472     1.2750   5.841 5.19e-09 ***
+I(altitude^2)  -7.1178     1.2331  -5.772 7.82e-09 ***
+moisture        1.8754     0.3048   6.153 7.61e-10 ***
+temperature     0.0278     0.0157   1.770  0.07665 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) altitd I(l^2) moistr
+altitude    -0.849                     
+I(altitd^2)  0.723 -0.967              
+moisture    -0.009  0.001  0.000       
+temperature -0.139  0.015 -0.002  0.048
 ```
 </font>
 
@@ -948,8 +808,14 @@ Excursion: R2 for GLMM
 
 If you really want to use this, there are some ideas how to calculate R2 for (G)LMMs, based on Nakagawa, S, Schielzeth, H. (2012). A general and simple method for obtaining R^2 from Generalized Linear Mixed-effects Models. Methods in Ecology and Evolution. Implemented in MuMIn
 
-```{r, cache = T}
+
+```r
 r.squaredGLMM(best)
+```
+
+```
+      R2m       R2c 
+0.3587817 0.9763625 
 ```
 
 - First value, Marginal R_GLMM² , represents the variance explained by fixed factors, 
@@ -1012,7 +878,8 @@ Example
 Apply model selection to random data selects a lot of wrong models
 
 <font size="4">
-```{r, echo = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+
+```r
 set.seed(3)
 n = 15
 x1 = runif(n) ; x2 = runif(n) + x1
@@ -1025,7 +892,36 @@ randomData <- data.frame(y = rnorm(n), x1, x2, x3, x4, x5, x6, x7 )
 fullModel <- lm(y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7, data = randomData, na.action="na.fail")
 submodels <- dredge(fullModel)
 print(submodels[1:10])
+```
 
+```
+Global model call: lm(formula = y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7, data = randomData, 
+    na.action = "na.fail")
+---
+Model selection table 
+    (Intrc)      x2     x3     x4     x5      x7 df  logLik AICc delta
+83 -0.64320 -0.8341               0.9401 -0.7750  5  -5.828 28.3  0.00
+3   0.53450 -0.8390                               3 -11.013 30.2  1.89
+91 -0.57190 -0.6950        0.9742 0.7988 -1.3290  6  -4.137 30.8  2.45
+89 -0.98010                1.3990 0.7043 -1.6400  5  -7.426 31.5  3.20
+81 -1.22100                       0.8969 -0.8676  4  -9.779 31.6  3.23
+7  -0.09438 -0.9039 0.7647                        4  -9.800 31.6  3.28
+19 -0.30610 -0.9363               0.3866          4  -9.854 31.7  3.39
+1  -0.28440                                       2 -13.369 31.7  3.41
+73  0.06823                1.8020        -1.4470  4  -9.886 31.8  3.45
+77 -0.57830         0.8823 1.8580        -1.5910  5  -8.037 32.7  4.42
+   weight
+83  0.341
+3   0.133
+91  0.100
+89  0.069
+81  0.068
+7   0.066
+19  0.063
+1   0.062
+73  0.061
+77  0.037
+Models ranked by AICc(x) 
 ```
 </font>
 
@@ -1036,7 +932,8 @@ Example 3: Full model with shrinkage
 I wanted to show you the glmmlasso package (Lasso Regression: think of it as a normal regression with parameters being biased towards zero)
 
 <font size="6">
-```{r, eval = F, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+
+```r
 library(glmmLasso)
 glmmLasso(fix=beetles ~ moisture + moisture^2 + altitude + I(altitude^2), rnd=list(year=~1), data = data, lambda = 30, family = poisson(link = log))
 ```
@@ -1048,7 +945,8 @@ Bayesian version of the Lasso
 ===
 
 <font size="4">
-```{r, eval = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+
+```r
 modelstring="
   model {
 
@@ -1091,16 +989,61 @@ Running this
 ===
 
 <font size="4">
-```{r, eval = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
 
+```r
 library(R2jags)
 modelData=as.list(data)
 modelData = append(data, list(nobs=1000, nplots = 50, nyears = 20))
 
 model=jags(model.file = textConnection(modelstring), data=modelData, n.iter=5000,  parameters.to.save = c("intercept", "moist", "moist2", "alt", "alt2","temp", "temp2", "sigmaPlot", "sigmaYear"))
+```
 
+```
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+   Graph Size: 12206
 
+Initializing model
+```
+
+```r
 print(model)
+```
+
+```
+Inference for Bugs model at "5", fit using jags,
+ 3 chains, each with 5000 iterations (first 2500 discarded), n.thin = 2
+ n.sims = 3750 iterations saved
+           mu.vect  sd.vect     2.5%      25%      50%      75%    97.5%
+alt          7.225    1.324    4.583    6.343    7.221    8.124    9.816
+alt2        -6.903    1.282   -9.437   -7.748   -6.902   -6.049   -4.374
+intercept    0.927    0.296    0.355    0.736    0.933    1.117    1.516
+moist        1.852    0.340    1.176    1.636    1.855    2.066    2.524
+moist2       0.005    0.086   -0.140   -0.044    0.005    0.051    0.139
+sigmaPlot   25.394  839.598    1.298    1.772    2.056    2.363    3.059
+sigmaYear    8.237  280.701    0.240    0.396    0.498    0.618    0.898
+temp        -0.010    0.060   -0.112   -0.046   -0.012    0.023    0.088
+temp2        0.015    0.020   -0.021    0.002    0.015    0.027    0.051
+deviance  6010.089 1478.025 5944.970 5958.402 5966.734 5975.400 5993.607
+           Rhat n.eff
+alt       1.001  3800
+alt2      1.001  3800
+intercept 1.001  3800
+moist     1.001  3800
+moist2    1.001  3800
+sigmaPlot 1.001  3800
+sigmaYear 1.001  3800
+temp      1.003   960
+temp2     1.003   770
+deviance  1.001  3800
+
+For each parameter, n.eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+
+DIC info (using the rule, pD = var(deviance)/2)
+pD = 1092859.5 and DIC = 1098869.6
+DIC is an estimate of expected predictive error (lower deviance is better).
 ```
 Note: the large max values for the sigma are due to a known bug http://stats.stackexchange.com/questions/45193/r2jags-does-not-remove-the-burn-in-part-sometimes, I was just too lazy to remove the burnin by hand
 </font>
@@ -1109,9 +1052,12 @@ Graphically
 ===
 
 <font size="4">
-```{r, eval = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+
+```r
 plot(model$BUGSoutput, display.parallel = T)
 ```
+
+<img src="MixedSelection-figure/unnamed-chunk-39-1.png" title="plot of chunk unnamed-chunk-39" alt="plot of chunk unnamed-chunk-39" style="display: block; margin: auto;" />
 </font>
 
 
