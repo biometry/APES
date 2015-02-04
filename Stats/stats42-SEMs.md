@@ -8,13 +8,27 @@ subcategory: Hierarchical statistical models
 Structural Equation Models (SEMs)
 ===
 
-Structural equation models (SEM) are a special class of hierarchical models. Starting initially only as correlation summaries for normally distributed variables, SEMs have branched out substantially and are now a confusing array of methods and software.
+Structural equation models (SEM) are a special class of hierarchical models. Starting initially only as correlation summaries for normally distributed variables, SEMs have branched out substantially and are now a pretty broad array of methods and software.
+
+
+## Further links 
+
+
+
+http://jarrettbyrnes.info/ubc_sem/
+
+
 
 [http://openmx.psyc.virginia.edu/]
 
 
 
 http://www.imachordata.com/space-and-sems-2/
+
+
+http://ocw.jhsph.edu/courses/structuralmodels/lectureNotes.cfm
+
+http://lavaan.ugent.be/
 
 
 ## Terminology 
