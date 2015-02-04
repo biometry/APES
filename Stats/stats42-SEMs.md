@@ -11,25 +11,6 @@ Structural Equation Models (SEMs)
 Structural equation models (SEM) are a special class of hierarchical models. Starting initially only as correlation summaries for normally distributed variables, SEMs have branched out substantially and are now a pretty broad array of methods and software.
 
 
-## Further links 
-
-
-
-http://jarrettbyrnes.info/ubc_sem/
-
-
-
-[http://openmx.psyc.virginia.edu/]
-
-
-
-http://www.imachordata.com/space-and-sems-2/
-
-
-http://ocw.jhsph.edu/courses/structuralmodels/lectureNotes.cfm
-
-http://lavaan.ugent.be/
-
 
 ## Terminology 
 
@@ -37,3 +18,23 @@ http://lavaan.ugent.be/
 - a manifest variable is observed directly (also called indicator variable)
 - a latent variable is not observed directly
 - moderation - something like an interaction, i.e. that one variable incfluences the effect of two other variables on each other. 
+
+
+# Further links 
+
+### Courses
+
+An Introduction to Structural Equation Modeling for Ecology and Evolutionary Biology http://jarrettbyrnes.info/ubc_sem/
+
+Statistics for Psychosocial Research: Structural Models http://ocw.jhsph.edu/courses/structuralmodels/lectureNotes.cfm
+
+### Examples
+
+http://www.imachordata.com/space-and-sems-2/
+
+
+### Software
+
+- http://lavaan.ugent.be/
+- http://openmx.psyc.virginia.edu/
+
