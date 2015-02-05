@@ -28,7 +28,13 @@ An Introduction to Structural Equation Modeling for Ecology and Evolutionary Bio
 
 Statistics for Psychosocial Research: Structural Models http://ocw.jhsph.edu/courses/structuralmodels/lectureNotes.cfm
 
-### Examples
+### Examples / Papers
+
+http://www.consevol.org/pdf/Books/Chapter%208%20Modern%20Phylogenetic%20Comparative%20Methods%20book.pdf
+
+
+http://www.esajournals.org/doi/pdf/10.1890/08-1034.1
+http://www.esapubs.org/archive/ecol/E090/028/suppl-1.htm
 
 http://www.imachordata.com/space-and-sems-2/
 
