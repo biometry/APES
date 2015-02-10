@@ -5,7 +5,7 @@ date: "27 November 2014"
 output:
   html_document:
     fig_width: 5
-    keep_md: yes
+    keep_md: no
     number_sections: yes
     toc: yes
   pdf_document:
