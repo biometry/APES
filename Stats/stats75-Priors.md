@@ -14,6 +14,8 @@ http://stats.stackexchange.com/questions/61928/choosing-non-informative-priors?r
 
 ## Bayesian Regularization via mildly informative priors 
 
+Kyung, M.; Gill, J.; Ghosh, M.; Casella, G. et al. (2010) Penalized regression, standard errors, and Bayesian lassos. Bayesian Analysis, 5, 369-411.
+
 http://stats.stackexchange.com/questions/95395/ridge-regression-bayesian-interpretation?rq=1
 
 
