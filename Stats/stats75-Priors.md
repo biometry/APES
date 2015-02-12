@@ -9,6 +9,8 @@
 
 ## Uninformative choices
 
+http://stats.stackexchange.com/questions/61928/choosing-non-informative-priors?rq=1
+
 
 ## Bayesian Regularization via mildly informative priors 
 
