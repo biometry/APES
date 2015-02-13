@@ -8,6 +8,6 @@ Package development
 ===
 
 
-
+http://r-pkgs.had.co.nz/
 
 http://dirk.eddelbuettel.com/code/bh.html
