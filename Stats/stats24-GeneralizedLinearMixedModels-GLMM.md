@@ -20,6 +20,11 @@ Material from "in silico ecology", with link to e.g. model selection in mixed ef
 http://www.r-bloggers.com/notes-on-shrinkage-prediction-in-hierarchical-models/
 
 
+### Multinomial response
+
+glmmMCMC, http://glmmadmb.r-forge.r-project.org/
+
+
 # Literature
 
 Bayesian 
