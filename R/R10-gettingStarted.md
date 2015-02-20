@@ -50,6 +50,7 @@ The following links are tutorials on using R as a language. They are helpful if 
 
 * Dormann, C. F. (2013) Parametrische Statistik. Springer, , 333-334. Free ebook for students from the University of Freiburg [here](http://link.springer.com.ezproxy.ub.uni-freiburg.de/book/10.1007/978-3-642-34786-3/page/1
 ) (works only within the university network). Buy a paper version [here](http://www.springer.com/springer+spektrum/statistik/statistik+f%C3%BCr+naturwissenschaft+medizin+%26+technik/book/978-3-642-34785-6)
+* Dormann, C.F., I. Kühn. 2008. Statistische Analyse biologischer Daten (mit dem freien Programmpaket R). 2. Auflage. (https://www.biom.uni-freiburg.de/mitarbeiter/dormann/resolveuid/ed4f35206584421e7406414aa2d4470a)
 * [Programmieren mit R](http://www.statistik.tu-dortmund.de/~ligges/PmitR/)
 
 ## Finding a function in R
