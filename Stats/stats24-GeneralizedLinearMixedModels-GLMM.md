@@ -29,6 +29,7 @@ Note: there seems to be some inconsistency in what people mean by a mixed multin
 * mclogit: estimate parameters for the conditional logit model (also with multinomial counts), and for the mixed conditional logit model, or conditional logit with random effects (random intercepts only, no random slopes yet). The current implementation of random effects is limited to the PQL technique, which requires large cluster sizes. http://cran.r-project.org/web/packages/mclogit/index.html
 * coxme: Mixed Effects Cox Models - Cox proportional hazards models containing Gaussian random effects, also known as frailty models. http://cran.r-project.org/web/packages/coxme/index.html
 * TwoStepCLogit: Conditional logistic regression with longitudinal follow up and individual-level random coefficients: A stable and efficient two-step estimation method http://cran.r-project.org/web/packages/TwoStepCLogit/
+* Fully Bayesian solutions in Bugs, Jags or STAN
 
 see also https://gist.github.com/casallas/8263818
 
