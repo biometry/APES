@@ -23,3 +23,14 @@ Checklist for planning an experiment or a field study
 7. Based on 5/6 revise 4 if nececssary
 
 8. Write down final approach
+
+
+# Comments 
+
+
+## Power analysis
+
+As an example, see [session 4](https://github.com/biometry/APES/tree/master/LectureNotes/MixedEffectModels/Session4) of our mixed model lecture series, at the very end. 
+
+
+
