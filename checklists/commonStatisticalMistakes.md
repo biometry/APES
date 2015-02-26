@@ -10,7 +10,7 @@ Common statistical mistakes
 
 Statistics is an approximate science. No statisitcal analysis is perfect. But that doesn't mean that one thing can be more wrong than another, and that there is nothing that should be avoided. The following is a list of the things that are often done wrong. We think it will aid anyone to check whether his analysis can be defendend against those questions.
 
-I have also started a list of iconic flawed analyses at https://github.com/biometry/APES/blob/master/notes/wrongStats.md
+I have also started a list of iconic flawed analyses [here](https://github.com/biometry/APES/blob/master/notes/wrongStats.md)
 
 
 
