@@ -10,9 +10,9 @@ Checklist for planning an experiment or a field study
 
 1. You know what you want to find out? Just to make sure - write it down!
 
-2. Read the chapter about experimental design [jhere](https://github.com/florianhartig/ResearchSkills/raw/master/Labs/R/Script/Crashcourse-StatisticsWithR.pdf)
+2. Read up about [validity](http://en.wikipedia.org/wiki/Validity_%28statistics%29). Do you have a valid question? 
 
-3. Read up about [validity](http://en.wikipedia.org/wiki/Validity_%28statistics%29) 
+3. Read the chapter about experimental design [here](https://github.com/florianhartig/ResearchSkills/raw/master/Labs/R/Script/Crashcourse-StatisticsWithR.pdf)
 
 4. Decide about the exact question and the experimental design
 
