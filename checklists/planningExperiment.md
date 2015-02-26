@@ -8,7 +8,7 @@ Checklist for planning an experiment or a field study
 ===
 
 
-1. You know what you want to find out. Write it down to make sure
+1. You know what you want to find out? Just to make sure - write it down!
 
 2. Read the chapter about experimental design [jhere](https://github.com/florianhartig/ResearchSkills/raw/master/Labs/R/Script/Crashcourse-StatisticsWithR.pdf)
 
