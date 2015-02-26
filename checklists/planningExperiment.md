@@ -18,7 +18,7 @@ Checklist for planning an experiment or a field study
 
 5. Play through the processes of collecting your data, simulate it through, make up some data, write it down. Everything seems OK?
 
-6. Play through the process of analysing your data. Can you answer your original question
+6. Play through the process of analysing your data. Can you answer your original question? Do a power analysis!
 
 7. Based on 5/6 revise 4 if nececssary
 
