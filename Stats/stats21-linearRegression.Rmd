@@ -37,6 +37,9 @@ Linear regression
 
 # Linear regression summary and idea
 
+
+http://sites.uclouvain.be/selt/files/medias/unamur-regression-lineaire-module20.swf
+
 # Univariate linear regression
 
 Univariate means that we have one predictor (independent) variable only. This predictor can be continous or categorical. We will first look at the continous case, because that is easier to understand, and move to the categorical case then. 
