@@ -1,3 +1,10 @@
+---
+layout: page
+title: Priors
+category: stats
+subcategory: Bayesian inference
+maintainer: Florian Hartig
+---
 
 # General comments
 
