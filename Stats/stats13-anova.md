@@ -5,6 +5,20 @@ category: stats
 subcategory: Hypothesis Testing
 ---
 
+Contents
+
+* Analysis of variance (ANOVA)
+* ONE-WAY ANOVA
+	* Non-parametric version of the Analysis of Variance
+	* hovPlot
+	* Contrasts in ANOVA
+	* Factorial ANOVA
+	* Pseudoreplication: Nested designs and split plots
+	    * Split-plot experiments
+	* Effect sizes in ANOVA: aov or lm?
+	* ANOVA for repeated measures
+
+
 Analysis of variance (ANOVA)
 ===
 
