@@ -104,7 +104,7 @@ par(mfrow=c(2,2))
 plot(aov(yield~soil))
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-22.png)
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-23.png)
 
 ```{r}
 par(mfrow=c(1,1))
