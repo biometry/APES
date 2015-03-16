@@ -7,16 +7,15 @@ Reminder previous session
 ===
 incremental: true
 
-Mixed models add a random effect to the normal GLM structure
+Mixed models = normal GLM structure + random effect
 
 - Random intercept: $y_{obs} \sim ErrorDistr(mean = link (A \cdot X + (b + R_i))$ 
 - Random slope: $y_{obs} \sim ErrorDistr(mean = link ( (A  + R_i)  \cdot X + b))$ 
 
-**Random effect $R_i$** assigns a different value to each group $i$, but not independently (as for a fixed effects model), but from a common distribution
-
-- $R_i \sim Norm(0, \sigma)$ 
-
-for which we estimate the $\sigma$ (and the $R_i$ of course)
+**Random effect $R_i$** assigns a different value to each group $i$
+- not independently (as for a fixed effect), 
+- but from a common distribution that is assumed to be normal in all base packages, i.e. $R_i \sim Norm(0, \sigma)$
+- Models estimate the $\sigma$ and the dependent $R_i$ 
 
 Example
 ===
@@ -46,15 +45,15 @@ We have a data frame with 4059 observations of 9 variables, of which we use
 As a reminder
 ===
 
-I will go through the four basic cases to show you the differences
+2x2 basic opportunities for school to modify the outcome
 
-1. School modifies the intercept (normexam):
-  - school as **fixed main effect**
+1. School affects the mean normexan. 2 choices:
+  - school as **main effect** (fixed effect)
   - school as **random interecept** (mixed model)
 
 
-2. School modifies the slope (influence of standLRT):
-  - school as **fixed interaction**
+2. School modifies effect of standLRT. 2 choices:
+  - school as **interaction** with standLRT (fixed effect)
   - school as **random slope** (mixed model)
 
 
@@ -254,6 +253,7 @@ summary(fixedInteractionFit)
 ```{r}
 summary(randomSlopeFit) 
 ```
+</font>
 
 Note that we can't directly compare the standLRT in this case because the interaction shifts the estimate due to the fact that the effect of schools is calculated relative to the first school!
 
@@ -269,7 +269,7 @@ Obvious question
 
 Which of the four models should we use?
 
-- All are sensible 
+- All are sensible (with reservations)
 - All predict a significant effect of standLRT
 - **But with different p-values and different effect sizes**
 
@@ -279,16 +279,16 @@ What to do?
   - We saw already a problem (randon slope not normal!)
 - **Model selection** on the random effect structure (in two weeks)
 
-Some more things to consider
+Some more things to remember
 ===
 
-In this short repetition, we were only considering independent random effects
+In this short repetition, we were only considering one random effect. Important extensions: 
 
-- Last lecture, I have mentioned already the difference between **crossed** and **nested** random effects, which is that
-  - crossed = independent random terms, usually also means that the terms appear in a factorial design
-  - nested = A is nested in B if all subgroups of A appear only in one subgroup of B
+- **Crossed** and **nested** random effects:
+  - A,B crossed = 2 independent random effects for groups of variables A and B
+  - A nested in B = Several groups of A appear always with one group of B. Assumes independent normal distr for each subgroup of A 
 
-- Lots of possibilities to modify the **variance-covariance structure** in the random effects (covariance between fixed and random effects, but also covariance within the random effects like in a GLS)
+- Modifications of the **variance-covariance structure** of the random effects (covariance between fixed and random effects, or covariance within the random effects like in a GLS)
 
 
 But today: Model Diagnostics
@@ -307,9 +307,11 @@ New Dataset
 
 
 ```{r, echo=F, cache = T}
-altitude = rep(seq(0,1,len = 20), each = 50)
+set.seed(2)
+altitude = rep(seq(0,1,len = 50), each = 20)
 moisture = runif(1000, 0,1)
 dataID = 1:1000
+spatialCoordinate = rep(seq(0,30, len = 50), each = 20)
 
 # random effects
 plot = rep(1:50, each = 20)
@@ -331,7 +333,7 @@ beetles <- rpois(1000, exp( 1 +
   + plotRandom[plot]) )
 
 # beetles[rbinom(1,200,0.1)] = 0  #zero-inflation
-data = data.frame(dataID, beetles, moisture, altitude, plot, year)
+data = data.frame(dataID, beetles, moisture, altitude, plot, year, spatialCoordinate)
 ```
 
 Measured beetle counts over 20 years on 50 different plots across an altitudinal gradient, with the predictors moisture (varying from year to year) and altitude (fix for each plot)
@@ -342,6 +344,21 @@ head(data)
 str(data)
 ```
 </font>
+
+Visually
+===
+
+
+<font size="4">
+```{r, echo = F, fig.align = "center", fig.width = 8}
+plot(spatialCoordinate , 200 + altitude * 1000 + 20* year, cex = beetles/200, pch =2, main = "Beetle counts across altitudinal gradient", ylim = c(-50,1500), ylab = "Altitude / counts ")
+lines(spatialCoordinate, altitude * 1000)
+points(unique(spatialCoordinate), unique(altitude * 1000) , pch = 3)
+text(unique(spatialCoordinate), unique(altitude * 1000) - 50, unique(plot), cex = 0.7 )
+curve(1000* dnorm(x, 15,3), 0, 30, add = T, col = "red")
+```
+</font>
+
 
 Univariate environmental responses
 ===
@@ -391,7 +408,7 @@ summary(fit1)
 ```
 </font>
 
-Note: centering is usually good 
+Ususally center and scale when working with lme4 
 ===
 
 <font size="4">
@@ -410,8 +427,6 @@ I just didn't center and scale everything here because I want to compare to my o
 For a real example, you will likely really have to scale, because lme4 gets numerical problems otherwise!
 
 </font>
-
-
 
 
 Let's look at the residual first
@@ -466,7 +481,6 @@ plot(glmer(resp ~ treatment + (1|group) , family = "poisson"))
 Now with strong overdispersion
 ===
 
-
 <font size="6">
 ```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
 treatment = c(rep(2, 1000), rep(4, 1000))
@@ -480,43 +494,118 @@ Overdispersion is introduced and corrected here via a random term on each data p
 </font>
 
 ***
-
 <font size="6">
 ```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
 testFit <- glmer(resp ~ treatment + (1|group) + (1|ID) , family = "poisson")
 plot(testFit)
 ```
+The problem here is obviously that the residuals are not homogenous. So, do we have a problem?
 </font>
 
 Verify this by simulation
 ===
 
-<font size="6">
+What would we expect for a model of this structure? In general, hard to say, but we can always do simualtions. Introduce a function that simulate new data with the MLE estimate, and then has two options:
+
+- Compare simulated data to observed data (quantiles). Similar to Bayesian p-value
+
+- Fit new models to simulated data, compare new residuals against observed residuals to check whether they are atypical. 
+
+I tend to think that the second option is more reliable (), as it is known that option 1) 
+
+***
+
+<font size="3">
 ```{r, fig.align = "center", fig.height = 6, fig.width = 8, cache = T}
-
-simulatedResiduals <- function(fittedModel, response){
+simulatedResiduals <- function(fittedModel, response, n = 500, refit = F, plot = T, simulateLoop = F){
   len = nobs(fittedModel)
-  results <- simulate(fittedModel, nsim = 1000, use.u = T)
-  results <- data.matrix(results)
-  ecdf.p <- numeric(len)
-  for (i in 1:len){
-    ecdf.p[i] <- ecdf(results[i,])(response[i])
-  }
-  return(ecdf.p)
-}
-residuals <- simulatedResiduals(testFit, resp)
-```
-This returns, for each data point, the quantile of the data point for the simulated distribution of residuals.
 
+  
+  # Either simulate from the MLE estimate, and compare the distribution of the model predictions
+  # to the observed data
+  if (refit == F){
+  
+    # To test whether simulate really does this correctly 
+    if (simulateLoop == T){
+      pred <- matrix(nrow = len, ncol = n )  
+      for (i in 1:n){
+        pred[,i] <- simulate(fittedModel, nsim = 1, use.u =F)[,1]
+      }
+    } else {
+      pred <- data.matrix(simulate(fittedModel, nsim = n, use.u =F))
+    }
+    
+    residuals <- numeric(len)
+    for (i in 1:len){
+      residuals[i] <- ecdf(pred[i,])(response[i])
+    }
+    
+  # Or new data based on the MLE estimate, fit a new model to this data, look at the 
+  # residuals, and check whether 
+  
+  } else {
+    observedResiduals <- residuals(fittedModel)
+    simulatedResiduals <- matrix(nrow = len, ncol = n )  
+    newSimulatedData <- data.matrix(simulate(fittedModel, nsim = n, use.u =F))
+    
+    newData <-model.frame(fittedModel)  
+    for (i in 1:n){
+      newData[,1] = newSimulatedData[,i]
+      simulatedResiduals[,i] <- residuals(update(fittedModel, data = newData ) )
+    }
+    residuals <- numeric(len)
+    for (i in 1:len){
+        residuals[i] <- ecdf(simulatedResiduals[i,])(observedResiduals[i])
+    }
+  }
+  
+  if (plot == T){
+    oldpar <- par(mfrow = c(1,2))
+    hist(residuals, breaks = 30)
+    ord <- order(fitted(fittedModel))
+    plot(log(fitted(fittedModel)[ord]), residuals[ord], pch = 3)
+    par(oldpar)
+  }
+  return(residuals)
+}
+```
 </font>
 
-Plot of the simulated residuals
-===
 
+Residuals as quantiles against simualtion from fitted
+===
 
 <font size="5">
 
+The first option to create residuals by simulation is to simulate from the fitted value, and plot the observed residuals as quantiles from the simulation. This corresponds (except for parametric uncertainty) to the Bayesian p-value
+
 ```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+residuals <- simulatedResiduals(testFit, resp, plot = F, refit = F)
+hist(residuals)
+```
+</font>
+
+***
+
+<font size="5">
+
+As a function of the predicted value
+
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(log(sort(fitted(testFit))), residuals[order(fitted(testFit))], pch = 3)
+```
+</font>
+
+
+Residuals as quantiles against refitted residuals
+===
+
+<font size="5">
+
+The second option is to create new data from the fitted model, refit, and compare the observed residual against the residuals of the refitted model. 
+
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+residuals <- simulatedResiduals(testFit, resp, plot = F, refit = T)
 hist(residuals)
 ```
 </font>
@@ -707,6 +796,7 @@ fixef(fit2)
 confint(fit2, method = "Wald")
 ```
 </font>
+
 ***
 <font size="5">
 ```{r, cache = T}
@@ -798,16 +888,32 @@ overdisp_fun(fit6)
 ```
 </font>
 
-***
+
+Hmm ... looks good, or underdispersed? Well, it's not the "true" model?
+
+
+Simulation results
+===
+
+Distribution
 
 <font size="5">
 ```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
-residuals <- simulatedResiduals(fit6, beetles)
+residuals <- simulatedResiduals(fit6, beetles, plot = F, refit = T)
 hist(residuals)
 ```
 </font>
 
-Hmm ... looks good, or underdispersed? Well, it's not the "true" model?
+***
+
+Against fitted
+
+<font size="5">
+
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(log(sort(fitted(testFit))), residuals[order(fitted(testFit))], pch = 3)
+```
+</font>
 
 
 Solution: the true model
@@ -824,7 +930,7 @@ summary(fit7)
   
 
   
-Residuals for the true model
+Standard Pearson residuals for the true model
 ===
   
 <font size="5">
@@ -834,17 +940,36 @@ overdisp_fun(fit7)
 ```
 </font>
 
-***
+
+Simulation results
+===
+
+Distribution
 
 <font size="5">
 ```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
-residuals <- simulatedResiduals(fit7, beetles)
+residuals <- simulatedResiduals(fit7, beetles, plot = F, refit = T)
 hist(residuals)
 ```
-
-Both according Pearson residuals, overdispersion test and simulations, we would definitely diagnose overdispersion. 
-
 </font>
+
+***
+
+Against fitted
+
+<font size="5">
+
+```{r, fig.align = "center", fig.height = 6, fig.width = 6, cache = T}
+plot(log(sort(fitted(testFit))), residuals[order(fitted(testFit))], pch = 3)
+```
+</font>
+
+```
+
+So ...
+====
+
+Both according Pearson residuals, overdispersion test and simulations, we would definitely diagnose overdispersion for the true model. Weird, isn't it?
 
 
 So, how did we learn?
@@ -881,8 +1006,8 @@ Summary Residual Analysis
 ===
 incremental: true
 
-- Main residuals in principle like for a GLM. Careful because 
-  - Expected variance from Pearson is not exact -> maybe better to move to Bayesian methods (Bayesian p-value), but that's another topic
+- Main residuals in principle like for a GLM. However, for hierarchical models we have to be a bit careful, because it is not so clear what we expect for the distribution of the residuals. 
+  - Expected variance from Pearson is not a good test exact -> maybe better to move to Bayesian methods (Bayesian p-value), but that's another topic
   - Random effect estimates are often shaky, which can result in diagnosed under- and specially over-dispersion
   
 - Random effects assumptions

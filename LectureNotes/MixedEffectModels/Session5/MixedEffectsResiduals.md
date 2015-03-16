@@ -7,16 +7,15 @@ Reminder previous session
 ===
 incremental: true
 
-Mixed models add a random effect to the normal GLM structure
+Mixed models = normal GLM structure + random effect
 
 - Random intercept: $y_{obs} \sim ErrorDistr(mean = link (A \cdot X + (b + R_i))$ 
 - Random slope: $y_{obs} \sim ErrorDistr(mean = link ( (A  + R_i)  \cdot X + b))$ 
 
-**Random effect $R_i$** assigns a different value to each group $i$, but not independently (as for a fixed effects model), but from a common distribution
-
-- $R_i \sim Norm(0, \sigma)$ 
-
-for which we estimate the $\sigma$ (and the $R_i$ of course)
+**Random effect $R_i$** assigns a different value to each group $i$
+- not independently (as for a fixed effect), 
+- but from a common distribution that is assumed to be normal in all base packages, i.e. $R_i \sim Norm(0, \sigma)$
+- Models estimate the $\sigma$ and the dependent $R_i$ 
 
 Example
 ===
@@ -40,15 +39,15 @@ We have a data frame with 4059 observations of 9 variables, of which we use
 As a reminder
 ===
 
-I will go through the four basic cases to show you the differences
+2x2 basic opportunities for school to modify the outcome
 
-1. School modifies the intercept (normexam):
-  - school as **fixed main effect**
+1. School affects the mean normexan. 2 choices:
+  - school as **main effect** (fixed effect)
   - school as **random interecept** (mixed model)
 
 
-2. School modifies the slope (influence of standLRT):
-  - school as **fixed interaction**
+2. School modifies effect of standLRT. 2 choices:
+  - school as **interaction** with standLRT (fixed effect)
   - school as **random slope** (mixed model)
 
 
@@ -716,6 +715,7 @@ Correlation of Fixed Effects:
          (Intr)
 standLRT 0.000 
 ```
+</font>
 
 Note that we can't directly compare the standLRT in this case because the interaction shifts the estimate due to the fact that the effect of schools is calculated relative to the first school!
 
@@ -729,7 +729,7 @@ Obvious question
 
 Which of the four models should we use?
 
-- All are sensible 
+- All are sensible (with reservations)
 - All predict a significant effect of standLRT
 - **But with different p-values and different effect sizes**
 
@@ -739,16 +739,16 @@ What to do?
   - We saw already a problem (randon slope not normal!)
 - **Model selection** on the random effect structure (in two weeks)
 
-Some more things to consider
+Some more things to remember
 ===
 
-In this short repetition, we were only considering independent random effects
+In this short repetition, we were only considering one random effect. Important extensions: 
 
-- Last lecture, I have mentioned already the difference between **crossed** and **nested** random effects, which is that
-  - crossed = independent random terms, usually also means that the terms appear in a factorial design
-  - nested = A is nested in B if all subgroups of A appear only in one subgroup of B
+- **Crossed** and **nested** random effects:
+  - A,B crossed = 2 independent random effects for groups of variables A and B
+  - A nested in B = Several groups of A appear always with one group of B. Assumes independent normal distr for each subgroup of A 
 
-- Lots of possibilities to modify the **variance-covariance structure** in the random effects (covariance between fixed and random effects, but also covariance within the random effects like in a GLS)
+- Modifications of the **variance-covariance structure** of the random effects (covariance between fixed and random effects, or covariance within the random effects like in a GLS)
 
 
 But today: Model Diagnostics
@@ -777,13 +777,13 @@ head(data)
 ```
 
 ```
-  dataID beetles  moisture altitude plot year
-1      1       9 0.1848823        0    1    1
-2      2      54 0.7023740        0    1    2
-3      3       8 0.5733263        0    1    3
-4      4       3 0.1680519        0    1    4
-5      5      53 0.9438393        0    1    5
-6      6      38 0.9434750        0    1    6
+  dataID beetles  moisture altitude plot year spatialCoordinate
+1      1       9 0.1848823        0    1    1                 0
+2      2      54 0.7023740        0    1    2                 0
+3      3       8 0.5733263        0    1    3                 0
+4      4       3 0.1680519        0    1    4                 0
+5      5      53 0.9438393        0    1    5                 0
+6      6      38 0.9434750        0    1    6                 0
 ```
 
 ```r
@@ -791,28 +791,38 @@ str(data)
 ```
 
 ```
-'data.frame':	1000 obs. of  6 variables:
- $ dataID  : int  1 2 3 4 5 6 7 8 9 10 ...
- $ beetles : int  9 54 8 3 53 38 5 114 4 22 ...
- $ moisture: num  0.185 0.702 0.573 0.168 0.944 ...
- $ altitude: num  0 0 0 0 0 0 0 0 0 0 ...
- $ plot    : int  1 1 1 1 1 1 1 1 1 1 ...
- $ year    : int  1 2 3 4 5 6 7 8 9 10 ...
+'data.frame':	1000 obs. of  7 variables:
+ $ dataID           : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ beetles          : int  9 54 8 3 53 38 5 114 4 22 ...
+ $ moisture         : num  0.185 0.702 0.573 0.168 0.944 ...
+ $ altitude         : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ plot             : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ year             : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ spatialCoordinate: num  0 0 0 0 0 0 0 0 0 0 ...
 ```
 </font>
+
+Visually
+===
+
+
+<font size="4">
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-22-1.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" style="display: block; margin: auto;" />
+</font>
+
 
 Univariate environmental responses
 ===
 
 <font size="6">
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-22-1.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-23-1.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" style="display: block; margin: auto;" />
 </font>
 
 Plot and year
 ===
 
 <font size="6">
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-23-1.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-24-1.png" title="plot of chunk unnamed-chunk-24" alt="plot of chunk unnamed-chunk-24" style="display: block; margin: auto;" />
 </font>
 
 How do we model this?
@@ -848,34 +858,34 @@ Generalized linear mixed model fit by maximum likelihood (Laplace
 Formula: beetles ~ moisture + altitude + (1 | year) + (1 | plot)
 
      AIC      BIC   logLik deviance df.resid 
- 11151.7  11176.2  -5570.8  11141.7      995 
+ 11429.2  11453.7  -5709.6  11419.2      995 
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--8.4045 -1.1974 -0.0908  1.4036 19.1910 
+-9.0692 -1.2621  0.0203  1.3257 16.4605 
 
 Random effects:
  Groups Name        Variance Std.Dev.
- plot   (Intercept) 1.4196   1.191   
- year   (Intercept) 0.8855   0.941   
+ plot   (Intercept) 1.2911   1.1363  
+ year   (Intercept) 0.8709   0.9332  
 Number of obs: 1000, groups:  plot, 50; year, 20
 
 Fixed effects:
             Estimate Std. Error z value Pr(>|z|)    
-(Intercept)  2.33473    0.30745    7.59 3.11e-14 ***
-moisture     2.53364    0.01522  166.49  < 2e-16 ***
-altitude    -0.88863    0.29347   -3.03  0.00246 ** 
+(Intercept)  1.98263    0.37973    5.22 1.78e-07 ***
+moisture     2.55437    0.01501  170.15  < 2e-16 ***
+altitude    -0.08312    0.54648   -0.15    0.879    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
          (Intr) moistr
-moisture -0.058       
-altitude -0.479  0.052
+moisture -0.026       
+altitude -0.720 -0.001
 ```
 </font>
 
-Note: centering is usually good 
+Ususally center and scale when working with lme4 
 ===
 
 <font size="4">
@@ -897,30 +907,30 @@ Generalized linear mixed model fit by maximum likelihood (Laplace
 Formula: beetles ~ moisture + altitude + (1 | year) + (1 | plot)
 
      AIC      BIC   logLik deviance df.resid 
- 11151.7  11176.2  -5570.8  11141.7      995 
+ 11429.2  11453.7  -5709.6  11419.2      995 
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--8.4045 -1.1974 -0.0908  1.4036 19.1910 
+-9.0692 -1.2621  0.0203  1.3257 16.4605 
 
 Random effects:
  Groups Name        Variance Std.Dev.
- plot   (Intercept) 1.4196   1.191   
- year   (Intercept) 0.8855   0.941   
+ plot   (Intercept) 1.2911   1.1363  
+ year   (Intercept) 0.8708   0.9332  
 Number of obs: 1000, groups:  plot, 50; year, 20
 
 Fixed effects:
             Estimate Std. Error z value Pr(>|z|)    
-(Intercept)  3.59663    0.30706   11.71  < 2e-16 ***
-moisture     2.53364    0.01522  166.49  < 2e-16 ***
-altitude    -0.88865    0.29345   -3.03  0.00246 ** 
+(Intercept)  3.25484    0.37953    8.58   <2e-16 ***
+moisture     2.55437    0.01501  170.15   <2e-16 ***
+altitude    -0.08309    0.54628   -0.15    0.879    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
          (Intr) moistr
-moisture -0.034       
-altitude -0.478  0.052
+moisture -0.006       
+altitude -0.720 -0.001
 ```
 
 I just didn't center and scale everything here because I want to compare to my original parameters later.
@@ -928,8 +938,6 @@ I just didn't center and scale everything here because I want to compare to my o
 For a real example, you will likely really have to scale, because lme4 gets numerical problems otherwise!
 
 </font>
-
-
 
 
 Let's look at the residual first
@@ -983,12 +991,11 @@ treatment <- as.factor(treatment)
 plot(glmer(resp ~ treatment + (1|group) , family = "poisson"))
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-29-1.png" title="plot of chunk unnamed-chunk-29" alt="plot of chunk unnamed-chunk-29" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-30-1.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
 </font>
 
 Now with strong overdispersion
 ===
-
 
 <font size="6">
 
@@ -1004,7 +1011,6 @@ Overdispersion is introduced and corrected here via a random term on each data p
 </font>
 
 ***
-
 <font size="6">
 
 ```r
@@ -1012,43 +1018,95 @@ testFit <- glmer(resp ~ treatment + (1|group) + (1|ID) , family = "poisson")
 plot(testFit)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-31-1.png" title="plot of chunk unnamed-chunk-31" alt="plot of chunk unnamed-chunk-31" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-32-1.png" title="plot of chunk unnamed-chunk-32" alt="plot of chunk unnamed-chunk-32" style="display: block; margin: auto;" />
+The problem here is obviously that the residuals are not homogenous. So, do we have a problem?
 </font>
 
 Verify this by simulation
 ===
 
-<font size="6">
+What would we expect for a model of this structure? In general, hard to say, but we can always do simualtions. Introduce a function that simulate new data with the MLE estimate, and then has two options:
+
+- Compare simulated data to observed data (quantiles). Similar to Bayesian p-value
+
+- Fit new models to simulated data, compare new residuals against observed residuals to check whether they are atypical. 
+
+I tend to think that the second option is more reliable (), as it is known that option 1) 
+
+***
+
+<font size="3">
 
 ```r
-simulatedResiduals <- function(fittedModel, response){
+simulatedResiduals <- function(fittedModel, response, n = 500, refit = F, plot = T, simulateLoop = F){
   len = nobs(fittedModel)
-  results <- simulate(fittedModel, nsim = 1000, use.u = T)
-  results <- data.matrix(results)
-  ecdf.p <- numeric(len)
-  for (i in 1:len){
-    ecdf.p[i] <- ecdf(results[i,])(response[i])
-  }
-  return(ecdf.p)
-}
-residuals <- simulatedResiduals(testFit, resp)
-```
-This returns, for each data point, the quantile of the data point for the simulated distribution of residuals.
 
+  
+  # Either simulate from the MLE estimate, and compare the distribution of the model predictions
+  # to the observed data
+  if (refit == F){
+  
+    # To test whether simulate really does this correctly 
+    if (simulateLoop == T){
+      pred <- matrix(nrow = len, ncol = n )  
+      for (i in 1:n){
+        pred[,i] <- simulate(fittedModel, nsim = 1, use.u =F)[,1]
+      }
+    } else {
+      pred <- data.matrix(simulate(fittedModel, nsim = n, use.u =F))
+    }
+    
+    residuals <- numeric(len)
+    for (i in 1:len){
+      residuals[i] <- ecdf(pred[i,])(response[i])
+    }
+    
+  # Or new data based on the MLE estimate, fit a new model to this data, look at the 
+  # residuals, and check whether 
+  
+  } else {
+    observedResiduals <- residuals(fittedModel)
+    simulatedResiduals <- matrix(nrow = len, ncol = n )  
+    newSimulatedData <- data.matrix(simulate(fittedModel, nsim = n, use.u =F))
+    
+    newData <-model.frame(fittedModel)  
+    for (i in 1:n){
+      newData[,1] = newSimulatedData[,i]
+      simulatedResiduals[,i] <- residuals(update(fittedModel, data = newData ) )
+    }
+    residuals <- numeric(len)
+    for (i in 1:len){
+        residuals[i] <- ecdf(simulatedResiduals[i,])(observedResiduals[i])
+    }
+  }
+  
+  if (plot == T){
+    oldpar <- par(mfrow = c(1,2))
+    hist(residuals, breaks = 30)
+    ord <- order(fitted(fittedModel))
+    plot(log(fitted(fittedModel)[ord]), residuals[ord], pch = 3)
+    par(oldpar)
+  }
+  return(residuals)
+}
+```
 </font>
 
-Plot of the simulated residuals
-===
 
+Residuals as quantiles against simualtion from fitted
+===
 
 <font size="5">
 
+The first option to create residuals by simulation is to simulate from the fitted value, and plot the observed residuals as quantiles from the simulation. This corresponds (except for parametric uncertainty) to the Bayesian p-value
+
 
 ```r
+residuals <- simulatedResiduals(testFit, resp, plot = F, refit = F)
 hist(residuals)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-33-1.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-34-1.png" title="plot of chunk unnamed-chunk-34" alt="plot of chunk unnamed-chunk-34" style="display: block; margin: auto;" />
 </font>
 
 ***
@@ -1062,7 +1120,38 @@ As a function of the predicted value
 plot(log(sort(fitted(testFit))), residuals[order(fitted(testFit))], pch = 3)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-34-1.png" title="plot of chunk unnamed-chunk-34" alt="plot of chunk unnamed-chunk-34" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-35-1.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
+</font>
+
+
+Residuals as quantiles against refitted residuals
+===
+
+<font size="5">
+
+The second option is to create new data from the fitted model, refit, and compare the observed residual against the residuals of the refitted model. 
+
+
+```r
+residuals <- simulatedResiduals(testFit, resp, plot = F, refit = T)
+hist(residuals)
+```
+
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-36-1.png" title="plot of chunk unnamed-chunk-36" alt="plot of chunk unnamed-chunk-36" style="display: block; margin: auto;" />
+</font>
+
+***
+
+<font size="5">
+
+As a function of the predicted value
+
+
+```r
+plot(log(sort(fitted(testFit))), residuals[order(fitted(testFit))], pch = 3)
+```
+
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-37-1.png" title="plot of chunk unnamed-chunk-37" alt="plot of chunk unnamed-chunk-37" style="display: block; margin: auto;" />
 </font>
 
 Summary simulation
@@ -1088,28 +1177,28 @@ Generalized linear mixed model fit by maximum likelihood (Laplace
 Formula: resp ~ treatment + (1 | group) + (1 | ID)
 
      AIC      BIC   logLik deviance df.resid 
- 17123.3  17145.7  -8557.6  17115.3     1996 
+ 17417.2  17439.6  -8704.6  17409.2     1996 
 
 Scaled residuals: 
-     Min       1Q   Median       3Q      Max 
--1.95587 -0.26958 -0.01417  0.15566  1.49448 
+    Min      1Q  Median      3Q     Max 
+-1.9831 -0.2647 -0.0067  0.1546  0.9951 
 
 Random effects:
  Groups Name        Variance Std.Dev.
- ID     (Intercept) 0.2317   0.4813  
- group  (Intercept) 2.0110   1.4181  
+ ID     (Intercept) 0.2682   0.5179  
+ group  (Intercept) 0.4445   0.6667  
 Number of obs: 2000, groups:  ID, 2000; group, 10
 
 Fixed effects:
             Estimate Std. Error z value Pr(>|z|)    
-(Intercept)   2.5152     0.6351   3.960 7.49e-05 ***
-treatment4    1.8232     0.8988   2.029   0.0425 *  
+(Intercept)   2.2711     0.2987   7.602 2.90e-14 ***
+treatment4    2.4079     0.4223   5.701 1.19e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
            (Intr)
-treatment4 -0.708
+treatment4 -0.707
 ```
 </font>
 
@@ -1137,7 +1226,7 @@ Residuals against fitted values
 plot(fit1, form = resid(., type = "pearson") ~ log(fitted(.)))
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-36-1.png" title="plot of chunk unnamed-chunk-36" alt="plot of chunk unnamed-chunk-36" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-39-1.png" title="plot of chunk unnamed-chunk-39" alt="plot of chunk unnamed-chunk-39" style="display: block; margin: auto;" />
 
 Definitely overdispersion (values tend to exceed 2)
 </font>
@@ -1151,7 +1240,7 @@ Residuals against moisture and altitude
 plot(fit1, resid(.) ~ moisture, abline = 0)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-37-1.png" title="plot of chunk unnamed-chunk-37" alt="plot of chunk unnamed-chunk-37" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-40-1.png" title="plot of chunk unnamed-chunk-40" alt="plot of chunk unnamed-chunk-40" style="display: block; margin: auto;" />
 </font>
 
 ***
@@ -1162,7 +1251,7 @@ plot(fit1, resid(.) ~ moisture, abline = 0)
 plot(fit1, resid(.) ~ altitude, abline = 0)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-38-1.png" title="plot of chunk unnamed-chunk-38" alt="plot of chunk unnamed-chunk-38" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-41-1.png" title="plot of chunk unnamed-chunk-41" alt="plot of chunk unnamed-chunk-41" style="display: block; margin: auto;" />
 Observation - variance increases in the middle.
 </font>
 
@@ -1186,32 +1275,32 @@ Formula: beetles ~ moisture + altitude + I(altitude^2) + (1 | year) +
     (1 | plot)
 
      AIC      BIC   logLik deviance df.resid 
- 10980.6  11010.0  -5484.3  10968.6      994 
+ 11389.6  11419.0  -5688.8  11377.6      994 
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--8.6101 -1.2006 -0.0609  1.3357 19.1863 
+-9.0670 -1.2481  0.0199  1.3295 16.4603 
 
 Random effects:
  Groups Name        Variance Std.Dev.
- plot   (Intercept) 0.5611   0.7490  
- year   (Intercept) 0.8769   0.9364  
+ plot   (Intercept) 0.5542   0.7445  
+ year   (Intercept) 0.8635   0.9292  
 Number of obs: 1000, groups:  plot, 50; year, 20
 
 Fixed effects:
                Estimate Std. Error z value Pr(>|z|)    
-(Intercept)     1.61552    0.29674    5.44  5.2e-08 ***
-moisture        2.53586    0.01522  166.59  < 2e-16 ***
-altitude       10.43755    0.82552   12.64  < 2e-16 ***
-I(altitude^2) -10.76786    0.76407  -14.09  < 2e-16 ***
+(Intercept)     1.46138    0.36906    3.96 7.50e-05 ***
+moisture        2.55446    0.01501  170.16  < 2e-16 ***
+altitude       10.90918    1.40873    7.74 9.63e-15 ***
+I(altitude^2) -10.99482    1.36202   -8.07 6.89e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
             (Intr) moistr altitd
-moisture    -0.031              
-altitude    -0.552  0.021       
-I(altitd^2)  0.449 -0.009 -0.954
+moisture    -0.007              
+altitude    -0.708  0.000       
+I(altitd^2)  0.604 -0.001 -0.967
 ```
 </font>
   
@@ -1224,7 +1313,7 @@ Residuals against moisture and altitude
 plot(fit2, resid(.) ~ moisture, abline = 0)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-40-1.png" title="plot of chunk unnamed-chunk-40" alt="plot of chunk unnamed-chunk-40" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-43-1.png" title="plot of chunk unnamed-chunk-43" alt="plot of chunk unnamed-chunk-43" style="display: block; margin: auto;" />
 </font>
   
   ***
@@ -1235,7 +1324,7 @@ plot(fit2, resid(.) ~ moisture, abline = 0)
   plot(fit2, resid(.) ~ altitude, abline = 0)
   ```
   
-  <img src="MixedEffectsResiduals-figure/unnamed-chunk-41-1.png" title="plot of chunk unnamed-chunk-41" alt="plot of chunk unnamed-chunk-41" style="display: block; margin: auto;" />
+  <img src="MixedEffectsResiduals-figure/unnamed-chunk-44-1.png" title="plot of chunk unnamed-chunk-44" alt="plot of chunk unnamed-chunk-44" style="display: block; margin: auto;" />
 </font>
   
   
@@ -1252,7 +1341,7 @@ OK, so the quadratic effect is very significantly supported, but the overdispers
 plot(fit2, form = resid(., type = "pearson") ~ log(fitted(.)))
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-42-1.png" title="plot of chunk unnamed-chunk-42" alt="plot of chunk unnamed-chunk-42" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-45-1.png" title="plot of chunk unnamed-chunk-45" alt="plot of chunk unnamed-chunk-45" style="display: block; margin: auto;" />
 </font>
 
 Checking for overdispersion
@@ -1283,7 +1372,7 @@ overdisp_fun(fit2)
 
 ```
       chisq       ratio         rdf           p 
-7243.064617    7.286785  994.000000    0.000000 
+7229.985348    7.273627  994.000000    0.000000 
 ```
 </font>
   
@@ -1305,33 +1394,33 @@ Formula: beetles ~ moisture + altitude + I(altitude^2) + (1 | year) +
     (1 | plot) + (1 | dataID)
 
      AIC      BIC   logLik deviance df.resid 
-  8151.7   8186.1  -4068.9   8137.7      993 
+  8247.1   8281.4  -4116.5   8233.1      993 
 
 Scaled residuals: 
-    Min      1Q  Median      3Q     Max 
--1.9779 -0.3468 -0.0042  0.1807  4.4283 
+     Min       1Q   Median       3Q      Max 
+-2.30541 -0.32012 -0.00051  0.16766  2.97956 
 
 Random effects:
  Groups Name        Variance Std.Dev.
- dataID (Intercept) 0.1403   0.3746  
- plot   (Intercept) 0.5361   0.7322  
- year   (Intercept) 0.6077   0.7795  
+ dataID (Intercept) 0.1422   0.3771  
+ plot   (Intercept) 0.5299   0.7279  
+ year   (Intercept) 0.5862   0.7656  
 Number of obs: 1000, groups:  dataID, 1000; plot, 50; year, 20
 
 Fixed effects:
                Estimate Std. Error z value Pr(>|z|)    
-(Intercept)     1.51618    0.31609    4.80 1.61e-06 ***
-moisture        1.94781    0.05004   38.93  < 2e-16 ***
-altitude       10.59323    1.15418    9.18  < 2e-16 ***
-I(altitude^2) -10.51809    1.10659   -9.50  < 2e-16 ***
+(Intercept)     1.56899    0.34561    4.54 5.63e-06 ***
+moisture        1.94185    0.04981   38.98  < 2e-16 ***
+altitude       10.72573    1.38527    7.74 9.73e-15 ***
+I(altitude^2) -10.83389    1.33954   -8.09 6.08e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
             (Intr) moistr altitd
-moisture    -0.018              
-altitude    -0.682  0.021       
-I(altitd^2)  0.551 -0.022 -0.957
+moisture    -0.008              
+altitude    -0.744  0.007       
+I(altitd^2)  0.634 -0.008 -0.967
 ```
 </font>
 
@@ -1344,7 +1433,7 @@ Residual plot for GLMM Poisson with overdisp
 plot(fit3, form = resid(., type = "pearson") ~ log(fitted(.)))
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-45-1.png" title="plot of chunk unnamed-chunk-45" alt="plot of chunk unnamed-chunk-45" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-48-1.png" title="plot of chunk unnamed-chunk-48" alt="plot of chunk unnamed-chunk-48" style="display: block; margin: auto;" />
 
 ```r
 overdisp_fun(fit3)
@@ -1352,7 +1441,7 @@ overdisp_fun(fit3)
 
 ```
       chisq       ratio         rdf           p 
-390.8373274   0.3935925 993.0000000   1.0000000 
+339.8012738   0.3421967 993.0000000   1.0000000 
 ```
 </font>
 
@@ -1365,7 +1454,7 @@ Residuals against moisture and altitude
 plot(fit3, resid(.) ~ moisture, abline = 0)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-46-1.png" title="plot of chunk unnamed-chunk-46" alt="plot of chunk unnamed-chunk-46" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-49-1.png" title="plot of chunk unnamed-chunk-49" alt="plot of chunk unnamed-chunk-49" style="display: block; margin: auto;" />
 </font>
 
 ***
@@ -1376,7 +1465,7 @@ plot(fit3, resid(.) ~ moisture, abline = 0)
 plot(fit3, resid(.) ~ altitude, abline = 0)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-47-1.png" title="plot of chunk unnamed-chunk-47" alt="plot of chunk unnamed-chunk-47" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-50-1.png" title="plot of chunk unnamed-chunk-50" alt="plot of chunk unnamed-chunk-50" style="display: block; margin: auto;" />
 </font>
 
 Parameters with / without overdispersion
@@ -1390,7 +1479,7 @@ fixef(fit2)
 
 ```
   (Intercept)      moisture      altitude I(altitude^2) 
-     1.615525      2.535863     10.437551    -10.767861 
+     1.461383      2.554455     10.909180    -10.994824 
 ```
 
 ```r
@@ -1398,13 +1487,14 @@ confint(fit2, method = "Wald")
 ```
 
 ```
-                   2.5 %    97.5 %
-(Intercept)     1.033920  2.197130
-moisture        2.506027  2.565698
-altitude        8.819569 12.055533
-I(altitude^2) -12.265412 -9.270311
+                    2.5 %    97.5 %
+(Intercept)     0.7380308  2.184734
+moisture        2.5250316  2.583879
+altitude        8.1481204 13.670239
+I(altitude^2) -13.6643285 -8.325319
 ```
 </font>
+
 ***
 <font size="5">
 
@@ -1414,7 +1504,7 @@ fixef(fit3)
 
 ```
   (Intercept)      moisture      altitude I(altitude^2) 
-     1.516176      1.947815     10.593235    -10.518092 
+     1.568988      1.941847     10.725729    -10.833886 
 ```
 
 ```r
@@ -1423,10 +1513,10 @@ confint(fit3, method = "Wald")
 
 ```
                     2.5 %    97.5 %
-(Intercept)     0.8966419  2.135709
-moisture        1.8497479  2.045882
-altitude        8.3310824 12.855388
-I(altitude^2) -12.6869600 -8.349223
+(Intercept)     0.8916046  2.246372
+moisture        1.8442186  2.039476
+altitude        8.0106551 13.440803
+I(altitude^2) -13.4593324 -8.208440
 ```
 </font>
 
@@ -1456,7 +1546,7 @@ Random effect estimates
 hist(ranef(fit3)$plot[,1], breaks = 50)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-50-1.png" title="plot of chunk unnamed-chunk-50" alt="plot of chunk unnamed-chunk-50" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-53-1.png" title="plot of chunk unnamed-chunk-53" alt="plot of chunk unnamed-chunk-53" style="display: block; margin: auto;" />
 
 ```r
 shapiro.test(ranef(fit3)$plot[,1])
@@ -1467,7 +1557,7 @@ shapiro.test(ranef(fit3)$plot[,1])
 	Shapiro-Wilk normality test
 
 data:  ranef(fit3)$plot[, 1]
-W = 0.9746, p-value = 0.3524
+W = 0.9704, p-value = 0.2394
 ```
 </font>
 
@@ -1479,7 +1569,7 @@ W = 0.9746, p-value = 0.3524
 hist(ranef(fit3)$year[,1], breaks = 50)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-51-1.png" title="plot of chunk unnamed-chunk-51" alt="plot of chunk unnamed-chunk-51" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-54-1.png" title="plot of chunk unnamed-chunk-54" alt="plot of chunk unnamed-chunk-54" style="display: block; margin: auto;" />
 
 ```r
 shapiro.test(ranef(fit3)$year[,1])
@@ -1490,7 +1580,7 @@ shapiro.test(ranef(fit3)$year[,1])
 	Shapiro-Wilk normality test
 
 data:  ranef(fit3)$year[, 1]
-W = 0.9158, p-value = 0.08223
+W = 0.9185, p-value = 0.09272
 ```
 Although not significant, we could suspect something is not right for the year random effect!
 </font>
@@ -1505,7 +1595,7 @@ Residuals against fitted values for each year
 plot(fit3, resid(.) ~ fitted(.) | year, abline = 0)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-52-1.png" title="plot of chunk unnamed-chunk-52" alt="plot of chunk unnamed-chunk-52" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-55-1.png" title="plot of chunk unnamed-chunk-55" alt="plot of chunk unnamed-chunk-55" style="display: block; margin: auto;" />
 
 A lot of variation, despite the fact that we have already include a random effect
 </font>
@@ -1520,7 +1610,7 @@ Residuals against moisture for each year
 plot(fit2, resid(.) ~ moisture | year, abline = 0)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-53-1.png" title="plot of chunk unnamed-chunk-53" alt="plot of chunk unnamed-chunk-53" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-56-1.png" title="plot of chunk unnamed-chunk-56" alt="plot of chunk unnamed-chunk-56" style="display: block; margin: auto;" />
 Aha, the plots differ in the effect of moisture!
 </font>
   
@@ -1543,33 +1633,33 @@ Formula: beetles ~ moisture + altitude + I(altitude^2) + (0 + moisture |
     year) + (1 | plot) + (1 | dataID)
 
      AIC      BIC   logLik deviance df.resid 
-  9024.2   9058.6  -4505.1   9010.2      993 
+  9118.2   9152.6  -4552.1   9104.2      993 
 
 Scaled residuals: 
      Min       1Q   Median       3Q      Max 
--1.57104 -0.24266  0.03119  0.12599  1.11341 
+-1.70823 -0.22489  0.03604  0.12442  0.94282 
 
 Random effects:
  Groups Name        Variance Std.Dev.
- dataID (Intercept) 0.5072   0.7122  
- plot   (Intercept) 0.5084   0.7130  
- year   moisture    2.6203   1.6187  
+ dataID (Intercept) 0.4854   0.6967  
+ plot   (Intercept) 0.5005   0.7075  
+ year   moisture    2.4871   1.5771  
 Number of obs: 1000, groups:  dataID, 1000; plot, 50; year, 20
 
 Fixed effects:
               Estimate Std. Error z value Pr(>|z|)    
-(Intercept)     1.5139     0.2749   5.507 3.66e-08 ***
-moisture        1.7656     0.3716   4.752 2.02e-06 ***
-altitude       10.9162     1.2455   8.765  < 2e-16 ***
-I(altitude^2) -10.8891     1.1988  -9.084  < 2e-16 ***
+(Intercept)     1.5984     0.2976   5.371 7.84e-08 ***
+moisture        1.7494     0.3620   4.832 1.35e-06 ***
+altitude       10.8370     1.3741   7.887 3.10e-15 ***
+I(altitude^2) -10.9882     1.3287  -8.270  < 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
             (Intr) moistr altitd
-moisture    -0.002              
-altitude    -0.832  0.002       
-I(altitd^2)  0.690 -0.002 -0.962
+moisture     0.000              
+altitude    -0.857  0.000       
+I(altitd^2)  0.731  0.000 -0.967
 ```
 </font>
   
@@ -1584,7 +1674,7 @@ Plot
 plot(fit6, form = resid(., type = "pearson") ~ log(fitted(.))) 
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-55-1.png" title="plot of chunk unnamed-chunk-55" alt="plot of chunk unnamed-chunk-55" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-58-1.png" title="plot of chunk unnamed-chunk-58" alt="plot of chunk unnamed-chunk-58" style="display: block; margin: auto;" />
 
 ```r
 overdisp_fun(fit6)
@@ -1592,23 +1682,42 @@ overdisp_fun(fit6)
 
 ```
       chisq       ratio         rdf           p 
-147.5552556   0.1485954 993.0000000   1.0000000 
+140.3295175   0.1413187 993.0000000   1.0000000 
 ```
 </font>
 
-***
+
+Hmm ... looks good, or underdispersed? Well, it's not the "true" model?
+
+
+Simulation results
+===
+
+Distribution
 
 <font size="5">
 
 ```r
-residuals <- simulatedResiduals(fit6, beetles)
+residuals <- simulatedResiduals(fit6, beetles, plot = F, refit = T)
 hist(residuals)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-56-1.png" title="plot of chunk unnamed-chunk-56" alt="plot of chunk unnamed-chunk-56" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-59-1.png" title="plot of chunk unnamed-chunk-59" alt="plot of chunk unnamed-chunk-59" style="display: block; margin: auto;" />
 </font>
 
-Hmm ... looks good, or underdispersed? Well, it's not the "true" model?
+***
+
+Against fitted
+
+<font size="5">
+
+
+```r
+plot(log(sort(fitted(testFit))), residuals[order(fitted(testFit))], pch = 3)
+```
+
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-60-1.png" title="plot of chunk unnamed-chunk-60" alt="plot of chunk unnamed-chunk-60" style="display: block; margin: auto;" />
+</font>
 
 
 Solution: the true model
@@ -1631,38 +1740,38 @@ Formula: beetles ~ moisture + altitude + I(altitude^2) + (0 + moisture |
     year) + (1 | plot)
 
      AIC      BIC   logLik deviance df.resid 
- 22430.8  22460.2 -11209.4  22418.8      994 
+ 22466.4  22495.8 -11227.2  22454.4      994 
 
 Scaled residuals: 
      Min       1Q   Median       3Q      Max 
--12.8595  -2.1999  -0.0953   2.0859  21.2919 
+-12.9094  -2.2875   0.1052   2.1328  17.3657 
 
 Random effects:
  Groups Name        Variance Std.Dev.
- plot   (Intercept) 0.5648   0.7515  
- year   moisture    4.3628   2.0887  
+ plot   (Intercept) 0.5213   0.722   
+ year   moisture    4.3301   2.081   
 Number of obs: 1000, groups:  plot, 50; year, 20
 
 Fixed effects:
               Estimate Std. Error z value Pr(>|z|)    
-(Intercept)     1.2640     0.2139   5.909 3.45e-09 ***
-moisture        2.1579     0.4672   4.619 3.86e-06 ***
-altitude       12.1595     0.8409  14.460  < 2e-16 ***
-I(altitude^2) -11.5927     0.7779 -14.903  < 2e-16 ***
+(Intercept)     1.7048     0.2974   5.732 9.91e-09 ***
+moisture        2.1603     0.4658   4.638 3.52e-06 ***
+altitude       10.9823     1.3766   7.978 1.49e-15 ***
+I(altitude^2) -11.1573     1.3306  -8.385  < 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
             (Intr) moistr altitd
-moisture    -0.001              
-altitude    -0.782  0.001       
-I(altitd^2)  0.634 -0.001 -0.954
+moisture     0.000              
+altitude    -0.858 -0.001       
+I(altitd^2)  0.734  0.001 -0.967
 ```
 </font>
   
 
   
-Residuals for the true model
+Standard Pearson residuals for the true model
 ===
   
 <font size="5">
@@ -1671,7 +1780,7 @@ Residuals for the true model
 plot(fit7, form = resid(., type = "pearson") ~ log(fitted(.))) 
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-58-1.png" title="plot of chunk unnamed-chunk-58" alt="plot of chunk unnamed-chunk-58" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-62-1.png" title="plot of chunk unnamed-chunk-62" alt="plot of chunk unnamed-chunk-62" style="display: block; margin: auto;" />
 
 ```r
 overdisp_fun(fit7)
@@ -1679,24 +1788,46 @@ overdisp_fun(fit7)
 
 ```
       chisq       ratio         rdf           p 
-17313.84172    17.41835   994.00000     0.00000 
+17053.73692    17.15668   994.00000     0.00000 
 ```
 </font>
 
-***
+
+Simulation results
+===
+
+Distribution
 
 <font size="5">
 
 ```r
-residuals <- simulatedResiduals(fit7, beetles)
+residuals <- simulatedResiduals(fit7, beetles, plot = F, refit = T)
 hist(residuals)
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-59-1.png" title="plot of chunk unnamed-chunk-59" alt="plot of chunk unnamed-chunk-59" style="display: block; margin: auto;" />
-
-Both according Pearson residuals, overdispersion test and simulations, we would definitely diagnose overdispersion. 
-
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-63-1.png" title="plot of chunk unnamed-chunk-63" alt="plot of chunk unnamed-chunk-63" style="display: block; margin: auto;" />
 </font>
+
+***
+
+Against fitted
+
+<font size="5">
+
+
+```r
+plot(log(sort(fitted(testFit))), residuals[order(fitted(testFit))], pch = 3)
+```
+
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-64-1.png" title="plot of chunk unnamed-chunk-64" alt="plot of chunk unnamed-chunk-64" style="display: block; margin: auto;" />
+</font>
+
+```
+
+So ...
+====
+
+Both according Pearson residuals, overdispersion test and simulations, we would definitely diagnose overdispersion for the true model. Weird, isn't it?
 
 
 So, how did we learn?
@@ -1736,32 +1867,32 @@ Formula: beetles ~ moisture + altitude + I(altitude^2) + (0 + moisture |
     year) + (1 | plot)
 
      AIC      BIC   logLik deviance df.resid 
- 22430.8  22460.2 -11209.4  22418.8      994 
+ 22466.4  22495.8 -11227.2  22454.4      994 
 
 Scaled residuals: 
      Min       1Q   Median       3Q      Max 
--12.8595  -2.1999  -0.0953   2.0859  21.2919 
+-12.9094  -2.2875   0.1052   2.1328  17.3657 
 
 Random effects:
  Groups Name        Variance Std.Dev.
- plot   (Intercept) 0.5648   0.7515  
- year   moisture    4.3628   2.0887  
+ plot   (Intercept) 0.5213   0.722   
+ year   moisture    4.3301   2.081   
 Number of obs: 1000, groups:  plot, 50; year, 20
 
 Fixed effects:
               Estimate Std. Error z value Pr(>|z|)    
-(Intercept)     1.2640     0.2139   5.909 3.45e-09 ***
-moisture        2.1579     0.4672   4.619 3.86e-06 ***
-altitude       12.1595     0.8409  14.460  < 2e-16 ***
-I(altitude^2) -11.5927     0.7779 -14.903  < 2e-16 ***
+(Intercept)     1.7048     0.2974   5.732 9.91e-09 ***
+moisture        2.1603     0.4658   4.638 3.52e-06 ***
+altitude       10.9823     1.3766   7.978 1.49e-15 ***
+I(altitude^2) -11.1573     1.3306  -8.385  < 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
             (Intr) moistr altitd
-moisture    -0.001              
-altitude    -0.782  0.001       
-I(altitd^2)  0.634 -0.001 -0.954
+moisture     0.000              
+altitude    -0.858 -0.001       
+I(altitd^2)  0.734  0.001 -0.967
 ```
 
 </font>
@@ -1770,8 +1901,8 @@ Summary Residual Analysis
 ===
 incremental: true
 
-- Main residuals in principle like for a GLM. Careful because 
-  - Expected variance from Pearson is not exact -> maybe better to move to Bayesian methods (Bayesian p-value), but that's another topic
+- Main residuals in principle like for a GLM. However, for hierarchical models we have to be a bit careful, because it is not so clear what we expect for the distribution of the residuals. 
+  - Expected variance from Pearson is not a good test exact -> maybe better to move to Bayesian methods (Bayesian p-value), but that's another topic
   - Random effect estimates are often shaky, which can result in diagnosed under- and specially over-dispersion
   
 - Random effects assumptions
@@ -1796,7 +1927,7 @@ groupRandom = rexp(20)
 hist(groupRandom, breaks = 30, xlim = c(-5,10), main = "True random effects")
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-61-1.png" title="plot of chunk unnamed-chunk-61" alt="plot of chunk unnamed-chunk-61" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-66-1.png" title="plot of chunk unnamed-chunk-66" alt="plot of chunk unnamed-chunk-66" style="display: block; margin: auto;" />
 
 ```r
 resp = rpois(2000, exp(treatment + groupRandom[group]))
@@ -1816,7 +1947,7 @@ randcoef = ranef(fitTest)$group[,1]
 hist(randcoef,  breaks = 30, xlim = c(-5,10) , main = "Estimated random effects")
 ```
 
-<img src="MixedEffectsResiduals-figure/unnamed-chunk-62-1.png" title="plot of chunk unnamed-chunk-62" alt="plot of chunk unnamed-chunk-62" style="display: block; margin: auto;" />
+<img src="MixedEffectsResiduals-figure/unnamed-chunk-67-1.png" title="plot of chunk unnamed-chunk-67" alt="plot of chunk unnamed-chunk-67" style="display: block; margin: auto;" />
 
 ```r
 shapiro.test(randcoef)
@@ -1827,7 +1958,7 @@ shapiro.test(randcoef)
 	Shapiro-Wilk normality test
 
 data:  randcoef
-W = 0.8738, p-value = 0.01369
+W = 0.8471, p-value = 0.004772
 ```
 Note that the two distributions differ because the model tries to fit the data to a normal distribution.
 </font>

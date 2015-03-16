@@ -77,12 +77,16 @@ $$
 
 For a typical fitted model (e.g. using `nlme::lme`, `lme4::glmer`, `lme4::lmer`, `MASS::glmmPQL`) the log-likelihood can be accessed using function `logLik`.
 
+The package **MuMIn** offers an (experimental) alternative with the function `r.squaredGLMM`. It computes both marginal R<sup>2</sup> (variance explained by the fixed effects) and the conditional R<sup>2</sup> (variance explained by fixed and random effects), following Nakagawa & Schielzeth (2013). So far, it does not work for all GLM-families (notably the Poisson distribution is not supported). The computation is based only on variances, not on the actual likelihood (it seems) and should thus be a *real* solution.
+
+
 ## Example in R
 This uses the cbpp data from package **lattice**; the example is take from the help page of `lme4::glmer`.
 
-```R
-> require(lme4)
-> require(lattice)
+```r
+> library(lme4)
+> library(lattice)
+> library(MuMIn)
 
 > gm1 <- glmer(cbind(incidence, size - incidence) ~ period + (1 | herd), data = cbpp, family = binomial)
 > logLik(gm1)
@@ -90,15 +94,22 @@ This uses the cbpp data from package **lattice**; the example is take from the h
 > gm0 <- glmer(cbind(incidence, size - incidence) ~ 1 + (1 | herd), data = cbpp, family = binomial)
 > logLik(gm0)
 'log Lik.' -104.8315 (df=2)
-# now compute pR:
+```# now compute pR:
 > as.vector(logLik(gm0) - logLik(gm1)) / logLik(gm0))
 [1] 0.1221481
+```# now compute marginal and conditional r2:
+> r.squaredGLMM(gm1)
+The result is correct only if all data used by the model has not changed since model was fitted.
+      R2m       R2c 
+0.1054475 0.1127991
 ```
-So we see that the fixed effect "period" only explains a small proportion of the model's deviance. I recommend not going so far as to claim that it is actuall 12%!
+So we see that the fixed effect "period" only explains a small proportion of the model's deviance. The marginal R<sup>2</sup> is a bit lower, but goes in the same direction. The conditional R<sup>2</sup> indicates that the random effect adds very little to the overall explained deviance in this analysis.
 
 (The `as.vector` is only used to get rid of the names and attributes of the output, otherwise it would be a bit confusing.)
 
 ## References
+
+Nakagawa, S. & Schielzeth, H. (2013). A general and simple method for obtaining R2 from generalized linear mixed-effects models. Methods in Ecology and Evolution 4: 133–142.
 
 Nelder JA (2000) Quasi-likelihood and pseudo-likelihood are not the same thing. J Appl Stat 27: 1007–1011. doi: 10.1080/02664760050173328
 

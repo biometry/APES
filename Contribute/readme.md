@@ -3,36 +3,59 @@ Overview for contributors
 
 We need your help to fill the stats help with content and remove problems. Below we explain how you can contribute
 
-##How to report a problem
+## How to report a problem
 
 If you see a problem or if you have a suggestion, log in to GitHub and report the issue at https://github.com/biometry/APES/issues
 
-##How to contribute content
+Issues can also be assigned to someone in particular
+
+## How to contribute content
 
 Ordered with increasing technical demands, and decreasing work for us. Please choose the highest number you're comfortable with, this will reduce our workload
 
-1. Write your text as .txt or .rtf and send it to http://www.biom.uni-freiburg.de/mitarbeiter/hartig
-2. Write your text in markdown (see help below) and send it to http://www.biom.uni-freiburg.de/mitarbeiter/hartig
+1. Write your text as .txt or .rtf and send it to http://www.biom.uni-freiburg.de/mitarbeiter/hartig or to https://www.biom.uni-freiburg.de/mitarbeiter/janeiro
+2. Write your text in R markdown (see help below) and send it to http://www.biom.uni-freiburg.de/mitarbeiter/hartig or to https://www.biom.uni-freiburg.de/mitarbeiter/janeiro
 3. If you know how to use GitHub, clone our repository, change the text, and issue a pull request so that we can include your changes 
 
-##Getting started with markdown
+### Getting started with R markdown
 
-We use markdown to write the text for this site. 
+We use R markdown to write the text for this site. 
 
-"Markdown is a plain text formatting syntax designed so that it can optionally be converted to HTML using a tool by the same name. Markdown is popularly used as format for readme files, or for writing messages in online discussion forums, or in text editors for the quick creation of rich text documents." ( http://en.wikipedia.org/wiki/Markdown )
+"R Markdown is an authoring format that enables easy creation of dynamic documents, presentations, and reports from R. It combines the core syntax of markdown (an easy-to-write plain text format) with embedded R code chunks that are run so their output can be included in the final document. R Markdown documents are fully reproducible (they can be automatically regenerated whenever underlying R code or data changes)." ( http://rmarkdown.rstudio.com/ )
 
-If you start working with markdown, you will see that it's extremely simple and very similar to wiki syntax you might be used to. Have a look at 
+If you start working with R markdown, you will see that it's extremely simple and very similar to wiki syntax you might be used to. Have a look at 
 
-* https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
-* https://help.github.com/articles/github-flavored-markdown
+* http://jeromyanglim.blogspot.de/2012/05/getting-started-with-r-markdown-knitr.html
+* https://support.rstudio.com/hc/en-us/articles/200552086-Using-R-Markdown
 
-##Special tasks
+### Page maintainer and contributors
+
+You can ask to be assigned as a maintainer of one or more pages of your choice to keep them up to date.
+If you prefer, you can only be set up as a contributor.
+
+## Special tasks
 
 ### Code
 
+We use chunks to display our codes. The chunks can be manually added by writting
+```
+
+```{r} code ```
+```
+
+
+Or inserted automaticly by clicking on the chunk button at the top right corner of the script window.
+Some extra info about R Code Chunks:
+
+* http://rmarkdown.rstudio.com/authoring_rcodechunks.html
 
 ### Images 
 
+To add an image, save the image on the folder /img/ and commit it. Once on the repo, you can copy the raw version of the image and add it to the markdown, e.g:
+
+```
+![My image] (username.github.com/repository/img/image.jpg)
+```
 By default, images should be in the folder /img/ and labeled according to the file in which they are first used. If the file is R50-plotting.md , the image should be callded R50-ScatterPlot.png.
 
 

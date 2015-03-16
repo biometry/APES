@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Nonparametric methods
+title: Bayesian Inference
 category: stats
 maintainer: Florian Hartig
 ---

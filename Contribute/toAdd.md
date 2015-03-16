@@ -30,6 +30,9 @@ Specify different contrasts for categorical predictors https://biologyforfun.wor
 k-means clustering assumptions http://varianceexplained.org/r/kmeans-free-lunch/
 
 
+http://stackoverflow.com/questions/12675147/how-can-we-make-xkcd-style-graphs-in-r
+
+
 
 
 
