@@ -11,7 +11,7 @@ category: stats
 subcategory: Regression
 ---
 
-```{r, echo = False}
+```{r}
 library(knitr)
 opts_knit$set(global.par=TRUE) 
 opts_chunk$set(cache.extra = rand_seed,fig.align='center')

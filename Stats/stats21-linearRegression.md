@@ -5,8 +5,6 @@ category: stats
 subcategory: Regression
 ---
 
-Linear regression
-===
 
 ```r
 library(knitr)
@@ -22,7 +20,27 @@ opts_chunk$set(cache.extra = rand_seed,fig.align='center')
 set.seed(21)
 ```
 
+Contents
+
+* Linear regression summary and idea
+* Univariate
+  * Continous predictor
+    * Interpreting the output   
+    * Residual diagnostics
+  * Categorical predictor
+* Multiple linear regression
+  * 
+
+
+
+
+Linear regression
+===
+
 # Linear regression summary and idea
+
+
+http://sites.uclouvain.be/selt/files/medias/unamur-regression-lineaire-module20.swf
 
 # Univariate linear regression
 
@@ -32,9 +50,6 @@ Univariate means that we have one predictor (independent) variable only. This pr
 ## Univariate linear regression with continous data
 
 A simple linear regression model allows modelling the dependence of a continuous response y on a single linear predictor x
-
-
-### Example1  simple regression 
 
 The relationship between age and lung capacity
 
@@ -737,7 +752,7 @@ influence(fit) # regression diagnostics
 ```
 
 
-## Multiple linear regression
+# Multiple linear regression
 
 Multiple linear regression is the term for the situation in which you have multiple predictor variables, but still only one continous response with the same assumptions as before. 
 
@@ -1406,16 +1421,6 @@ plot(allEffects(M0))
 ```
 
 <img src="./stats21-linearRegression_files/figure-html/unnamed-chunk-51.png" title="plot of chunk unnamed-chunk-51" alt="plot of chunk unnamed-chunk-51" style="display: block; margin: auto;" />
-
-
-## Univariate linear regression with categorical data
-
-TODO
-
-
-# Multiple linear regression
-
-Multiple linear regression is when you have more than one predictor variable.
 
 
 ### Example4  Multiple linear regression - ANCOVA
