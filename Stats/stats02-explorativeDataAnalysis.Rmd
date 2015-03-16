@@ -24,17 +24,25 @@ For more details about plotting, please visit: https://github.com/biometry/APES/
 We will classify here the different plot methods according to their suitability to the variable analysis
 
 # Categorical Variables
+Categorical variables can have two or more categories with no ordering among the categories.  
+For example, eye color is a categorical variable consisting in 4 categories (blue, green, black or brown) and there is no particular order for the different categories.   
+
+We will explain the most appropiate methods to explore categorical variables below:
+
 ## Bar charts
 
 Bar charts are appropiate to summarize categorical variables distributions
 ```{r}
 attach (mtcars)
 head(mtcars)
-fam= mtcars$fam=factor(mtcars$am, levels=c(0,1), labels=c("automatic","manual")) #we substract the variable Transmission (0 = automatic, 1 = manual) with "$" from the dataset 
+```
+we substract the variable Transmission (0 = automatic, 1 = manual) with "$" from the dataset 
+```{r}
+fam= mtcars$fam=factor(mtcars$am, levels=c(0,1), labels=c("automatic","manual"))
 head(mtcars)
 ```
 
-Frequency table of the Transmission variable
+Frequency table of the Transmission variable, how many cars have automatic and how many manual transmission
 ```{r}
 table(fam)
 count=table(fam) 
@@ -59,6 +67,10 @@ barplot(percent,main="the title", xlab="transmission",ylab="%",las=1,ylim=c(0,1)
 ```
 
 # Numerical Variables
+On numerical variables, on the other hand, there is an order among the variables.  
+An example could be, the scores achieve by a group of student on a test, from 1 to 5. 
+We could evaluate the success of the students depending on their scores.
+
 ## Boxplot 
 
 Boxplots are appropiate to summarize numerical variables distributions
@@ -66,11 +78,20 @@ Boxplots are appropiate to summarize numerical variables distributions
 summary(mpg)
 quantile(mpg)
 quantile(mpg,probs=c(0,0.20,0.40,0.60,0.80,1))
+```
 
+Boxplot of the variable mpg (miles per galon)
+```{r}
 boxplot(mpg,main="title", ylab="mpg", ylim=c(0,50), las=1)
+```
 
+Boxplot of the variable mpg depending of the transmission type
+```{r}
 boxplot(mpg~fam, main="mpg by transmission")
+```
 
+Boxplot of the mpg for the cars with automatic transmission
+```{r}
 boxplot(mpg[fam=="automatic"],xlab="automatic")
 ```
 
@@ -95,7 +116,7 @@ Stem and Leaf plots are appropiate to summarize numerical variables distribution
 ```{r}
 stem(mpg)   
 ```
-?stem for more info
+Write ?stem for more info
 There are 2 obs 10.4
 There is one obs 32.4 and one 32.9
  
@@ -107,23 +128,32 @@ Relation ship between horsepower hp and consumption mpg
 ```{r}
 plot(mpg~hp) # y~x
 plot(hp, mpg) # x,y
+```
 
+We can plot it editing some features, such as the color, size of the symbols, or the range of the x axis
+```{r}
 plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon",las=1,col="red", xlim=c(0,400), cex =2 )  #cex (plotting characters size times 2)
+```
 
+Now we will change the symbol type and add a linear regression, indicating the line type and width 
+```{r}
 plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon",las=1,col="red", xlim=c(0,400), pch=8)  #pch (symbol type)
-abline(lm(mpg~hp),col="blue",lwd=5,lty=3) #add linear regression, line width and type
+abline(lm(mpg~hp),col="blue",lwd=5,lty=3) 
+```
 
+Here we can appreciate the different types of symbols available
+```{r}
 x = 1:20
 plot(x,pch=x,cex=3)
-
 ```
 
 
 # Summary statistics
 
-Some piece of information that gives a quick and simple description of the data.
+The summary statistics tries to give the largest amount of information possible of the data in the simplest and quickest way possible.
+This usually includes mean, median, minimum and maximum value, standard deviation, etc.
 
-For a categorical variable, like "fam"
+## For a categorical variable, like "fam"
 ```{r}
 table(fam)
 
@@ -137,7 +167,7 @@ table(mpg,fam) #vertical table
 table(fam,mpg) # horizontal table
 ```
 
-For a numerical variable, like "mpg"
+## For a numerical variable, like "mpg"
 ```{r}
 mean(mpg)
 summary(mpg)
