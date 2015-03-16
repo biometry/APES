@@ -105,8 +105,18 @@ boxplot(x)
 
 ```{r}
 hist(x,breaks=50)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-73.png)
+
+```{r}
 qqnorm(x)
 qqline(x,lty=2,col=2,lwd=3)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-74.png)
+
+```{r}
 shapiro.test(x)  #p-value=8.661e-07, not normally distributed
 ```
 
@@ -125,6 +135,7 @@ Correlation tests measure the relationship between variables. This relationship 
 attach(mtcars)  
 plot(hp,wt, main="scatterplot",las=1, xlab ="gross horse power", ylab="Weight (lb/1000)")
 ```
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-8.png)
 
 Compute the three correlation coefficients
 ```{r}
