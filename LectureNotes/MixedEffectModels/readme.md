@@ -7,4 +7,5 @@ See also https://www.wiki.uni-freiburg.de/statisticcafe/doku.php?id=timetable_fo
 3. GLS 	
 4. Repetition of concepts and power analysis 	
 5. Residual Analysis
+6. Model selection with mixed models
 
