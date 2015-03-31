@@ -241,7 +241,7 @@ Mixed with two independent (crossed) random effects
 lmer(normexam ~ standLRT + (1 | school) + (1 | student), data=Exam)
 ```
 
-Mixed with random slope and intercept
+Mixed with two nested random effects 
 ===
 
 ```{r}

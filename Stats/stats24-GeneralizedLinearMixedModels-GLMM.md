@@ -9,6 +9,8 @@ Generalized linear mixed models
 ===
 
 
+## Definition 
+
 
 
 
@@ -19,10 +21,15 @@ http://jaredknowles.com/journal/2014/5/17/mixed-effects-tutorial-2-fun-with-merm
 Material from "in silico ecology", with link to e.g. model selection in mixed effect models
 http://www.r-bloggers.com/notes-on-shrinkage-prediction-in-hierarchical-models/
 
+see also https://gist.github.com/casallas/8263818
 
-### Multinomial response
 
-Note: there seems to be some inconsistency in what people mean by a mixed multinomial logit. Check packages for the exact specification of the rando effect structure (if any)
+## Estimation
+
+
+Maximum likelihood estimation in R with mainly with mle4 or nle. Bayesian estimation with JAGS or STAN, glmmMCMC.
+
+Multinomial models can be estimated with
 
 * mlogit: base package for estimating multinomial logit models http://cran.r-project.org/web/packages/mlogit/index.html 
 * glmmMCMC: http://glmmadmb.r-forge.r-project.org/
@@ -31,7 +38,16 @@ Note: there seems to be some inconsistency in what people mean by a mixed multin
 * TwoStepCLogit: Conditional logistic regression with longitudinal follow up and individual-level random coefficients: A stable and efficient two-step estimation method http://cran.r-project.org/web/packages/TwoStepCLogit/
 * Fully Bayesian solutions in Bugs, Jags or STAN
 
-see also https://gist.github.com/casallas/8263818
+
+Note: there seems to be some inconsistency in what people mean by a mixed multinomial logit. Check packages for the exact specification of the rando effect structure (if any)
+
+
+### Challenges in the estimation 
+
+Browne, W. J.; Draper, D. & others (2006) A comparison of Bayesian and likelihood-based methods for fitting multilevel models. Bayesian Analysis, International Society for Bayesian Analysis, 1, 473-514.
+
+
+
 
 # Literature
 
