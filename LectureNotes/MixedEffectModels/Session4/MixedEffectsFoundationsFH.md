@@ -42,7 +42,7 @@ In either case, what R does is
 Example Poisson regression by hand I
 ===
 
-![plot of chunk unnamed-chunk-1](MixedEffectsFoundationsFH-figure/unnamed-chunk-1.png) 
+![plot of chunk unnamed-chunk-1](MixedEffectsFoundationsFH-figure/unnamed-chunk-1-1.png) 
 
 
 Example Poisson regression by hand II
@@ -69,7 +69,7 @@ Example Poisson regression by hand III
 
 Plotting the likelihood surface (= likelihood as a function of slope, intercept)
 
-![plot of chunk unnamed-chunk-3](MixedEffectsFoundationsFH-figure/unnamed-chunk-3.png) 
+![plot of chunk unnamed-chunk-3](MixedEffectsFoundationsFH-figure/unnamed-chunk-3-1.png) 
  
 Example Poisson regression by hand IV
 ===
@@ -84,10 +84,10 @@ bestfit
 
 ```
 $par
-[1] 0.1479 1.4745
+[1] 0.147948 1.474536
 
 $value
-[1] 55.71
+[1] 55.70837
 
 $counts
 function gradient 
@@ -100,9 +100,9 @@ $message
 NULL
 
 $hessian
-     [,1] [,2]
-[1,] 2225  573
-[2,]  573  174
+          [,1]     [,2]
+[1,] 2225.2670 572.9979
+[2,]  572.9979 173.9977
 ```
 
 ```r
@@ -110,9 +110,9 @@ bestfit$hessian
 ```
 
 ```
-     [,1] [,2]
-[1,] 2225  573
-[2,]  573  174
+          [,1]     [,2]
+[1,] 2225.2670 572.9979
+[2,]  572.9979 173.9977
 ```
 </font>
 
@@ -204,7 +204,7 @@ logLik(lmer(normexam ~ standLRT + (1 | school), data=Exam, REML = T))
 ```
 
 ```
-'log Lik.' -4684 (df=4)
+'log Lik.' -4684.383 (df=4)
 ```
 
 ```r
@@ -212,7 +212,7 @@ logLik(lmer(normexam ~ standLRT + (1 | school), data=Exam, REML = F))
 ```
 
 ```
-'log Lik.' -4679 (df=4)
+'log Lik.' -4678.622 (df=4)
 ```
 
 Variations for including random effects
@@ -243,15 +243,15 @@ lmer(normexam ~ 1 + (1 | school), data=Exam)
 Linear mixed model fit by REML ['lmerMod']
 Formula: normexam ~ 1 + (1 | school)
    Data: Exam
-REML criterion at convergence: 11015
+REML criterion at convergence: 11014.65
 Random effects:
  Groups   Name        Std.Dev.
- school   (Intercept) 0.414   
- Residual             0.921   
+ school   (Intercept) 0.4142  
+ Residual             0.9207  
 Number of obs: 4059, groups:  school, 65
 Fixed Effects:
 (Intercept)  
-    -0.0133  
+   -0.01325  
 ```
 
 Mixed with random intercept
@@ -266,15 +266,15 @@ lmer(normexam ~ standLRT + (1 | school), data=Exam)
 Linear mixed model fit by REML ['lmerMod']
 Formula: normexam ~ standLRT + (1 | school)
    Data: Exam
-REML criterion at convergence: 9369
+REML criterion at convergence: 9368.765
 Random effects:
  Groups   Name        Std.Dev.
- school   (Intercept) 0.306   
- Residual             0.752   
+ school   (Intercept) 0.3063  
+ Residual             0.7522  
 Number of obs: 4059, groups:  school, 65
 Fixed Effects:
 (Intercept)     standLRT  
-    0.00232      0.56331  
+   0.002323     0.563307  
 ```
 
 Mixed with random slope AND intercept
@@ -289,16 +289,16 @@ lmer(normexam ~ standLRT + (standLRT | school), data=Exam)
 Linear mixed model fit by REML ['lmerMod']
 Formula: normexam ~ standLRT + (standLRT | school)
    Data: Exam
-REML criterion at convergence: 9328
+REML criterion at convergence: 9327.6
 Random effects:
  Groups   Name        Std.Dev. Corr
- school   (Intercept) 0.304        
-          standLRT    0.122    0.49
- Residual             0.744        
+ school   (Intercept) 0.3035       
+          standLRT    0.1223   0.49
+ Residual             0.7441       
 Number of obs: 4059, groups:  school, 65
 Fixed Effects:
 (Intercept)     standLRT  
-    -0.0116       0.5565  
+   -0.01165      0.55653  
 ```
 
 Including more than one random effect
@@ -323,16 +323,16 @@ lmer(normexam ~ standLRT + (1 | school) + (1 | student), data=Exam)
 Linear mixed model fit by REML ['lmerMod']
 Formula: normexam ~ standLRT + (1 | school) + (1 | student)
    Data: Exam
-REML criterion at convergence: 9368
+REML criterion at convergence: 9367.816
 Random effects:
  Groups   Name        Std.Dev.
- student  (Intercept) 0.0564  
- school   (Intercept) 0.3060  
- Residual             0.7501  
+ student  (Intercept) 0.05637 
+ school   (Intercept) 0.30596 
+ Residual             0.75015 
 Number of obs: 4059, groups:  student, 650; school, 65
 Fixed Effects:
 (Intercept)     standLRT  
-     0.0023       0.5638  
+   0.002304     0.563806  
 ```
 
 Mixed with random slope and intercept
@@ -347,16 +347,16 @@ lmer(normexam ~ standLRT + (1 | school/student), data=Exam)
 Linear mixed model fit by REML ['lmerMod']
 Formula: normexam ~ standLRT + (1 | school/student)
    Data: Exam
-REML criterion at convergence: 9369
+REML criterion at convergence: 9368.765
 Random effects:
- Groups         Name        Std.Dev.
- student:school (Intercept) 6.79e-07
- school         (Intercept) 3.06e-01
- Residual                   7.52e-01
+ Groups         Name        Std.Dev. 
+ student:school (Intercept) 6.792e-07
+ school         (Intercept) 3.063e-01
+ Residual                   7.522e-01
 Number of obs: 4059, groups:  student:school, 4055; school, 65
 Fixed Effects:
 (Intercept)     standLRT  
-    0.00232      0.56331  
+   0.002323     0.563307  
 ```
 
 Note that (1 | school/student) is equivalent to (1|shool)+(1|school:student). It doesn't work very well here because the two factors here seem to be crossed.
@@ -396,7 +396,7 @@ test <- createData()
 boxplot(beetles ~ gradient, data = test)
 ```
 
-![plot of chunk unnamed-chunk-14](MixedEffectsFoundationsFH-figure/unnamed-chunk-14.png) 
+![plot of chunk unnamed-chunk-14](MixedEffectsFoundationsFH-figure/unnamed-chunk-14-1.png) 
 
 
 Choose the analysis we want to do
@@ -415,7 +415,7 @@ analysis(test)
 ```
 
 ```
-[1] 1.09176 0.02115
+[1] 2.534563e+00 2.315159e-19
 ```
 
 
@@ -441,7 +441,7 @@ Result visual
 ===
 
 
-![plot of chunk unnamed-chunk-17](MixedEffectsFoundationsFH-figure/unnamed-chunk-17.png) 
+![plot of chunk unnamed-chunk-17](MixedEffectsFoundationsFH-figure/unnamed-chunk-17-1.png) 
 
 
 Result in numbers
@@ -453,7 +453,7 @@ sum(results$pValue < 0.05) / length(results$pValue)
 ```
 
 ```
-[1] 0.63
+[1] 0.56
 ```
 
 

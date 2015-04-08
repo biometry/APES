@@ -1,29 +1,58 @@
-# Summary statistics
+---
+layout: page
+title: Summary statistics
+category: stats
+subcategory: Basic concepts
+---
 
 Summary statistics and correlations
 ===
 
 # Testing for normality
 
+
+```r
+library(knitr)
+```
+
+```
+## Warning: package 'knitr' was built under R version 3.0.3
+```
+
+```r
+opts_knit$set(global.par=TRUE) 
+opts_chunk$set(cache.extra = rand_seed,fig.align='center')
+set.seed(3)
+```
+
 The normal distribution is the most important and most widely used distribution in statistics.
+
 We can say that a distribution is normally distributed when:
+
 1) is symmetric around their mean.
+
 2) the mean, median, and mode of a normal distribution are equal.
+
 3) the area under the normal curve is equal to 1.0.
+
 4) distributions are denser in the center and less dense in the tails.
+
 5) distributions are defined by two parameters, the mean and the standard deviation (sd).
+
 6) 68% of the area of a normal distribution is within one standard deviation of the mean.
+
 7) Approximately 95% of the area of a normal distribution is within two standard deviations of the mean.
 
 Normal distribution 
 
+Simulation of the weight of 1570 adult males normally distributed
+
 ```r
-#Simulation of the weight of 1570 adult males normally distributed
 data1=rnorm(1570,mean=75,sd=8)
 hist(data1,main="Adult male weights",xlab="adult male weight",col="red",las=1)
 ```
 
-![plot of chunk unnamed-chunk-1](./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-1.png) 
+<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
 
 Load example data
 
@@ -55,7 +84,7 @@ y2[52]=21.75 # to change the 52nd value for 21.75 instead of 2.175:
 plot(y2)     #very good to spot mistakes, outliers
 ```
 
-![plot of chunk unnamed-chunk-3](./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-3.png) 
+<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1)) #back to one plot window
@@ -73,7 +102,7 @@ qqnorm(y)
 qqline(y,lty=2,col=2,lwd=3)
 ```
 
-![plot of chunk unnamed-chunk-4](./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-4.png) 
+<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-5.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
 
 ## Normality test: the shapiro.test
 
@@ -102,26 +131,26 @@ x=exp(rnorm(30))  #rnorm without specification (normal distributed or not) picks
 plot(x)
 ```
 
-![plot of chunk unnamed-chunk-6](./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-61.png) 
+<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-71.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 ```r
 boxplot(x)
 ```
 
-![plot of chunk unnamed-chunk-6](./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-62.png) 
+<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-72.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 ```r
 hist(x,breaks=50)
 ```
 
-![plot of chunk unnamed-chunk-6](./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-63.png) 
+<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-73.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 ```r
 qqnorm(x)
 qqline(x,lty=2,col=2,lwd=3)
 ```
 
-![plot of chunk unnamed-chunk-6](./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-64.png) 
+<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-74.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 ```r
 shapiro.test(x)  #p-value=8.661e-07, not normally distributed
@@ -132,7 +161,7 @@ shapiro.test(x)  #p-value=8.661e-07, not normally distributed
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  x
-## W = 0.7129, p-value = 2.417e-06
+## W = 0.8572, p-value = 0.0008806
 ```
 
 
@@ -152,7 +181,7 @@ attach(mtcars)
 plot(hp,wt, main="scatterplot",las=1, xlab ="gross horse power", ylab="Weight (lb/1000)")
 ```
 
-![plot of chunk unnamed-chunk-7](./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-7.png) 
+<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 Compute the three correlation coefficients
 
@@ -271,7 +300,7 @@ Plot all possible combinations with "pairs"
 pairs(mtcars)  # all possible pairwise plots
 ```
 
-![plot of chunk unnamed-chunk-10](./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-10.png) 
+<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
 
 To make it simpler we select what we are interested
 
@@ -288,7 +317,7 @@ names(mtcars)
 pairs(mtcars[,c(1,4,6)]) # subsetting the categories we will use
 ```
 
-![plot of chunk unnamed-chunk-11](./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-11.png) 
+<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-12.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" style="display: block; margin: auto;" />
 
 Building a correlation matrix
 

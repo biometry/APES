@@ -1,0 +1,1156 @@
+Model selection with mixed models
+========================================================
+author: Florian Hartig
+date: 6th mixed model session, Feb 04, 2015
+
+```{r, echo=F}
+library(lme4)
+library(mlmRev)
+library(lmerTest)
+library(msm)
+attach(Exam)
+```
+
+What we have learned so far
+===
+
+For any categorical variable (specially for groups / plots / blocks), you can decide whether to include it as
+
+- Fixed effect
+- Random effect
+
+Both cases fit a estimate for each level of the categorical variable, and we can include the variable as **main effect** or as an **interaction** with another variable. 
+
+- So, what's the difference between fixed and random?
+
+
+Difference fixed and random
+===
+
+Basic structure identical
+
+- $y \sim A \cdot X + (b + R_i)$ main effect / random intercept
+- $y \sim  (A  + R_i)  \cdot X + b)$ interaction / random slope 
+
+The **only difference** is the additional assumption $R_i \sim Norm(0, \sigma)$ for the random effect version. Leads to 
+
+1. less degrees of freedom lost 
+2. typically smaller parameter estimates (shrinkage)
+
+
+Demonstration of the shrinkage
+===
+
+
+```{r, echo = F, fig.align = "center", fig.width = 8, cache = T}
+# from mbjoseph.github.io/blog/2015/01/20/shrink/
+## 2d shrikage for random slope, random intercept model
+library(lme4)
+library(ggplot2)
+library(grid)
+library(mvtnorm)
+library(reshape2)
+library(ellipse)
+
+# fit models
+m0 <- lm(Reaction ~ Days * Subject, data=sleepstudy)
+m1 <- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
+
+# extract fixed effect estimates
+intercepts <- grepl("Days", names(coef(m0))) == FALSE
+m0_intercepts <- coef(m0)[intercepts]
+m0_intercepts[-1] <- m0_intercepts[-1] + m0_intercepts[1]
+slopes <- !intercepts
+m0_slopes <- coef(m0)[slopes]
+m0_slopes[-1] <- m0_slopes[-1] + m0_slopes[1]
+
+# extract random effect estimates
+m1_intercepts <- coef(m1)$Subject[, 1]
+m1_slopes <- coef(m1)$Subject[, 2]
+
+d <- data.frame(interceptF = m0_intercepts,
+                slopeF = m0_slopes,
+                interceptR = m1_intercepts,
+                slopeR = m1_slopes
+                )
+
+# 95% bivariate normal ellipse for random effects
+df_ell <- data.frame(ellipse(VarCorr(m1)$Subject, centre=fixef(m1)))
+names(df_ell) <- c("intercept", "slope")
+
+# bivariate normal density surface
+lo <- 200 # length.out of x and y grid
+xvals <- seq(from = min(df_ell$intercept) - .1 * abs(min(df_ell$intercept)),
+             to = max(df_ell$intercept) + .05 * abs(max(df_ell$intercept)),
+             length.out = lo)
+yvals <- seq(from = min(df_ell$slope) - .4 * abs(min(df_ell$slope)),
+             to = max(df_ell$slope) + .1 * abs(max(df_ell$slope)),
+             length.out = lo)
+
+z <- matrix(0, lo, lo)
+for (i in 1:lo) {
+  x = xvals
+  y = yvals[i]
+  z[,i] = dmvnorm(cbind(x,y),
+                  mean = fixef(m1),
+                  sigma = VarCorr(m1)$Subject)
+}
+
+mv_ranef <- melt(z)
+names(mv_ranef) <- c("x", "y", "z")
+mv_ranef$x <- xvals[mv_ranef$x]
+mv_ranef$y <- yvals[mv_ranef$y]
+
+
+p <- ggplot(d) +
+  geom_raster(aes(x=x, y=y, fill=z), data=mv_ranef) +
+  scale_fill_gradient(low="white", high="red") +
+  guides(fill=FALSE) +
+  geom_path(data=df_ell, aes(x=intercept, y=slope), size=.5) +
+  geom_contour(aes(x=x, y=y, z=z), data=mv_ranef, size=.1, color="black") +
+  geom_segment(aes(x=interceptF, y=slopeF,
+                   xend=interceptR, yend=slopeR),
+               arrow = arrow(length = unit(0.3, "cm")),
+               alpha=.7) +
+  xlab("Estimated intercepts") +
+  ylab("Estimated slopes") +
+  theme(legend.position="none") +
+  ggtitle("Bivariate shrinkage plot") +
+  theme_bw()  +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+p
+```
+
+<font size="5">
+
+Change of parameter estimates when moving from fixed effect lm(Reaction ~ Days * Subject, data=sleepstudy) to random effect lmer(Reaction ~ Days + (Days | Subject), sleepstudy), From mbjoseph.github.io/blog/2015/01/20/shrink/
+</font>
+
+So ...
+===
+
+Using a random effect means we 
+
+- Can fit more parameters with the same amount of data
+
+  - Allows to include lots of variables (plot/subplot) 
+
+On the other hand
+
+- More complicated structure --> need to check assumptions, many statistical problems (p-values ...)
+- Also a random effect is not for free!!!
+
+What we did so far
+===
+
+- Learned how to specify a mixed effect model (lecture 2)
+- Learned how to simulate power (lecture 4)
+- Learned how to check residuals (lecture 5)
+
+Comments last lecture
+===
+
+- I had a small error in the function for creating simulated residuals
+- Also, I added an additional option to create simulated residuals 
+
+Still diagnose overdispersion for the true model, which is a bit of a concern to me, but the plots look nicer. Hence, **have a look at the updated code**!
+
+
+Some more comments 
+===
+
+Motivated by questions that were asked after the lectures / via email 
+
+- The "at least 7 for a random effect" rule
+- Preparing a study, power
+- After a study, how do I find the right model
+
+
+Comment 1: The "at least 7 rule"
+===
+
+It is written in many books that the categorical variable should have at least 7 levels to qualify as a random effect. 
+
+- Rules ob thumb are good, **but they are rules of thumb** and they are rarely generally valid!!!
+
+- I see no reason why a random effect model should be worse than a fixed effect model for <7 levels, except for the fact that shrinkage may be stronger
+
+But you know, instead of speculating, just try it out!
+
+
+Function to create virtual datasets
+===
+
+<font size="6">
+```{r}
+createData <- function(n=250, numGroups = 10, sampleSize = 1000){
+  out = list()
+  for (i in 1:n){
+    environment1 = seq(-1,1,len = sampleSize)
+    group = rep(1:numGroups, each = sampleSize/numGroups)
+    groupRandom = rnorm(numGroups, sd = 1)
+    counts = rpois(sampleSize, exp(environment1 + groupRandom[group] + rnorm(sampleSize, sd = 0.5)))
+    out[[i]] <- data.frame(ID = 1:2000, counts, environment1, group)
+  }
+  return(out)
+}
+```
+
+Fit this with 
+
+```{r, eval= F}
+glmer(counts ~ environment1 + (1|group) + (1|ID) , family = "poisson")
+```
+
+</font>
+
+
+Fitting mixed model with 10 groups
+===
+
+```{r, echo = F, fig.align = "center", fig.width = 8, cache = T}
+
+dataList <- createData()
+resultList <- matrix(NA,length(dataList), 4)
+for (i in 1:length(dataList)){
+  fit <- glmer(counts ~ environment1 + (1|group) + (1|ID) , family = "poisson", data = dataList[[i]])
+  resultList[i,] = c( fixef(fit), as.data.frame(VarCorr(fit))[,5])
+}
+
+par(mfrow = c(2,2))
+hist(resultList[,1], breaks = 50, main = "Bias Intercept")
+abline(v=0, col = "red")
+hist(resultList[,2]-1, breaks = 50, main = "Bias Slope")
+abline(v=0, col = "red")
+hist(resultList[,3]-0.5, breaks = 50, main = "Bias Overdispersion")
+abline(v=0, col = "red")
+hist(resultList[,4]-1, breaks = 50, main = "Bias Random Group")
+abline(v=0, col = "red")
+```
+
+
+Fitting mixed model with 4 groups
+===
+
+
+```{r, echo = F, fig.align = "center", fig.width = 8, cache = T}
+
+dataList <- createData(numGroups = 4)
+resultList <- matrix(NA,length(dataList), 4)
+for (i in 1:length(dataList)){
+  fit <- glmer(counts ~ environment1 + (1|group) + (1|ID) , family = "poisson", data = dataList[[i]])
+  resultList[i,] = c( fixef(fit), as.data.frame(VarCorr(fit))[,5])
+}
+
+par(mfrow = c(2,2))
+hist(resultList[,1], breaks = 50, main = "Bias Intercept")
+abline(v=0, col = "red")
+hist(resultList[,2]-1, breaks = 50, main = "Bias Slope")
+abline(v=0, col = "red")
+hist(resultList[,3]-0.5, breaks = 50, main = "Bias Overdispersion")
+abline(v=0, col = "red")
+hist(resultList[,4]-1, breaks = 50, main = "Bias Random Group")
+abline(v=0, col = "red")
+
+```
+
+Comparing to group as fixed effect
+===
+
+<font size="5">
+
+```{r, eval= F}
+glmer(counts ~ environment1 + (1|group) + (1|ID) , family = "poisson")
+glmer(counts ~ environment1 + group + (1|ID) , family = "poisson")
+```
+
+</font>
+
+
+```{r, echo = F, fig.align = "center", fig.width = 8, cache = T}
+resultListFixed <- matrix(NA,length(dataList), 2)
+for (i in 1:length(dataList)){
+  fit <- glmer(counts ~ environment1 + group + (1|ID) , family = "poisson", data = dataList[[i]])
+  resultListFixed[i,] = fixef(fit)[1:2]
+}
+par(mfrow = c(2,2))
+hist(resultList[,1], breaks = 50, main = "Bias Intercept")
+abline(v=0, col = "red")
+hist(resultListFixed[,1], breaks = 50, main = "Bias Intercept Fixed")
+abline(v=0, col = "red")
+hist(resultList[,2]-1, breaks = 50, main = "Bias Slope")
+abline(v=0, col = "red")
+hist(resultListFixed[,2]-1, breaks = 50, main = "Bias Slope Fixed")
+abline(v=0, col = "red")
+
+```
+
+Conclusion "at least 7 rule"
+===
+
+For the example, I didn't see any larger problems with <7
+
+- actually, mixed model provides better estimates than the fixed effect variant. 
+  -Could continue to look now at p-values etc., see how confidence intervals change, but in general things don't seem to go terribly wrong with the mixed model.
+
+- The >7 rule may have it's reason, and be useful in some situations. But who knows when. General rules are complicated. 
+
+
+
+
+Comment 2: Power
+===
+
+"How many data points do I need? I read that you nead at least X replicates for this analysis!"
+
+I want to repeat how useful it is to do simulations to explore the properties and the accuracy of the analysis you are doing, e.g.
+
+- The power analysis that we made 2 lectures ago
+- The analysis we just did
+
+In times where everyone has a good computer, you don't have to accept rules such as "you need at least 50 datapoints"! **Simulate and find out!!!**. 
+
+
+Comment 3: Residual diagnostics and Model selection
+===
+
+I think some might have misunderstood the rationale for residual diagnostics
+
+1. Residual diagnostics allow us to remove inadequate models
+
+2. The model with the **best residuals is not neccessarily the best model**!!!
+
+3. To select among models that cannot be rejected based on the residuals, we need **model selection techniques**
+
+
+Model selection (MS)
+===
+
+*Model selection is the task of selecting a statistical model from a set of candidate models, given data.* (Wikipedia)
+
+- Reasons for MS
+
+  - Too many predictors, too little data 
+  
+  - Unsure about model structure (quadratic terms, random effects structure)
+
+- Huge topic in statistics, no agreement about how to do it best, specially not for mixed models!!! 
+
+
+  
+Best model != Best fit
+===
+
+Imagine we have some data that comes from a quadradic function (polynomial order 2)
+
+```{r, echo = F, fig.align = "center", fig.width = 8, cache = T}
+#Based on code from Cosma Shalizi
+#http://www.stat.cmu.edu/~cshalizi/uADA/15/lectures/03-in-class.R
+
+# In-class demos for 2015-01-20
+
+
+### Illustration of over-fitting and model selection
+# 20 standard-Gaussian X's
+x = rnorm(20)
+# Quadratic Y's
+y = 7*x^2 - 0.5*x + rnorm(20)
+
+# Initial plot of training data plus true regression curve
+plot(x,y)
+curve(7*x^2-0.5*x,col="grey",add=TRUE)
+
+```
+
+
+Fit for different polynomials
+===
+
+
+```{r, echo = F, fig.align = "center", fig.width = 6, cache = T}
+plot(x,y)
+curve(7*x^2-0.5*x,col="grey",add=TRUE)
+
+# Fit polynomials and add them to the plot
+# Make a list of model formulae for polynomials of degree 0 to 9
+poly.formulae <- c("y~1", paste("y ~ poly(x,", 1:9, ")", sep=""))
+# because "y ~ poly(x,0)" doesn't work
+poly.formulae <- sapply(poly.formulae, as.formula)
+# Get evenly spaced points for pretty plotting models
+df.plot <- data.frame(x=seq(min(x),max(x),length.out=200))
+# Fit polynomials of order 0 to 9
+# Store them in a list
+fitted.models <- list(length=length(poly.formulae))
+for (model_index in 1:length(poly.formulae)) {
+  fm <- lm(formula=poly.formulae[[model_index]])
+  lines(df.plot$x, predict(fm,newdata=df.plot),lty=model_index)
+  fitted.models[[model_index]] <- fm
+}
+legend("top",legend=paste("degree",0:9),lty=1:10, ncol=2, cex=0.5)
+
+```
+
+***
+
+```{r, echo = F, fig.align = "center", fig.width = 6, cache = T}
+# Calculate and plot in-sample errors
+mse.q <- sapply(fitted.models, function(mdl) { mean(residuals(mdl)^2) })
+plot(0:9,mse.q,type="b",xlab="polynomial degree",ylab="mean squared error",
+     log="y")
+
+```
+
+The more complex the model, the better it fits! 
+
+Complex models fit great!
+===
+
+Here again in terms of R2 and adjusted R2
+
+```{r, echo = F, fig.align = "center", fig.width = 6, cache = T}
+extract.rsqd <- function(mdl) {
+  c( summary(mdl)$r.squared, summary(mdl)$adj.r.squared)
+}
+rsqd.q <- sapply(fitted.models, extract.rsqd)
+plot(0:9,rsqd.q[1,],type="b",xlab="polynomial degree",ylab=expression(R^2),
+     ylim=c(0,1))
+lines(0:9,rsqd.q[2,],type="b",lty="dashed")
+legend("bottomright",legend=c(expression(R^2),expression(R[adj]^2)),
+       lty=c("solid","dashed"))
+```
+
+***
+
+But here's the error for predicting on new data
+
+```{r, echo = F, fig.align = "center", fig.width = 6, cache = T}
+x.new = rnorm(2e4)
+y.new = 7*x.new^2 - 0.5*x.new + rnorm(length(x.new))
+
+# Calculate an already-fitted model's MSE on new data
+# Inputs: the model object
+# Outputs: the MSE
+# ATTN: Hard-wired to use "x.new" and "y.new" --- can you improve this?
+gmse <- function(mdl) {
+  predictions <- predict(mdl, data.frame(x=x.new))
+  residuals <- y.new - predictions
+  return(mean(residuals^2))
+}
+gmse.q <- sapply(fitted.models, gmse)
+plot(0:9,mse.q,type="b",xlab="polynomial degree",
+     ylab="mean squared error",log="y",ylim=c(min(mse.q),max(gmse.q)))
+lines(0:9,gmse.q,lty=2,col="blue")
+points(0:9,gmse.q,pch=24,col="blue")
+# Note: logarithmic scale of vertical axis!
+
+legend("topleft",legend=c("In-sample","New data"),
+       col=c("black","blue"),lty=1:2,pch=1:2)
+
+```
+
+
+Anticipate this via cross-validation
+===
+
+- Calculate expected error for new data by splitting up the data in training and validation chunks
+
+- Select the model structure with the lowest predictive error for new data
+
+***
+
+```{r, echo = F, fig.align = "center", fig.width = 6, cache = T}
+# General function to do k-fold CV for a bunch of linear models
+# Inputs: dataframe to fit all models on, list or vector of model formulae,
+# number of folds of cross-validation
+# Output: vector of cross-validated MSEs for the models
+cv.lm <- function(data, formulae, nfolds=5) {
+  # Strip data of NA rows
+  # ATTN: Better to check whether NAs are in variables used by the models
+  data <- na.omit(data)
+  # Make sure the formulae have type "formula"
+  formulae <- sapply(formulae, as.formula)
+  # Extract the name of the response variable from each formula
+  # ATTN: CV doesn't make a lot of sense unless these are all the same!
+  responses <- sapply(formulae, response.name)
+  names(responses) <- as.character(formulae)
+  n <- nrow(data)
+  # Assign each data point to a fold, at random
+  # see ?sample for the effect of sample(x) on a vector x
+  fold.labels <- sample(rep(1:nfolds, length.out=n))
+  mses <- matrix(NA, nrow=nfolds, ncol=length(formulae))
+  colnames <- as.character(formulae)
+  # EXERCISE: Replace the double for() loop below by defining a new
+  # function and then calling outer()
+  for (fold in 1:nfolds) {
+    test.rows <- which(fold.labels == fold)
+    train <- data[-test.rows,]
+    test <- data[test.rows,]
+    for (form in 1:length(formulae)) {
+      # Fit the model on the training data
+      current.model <- lm(formula=formulae[[form]], data=train)
+      # Generate predictions on the testing data
+      predictions <- predict(current.model, newdata=test)
+      # Get the responses on the testing data
+      test.responses <- test[,responses[form]]
+      test.errors <- test.responses - predictions
+      mses[fold, form] <- mean(test.errors^2)
+    }
+  }
+  return(colMeans(mses))
+}
+
+# Extract the name of the response variable from a regression formula
+# Presumes response is the left-most variable
+# EXERCISE: Write a more robust version using terms()
+# Inputs: regression formula
+# Outputs: name of the response variable
+response.name <- function(formula) {
+  var.names <- all.vars(formula)
+  return(var.names[1])
+}
+
+
+# How well does cross-validation work?
+# Remember that our original data had 20 points, and we're seeing how
+# we generalize to 20,000 points from the same distribution
+# Make a little data frame out of our little data
+little.df <- data.frame(x=x, y=y)
+# CV for the polynomials (defaults to five-fold)
+cv.q <- cv.lm(little.df, poly.formulae)
+plot(0:9,mse.q,type="b",xlab="polynomial degree",
+     ylab="mean squared error",log="y",ylim=c(min(mse.q),max(gmse.q)))
+lines(0:9,gmse.q,lty=2,col="blue",type="b",pch=2)
+lines(0:9,cv.q,lty=3,col="red",type="b",pch=3)
+legend("topleft",legend=c("In-sample","New data","CV"),
+       col=c("black","blue","red"),lty=1:3,pch=1:3)
+
+```
+
+
+What did we learn?
+===
+
+There is the so-called **bias / variance trade-off**
+
+- More complex, more variance explained (and better residuals)
+- More complex, more bias for new data (and typically less "true")
+
+--> Model selection tries find this sweet spot by defining a score that includes model fit, but **penalizes for complexity**
+
+But: objectives / philosophies differ in detail 
+
+
+Model selection strategies overview
+===
+
+- I: MS with a set of fixed candidate models
+
+  - "score" that says if one model fits better than the other (AIC, BIC, ...)
+  
+- II: MS with one flexible model structure that adjust itself 
+
+  - Lasso / Bayesian analysis with mildly informative priors. 
+  - Mixed models: variance parameter adjusts for flexibility of the random effects. 
+  
+  
+Searching for the best in a set of models
+===
+
+For each candidate model we can calculate a **score**. If many models, search for the best model possible in two ways:
+
+- Step-wise: start with the minimal / full model, increase / simplify until it is not getting better. (stepAIC) - **Don't do it any more!!!**, leads to various problems!
+- Today **always preferred: global**, i.e. check all models. Use, e.g., the MuMIn package in R 
+
+
+Many possible scores
+===
+
+- Cross-validation (CV) - good and general, but costly
+
+- Akaike Information Criterion (AIC) approximates CV via likelihood, very common in ecology
+  
+- Likelihood Ratio Tests (LRT) - test $\Delta L$ against H0
+  
+- Bayes Factor (BF), requires Bayesian posterior
+
+- BIC approximates BF via Likelihood, similar to AIC
+
+- Deviance Information Criterion (DIC), requires Bayes
+
+
+Marginal vs. conditional scores
+===
+
+Many MS (implicitly) evaluate the predictive error on new data. 
+
+Question for mixed models: new data from 
+
+- the same random structure (e.g. same plots): **conditional** 
+
+- with the random structure averaged (e.g. an average new plot): **marginal**
+
+Results in marginal and conditional AIC, see e.g. Vaida, F. & Blanchard, S. (2005) Conditional Akaike information for mixed-effects models. Biometrika, 92, 351-370.
+
+
+
+Degrees of freedom 
+===
+
+We had this already: not clear how to calculate df for random effects, but need them for AIC, BIC. Various approximations. General tendency seems to be to count 
+
+- 1 DF per sigma, but not per random group for marginal
+- 1 DF per group for conditional 
+
+Usually important only $\Delta df$, not such a big problem as long as we don't compare random effect structures
+
+Müller, S.; Scealy, J. L. & Welsh, A. H. (2013) Model Selection in Linear Mixed Models. Statist. Sci., 28, 135-167.
+
+
+Flexible penalizing models
+===
+
+- Regression with the full model (df > data); include zero-preference for parameters (shrinkage). Solves the overparameterization problem (regularization). 
+
+  - Popular variant of this is the Lasso (and we have glmmLasso in R) <font size="5"> Tibshirani, R. (1996) Regression Shrinkage and Selection via the Lasso. Journal of the Royal Statistical Society B, 58, pp. 267-288.</font>
+
+- Bayesian version / interpretation: Regression with zero-mean Laplace prior <font size="5"> Park, T. & Casella, G. (2008) The Bayesian Lasso. Journal of the American Statistical Association, 103, 681-686. </font>
+
+
+I will do 3 examples
+===
+
+- Example I: comparing few nested models with LRT via anova() and parametric bootstrap
+- Example II: comparing many models via AIC
+- Example III: a flexible, self-adjusting model via a regularized Bayesian approach
+
+
+Compare 2 nested fixed structures 
+===
+
+<font size="6">
+```{r, cache = T}
+str(sleepstudy)
+fm0 <- lmer(Reaction ~ 1 + (1|Subject), sleepstudy, REML = F)
+fm1 <- lmer(Reaction ~ Days + (1|Subject), sleepstudy, REML = F)
+```
+</font>
+
+Random effect structure the same, fixed effects differ 
+
+We can do anova()
+===
+
+<font size="5">
+```{r, cache = T}
+anova(fm0, fm1)
+```
+</font>
+
+Problems:
+
+- Assumption here is that likelihoods are chisq distributed, which is not reliable for mixed models, small data. Also, is the difference in the DF really 1? 
+- Tendency is p-values are anti-conservative (tend to reject H0 too often)
+
+Alternatives http://glmm.wikidot.com/faq
+===
+
+<font size="5">
+
+From worst to best:
+
+- Wald chi-square tests (e.g. car::Anova)
+- Likelihood ratio test (via anova or drop1)
+- For balanced, nested LMMs where df can be computed: conditional F-tests
+- For LMMs: conditional F-tests with df correction (e.g. Kenward-Roger in pbkrtest package). (Stroup [29] states on the basis of (unpresented) simulation results that K-r actually works reasonably well for GLMMs. However, at present the code in KRmodcomp only handles LMMs.)
+- MCMC or parametric, or nonparametric, bootstrap comparisons (nonparametric bootstrapping must be implemented carefully to account for grouping factors)
+
+Is the likelihood ratio test reliable for mixed models? 
+
+- It depends. Not for fixed effects in finite-size cases (see [23]): may depend on 'denominator degrees of freedom' (number of groups) and/or total number of samples - total number of parameters. Conditional F-tests are preferred for LMMs, if denominator degrees of freedom are known
+
+</font>
+
+Parametric bootstrapping
+===
+
+<font size="4">
+```{r, cache = T}
+pboot <- function(m0,m1) {
+  s <- simulate(m0)
+  L0 <- logLik(refit(m0,s))
+  L1 <- logLik(refit(m1,s))
+  2*(L1-L0)
+}
+sleepstudy_PB <- replicate(500,pboot(fm0,fm1))
+```
+
+We can read off the p-value for the likelihod ratio test (frequency observed difference > expected difference under the null hypothesis fm0)
+
+```{r, cache = T}
+obsLLDiff <- -2*(logLik(fm0)-logLik(fm1))
+pValue = mean(sleepstudy_PB>=obsLLDiff) 
+pValue
+```
+
+*** 
+```{r, fig.align = "center", fig.width = 6, cache = T}
+hist(sleepstudy_PB, breaks = 50, xlim = c(0,120))
+abline(v = obsLLDiff, col = "red", lwd = 2)
+```
+</font>
+
+
+Compare 2 nested random structures 
+===
+
+<font size="6">
+```{r, cache = T}
+fm2 <- lmer(Reaction ~ Days + (Days|Subject), sleepstudy, REML = F)
+fm3 <- lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), sleepstudy, REML = F)
+```
+</font>
+
+Btw: what is the difference between the two models?
+
+Compare the output
+===
+
+<font size="4">
+```{r, cache = T}
+summary(fm2)
+```
+</font>
+
+***
+<font size="4">
+```{r, cache = T}
+summary(fm3)
+```
+</font>
+
+
+Likelihood ratio tests
+===
+
+<font size="4">
+
+Parametric, chisq. Note: chisq for random terms tends to be too conservative, although not here
+
+```{r, cache = T}
+anova(fm2, fm3)
+```
+
+
+LRT based on non-parametric bootstrap
+
+```{r, cache = T}
+sleepstudy_PB <- replicate(500,pboot(fm3,fm2))
+obsLLDiff <- -2*(logLik(fm3)-logLik(fm2))
+pValue = mean(sleepstudy_PB>=obsLLDiff) 
+pValue
+```
+
+*** 
+```{r, fig.align = "center", fig.width = 6, cache = T}
+hist(sleepstudy_PB, breaks = 50, xlim = c(0,120))
+abline(v = obsLLDiff, col = "red", lwd = 2)
+```
+</font>
+
+Deviation from chisq minimal
+===
+
+<font size="5">
+
+To see whether the bootstrapped distribution deviates from a chisq distribution with df = 1.
+
+```{r, echo = F, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+library(lattice)
+## null value for correlation parameter is *not* on the boundary
+## of its feasible space, so we would expect chisq(1)
+qqmath(sleepstudy_PB,distribution=function(p) qchisq(p,df=1),
+     type="l",
+            prepanel = prepanel.qqmathline,
+            panel = function(x, ...) {
+               panel.qqmathline(x, ...)
+               panel.qqmath(x, ...)
+            })
+```
+</font>
+
+Should you select the random effect structure?
+===
+
+Not quite sure - as random effects have a built-in shrinkage, so we might not have to be too careful about them
+
+<font size="5">
+
+*Through theoretical arguments and Monte Carlo simulation, we show that LMEMs generalize best when they include the maximal random effects structure justified by the design. The generalization performance of LMEMs including data-driven random effects structures strongly depends upon modeling criteria and sample size, yielding reasonable results on moderately-sized samples when conservative criteria are used, but with little or no power advantage over maximal models. Finally, random-intercepts-only LMEMs used on within-subjects and/or within-items data from populations where subjects and/or items vary in their sensitivity to experimental manipulations always generalize worse than separate F1 and F2 tests, and in many cases, even worse than F1 alone. Maximal LMEMs should be the "gold standard" for confirmatory hypothesis testing in psycholinguistics and beyond.*
+
+Barr, D. J.; Levy, R.; Scheepers, C. & Tily, H. J. (2013) Random effects structure for confirmatory hypothesis testing: Keep it maximal. Journal of Memory and Language, 68, 255-278.
+</font>
+
+
+Conclusions
+===
+
+- If you just want to compare two models, LRT work fine
+
+  - Can select random and fixed effects, but don't overdo it with the random effects
+
+  - chisq approximation in anova is useable, but better to use the parametric bootstrap in most cases, solves small data and df problems. 
+  
+  - My code, or packages RLRsim, PBmodcomp
+
+
+
+Example II: many models 
+===
+
+Practical viewpoint is that AIC is the most accepted score, so probably least resistance in publishing
+
+$$AIC = 2 k - 2 log (L(\phi))$$
+
+
+Our "old" dataset
+===
+
+```{r, echo=F, cache = T}
+set.seed(2)
+altitude = rep(seq(0,1,len = 50), each = 20)
+moisture = runif(1000, 0,1)
+temperature =  runif(1000, 0,1) - moisture - altitude + 2
+dataID = 1:1000
+spatialCoordinate = rep(seq(0,30, len = 50), each = 20)
+
+# random effects
+plot = rep(1:50, each = 20)
+year = rep(1:20, times = 50)
+
+#plotRandom = 0 - rexp(20, rate = 1)
+
+yearRandom = rtnorm(20, 0, 2, upper = 2)
+plotRandom = rtnorm(50,0,1, upper = 1)
+#overdispersion = rtnorm(1000, sd = 1, upper = 1)
+
+beetles <- rpois(1000, exp( 1 +   
+  
+  ( 2 + yearRandom[year]) * moisture 
+  
+  + 10*altitude - 10*altitude^2 
+  
+  #+ overdispersion 
+  + plotRandom[plot]) )
+
+# beetles[rbinom(1,200,0.1)] = 0  #zero-inflation
+data = data.frame(dataID, beetles, moisture, altitude, temperature, plot, year, spatialCoordinate)
+```
+
+Measured beetle counts over 20 years on 50 different plots across an altitudinal gradient, with the predictors moisture (varying from year to year) and altitude (fix for each plot). I added another variable temperature which shows some colinearity with altitude and moisture, and which could have an effect
+
+<font size="5">
+```{r}
+str(data)
+```
+</font>
+
+Visually
+===
+
+<font size="4">
+```{r, echo = F, fig.align = "center", fig.width = 7, fig.height = 7, cache = T}
+
+plot(spatialCoordinate , 200 + altitude * 1000 + 20* year, cex = beetles/200, pch =2, main = "Beetle counts across altitudinal gradient", ylim = c(-50,1500), ylab = "Altitude / counts ")
+lines(spatialCoordinate, altitude * 1000)
+points(unique(spatialCoordinate), unique(altitude * 1000) , pch = 3)
+text(unique(spatialCoordinate), unique(altitude * 1000) - 50, unique(plot), cex = 0.7 )
+curve(1000* dnorm(x, 15,3), 0, 30, add = T, col = "red")
+```
+</font>
+
+*** 
+
+<font size="4">
+```{r, echo = F, fig.align = "center", fig.width = 7, fig.height = 7, cache = T}
+
+panel.hist <- function(x, ...)
+{
+    usr <- par("usr"); on.exit(par(usr))
+    par(usr = c(usr[1:2], 0, 1.5) )
+    h <- hist(x, plot = FALSE)
+    breaks <- h$breaks; nB <- length(breaks)
+    y <- h$counts; y <- y/max(y)
+    rect(breaks[-nB], 0, breaks[-1], y, col = "cyan", ...)
+}
+panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...)
+{
+    usr <- par("usr"); on.exit(par(usr))
+    par(usr = c(0, 1, 0, 1))
+    r <- cor(x, y, use = "complete.obs", method = "kendall")
+    txt <- format(c(r, 0.123456789), digits = digits)[1]
+    txt <- paste0(prefix, txt)
+    if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
+    text(0.5, 0.5, txt, cex = cex.cor * r)
+}
+pairs(data[2:5], lower.panel = panel.smooth, diag.panel = panel.hist, upper.panel = panel.cor)
+
+```
+</font>
+
+Question
+===
+
+- Ecologically: what is the niche of the species, what is the effect of altitude?
+
+- Statistical: if we wouldn't know the true model, could we find it by comparing different model structures?
+
+
+Define full model
+===
+
+
+<font size="4">
+```{r, echo = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+fullModel <- glmer(beetles ~ moisture + I(moisture^2) + altitude + I(altitude^2) + temperature + I(temperature^2) + (0 + moisture|year) + (1|plot) + (1|dataID), family = "poisson", na.action="na.fail")
+```
+</font>
+
+
+Using dredge() in MuMIn
+===
+
+This tests all possible submodels 
+
+<font size="4">
+```{r, echo = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+library(MuMIn)
+
+submodels <- dredge(fullModel)
+print(submodels[1:10])
+
+```
+</font>
+
+Best model
+===
+
+<font size="4">
+```{r, echo = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+best <- get.models(submodels, subset = 1)[[1]]
+summary(best)
+```
+</font>
+
+Excursion: R2 for GLMM
+===
+
+<font size="5">
+
+If you really want to use this, there are some ideas how to calculate R2 for (G)LMMs, based on Nakagawa, S, Schielzeth, H. (2012). A general and simple method for obtaining R^2 from Generalized Linear Mixed-effects Models. Methods in Ecology and Evolution. Implemented in MuMIn
+
+```{r, cache = T}
+r.squaredGLMM(best)
+```
+
+- First value, Marginal R_GLMM² , represents the variance explained by fixed factors, 
+- Second value, Conditional R_GLMM² is interpreted as variance explained by both fixed and random factors (i.e. the entire model)
+
+</font>
+
+
+Notes on the use of AIC
+===
+
+- In general, AIC tends to select too complicated models, specially if the true model is not in the set of candidate models!
+
+- AIC requires Likelihood $L(\phi)$ and degrees of freedom k. Specially the latter is not unambigous for mixed models
+
+  - Due to the problem with defining k for the random effects, I would NOT recommend to use AIC for a global search across all possible random effect structures. Probably better to keep it maximal!
+
+- AICc corrects for small sample size, but this is not perfect, various issues, specially for mixed models 
+
+
+Some more remarks about dredging
+===
+
+Although frequently interpreted as finding the "biologically meaningful" model, MS does not work that way in practice
+
+- The numbers of selected predictors depends STRONGLY on the amount of data you have 
+
+- Parameter estimates are biased upwards when there is multicolinearity 
+
+This severely limits the biological interpretability of results after model selection!
+
+Alternatives to AIC
+===
+
+- Cross Validation: very robust, requires much less assumptions, should be used more!!!
+
+- BIC: similar general problems than AIC, except for the fact that it has less tendency towards too complicated models for large data
+
+- DIC: not recommended, unreliable, but widely used for Bayesian hierarchical models
+
+- BF / RJ-MCMC: consistent, but high computational costs
+
+Many more ... 
+
+A note to global model selection in general
+===
+
+- MS globally among a large set of possible models generally performs OK to select a model with good predictive abilities, but specially for with little, colinear data
+  - poorly in retrieving the correct model structure, 
+  - parameters are typically biased upwards 
+
+- If you are in a global MS situation due to no fault of your own, fine
+
+- But don't design experiments relying on global MS, make power analysis in advance and stick to what you can fit without MS!
+
+
+Example
+===
+
+Apply model selection to random data selects a lot of wrong models
+
+<font size="4">
+```{r, echo = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+set.seed(3)
+n = 15
+x1 = runif(n) ; x2 = runif(n) + x1
+x3 = runif(n) + x1 ; x4 = runif(n) + x1
+x5 = runif(n) + x4 + x3 ; x6 = runif(n) + x4 + x3
+x7 = runif(n) + x4
+
+randomData <- data.frame(y = rnorm(n), x1, x2, x3, x4, x5, x6, x7 )
+
+fullModel <- lm(y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7, data = randomData, na.action="na.fail")
+submodels <- dredge(fullModel)
+print(submodels[1:10])
+
+```
+</font>
+
+
+Example 3: Full model with shrinkage
+===
+
+I wanted to show you the glmmlasso package (Lasso Regression: think of it as a normal regression with parameters being biased towards zero)
+
+<font size="6">
+```{r, eval = F, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+library(glmmLasso)
+glmmLasso(fix=beetles ~ moisture + moisture^2 + altitude + I(altitude^2), rnd=list(year=~1), data = data, lambda = 30, family = poisson(link = log))
+```
+</font>
+
+If you want to have a go, be my guest
+
+Bayesian version of the Lasso
+===
+
+<font size="4">
+```{r, eval = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+modelstring="
+  model {
+
+    # Likelihood
+    for (i in 1:nobs) {
+      beetles[i]~dpois(lambda[i])
+      lambda[i] <- exp(intercept + (moist + Ryear[year[i]]) * moisture[i] + moist2 * moisture[i] * moisture[i] + alt * altitude[i] + alt2 * altitude[i] * altitude[i] + Rplot[plot[i]]  + temp * temperature[i] + temp2 * temperature[i]* temperature[i]) 
+    }
+
+    # Effect priors 
+    intercept ~ dnorm(0,0.1)
+    moist ~ dnorm(0,0.1)
+    moist2 ~ dnorm(0,0.1)
+    alt ~ dnorm(0,0.01)
+    alt2 ~ dnorm(0,0.01)
+    temp ~ dnorm(0,0.1)
+    temp2 ~ dnorm(0,0.1)
+
+    # Random effects 
+
+    for (i in 1:nplots) {
+      Rplot[i]~dnorm(0,sigmaPlot)
+    }
+
+    for (i in 1:nyears) {
+      Ryear[i]~dnorm(0,sigmaYear)
+    }
+
+    # Variance priors 
+    sigmaYear~dgamma(0.001,0.001)
+    sigmaPlot~dgamma(0.001,0.001)
+
+  }
+"
+```
+</font>
+
+  
+Running this
+===
+
+<font size="4">
+```{r, eval = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+
+library(R2jags)
+modelData=as.list(data)
+modelData = append(data, list(nobs=1000, nplots = 50, nyears = 20))
+
+model=jags(model.file = textConnection(modelstring), data=modelData, n.iter=5000,  parameters.to.save = c("intercept", "moist", "moist2", "alt", "alt2","temp", "temp2", "sigmaPlot", "sigmaYear"))
+
+
+print(model)
+```
+Note: the large max values for the sigma are due to a known bug http://stats.stackexchange.com/questions/45193/r2jags-does-not-remove-the-burn-in-part-sometimes, I was just too lazy to remove the burnin by hand
+</font>
+
+Graphically
+===
+
+<font size="4">
+```{r, eval = T, fig.align = "center", fig.width = 6, fig.height = 6, cache = T}
+plot(model$BUGSoutput, display.parallel = T)
+```
+</font>
+
+
+===
+Decision tree
+
+- Compare two models random / fixed
+
+  - Nested: LRT via parametric bootstrap, or if lazy anova()
+  - Non-nested: AIC, or better Bayes Factor
+  
+- Compare many models fixed / (random)
+
+  - AIC OR BIC
+  - Full model, and frequentist (Lasso) or Bayesian Regularization
+
+
+Conclusions 
+===
+
+- We can use the normal model selection methods also for mixed models, 
+
+  - with the usual caveats
+  - and a few more complications
+
+- Global selection of random effect structures doesn't seem reliable to me, because of the df problem. Probably better to fix the random effect structure biologically.
+
+- There is a lot of things that can go wrong with model selection! If you don't have to, don't do it!
+
+  
+
+
+
+
+
+
+
+
+
+
+
+

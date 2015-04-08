@@ -1,4 +1,23 @@
-# ANOVA
+---
+layout: page
+title: ANOVA
+category: stats
+subcategory: Hypothesis Testing
+---
+
+Contents
+
+* Analysis of variance (ANOVA)
+* ONE-WAY ANOVA
+	* Non-parametric version of the Analysis of Variance
+	* hovPlot
+	* Contrasts in ANOVA
+	* Factorial ANOVA
+	* Pseudoreplication: Nested designs and split plots
+	    * Split-plot experiments
+	* Effect sizes in ANOVA: aov or lm?
+	* ANOVA for repeated measures
+
 
 Analysis of variance (ANOVA)
 ===
@@ -7,6 +26,18 @@ Anova or analysis of variance makes basically the same assumptions as a t-test (
 
 
 ```r
+library(knitr)
+```
+
+```
+## Warning: package 'knitr' was built under R version 3.0.3
+```
+
+```r
+opts_knit$set(global.par=TRUE) 
+opts_chunk$set(cache.extra = rand_seed,fig.align='center')
+set.seed(13)
+
 aovresult <- aov(extra~group,  data = sleep)
 summary(aovresult)
 ```
@@ -83,7 +114,7 @@ sapply(list(sand,clay,loam),mean) #for horizontal datasets
 boxplot(sand,clay,loam)
 ```
 
-![plot of chunk unnamed-chunk-2](./stats13-anova_files/figure-html/unnamed-chunk-21.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-21.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
 
 ```r
 #to flip the dataset
@@ -118,7 +149,7 @@ tapply(yield,soil,var)
 plot(yield~soil,col="green")
 ```
 
-![plot of chunk unnamed-chunk-2](./stats13-anova_files/figure-html/unnamed-chunk-22.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-22.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
 
 ```r
 #test for homoscedasticity, one of the model assumptions
@@ -164,7 +195,7 @@ par(mfrow=c(2,2))
 plot(aov(yield~soil))
 ```
 
-![plot of chunk unnamed-chunk-2](./stats13-anova_files/figure-html/unnamed-chunk-23.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-23.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))
@@ -244,7 +275,7 @@ length(WeightLoss)
 boxplot(WeightLoss~Diet, ylab="Weight loss (kg)", xlab="Diet ",col=c(0,2,3,4))
 ```
 
-![plot of chunk unnamed-chunk-4](./stats13-anova_files/figure-html/unnamed-chunk-4.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
 
 ```r
 # Ho = mean equal for all diets
@@ -320,7 +351,7 @@ TukeyHSD(model1) #all possible combinations between the different diets
 plot(TukeyHSD(model1), las=1)  #graphic visualization
 ```
 
-![plot of chunk unnamed-chunk-5](./stats13-anova_files/figure-html/unnamed-chunk-5.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-5.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
 
 ANOVA's assumptions
 
@@ -329,7 +360,7 @@ par(mfrow=c(2,2))
 plot(model1)
 ```
 
-![plot of chunk unnamed-chunk-6](./stats13-anova_files/figure-html/unnamed-chunk-61.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-61.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))
@@ -337,7 +368,7 @@ par(mfrow=c(1,1))
 qqnorm(model1$residuals);qqline(model1$residuals)
 ```
 
-![plot of chunk unnamed-chunk-6](./stats13-anova_files/figure-html/unnamed-chunk-62.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-62.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
 
 ```r
 shapiro.test(model1$residuals) # we cannot reject the null hypothesis, but with poor confidence. However, as discussed for the linear regression, the assumption of normality is not that strict.
@@ -365,7 +396,7 @@ hist(model1$residuals,freq=F,ylim=c(0,0.4),breaks=10);lines(density(model1$resid
 hist(WeightLoss,freq=F,ylim=c(0,0.4),breaks=10);lines(density(WeightLoss))
 ```
 
-![plot of chunk unnamed-chunk-7](./stats13-anova_files/figure-html/unnamed-chunk-7.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-7.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))
@@ -393,7 +424,7 @@ fligner.test(count ~ spray) # variances are not equal
 boxplot(count ~ spray)
 ```
 
-![plot of chunk unnamed-chunk-8](./stats13-anova_files/figure-html/unnamed-chunk-8.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 ```r
 model3=oneway.test(count ~ spray) #this is not assuming equal variances
@@ -453,7 +484,7 @@ Running a parametric ANOVA
 boxplot(Serum_iron~treatment)
 ```
 
-![plot of chunk unnamed-chunk-10](./stats13-anova_files/figure-html/unnamed-chunk-101.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-101.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
 
 ```r
 ANOVA1=aov(Serum_iron~treatment)
@@ -493,7 +524,7 @@ op=par(mar=c(4,8,4,4))
 plot(TukeyHSD(ANOVA1),las=1)
 ```
 
-![plot of chunk unnamed-chunk-10](./stats13-anova_files/figure-html/unnamed-chunk-102.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-102.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
 
 ```r
 par(op)
@@ -502,7 +533,7 @@ op=par(mfrow=c(2,2))
 plot(ANOVA1)
 ```
 
-![plot of chunk unnamed-chunk-10](./stats13-anova_files/figure-html/unnamed-chunk-103.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-103.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
 
 ```r
 par(op)
@@ -536,7 +567,7 @@ bartlett.test(Serum_iron~treatment, iron)
 boxplot(ANOVA1$residuals~treatment)
 ```
 
-![plot of chunk unnamed-chunk-10](./stats13-anova_files/figure-html/unnamed-chunk-104.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-104.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
 
 ```r
 # There is an independence problem, we need more information: are patients all from the same hospital? what about sex and age of patient?
@@ -576,7 +607,7 @@ kruskalmc(WeightLoss~Diet)
 plot(TukeyHSD(model1), las=1) #compare with results of Tukey plot (line 91) 
 ```
 
-![plot of chunk unnamed-chunk-11](./stats13-anova_files/figure-html/unnamed-chunk-11.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
 
 ```r
 detach(diets)
@@ -683,7 +714,7 @@ library(HH)
 boxplot(count ~ spray,data = InsectSprays)
 ```
 
-![plot of chunk unnamed-chunk-13](./stats13-anova_files/figure-html/unnamed-chunk-131.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-131.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" />
 
 ```r
 hov(count ~ spray, data = InsectSprays)
@@ -702,7 +733,7 @@ hov(count ~ spray, data = InsectSprays)
 hovPlot(count ~ spray, data = InsectSprays) 
 ```
 
-![plot of chunk unnamed-chunk-13](./stats13-anova_files/figure-html/unnamed-chunk-132.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-132.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" />
 
 Example 2  (homogeneous variances)
 
@@ -725,7 +756,7 @@ head(turkey)
 boxplot(wt.gain ~ diet, data=turkey)
 ```
 
-![plot of chunk unnamed-chunk-14](./stats13-anova_files/figure-html/unnamed-chunk-141.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-141.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto;" />
 
 ```r
 model3=aov(wt.gain ~ diet, data=turkey)
@@ -745,7 +776,7 @@ par(mfrow=c(2,2))
 plot(model3)
 ```
 
-![plot of chunk unnamed-chunk-14](./stats13-anova_files/figure-html/unnamed-chunk-142.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-142.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))
@@ -766,14 +797,14 @@ hov(wt.gain ~ diet, data=turkey)
 hovPlot(wt.gain ~ diet, data=turkey)
 ```
 
-![plot of chunk unnamed-chunk-14](./stats13-anova_files/figure-html/unnamed-chunk-143.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-143.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto;" />
 
 ```r
 #compare it with the example1 plot 
 hovPlot(count ~ spray, data = InsectSprays) 
 ```
 
-![plot of chunk unnamed-chunk-14](./stats13-anova_files/figure-html/unnamed-chunk-144.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-144.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto;" />
 
 ## Contrasts in ANOVA
 
@@ -801,7 +832,7 @@ summary(PlantGrowth)
 boxplot(weight ~ group)
 ```
 
-![plot of chunk unnamed-chunk-15](./stats13-anova_files/figure-html/unnamed-chunk-151.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-151.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto;" />
 
 ```r
 bartlett.test(weight ~ group)
@@ -849,7 +880,7 @@ TukeyHSD(results) #classical approach
 plot(TukeyHSD(results))
 ```
 
-![plot of chunk unnamed-chunk-15](./stats13-anova_files/figure-html/unnamed-chunk-152.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-152.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto;" />
 
 ```r
 summary.lm(results)
@@ -910,7 +941,7 @@ summary(model)
 
 There is (p < 0.000 001). 
 But this is not too interesting, because it just shows that some habitats produce more fungus than others. We are interested in which habitats produce significantly more fungi than others. 
-Multiple comparisons can be an issue since there are 16 habitats (16 × 15)/2 = 120 possible pairwise comparisons. 
+Multiple comparisons can be an issue since there are 16 habitats (16 Ã 15)/2 = 120 possible pairwise comparisons. 
 
 There are two options:
 
@@ -1053,7 +1084,7 @@ TukeyHSD(model)
 plot(TukeyHSD(model))
 ```
 
-![plot of chunk unnamed-chunk-18](./stats13-anova_files/figure-html/unnamed-chunk-18.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-18.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" style="display: block; margin: auto;" />
 Habitats on opposite sides of the dotted line and not overlapping it are significantly different one from another.
 
 Alternatively, it is possible to use the pairwise.t.test function in which we specify the response variable,
@@ -1198,7 +1229,7 @@ library(effects) # explore the library(effects) and make sure you know which mod
 plot(allEffects(model))  
 ```
 
-![plot of chunk unnamed-chunk-26](./stats13-anova_files/figure-html/unnamed-chunk-26.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-26.png" title="plot of chunk unnamed-chunk-26" alt="plot of chunk unnamed-chunk-26" style="display: block; margin: auto;" />
 
 ## Pseudoreplication: Nested designs and split plots
 
@@ -1319,7 +1350,7 @@ The best way to understand the two significant interaction terms is to plot them
 interaction.plot(fertilizer,irrigation,yield)
 ```
 
-![plot of chunk unnamed-chunk-29](./stats13-anova_files/figure-html/unnamed-chunk-29.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-29.png" title="plot of chunk unnamed-chunk-29" alt="plot of chunk unnamed-chunk-29" style="display: block; margin: auto;" />
 
 Irrigation increases yield proportionately more on the N-fertilized plots than on the P-fertilized plots. The
 irrigation-density interaction is more complicated:
@@ -1329,7 +1360,7 @@ irrigation-density interaction is more complicated:
 interaction.plot(density,irrigation,yield)
 ```
 
-![plot of chunk unnamed-chunk-30](./stats13-anova_files/figure-html/unnamed-chunk-30.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-30.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
 On the irrigated plots, yield is lowest on the low-density plots, but on control plots yield is lowest on the high-density plots. 
 
 ## Effect sizes in ANOVA: aov or lm?
@@ -1465,7 +1496,7 @@ For main effects:
 plot.design(Growth.rate~Water*Detergent*Daphnia)
 ```
 
-![plot of chunk unnamed-chunk-33](./stats13-anova_files/figure-html/unnamed-chunk-33.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-33.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" />
 
 This simple graphical device provides a very clear summary of the three sets of main effects. It is no ideal,
 however, at illustrating the interactions. 
@@ -1479,7 +1510,7 @@ library(effects)
 plot(allEffects(model2))
 ```
 
-![plot of chunk unnamed-chunk-34](./stats13-anova_files/figure-html/unnamed-chunk-34.png) 
+<img src="./stats13-anova_files/figure-html/unnamed-chunk-34.png" title="plot of chunk unnamed-chunk-34" alt="plot of chunk unnamed-chunk-34" style="display: block; margin: auto;" />
 
 ## ANOVA for repeated measures
 This time, we have repeated measures of the same animal, sample sampling unit etc, producing a set of dependent populations.

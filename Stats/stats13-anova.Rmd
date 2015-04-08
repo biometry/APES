@@ -2,6 +2,7 @@
 output:
   html_document:
     keep_md: yes
+    fig_width: 5
 ---
 ---
 layout: page
@@ -10,12 +11,31 @@ category: stats
 subcategory: Hypothesis Testing
 ---
 
+Contents
+
+* Analysis of variance (ANOVA)
+* ONE-WAY ANOVA
+	* Non-parametric version of the Analysis of Variance
+	* hovPlot
+	* Contrasts in ANOVA
+	* Factorial ANOVA
+	* Pseudoreplication: Nested designs and split plots
+	    * Split-plot experiments
+	* Effect sizes in ANOVA: aov or lm?
+	* ANOVA for repeated measures
+
+
 Analysis of variance (ANOVA)
 ===
 
 Anova or analysis of variance makes basically the same assumptions as a t-test (normally distributed responses), but allows for more than two groups. More precisely, the measured response (i.e. the dependent variable) can be influence by several categorical variables that could also interact. Here a simple example for testing whether weight depends on group, where group is a variable that codes for three different options control, treatment1 and treatment2:
 
 ```{r}
+library(knitr)
+opts_knit$set(global.par=TRUE) 
+opts_chunk$set(cache.extra = rand_seed,fig.align='center')
+set.seed(13)
+
 aovresult <- aov(extra~group,  data = sleep)
 summary(aovresult)
 ```
@@ -51,8 +71,12 @@ names(results)
 #the datset is horizonetal, first we will flip it to vertical
 sapply(list(sand,clay,loam),mean) #for horizontal datasets
 boxplot(sand,clay,loam)
+```
 
-#to flip the dataset
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-21.png)
+
+To flip the dataset
+```{r}
 frame <- stack(results)
 names(frame) <- c("yield","soil")
 detach(results)
@@ -63,8 +87,12 @@ head(frame)
 tapply(yield,soil,var)
 
 plot(yield~soil,col="green")
+```
 
-#test for homoscedasticity, one of the model assumptions
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-22.png)
+
+Test for homoscedasticity, one of the model assumptions
+```{r}
 fligner.test(yield~soil)   # Fligner-Killeen test of homogeneity of variances
 bartlett.test(yield~soil)  #Bartlett.test
 
@@ -74,6 +102,11 @@ summary(model)
 
 par(mfrow=c(2,2))
 plot(aov(yield~soil))
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-23.png)
+
+```{r}
 par(mfrow=c(1,1))
 
 #we can see that the assumptions are met
@@ -97,7 +130,11 @@ length(WeightLoss)
 
 ```{r}
 boxplot(WeightLoss~Diet, ylab="Weight loss (kg)", xlab="Diet ",col=c(0,2,3,4))
+```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-4.png)
+
+```{r}
 # Ho = mean equal for all diets
 
 model1= aov(WeightLoss~Diet)
@@ -115,15 +152,28 @@ TukeyHSD(model1) #all possible combinations between the different diets
 plot(TukeyHSD(model1), las=1)  #graphic visualization
 ```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-5.png)
+
 ANOVA's assumptions
 ```{r}
 par(mfrow=c(2,2))
 plot(model1)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-61.png)
+
+```{r}
 par(mfrow=c(1,1))
 
 qqnorm(model1$residuals);qqline(model1$residuals)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-62.png)
+
+```{r}
 shapiro.test(model1$residuals) # we cannot reject the null hypothesis, but with poor confidence. However, as discussed for the linear regression, the assumption of normality is not that strict.
 ```
+
 If our data is no normally distributed:
 The one-way ANOVA is considered a robust test against the normality assumption. This means that it tolerates violations to its normality assumption rather well. Regarding the normality of the group data, the one-way ANOVA can tolerate data that is non-normal . However, platykurtosis can have a profound effect when the group sizes are small. 
 (Kurtosis.jpg)
@@ -136,6 +186,11 @@ There are two options:
 par(mfrow=c(1,2))
 hist(model1$residuals,freq=F,ylim=c(0,0.4),breaks=10);lines(density(model1$residuals))
 hist(WeightLoss,freq=F,ylim=c(0,0.4),breaks=10);lines(density(WeightLoss))
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-7.png)
+
+```{r}
 par(mfrow=c(1,1))
 #Platykurtosis was not used here, the sample size is not small neither.
 ```
@@ -147,6 +202,11 @@ data(InsectSprays)
 attach(InsectSprays)
 fligner.test(count ~ spray) # variances are not equal
 boxplot(count ~ spray)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-8.png)
+
+```{r}
 model3=oneway.test(count ~ spray) #this is not assuming equal variances
 model3
 detach(InsectSprays)
@@ -165,16 +225,31 @@ levels(treatment)
 Running a parametric ANOVA
 ```{r}
 boxplot(Serum_iron~treatment)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-101.png)
+
+```{r}
 ANOVA1=aov(Serum_iron~treatment)
 summary(ANOVA1)
 TukeyHSD(ANOVA1)
 
 op=par(mar=c(4,8,4,4))
 plot(TukeyHSD(ANOVA1),las=1)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-102.png)
+
+```{r}
 par(op)
 
 op=par(mfrow=c(2,2))
 plot(ANOVA1)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-103.png)
+
+```{r}
 par(op)
 par(mfrow=c(1,1))
 fligner.test(Serum_iron~treatment)
@@ -182,6 +257,9 @@ bartlett.test(Serum_iron~treatment, iron)
 #increasing spred in residuals, different spread in residuals depending on drugs
 
 boxplot(ANOVA1$residuals~treatment)
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-104.png)
+
 
 # There is an independence problem, we need more information: are patients all from the same hospital? what about sex and age of patient?
 ```
@@ -194,7 +272,11 @@ model2=kruskal.test(WeightLoss~Diet)
 library(pgirmess)
 kruskalmc(WeightLoss~Diet)
 plot(TukeyHSD(model1), las=1) #compare with results of Tukey plot (line 91) 
+```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-11.png)
+
+```{r}
 detach(diets)
 ```
 However, the Kruskal-Wallis test should not be regarded as an universal solution, it is primarily intended to solve normality problems. 
@@ -218,28 +300,53 @@ Example 1  (clearly not homogeneous variances)
 # Homogeneity of Variance Plot
 library(HH)
 boxplot(count ~ spray,data = InsectSprays)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-131.png)
+
+
+```{r}
 hov(count ~ spray, data = InsectSprays)
 hovPlot(count ~ spray, data = InsectSprays) 
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-132.png)
+
 
 Example 2  (homogeneous variances)
 ```{r}
 data(turkey)
 head(turkey)
 boxplot(wt.gain ~ diet, data=turkey)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-141.png)
+
+```{r}
 model3=aov(wt.gain ~ diet, data=turkey)
 summary(model3)
 par(mfrow=c(2,2))
 plot(model3)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-142.png)
+
+```{r}
 par(mfrow=c(1,1))
 
 hov(wt.gain ~ diet, data=turkey)
 hovPlot(wt.gain ~ diet, data=turkey)
-
-#compare it with the example1 plot 
-hovPlot(count ~ spray, data = InsectSprays) 
-
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-143.png)
+
+
+Compare it with the example1 plot 
+```{r}
+hovPlot(count ~ spray, data = InsectSprays) 
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-143.png)
 
 ## Contrasts in ANOVA
 
@@ -251,12 +358,21 @@ When the design consists of a control condition and several treatments, or when 
 attach(PlantGrowth)
 summary(PlantGrowth)
 boxplot(weight ~ group)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-151.png)
+
+```{r}
 bartlett.test(weight ~ group)
 results =  aov(weight ~ group)
 summary.aov(results)  #classical approach
 TukeyHSD(results) #classical approach
 plot(TukeyHSD(results))
+```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-152.png)
+
+```{r}
 summary.lm(results)
 
 detach(PlantGrowth)
@@ -289,6 +405,10 @@ There are two options:
 TukeyHSD(model)
 plot(TukeyHSD(model))
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-18.png)
+
+
 Habitats on opposite sides of the dotted line and not overlapping it are significantly different one from another.
 
 Alternatively, it is possible to use the pairwise.t.test function in which we specify the response variable,
@@ -379,6 +499,9 @@ library(effects) # explore the library(effects) and make sure you know which mod
 plot(allEffects(model))  
 ```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-26.png)
+
+
 ## Pseudoreplication: Nested designs and split plots
 
 The model-fitting functions aov, lme and lmer have the ease to deal with complicated error structures, and
@@ -434,12 +557,17 @@ The best way to understand the two significant interaction terms is to plot them
 interaction.plot(fertilizer,irrigation,yield)
 ```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-29.png)
+
 Irrigation increases yield proportionately more on the N-fertilized plots than on the P-fertilized plots. The
 irrigation-density interaction is more complicated:
 
 ```{r}
 interaction.plot(density,irrigation,yield)
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-30.png)
+
 On the irrigated plots, yield is lowest on the low-density plots, but on control plots yield is lowest on the high-density plots. 
 
 ## Effect sizes in ANOVA: aov or lm?
@@ -484,6 +612,8 @@ For main effects:
 plot.design(Growth.rate~Water*Detergent*Daphnia)
 ```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-33.png)
+
 This simple graphical device provides a very clear summary of the three sets of main effects. It is no ideal,
 however, at illustrating the interactions. 
 The model.tables function takes the name of the fitted model object as its firrst argument, and then it is possible to specify whether we want the standard errors (as we typically would):
@@ -494,6 +624,8 @@ Attractive plots of effect sizes can be obtained using the effects library.
 library(effects)
 plot(allEffects(model2))
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-34.png)
 
 ## ANOVA for repeated measures
 This time, we have repeated measures of the same animal, sample sampling unit etc, producing a set of dependent populations.

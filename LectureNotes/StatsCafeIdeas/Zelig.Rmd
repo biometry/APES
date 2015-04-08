@@ -1,0 +1,9 @@
+---
+title: "Zelig"
+author: "Florian Hartig"
+date: "5 Feb 2015"
+output: html_document
+---
+
+
+# http://zeligproject.org/

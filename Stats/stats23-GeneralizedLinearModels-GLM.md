@@ -1,6 +1,25 @@
+---
+layout: page
+title: Generalized linear models
+category: stats
+subcategory: Regression
+---
 Generalized linear models (GLM)
 ===
 
+```r
+library(knitr)
+```
+
+```
+## Warning: package 'knitr' was built under R version 3.0.3
+```
+
+```r
+opts_knit$set(global.par=TRUE) 
+opts_chunk$set(cache.extra = rand_seed,fig.align='center')
+set.seed(23)
+```
 
 # The general idea
 
@@ -74,7 +93,7 @@ attach(TitanicSurvival)
 plot(survived ~ age)
 ```
 
-![plot of chunk unnamed-chunk-1](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-11.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-21.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
 
 ```r
 surv <- as.numeric(survived)-1
@@ -82,7 +101,7 @@ surv <- as.numeric(survived)-1
 plot(surv ~ age)
 ```
 
-![plot of chunk unnamed-chunk-1](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-12.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-22.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
 
 ```r
 fmt <- glm(surv ~ age + I(age^2) + I(age^3), family=binomial)
@@ -132,7 +151,7 @@ lines(newage, plogis(preds$fit-2*preds$se.fit), col="purple", lwd=3, lty=2)
 lines(newage, plogis(preds$fit+2*preds$se.fit), col="purple", lwd=3, lty=2) 
 ```
 
-![plot of chunk unnamed-chunk-2](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-2.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-3.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" style="display: block; margin: auto;" />
 
 ```r
 fmt <- glm(surv ~ age + sex + passengerClass, family=binomial)
@@ -225,7 +244,7 @@ attach(Boar)
 boxplot(LengthCT~Tb,ylab='body length',xlab='Tb')
 ```
 
-![plot of chunk unnamed-chunk-4](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-41.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-51.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
 
 ```r
 plot(x=Boar$LengthCT, y = Boar$Tb,xlab="Length", ylab="Tb")
@@ -234,7 +253,7 @@ B0=lm(Tb ~LengthCT, data = Boar)
 abline(B0) 
 ```
 
-![plot of chunk unnamed-chunk-4](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-42.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-52.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
 The wrong model, as we are working with probabilities, while linear regression also predicts negative probabilities and it is not possible a negative probability of getting sick
 
 We need a function that maps the values between 0 and 1 (e.g., logit link, probit link, clog-log link, log-log link).
@@ -282,7 +301,7 @@ Pred<- predict(B1,newdata = MyData, type = "response")
 lines(MyData$LengthCT,Pred,col=2,lty=2)
 ```
 
-![plot of chunk unnamed-chunk-6](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-6.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-7.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 Alternatively
 
@@ -291,7 +310,7 @@ plot.new()
 curve(predict(B1,data.frame(LengthCT=x),type="resp"),add=TRUE,col=3) 
 ```
 
-![plot of chunk unnamed-chunk-7](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-7.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 or we can use the "popbio" package
 
@@ -307,7 +326,7 @@ library(popbio)
 logi.hist.plot(LengthCT,Tb,boxp=FALSE,type="hist",col="gray")
 ```
 
-![plot of chunk unnamed-chunk-8](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-8.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-9.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" style="display: block; margin: auto;" />
 
 another option is to use a GLM
 
@@ -352,7 +371,7 @@ Pred<- predict(B1.A,newdata = MyData, type = "response")
 lines(MyData$LengthCT,Pred,col=2,lty=2)
 ```
 
-![plot of chunk unnamed-chunk-10](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-10.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
 
 Pseudo R Square
 
@@ -450,7 +469,7 @@ Pred<- predict(P1,newdata = MyData, type = "response")
 lines(MyData$Length,Pred,col=4,lty=4)
 ```
 
-![plot of chunk unnamed-chunk-13](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-13.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-14.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto;" />
 
 A much handier way
 
@@ -462,7 +481,7 @@ curve(predict(P1,data.frame(Length=x,fArea="3"),type="resp"),add=TRUE,col=3,lwd=
 curve(predict(P1,data.frame(Length=x,fArea="4"),type="resp"),add=TRUE,col=4,lwd=2)
 ```
 
-![plot of chunk unnamed-chunk-14](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-14.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-15.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto;" />
 
 
 ### Example 4 - Logistic regresion  
@@ -563,7 +582,7 @@ library(effects)
 plot(allEffects(Deer2))
 ```
 
-![plot of chunk unnamed-chunk-17](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-17.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-18.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" style="display: block; margin: auto;" />
 
 We add a dispersion parameter to the variance of Y
 
@@ -616,7 +635,7 @@ Deer3$deviance / Deer3$df.residual
 plot(allEffects(Deer3))
 ```
 
-![plot of chunk unnamed-chunk-18](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-18.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-19.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" style="display: block; margin: auto;" />
 
 We have lost many of the significant patters that were biased by overdispersion.
 The new results look pretty different
@@ -636,7 +655,7 @@ curve(predict(Deer3,data.frame(OpenLand=x,  # scenario "fenced"
       fFenced="1"),type="resp"),add=TRUE,col=2,lwd=2)
 ```
 
-![plot of chunk unnamed-chunk-19](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-19.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-20.png" title="plot of chunk unnamed-chunk-20" alt="plot of chunk unnamed-chunk-20" style="display: block; margin: auto;" />
 
 Plotting predictions with 95% CIs
 
@@ -711,7 +730,7 @@ lines(MyData$LengthCT,Pred$fit+1.96*Pred$se.fit,col=3,lty=1)
 lines(MyData$LengthCT,Pred$fit-1.96*Pred$se.fit,col=3,lty=1)
 ```
 
-![plot of chunk unnamed-chunk-20](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-20.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-21.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" style="display: block; margin: auto;" />
 
 
 ## Poisson Regression
@@ -762,7 +781,7 @@ preds <- predict(fm, newdata=data.frame("attrakt"=newattrakt))
 lines(newattrakt, exp(preds), lwd=2, col="green")
 ```
 
-![plot of chunk unnamed-chunk-21](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-21.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-22.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" style="display: block; margin: auto;" />
 
 same with 95% confidence interval:
 
@@ -787,7 +806,7 @@ lines(newattrakt, exp(preds$fit+2*preds$se.fit), lwd=2, col="green", lty=2)
 lines(newattrakt, exp(preds$fit-2*preds$se.fit), lwd=2, col="green", lty=2)
 ```
 
-![plot of chunk unnamed-chunk-22](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-22.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-23.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" style="display: block; margin: auto;" />
 
 ```r
 detach(cfc)
@@ -834,7 +853,7 @@ plot(RK$D.PARK,RK$TOT.N,xlab="Distance to park",
      ylab="Road kills")
 ```
 
-![plot of chunk unnamed-chunk-24](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-24.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-25.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" style="display: block; margin: auto;" />
 
 Next we fit out the Poisson GLM
 
@@ -898,7 +917,7 @@ lines(MyData$D.PARK,FSEUP,lty=2)
 lines(MyData$D.PARK,FSELOW,lty=2)
 ```
 
-![plot of chunk unnamed-chunk-27](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-27.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-28.png" title="plot of chunk unnamed-chunk-28" alt="plot of chunk unnamed-chunk-28" style="display: block; margin: auto;" />
 
 Back to the summary
 
@@ -1099,7 +1118,7 @@ lines(MyData$D.PARK,FSEUP,lty=2,col=2)
 lines(MyData$D.PARK,FSELOW,lty=2,col=2)
 ```
 
-![plot of chunk unnamed-chunk-34](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-34.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-35.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
 When comparing this model predictions (where we deal with overdispersion) with the first Poisson model, we can observe the same fitted values but completely different errors.
 
 # Technical details 
@@ -1118,7 +1137,7 @@ attach(cfc)
 plot(stuecke ~ attrakt)
 ```
 
-![plot of chunk unnamed-chunk-35](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-351.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-361.png" title="plot of chunk unnamed-chunk-36" alt="plot of chunk unnamed-chunk-36" style="display: block; margin: auto;" />
 
 ```r
 # defining the likelihood of a Poisson regression
@@ -1138,7 +1157,7 @@ pars = cbind(slope, intercept)
 plot(slope, apply(pars,1, loglikelihood), main = "Likelihood profile", ylab = "Neg Log Likelihood")
 ```
 
-![plot of chunk unnamed-chunk-35](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-352.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-362.png" title="plot of chunk unnamed-chunk-36" alt="plot of chunk unnamed-chunk-36" style="display: block; margin: auto;" />
 
 ```r
 # plotting the likelihood surface (= likelihood as a function of slope, intercept)
@@ -1155,7 +1174,7 @@ bestfit = optim(c(0.12,1.3), loglikelihood, method = "BFGS")
 points(bestfit$par[1], bestfit$par[2], col = "red", lwd = 4)
 ```
 
-![plot of chunk unnamed-chunk-35](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-353.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-363.png" title="plot of chunk unnamed-chunk-36" alt="plot of chunk unnamed-chunk-36" style="display: block; margin: auto;" />
 
 ```r
 # calculating the "Hessian" matrix (Funktionaldeterminante)
@@ -1174,7 +1193,7 @@ bestfit$hessian
 persp(slope, intercept, matrix(parametervalues$response, nrow = 100), theta = 40, phi = 30, expand = 0.7, col = c("grey","red"),  ticktype = "detailed")
 ```
 
-![plot of chunk unnamed-chunk-35](./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-354.png) 
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-364.png" title="plot of chunk unnamed-chunk-36" alt="plot of chunk unnamed-chunk-36" style="display: block; margin: auto;" />
 
 ```r
 # bonus plot

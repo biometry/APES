@@ -2,6 +2,7 @@
 output:
   html_document:
     keep_md: yes
+    fig_width: 5
 ---
 ---
 layout: page
@@ -10,18 +11,43 @@ category: stats
 subcategory: Regression
 ---
 
+```{r}
+library(knitr)
+opts_knit$set(global.par=TRUE) 
+opts_chunk$set(cache.extra = rand_seed,fig.align='center')
+set.seed(21)
+```
+
+Contents
+
+* Linear regression summary and idea
+* Univariate
+  * Continous predictor
+    * Interpreting the output   
+    * Residual diagnostics
+  * Categorical predictor
+* Multiple linear regression
+  * 
+
+
+
+
 Linear regression
 ===
 
+# Linear regression summary and idea
 
-# The idea of linear regression
 
-## Simple linear regression
+http://sites.uclouvain.be/selt/files/medias/unamur-regression-lineaire-module20.swf
+
+# Univariate linear regression
+
+Univariate means that we have one predictor (independent) variable only. This predictor can be continous or categorical. We will first look at the continous case, because that is easier to understand, and move to the categorical case then. 
+
+
+## Univariate linear regression with continous data
 
 A simple linear regression model allows modelling the dependence of a continuous response y on a single linear predictor x
-
-
-### Example1  simple regression 
 
 The relationship between age and lung capacity
 
@@ -39,6 +65,8 @@ mod=lm(LungCap~Age) # the linear model function
 abline(mod,lwd=2,col="grey")
 summary(mod)
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-3.png)
 
 Important points on the lm summary:
 
@@ -70,11 +98,15 @@ abline(mod,lwd=2,col="grey")
 points(Age,mod$fitted.values, pch=20, col=2)
 ```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-6.png)
+
 Plotting the residuals
 ```{r}
 plot(Age,mod$residuals,pch=20,col="blue" )
 abline(h=0, lwd=3)
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-7.png)
 
 Plot the regression line
 ```{r}
@@ -82,6 +114,8 @@ plot(Age,LungCap,main="Relation between age and lung capacity"
      , col="green",las=1, xlab="Age of the patient", ylab="Lung capacity")
 abline(mod,col=2,lwd=4)
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-8.png)
 
 ### Example2  simple regression
 
@@ -94,8 +128,15 @@ abline(h=0)
 mod2=lm(y1~x1); abline(mod2,col=2,lwd=3)
 summary(mod2)
 points(x1,mod2$fitted.values, pch=20, col="blue",cex=3)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-91.png)
+
+```{r}
 plot(x1,mod2$residuals,pch=20,col="blue" ); abline(h=0, lwd=3)
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-92.png)
 
 z are the residuals of the model (mod2), we can see them on the summary
 ```{r}
@@ -132,6 +173,11 @@ All the other assumptions can be checked by checking the residuals
 ```{r}
 par(mfrow=c(2,2))
 plot(mod)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-13.png)
+
+```{r}
 par(mfrow=c(1,1))
 ```
 
@@ -155,13 +201,19 @@ hist(mod$residuals, freq=F,breaks=20)
 lines(density(mod$residuals))
 ```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-14.png)
+
 ```{r}
 plot(Age,LungCap,main="Relation between age and lung capacity"
      , col="green",las=1, xlab="Age of the patient", ylab="Lung capacity")
 abline(mod,lwd=2,col=2)
 points(Age[114],LungCap[114],pch=20) #to highlight a specific point
 points(Age[293],LungCap[293],pch=20)
+```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-15.png)
+
+```{r}
 detach(lung)
 ```
 
@@ -179,12 +231,22 @@ attach(problems)
 plot(x,y)
 mod1=lm(y~x,problems)
 abline(mod1,col="red")
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-17.png)
+
+```{r}
 summary(mod1)
 ```
 
 ```{r}
 par(mfrow=c(2,2))
 plot(mod1)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-18.png)
+
+```{r}
 par(mfrow=c(1,1)) 
 ```
 Assumption of linearity and homoscedasticity (top-left plot) are hardly met in this example.
@@ -194,6 +256,7 @@ Assumption of linearity and homoscedasticity (top-left plot) are hardly met in t
 ### Example4  simple regression 
 
 Relation between decay and time
+
 ```{r}
 decay <- read.delim("../Data/Decay.txt")
 
@@ -202,21 +265,33 @@ attach(decay)
 plot(time,amount)
 mod3=lm(amount~time)
 abline(mod3,lwd=2,col=2)
+```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-191.png)
+
+```{r}
 par(mfrow=c(2,2))
 plot(mod3)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-192.png)
+
+```{r}
 par(mfrow=c(1,1))
 ```
 
 Plot1: residuals against the fitted values (upper-left plot) which shows very pronounced curvature; most of the residuals for intermediate fitted values are negative, and the positive residuals are concentrated at the smallest and largest fitted values. This plot should not shown pattern of any sort. This suggests systematic inadequacy in the structure of the model. 
 
 Plot 2 : does not show normality
+
 ```{r}
 par(mfrow=c(1,1)) 
 shapiro.test(mod3$residuals)  # no normally distributed
 hist(mod3$residuals, freq=F,breaks=20)
 lines(density(mod3$residuals))
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-20.png)
 
 Plot 3: a positive-valued version of the first graph; it is good to detect non-constancy of variance (heteroscedasticity), which shows up as a triangular scatter. 
 
@@ -233,6 +308,8 @@ points(time[30],amount[30],pch=20,cex=1.5)
 points(time,mod3$fitted.values, pch=20, col="blue")
 ```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-21.png)
+
 Positive and negative residuals
 ```{r}
 plot(time,mod3$residuals)
@@ -241,14 +318,24 @@ points(time[mod3$residuals>=0],mod3$residuals[mod3$residuals>=0],pch=20,col="blu
 points(time[mod3$residuals<0],mod3$residuals[mod3$residuals<0],pch=20,col="red" )      
 ```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-22.png)
+
 ```{r}
 mod4=lm(amount~time+I(time^2))
 plot(time,amount)
 lines(mod4$fitted.values, type="l", lwd=2,lty=3)# abline is no longer working here. 
+```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-231.png)
+
+```{r}
 par(mfrow=c(2,2))
 plot(mod4)
+```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-232.png)
+
+```{r}
 par(mfrow=c(1,2))
 ```
 
@@ -258,7 +345,11 @@ plot(time,mod3$residuals)
 abline(h=0, lwd=3)
 points(time[mod3$residuals>=0],mod3$residuals[mod3$residuals>=0],pch=20,col="blue" )
 points(time[mod3$residuals<0],mod3$residuals[mod3$residuals<0],pch=20,col="red" )
+```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-241.png)
+
+```{r}
 plot(time,mod4$residuals)
 abline(h=0, lwd=3)
 points(time[mod4$residuals>=0],mod4$residuals[mod4$residuals>=0],pch=20,col="blue" )
@@ -271,20 +362,35 @@ points(time[3],mod4$residuals[3],pch=20,col="yellow" )
 par(mfrow=c(1,1))
 ```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-242.png)
+
 ```{r}
 plot(time,amount)
 mod5=lm(amount~time+I(time^2)+I(time^3))
 lines(mod5$fitted.values, type="l", lwd=2,lty=3)
+```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-251.png)
+
+```{r}
 plot(time,mod5$residuals)
 abline(h=0, lwd=3)
 points(time[mod5$residuals>=0],mod5$residuals[mod5$residuals>=0],pch=20,col="blue" )
 points(time[mod5$residuals<0],mod5$residuals[mod5$residuals<0],pch=20,col="red" )
 points(time[1],mod5$residuals[1],pch=20,col="yellow" )
 points(time[5],mod5$residuals[5],pch=20,col="yellow" )
+```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-252.png)
+
+```{r}
 par(mfrow=c(2,2))
 plot(mod5)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-253.png)
+
+```{r}
 par(mfrow=c(1,1))
 
 detach(decay)
@@ -297,6 +403,8 @@ The data
 myData <- women
 plot(myData)
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-26.png)
 
 Fit the model 
 ```{r}
@@ -312,8 +420,9 @@ Diagnostics
 ```{r}
 layout(matrix(c(1,2,3,4),2,2)) # optional 4 graphs/page
 plot(fit)
-
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-29.png)
 
 ```{r}
 # Other useful functions
@@ -327,7 +436,7 @@ influence(fit) # regression diagnostics
 ```
 
 
-## Multiple linear regression
+# Multiple linear regression
 
 Multiple linear regression is the term for the situation in which you have multiple predictor variables, but still only one continous response with the same assumptions as before. 
 
@@ -358,11 +467,21 @@ Whenever the time is increased by 1 year, so it does the lung capacity by 0.126
 ```{r}
 library(effects)
 plot(allEffects(model1))
-
-plot(effect("Age",model1))
-plot(effect("Height",model1))
-
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-331.png)
+
+```{r}
+plot(effect("Age",model1))
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-332.png)
+
+```{r}
+plot(effect("Height",model1))
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-333.png)
 
 Now the same dataset with the ANCOVA (covariance analysis)
 ```{r}
@@ -372,18 +491,47 @@ summary(model2)
 plot(allEffects(model2))
 ```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-34.png)
+
 Checking that assumptions are met
 ```{r}
 par(mfrow=c(2,2))
 plot(model2)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-351.png)
+
+```{r}
 par(mfrow=c(1,1))
 
 plot(Height,model2$residuals);abline(h=0)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-352.png)
+
+```{r}
 plot(Age,model2$residuals);abline(h=0)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-353.png)
+
+```{r}
 plot(model2$residuals~Smoke);abline(h=0)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-354.png)
+
+```{r}
 plot(model2$residuals~Gender);abline(h=0)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-355.png)
+
+```{r}
 plot(model2$residuals~Caesarean);abline(h=0)
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-356.png)
 
 ### Example2  Multiple linear regression - Collinearity Issues
 
@@ -393,6 +541,11 @@ This can be a problem since it increases the standard errors of the coefficients
 
 ```{r}
 plot(Height,Age)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-36.png)
+
+```{r}
 cor(Height,Age)
 ```
 
@@ -475,7 +628,11 @@ Z<-cbind(LungCap,Age,Height,NSmoke,NGender,NCaesarean)
 and assign names to the columns
 ```{r}
 colnames(Z)<-c("LungCap","Age","Height","NSmoke","NGender","NCaesarean")
+```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-42.png)
+
+```{r}
 pairs(Z, lower.panel=panel.smooth2,
       upper.panel=panel.cor,diag.panel=panel.hist)
 ```
@@ -620,12 +777,14 @@ summary(M0)
 abline(v=0,lwd=2) # to see the intercept better
 ```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-50.png)
 
 ```{r}
 library(effects)
 plot(allEffects(M0))
 ```
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-51.png)
 
 ### Example4  Multiple linear regression - ANCOVA
 
@@ -645,14 +804,18 @@ head(regrowth)
 #in case there would not be root data available
 regrowth$Root = NULL
 head(regrowth)
-
 ```
 
 ```{r}
 attach(regrowth)
 plot(Fruit~Grazing)
+```
 
-#normality test
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-53.png)
+
+
+Normality test
+```{r}
 shapiro.test(Fruit[Grazing=="Grazed"])
 shapiro.test(Fruit[Grazing=="Ungrazed"])
 
@@ -677,6 +840,11 @@ attach(regrowth)
 par(mfrow=c(1,2))
 plot(Fruit~Grazing) # it looks like fruit production is higher if plants are grazed, this would be all if the only data available would be on grazing but we have now to take also into account the root size
 plot(Root,Fruit)
+```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-54.png)
+
+```{r}
 par(mfrow=c(1,1))
 ```
 
@@ -690,6 +858,8 @@ summary(model2)
 
 plot(Root,Fruit,col=Grazing,pch=20,cex=3)
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-55.png)
 
 Predict the scenario for Grazed plants with 95% confidence
 ```{r}
@@ -725,4 +895,6 @@ par(mfrow=c(2,2))
 plot(model2)
 par(mfrow=c(1,1))
 ```
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-58.png)
 
