@@ -372,7 +372,6 @@ To do a bar plot Sepal.Length against Petal.Length, use the following command
 ```{r}
 barplot(Petal.Length, Sepal.Length)
 ```
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/R/R40-PlottingInR_files/figure-html/unnamed-chunk-19.png)
 
 As usual we can add a large range of extra features
 
