@@ -31,75 +31,32 @@ Contents
 	* Colors
 
 
-
-
 Plotting in R
 
 =======
 
 # Useful Links
 
-Wiki page with basic plotting examples:
-http://en.wikibooks.org/wiki/R_Programming/Graphics
+* [Wiki page with basic plotting examples](http://en.wikibooks.org/wiki/R_Programming/Graphics)
 
-The Quick-R page has more complete information about everytipe of plot:
-http://www.statmethods.net/graphs/creating.html
+* [The Quick-R page](http://www.statmethods.net/graphs/creating.html) has more complete information about everytipe of plot
 
-Derek Ogle's book chapter is a quick but clear introduction to plotting for Fisheries Analyses:
-https://5c3dc6c1-a-62cb3a1a-s-sites.googlegroups.com/site/fishrfiles/home/ifswr-drafts/Plotting_IntroFishAnalysisR.pdf?attachauth=ANoY7cqgeZWxKf36OxjHT4us56VkfzalvamJF5QAhzOEcUN_16c3YC7jO-B9X9qMju9DKW_XoMziYJyXU-pMYeyf593KPjkYSb5_q897f6jBbXykDcGhAz9jX1VD1sZQN_D5DTlp2BZXta3KNuCLAnrtReRZ3zQ6olNjTIKXVR8TwEebBQIyE2Tt90ihWEqU37bSNcQqtvyooFVE8BgXNdD5MRFDyGI411rtUUqf_whDVv7MFZkj9hOGXeCQ3LsMCamTZ0KEi6Ua&attredirects=0
+* Derek Ogle's book chapter is a [quick but clear introduction to plotting for Fisheries Analyses](https://5c3dc6c1-a-62cb3a1a-s-sites.googlegroups.com/site/fishrfiles/home/ifswr-drafts/Plotting_IntroFishAnalysisR.pdf?attachauth=ANoY7cqgeZWxKf36OxjHT4us56VkfzalvamJF5QAhzOEcUN_16c3YC7jO-B9X9qMju9DKW_XoMziYJyXU-pMYeyf593KPjkYSb5_q897f6jBbXykDcGhAz9jX1VD1sZQN_D5DTlp2BZXta3KNuCLAnrtReRZ3zQ6olNjTIKXVR8TwEebBQIyE2Tt90ihWEqU37bSNcQqtvyooFVE8BgXNdD5MRFDyGI411rtUUqf_whDVv7MFZkj9hOGXeCQ3LsMCamTZ0KEi6Ua&attredirects=0)
 
-List of graphic packages that are available and how they fit together:
-http://mran.revolutionanalytics.com/taskview/info/?Graphics
+* [List of graphic packages that are available and how they fit together](http://mran.revolutionanalytics.com/taskview/info/?Graphics)
 
-Paul Maurell's book, "R Graphics", is a resource that helps users to master the intricacies of R graphics:
-https://www.stat.auckland.ac.nz/~paul/RGraphics/rgraphics.html
+* Paul Maurell's book, ["R Graphics"](https://www.stat.auckland.ac.nz/~paul/RGraphics/rgraphics.html), is a resource that helps users to master the intricacies of R graphics
 
-How to change the font in R charts:
-http://blog.revolutionanalytics.com/2012/09/how-to-use-your-favorite-fonts-in-r-charts.html
+* How to change the [font](http://blog.revolutionanalytics.com/2012/09/how-to-use-your-favorite-fonts-in-r-charts.html) in R charts
 
-About changing the background color in plots:
-https://stat.ethz.ch/pipermail/r-help/2003-May/033971.html
+* About changing the [background color in plots](https://stat.ethz.ch/pipermail/r-help/2003-May/033971.html)
 
-How to plot mathematical annotation:
-http://vis.supstat.com/2013/04/mathematical-annotation-in-r/ and http://blog.revolutionanalytics.com/2013/04/math-symbols-in-r.html
+* [How to plot mathematical annotation](http://vis.supstat.com/2013/04/mathematical-annotation-in-r/ and http://blog.revolutionanalytics.com/2013/04/math-symbols-in-r.html)
 
-Some tips about how to improve R graphics:
-http://blog.revolutionanalytics.com/2009/01/10-tips-for-making-your-r-graphics-look-their-best.html
+* [Some tips about how to improve R graphics](http://blog.revolutionanalytics.com/2009/01/10-tips-for-making-your-r-graphics-look-their-best.html)
 
-We can also find a R graphic's chapter in "An Introduction to R":
+* We can also find a R graphic's chapter in ["An Introduction to R"](http://cran.r-project.org/doc/manuals/r-release/R-intro.html#Graphics)
 
-Wiki page with basic plotting examples:
-http://en.wikibooks.org/wiki/R_Programming/Graphics
-
-The Quick-R page has more complete information about everytipe of plot:
-http://www.statmethods.net/graphs/creating.html
-
-Derek Ogle's book chapter is a quick but clear introduction to plotting for Fisheries Analyses:
-https://5c3dc6c1-a-62cb3a1a-s-sites.googlegroups.com/site/fishrfiles/home/ifswr-drafts/Plotting_IntroFishAnalysisR.pdf?attachauth=ANoY7cqgeZWxKf36OxjHT4us56VkfzalvamJF5QAhzOEcUN_16c3YC7jO-B9X9qMju9DKW_XoMziYJyXU-pMYeyf593KPjkYSb5_q897f6jBbXykDcGhAz9jX1VD1sZQN_D5DTlp2BZXta3KNuCLAnrtReRZ3zQ6olNjTIKXVR8TwEebBQIyE2Tt90ihWEqU37bSNcQqtvyooFVE8BgXNdD5MRFDyGI411rtUUqf_whDVv7MFZkj9hOGXeCQ3LsMCamTZ0KEi6Ua&attredirects=0
-
-¢List of graphic packages that are available and how they fit together:
-http://mran.revolutionanalytics.com/taskview/info/?Graphics
-
-¢Paul Maurell's book, "R Graphics", is a resource that helps users to master the intricacies of R graphics:
-https://www.stat.auckland.ac.nz/~paul/RGraphics/rgraphics.html
-
-How to change the font in R charts:
-http://blog.revolutionanalytics.com/2012/09/how-to-use-your-favorite-fonts-in-r-charts.html
-
-¢About changing the background color in plots:
-https://stat.ethz.ch/pipermail/r-help/2003-May/033971.html
-
-How to plot mathematical annotation:
-http://vis.supstat.com/2013/04/mathematical-annotation-in-r/ and http://blog.revolutionanalytics.com/2013/04/math-symbols-in-r.html
-
-Some tips about how to improve R graphics:
-http://blog.revolutionanalytics.com/2009/01/10-tips-for-making-your-r-graphics-look-their-best.html
-
-We can also find a R graphic's chapter in "An Introduction to R":
->>>>>>> origin/master
-http://cran.r-project.org/doc/manuals/r-release/R-intro.html#Graphics
-=======
->>>>>>> parent of 1135d2d... Figures
 
 
 # Simple standard plots
@@ -137,6 +94,8 @@ plot(Petal.Length, Sepal.Length)
 ```
 
 ![plot of chunk unnamed-chunk-2](./R40-plottingInR_files/figure-html/unnamed-chunk-2.png) 
+
+
 We can improve this plot by adding graphic options. The most basic options are provided in the help
 
 
@@ -179,6 +138,7 @@ abline(lm(Sepal.Length~Petal.Length), col="red")
 ```
 
 ![plot of chunk unnamed-chunk-5](./R40-plottingInR_files/figure-html/unnamed-chunk-5.png) 
+
 2.	Lowess returns a list containing components x and y which give the coordinates of the smooth. 
 
 ```r
@@ -207,6 +167,7 @@ scatterplot(Sepal.Length~Petal.Length | Species, data=iris, boxplots= "x,y",
 
 ![plot of chunk unnamed-chunk-7](./R40-plottingInR_files/figure-html/unnamed-chunk-7.png) 
 
+
 Where:
 * `Sepal.Length~Petal.Length | Species` = the formula to plot by groups `(x ~ y | z)`. It could also be a formula of the type `x ~ y`.  
 * `data` = dataframe   
@@ -232,14 +193,17 @@ The scatterplot matrices command is pairs()
 pairs(iris)
 ```
 
-![plot of chunk unnamed-chunk-8](./R40-plottingInR_files/figure-html/unnamed-chunk-81.png) 
+![plot of chunk unnamed-chunk-8](./R40-plottingInR_files/figure-html/unnamed-chunk-8.png) 
+
+
 
 ```r
 pairs(~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width,data=iris,
       main="Simple Scatterplot Matrix")
 ```
 
-![plot of chunk unnamed-chunk-8](./R40-plottingInR_files/figure-html/unnamed-chunk-82.png) 
+![plot of chunk unnamed-chunk-9](./R40-plottingInR_files/figure-html/unnamed-chunk-9.png) 
+
 
 Where:   
 * `~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width` = Numeric vectors that represent the variables in the plot  
@@ -268,7 +232,8 @@ splom(~iris[1:4], groups = Species, data = iris,
                  text = list(c("Setosa", "Versicolor", "Virginica"))))  
 ```
 
-![plot of chunk unnamed-chunk-9](./R40-plottingInR_files/figure-html/unnamed-chunk-9.png) 
+![plot of chunk unnamed-chunk-10](./R40-plottingInR_files/figure-html/unnamed-chunk-10.png) 
+
 
 Where:   
 .~iris[1:4] = the object we want to analyse (columns 1 to 4)  
@@ -294,7 +259,7 @@ scatterplot.matrix(~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width|Species, d
 ## See help("Deprecated") and help("car-deprecated").
 ```
 
-![plot of chunk unnamed-chunk-10](./R40-plottingInR_files/figure-html/unnamed-chunk-10.png) 
+![plot of chunk unnamed-chunk-11](./R40-plottingInR_files/figure-html/unnamed-chunk-11.png) 
 
 
 With the <b>gclus</b> package we can rearrange the variables to represent those with higher correlations closer to the principal diagonal and to set up diferent colors depending of the correlation grade.  
@@ -327,7 +292,8 @@ cpairs(data, data.order, panel.colors=data.color, gap=.5,
        main="Correlation Graph" )  
 ```
 
-![plot of chunk unnamed-chunk-11](./R40-plottingInR_files/figure-html/unnamed-chunk-11.png) 
+![plot of chunk unnamed-chunk-12](./R40-plottingInR_files/figure-html/unnamed-chunk-12.png) 
+
 Where:   
 .data = we get the data (columns 1,2,3,4 in this case)   
 .data.corr = we get the correlations    
@@ -362,7 +328,8 @@ bin<-hexbin(Petal.Width ~ Petal.Length, xbins=100, xlab="Petal.Width",ylab="Peta
 plot(bin, main="Hexagonal Binning") 
 ```
 
-![plot of chunk unnamed-chunk-12](./R40-plottingInR_files/figure-html/unnamed-chunk-12.png) 
+![plot of chunk unnamed-chunk-13](./R40-plottingInR_files/figure-html/unnamed-chunk-13.png) 
+
 Where:  
 .xbins = number of hexagons across the x axis  
 
@@ -376,7 +343,8 @@ sunflowerplot(Petal.Width ~ Petal.Length, data = iris,
               xlab="Petal.Width",ylab="Petal.Length", main= "Sunflower Plot")  
 ```
 
-![plot of chunk unnamed-chunk-13](./R40-plottingInR_files/figure-html/unnamed-chunk-13.png) 
+![plot of chunk unnamed-chunk-14](./R40-plottingInR_files/figure-html/unnamed-chunk-14.png) 
+
 Where:   
 .cex = size of the center points  
 .cex.fact = size of the center points where there are flower leaves   
@@ -396,7 +364,8 @@ reg.plane <- lm(Petal.Length ~ Sepal.Length+Sepal.Width)
 iris3d$plane3d(reg.plane)  
 ```
 
-![plot of chunk unnamed-chunk-14](./R40-plottingInR_files/figure-html/unnamed-chunk-14.png) 
+![plot of chunk unnamed-chunk-15](./R40-plottingInR_files/figure-html/unnamed-chunk-15.png) 
+
 Where:   
 .pch = type of symbol   
 .highlight.3d = the points will are colored according to the y coordinates     
@@ -470,7 +439,8 @@ for(i in 1:length(opts)){
   lines(x, y, type=opts[i])}
 ```
 
-![plot of chunk unnamed-chunk-17](./R40-plottingInR_files/figure-html/unnamed-chunk-17.png) 
+![plot of chunk unnamed-chunk-18](./R40-plottingInR_files/figure-html/unnamed-chunk-18.png) 
+
 Where:   
 .mfrow = with this option we represent all the plots in the same page. To go back to only one plot per page, we write par(mfrow=c(1,1))    
 * types
@@ -514,8 +484,7 @@ legend(xrange[1], yrange[2], 1:ntrees, cex=0.8, col=colors,
        pch=1:ntrees, lty=1:ntrees, title="Species")
 ```
 
-![plot of chunk unnamed-chunk-18](./R40-plottingInR_files/figure-html/unnamed-chunk-18.png) 
-
+![plot of chunk unnamed-chunk-19](./R40-plottingInR_files/figure-html/unnamed-chunk-19.png) 
 
 ## Bar plots
 
@@ -530,7 +499,8 @@ To do a bar plot Sepal.Length against Petal.Length, use the following command
 barplot(Petal.Length, Sepal.Length)
 ```
 
-![plot of chunk unnamed-chunk-19](./R40-plottingInR_files/figure-html/unnamed-chunk-19.png) 
+![plot of chunk unnamed-chunk-20](./R40-plottingInR_files/figure-html/unnamed-chunk-20.png) 
+
 As usual we can add a large range of extra features
 
 
@@ -540,7 +510,8 @@ barplot(counts, main="Iris Distribution",
         xlab="Petal Length")
 ```
 
-![plot of chunk unnamed-chunk-20](./R40-plottingInR_files/figure-html/unnamed-chunk-20.png) 
+![plot of chunk unnamed-chunk-21](./R40-plottingInR_files/figure-html/unnamed-chunk-21.png) 
+
 
 It is possible to plot the bars horizontal by adding horiz=TRUE to the code
 
@@ -558,7 +529,8 @@ barplot(counts, main="iris species distribution by petal leghts",
                     legend = rownames(counts))
 ```
 
-![plot of chunk unnamed-chunk-21](./R40-plottingInR_files/figure-html/unnamed-chunk-21.png) 
+![plot of chunk unnamed-chunk-22](./R40-plottingInR_files/figure-html/unnamed-chunk-22.png) 
+
 
 We can represent each value in a bar instead of stacked by adding beside=TRUE to the code
 
@@ -593,7 +565,7 @@ pie(Spcs,labels = lbls,
 main="Pie Chart of Countries")
 ```
 
-![plot of chunk unnamed-chunk-23](./R40-plottingInR_files/figure-html/unnamed-chunk-23.png) 
+![plot of chunk unnamed-chunk-24](./R40-plottingInR_files/figure-html/unnamed-chunk-24.png) 
 
 With the <b>plotrix</b> package we can create 3d pie charts
 
@@ -612,7 +584,9 @@ Petal<-iris$Petal.Length
 hist(Petal)		
 ```
 
-![plot of chunk unnamed-chunk-24](./R40-plottingInR_files/figure-html/unnamed-chunk-24.png) 
+![plot of chunk unnamed-chunk-25](./R40-plottingInR_files/figure-html/unnamed-chunk-25.png) 
+
+
 Depending of the number of breaks (bins), the shape of the histogram will vary
 
 
@@ -620,7 +594,8 @@ Depending of the number of breaks (bins), the shape of the histogram will vary
 hist(Petal,freq=FALSE, breaks=15,col="green")		
 ```
 
-![plot of chunk unnamed-chunk-25](./R40-plottingInR_files/figure-html/unnamed-chunk-25.png) 
+![plot of chunk unnamed-chunk-26](./R40-plottingInR_files/figure-html/unnamed-chunk-26.png) 
+
 * freq = to show densities instead of frequencies		
 * breaks = we can set up the number of bins		
 
@@ -637,7 +612,7 @@ yfit <- yfit*diff(h$mids[1:2])*length(Petal)
 lines(xfit, yfit, col="blue", lwd=2)		
 ```
 
-![plot of chunk unnamed-chunk-26](./R40-plottingInR_files/figure-html/unnamed-chunk-26.png) 
+![plot of chunk unnamed-chunk-27](./R40-plottingInR_files/figure-html/unnamed-chunk-27.png) 
 
 ## Density plots
 
@@ -649,7 +624,8 @@ plot(dens, main="Kernel Density of Petal Length")
 polygon(dens, col="pink", border="purple") # polygon = to color the density plot		
 ```
 
-![plot of chunk unnamed-chunk-27](./R40-plottingInR_files/figure-html/unnamed-chunk-27.png) 
+![plot of chunk unnamed-chunk-28](./R40-plottingInR_files/figure-html/unnamed-chunk-28.png) 
+
 
 The kernel density estimation is a non-parametric way to estimate the probability density function of a random variable
 
@@ -680,7 +656,8 @@ colfill<-c(2:(2+length(levels(spec.f))))
 legend("topright", levels(spec.f), fill=colfill)
 ```
 
-![plot of chunk unnamed-chunk-28](./R40-plottingInR_files/figure-html/unnamed-chunk-28.png) 
+![plot of chunk unnamed-chunk-29](./R40-plottingInR_files/figure-html/unnamed-chunk-29.png) 
+
 
 # Others
 
@@ -695,7 +672,8 @@ boxplot(Petal.Length~Species,data=iris, main="Species Petal Length",
         xlab="Species", ylab="Petal Length")
 ```
 
-![plot of chunk unnamed-chunk-29](./R40-plottingInR_files/figure-html/unnamed-chunk-29.png) 
+![plot of chunk unnamed-chunk-30](./R40-plottingInR_files/figure-html/unnamed-chunk-30.png) 
+
 
 By adding varwidth=TRUE to the formula we can make the boxplot widths proportional to the square root of the samples sizes. 			
 By adding horizontal=TRUE we reverse the axis orientation.
@@ -723,7 +701,8 @@ boxplot(uptake~Type*Treatment, data=CO2, notch=TRUE,
 ## Warning: some notches went outside hinges ('box'): maybe set notch=FALSE
 ```
 
-![plot of chunk unnamed-chunk-30](./R40-plottingInR_files/figure-html/unnamed-chunk-30.png) 
+![plot of chunk unnamed-chunk-31](./R40-plottingInR_files/figure-html/unnamed-chunk-31.png) 
+
 
 ### Violin Plot
 
@@ -750,7 +729,7 @@ vioplot(x1, x2, x3, names=c("setosa", "versicolor", "virginica"),
 title("Violin Plots of Petal Length")		
 ```
 
-![plot of chunk unnamed-chunk-31](./R40-plottingInR_files/figure-html/unnamed-chunk-31.png) 
+![plot of chunk unnamed-chunk-32](./R40-plottingInR_files/figure-html/unnamed-chunk-32.png) 
 
 ### Bagplot
 
@@ -777,8 +756,7 @@ bagplot(Petal.Length, Sepal.Length, xlab="Petal Length ",ylab="Sepal Length ",
         main="Iris Bagplot ")		
 ```
 
-![plot of chunk unnamed-chunk-32](./R40-plottingInR_files/figure-html/unnamed-chunk-32.png) 
-
+![plot of chunk unnamed-chunk-33](./R40-plottingInR_files/figure-html/unnamed-chunk-33.png) 
 
 
 
@@ -794,7 +772,7 @@ detach(iris)
 
 ## Colors
 
-http://www.mepheoscience.com/colourful-ecology-part-1-extracting-colours-from-an-image-and-selecting-them-using-community-phylogenetics-theory/
+* [Selecting colours for scientific figures from an image using community ecology methods](http://www.mepheoscience.com/colourful-ecology-part-1-extracting-colours-from-an-image-and-selecting-them-using-community-phylogenetics-theory/)
 
 
 
