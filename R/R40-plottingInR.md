@@ -93,7 +93,7 @@ To plot Sepal.Length against Petal.Length, use the following command
 plot(Petal.Length, Sepal.Length)
 ```
 
-![plot of chunk unnamed-chunk-2](./R40-plottingInR_files/figure-html/unnamed-chunk-2.png) 
+![plot of chunk unnamed-chunk-2](./R40-PlottingInR_files/figure-html/unnamed-chunk-2.png) 
 
 
 We can improve this plot by adding graphic options. The most basic options are provided in the help
@@ -114,7 +114,7 @@ plot(Petal.Length, Sepal.Length, main="Simple Scatterplot",xlab="Petal Length ",
      pch=22, col="red", bg="blue",cex=3, lwd=2)
 ```
 
-![plot of chunk unnamed-chunk-4](./R40-plottingInR_files/figure-html/unnamed-chunk-4.png) 
+![plot of chunk unnamed-chunk-4](./R40-PlottingInR_files/figure-html/unnamed-chunk-4.png) 
 
 Where:	
  * Petal.Length = x	   
@@ -137,7 +137,7 @@ plot.new()
 abline(lm(Sepal.Length~Petal.Length), col="red")
 ```
 
-![plot of chunk unnamed-chunk-5](./R40-plottingInR_files/figure-html/unnamed-chunk-5.png) 
+![plot of chunk unnamed-chunk-5](./R40-PlottingInR_files/figure-html/unnamed-chunk-5.png) 
 
 2.	Lowess returns a list containing components x and y which give the coordinates of the smooth. 
 
@@ -146,7 +146,7 @@ plot.new()
 lines(lowess(Petal.Length, Sepal.Length), col="blue")
 ```
 
-![plot of chunk unnamed-chunk-6](./R40-plottingInR_files/figure-html/unnamed-chunk-6.png) 
+![plot of chunk unnamed-chunk-6](./R40-PlottingInR_files/figure-html/unnamed-chunk-6.png) 
 
 By downloading the <b>car</b> package we can use more enhanced features
 
@@ -165,7 +165,7 @@ scatterplot(Sepal.Length~Petal.Length | Species, data=iris, boxplots= "x,y",
             main="Enhanced Scatter Plot", labels=row.names(iris))
 ```
 
-![plot of chunk unnamed-chunk-7](./R40-plottingInR_files/figure-html/unnamed-chunk-7.png) 
+![plot of chunk unnamed-chunk-7](./R40-PlottingInR_files/figure-html/unnamed-chunk-7.png) 
 
 
 Where:
@@ -193,7 +193,7 @@ The scatterplot matrices command is pairs()
 pairs(iris)
 ```
 
-![plot of chunk unnamed-chunk-8](./R40-plottingInR_files/figure-html/unnamed-chunk-8.png) 
+![plot of chunk unnamed-chunk-8](./R40-PlottingInR_files/figure-html/unnamed-chunk-8.png) 
 
 
 
@@ -202,7 +202,7 @@ pairs(~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width,data=iris,
       main="Simple Scatterplot Matrix")
 ```
 
-![plot of chunk unnamed-chunk-9](./R40-plottingInR_files/figure-html/unnamed-chunk-9.png) 
+![plot of chunk unnamed-chunk-9](./R40-PlottingInR_files/figure-html/unnamed-chunk-9.png) 
 
 
 Where:   
@@ -232,7 +232,7 @@ splom(~iris[1:4], groups = Species, data = iris,
                  text = list(c("Setosa", "Versicolor", "Virginica"))))  
 ```
 
-![plot of chunk unnamed-chunk-10](./R40-plottingInR_files/figure-html/unnamed-chunk-10.png) 
+![plot of chunk unnamed-chunk-10](./R40-PlottingInR_files/figure-html/unnamed-chunk-10.png) 
 
 
 Where:   
@@ -259,7 +259,7 @@ scatterplot.matrix(~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width|Species, d
 ## See help("Deprecated") and help("car-deprecated").
 ```
 
-![plot of chunk unnamed-chunk-11](./R40-plottingInR_files/figure-html/unnamed-chunk-11.png) 
+![plot of chunk unnamed-chunk-11](./R40-PlottingInR_files/figure-html/unnamed-chunk-11.png) 
 
 
 With the <b>gclus</b> package we can rearrange the variables to represent those with higher correlations closer to the principal diagonal and to set up diferent colors depending of the correlation grade.  
@@ -292,7 +292,7 @@ cpairs(data, data.order, panel.colors=data.color, gap=.5,
        main="Correlation Graph" )  
 ```
 
-![plot of chunk unnamed-chunk-12](./R40-plottingInR_files/figure-html/unnamed-chunk-12.png) 
+![plot of chunk unnamed-chunk-12](./R40-PlottingInR_files/figure-html/unnamed-chunk-12.png) 
 
 Where:   
 .data = we get the data (columns 1,2,3,4 in this case)   
@@ -328,7 +328,7 @@ bin<-hexbin(Petal.Width ~ Petal.Length, xbins=100, xlab="Petal.Width",ylab="Peta
 plot(bin, main="Hexagonal Binning") 
 ```
 
-![plot of chunk unnamed-chunk-13](./R40-plottingInR_files/figure-html/unnamed-chunk-13.png) 
+![plot of chunk unnamed-chunk-13](./R40-PlottingInR_files/figure-html/unnamed-chunk-13.png) 
 
 Where:  
 .xbins = number of hexagons across the x axis  
@@ -343,7 +343,7 @@ sunflowerplot(Petal.Width ~ Petal.Length, data = iris,
               xlab="Petal.Width",ylab="Petal.Length", main= "Sunflower Plot")  
 ```
 
-![plot of chunk unnamed-chunk-14](./R40-plottingInR_files/figure-html/unnamed-chunk-14.png) 
+![plot of chunk unnamed-chunk-14](./R40-PlottingInR_files/figure-html/unnamed-chunk-14.png) 
 
 Where:   
 .cex = size of the center points  
@@ -364,7 +364,7 @@ reg.plane <- lm(Petal.Length ~ Sepal.Length+Sepal.Width)
 iris3d$plane3d(reg.plane)  
 ```
 
-![plot of chunk unnamed-chunk-15](./R40-plottingInR_files/figure-html/unnamed-chunk-15.png) 
+![plot of chunk unnamed-chunk-15](./R40-PlottingInR_files/figure-html/unnamed-chunk-15.png) 
 
 Where:   
 .pch = type of symbol   
@@ -439,7 +439,7 @@ for(i in 1:length(opts)){
   lines(x, y, type=opts[i])}
 ```
 
-![plot of chunk unnamed-chunk-18](./R40-plottingInR_files/figure-html/unnamed-chunk-18.png) 
+![plot of chunk unnamed-chunk-18](./R40-PlottingInR_files/figure-html/unnamed-chunk-18.png) 
 
 Where:   
 .mfrow = with this option we represent all the plots in the same page. To go back to only one plot per page, we write par(mfrow=c(1,1))    
@@ -484,7 +484,7 @@ legend(xrange[1], yrange[2], 1:ntrees, cex=0.8, col=colors,
        pch=1:ntrees, lty=1:ntrees, title="Species")
 ```
 
-![plot of chunk unnamed-chunk-19](./R40-plottingInR_files/figure-html/unnamed-chunk-19.png) 
+![plot of chunk unnamed-chunk-19](./R40-PlottingInR_files/figure-html/unnamed-chunk-19.png) 
 
 ## Bar plots
 
@@ -499,7 +499,7 @@ To do a bar plot Sepal.Length against Petal.Length, use the following command
 barplot(Petal.Length, Sepal.Length)
 ```
 
-![plot of chunk unnamed-chunk-20](./R40-plottingInR_files/figure-html/unnamed-chunk-20.png) 
+![plot of chunk unnamed-chunk-20](./R40-PlottingInR_files/figure-html/unnamed-chunk-20.png) 
 
 As usual we can add a large range of extra features
 
@@ -510,7 +510,7 @@ barplot(counts, main="Iris Distribution",
         xlab="Petal Length")
 ```
 
-![plot of chunk unnamed-chunk-21](./R40-plottingInR_files/figure-html/unnamed-chunk-21.png) 
+![plot of chunk unnamed-chunk-21](./R40-PlottingInR_files/figure-html/unnamed-chunk-21.png) 
 
 
 It is possible to plot the bars horizontal by adding horiz=TRUE to the code
@@ -529,7 +529,7 @@ barplot(counts, main="iris species distribution by petal leghts",
                     legend = rownames(counts))
 ```
 
-![plot of chunk unnamed-chunk-22](./R40-plottingInR_files/figure-html/unnamed-chunk-22.png) 
+![plot of chunk unnamed-chunk-22](./R40-PlottingInR_files/figure-html/unnamed-chunk-22.png) 
 
 
 We can represent each value in a bar instead of stacked by adding beside=TRUE to the code
@@ -565,7 +565,7 @@ pie(Spcs,labels = lbls,
 main="Pie Chart of Countries")
 ```
 
-![plot of chunk unnamed-chunk-24](./R40-plottingInR_files/figure-html/unnamed-chunk-24.png) 
+![plot of chunk unnamed-chunk-24](./R40-PlottingInR_files/figure-html/unnamed-chunk-24.png) 
 
 With the <b>plotrix</b> package we can create 3d pie charts
 
@@ -584,7 +584,7 @@ Petal<-iris$Petal.Length
 hist(Petal)		
 ```
 
-![plot of chunk unnamed-chunk-25](./R40-plottingInR_files/figure-html/unnamed-chunk-25.png) 
+![plot of chunk unnamed-chunk-25](./R40-PlottingInR_files/figure-html/unnamed-chunk-25.png) 
 
 
 Depending of the number of breaks (bins), the shape of the histogram will vary
@@ -594,7 +594,7 @@ Depending of the number of breaks (bins), the shape of the histogram will vary
 hist(Petal,freq=FALSE, breaks=15,col="green")		
 ```
 
-![plot of chunk unnamed-chunk-26](./R40-plottingInR_files/figure-html/unnamed-chunk-26.png) 
+![plot of chunk unnamed-chunk-26](./R40-PlottingInR_files/figure-html/unnamed-chunk-26.png) 
 
 * freq = to show densities instead of frequencies		
 * breaks = we can set up the number of bins		
@@ -612,7 +612,7 @@ yfit <- yfit*diff(h$mids[1:2])*length(Petal)
 lines(xfit, yfit, col="blue", lwd=2)		
 ```
 
-![plot of chunk unnamed-chunk-27](./R40-plottingInR_files/figure-html/unnamed-chunk-27.png) 
+![plot of chunk unnamed-chunk-27](./R40-PlottingInR_files/figure-html/unnamed-chunk-27.png) 
 
 ## Density plots
 
@@ -624,7 +624,7 @@ plot(dens, main="Kernel Density of Petal Length")
 polygon(dens, col="pink", border="purple") # polygon = to color the density plot		
 ```
 
-![plot of chunk unnamed-chunk-28](./R40-plottingInR_files/figure-html/unnamed-chunk-28.png) 
+![plot of chunk unnamed-chunk-28](./R40-PlottingInR_files/figure-html/unnamed-chunk-28.png) 
 
 
 The kernel density estimation is a non-parametric way to estimate the probability density function of a random variable
@@ -656,7 +656,7 @@ colfill<-c(2:(2+length(levels(spec.f))))
 legend("topright", levels(spec.f), fill=colfill)
 ```
 
-![plot of chunk unnamed-chunk-29](./R40-plottingInR_files/figure-html/unnamed-chunk-29.png) 
+![plot of chunk unnamed-chunk-29](./R40-PlottingInR_files/figure-html/unnamed-chunk-29.png) 
 
 
 # Others
@@ -672,7 +672,7 @@ boxplot(Petal.Length~Species,data=iris, main="Species Petal Length",
         xlab="Species", ylab="Petal Length")
 ```
 
-![plot of chunk unnamed-chunk-30](./R40-plottingInR_files/figure-html/unnamed-chunk-30.png) 
+![plot of chunk unnamed-chunk-30](./R40-PlottingInR_files/figure-html/unnamed-chunk-30.png) 
 
 
 By adding varwidth=TRUE to the formula we can make the boxplot widths proportional to the square root of the samples sizes. 			
@@ -701,7 +701,7 @@ boxplot(uptake~Type*Treatment, data=CO2, notch=TRUE,
 ## Warning: some notches went outside hinges ('box'): maybe set notch=FALSE
 ```
 
-![plot of chunk unnamed-chunk-31](./R40-plottingInR_files/figure-html/unnamed-chunk-31.png) 
+![plot of chunk unnamed-chunk-31](./R40-PlottingInR_files/figure-html/unnamed-chunk-31.png) 
 
 
 ### Violin Plot
@@ -729,7 +729,7 @@ vioplot(x1, x2, x3, names=c("setosa", "versicolor", "virginica"),
 title("Violin Plots of Petal Length")		
 ```
 
-![plot of chunk unnamed-chunk-32](./R40-plottingInR_files/figure-html/unnamed-chunk-32.png) 
+![plot of chunk unnamed-chunk-32](./R40-PlottingInR_files/figure-html/unnamed-chunk-32.png) 
 
 ### Bagplot
 
@@ -756,7 +756,7 @@ bagplot(Petal.Length, Sepal.Length, xlab="Petal Length ",ylab="Sepal Length ",
         main="Iris Bagplot ")		
 ```
 
-![plot of chunk unnamed-chunk-33](./R40-plottingInR_files/figure-html/unnamed-chunk-33.png) 
+![plot of chunk unnamed-chunk-33](./R40-PlottingInR_files/figure-html/unnamed-chunk-33.png) 
 
 
 
