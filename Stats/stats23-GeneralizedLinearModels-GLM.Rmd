@@ -83,7 +83,6 @@ residual plots can also be created with plot(fmt)
  
 ```{r}
 newage <- seq(min(age, na.rm=T), max(age, na.rm=T), len=100)
-plot.new()
 preds <- predict(fmt, newdata=data.frame("age"=newage), se.fit=T)
 lines(newage, plogis(preds$fit), col="purple", lwd=3)
 lines(newage, plogis(preds$fit-2*preds$se.fit), col="purple", lwd=3, lty=2)
@@ -94,6 +93,7 @@ summary(fmt)
  
 detach(TitanicSurvival)
 ```
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-23.png)
 
 
 ### Example 2 - Logistic regresion 
