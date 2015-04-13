@@ -864,7 +864,6 @@ plot(Root,Fruit,col=Grazing,pch=20,cex=3)
 Predict the scenario for Grazed plants with 95% confidence
 ```{r}
 mydata=data.frame(Root=seq(4.4,10.2,0.1), Grazing="Grazed")
-plot.new()
 pred1=predict(model2,mydata,type="response",se=T)
 myfit1=pred1$fit
 myfit1CIup=pred1$fit+1.96*pred1$se.fit
@@ -873,11 +872,11 @@ lines(mydata$Root,myfit1,col="black")
 lines(mydata$Root,myfit1CIup,col="black",lty=2)
 lines(mydata$Root,myfit1CIdown,col="black",lty=2)
 ```
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-56.png)
 
 Predict the scenario for Ungrazed plants with 95% confidence
 ```{r}
 mydata=data.frame(Root=seq(4.4,10.2,0.1), Grazing="Ungrazed")
-plot.new()
 pred2=predict(model2,mydata,type="response",se=T)
 myfit2=pred2$fit
 myfit2CIup=pred2$fit+1.96*pred2$se.fit
@@ -889,6 +888,7 @@ legend("topleft",c("Grazed","Ungrazed"), col=c("black","red"),title="Grazing",
        bty="n", pch=c(20,20),cex=2)
 
 ```
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats21-linearRegression_files/figure-html/unnamed-chunk-57.png)
 
 ```{r}
 par(mfrow=c(2,2))
