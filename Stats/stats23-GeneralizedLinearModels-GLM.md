@@ -137,21 +137,22 @@ summary(fmt)
 ```
  
 Showing that residuals are not normal at all
+```r
 hist(fmt$residuals, breaks = 100)
 abline(v = 0, col = "red", lwd = 6, lty = 2)
+```
 residual plots can also be created with plot(fmt)
  
 
 ```r
 newage <- seq(min(age, na.rm=T), max(age, na.rm=T), len=100)
-plot.new()
 preds <- predict(fmt, newdata=data.frame("age"=newage), se.fit=T)
 lines(newage, plogis(preds$fit), col="purple", lwd=3)
 lines(newage, plogis(preds$fit-2*preds$se.fit), col="purple", lwd=3, lty=2)
 lines(newage, plogis(preds$fit+2*preds$se.fit), col="purple", lwd=3, lty=2) 
 ```
 
-<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-3.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" style="display: block; margin: auto;" />
+<img src="./stats23-GeneralizedLinearModels-GLM_files/figure-html/unnamed-chunk-23.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" style="display: block; margin: auto;" />
 
 ```r
 fmt <- glm(surv ~ age + sex + passengerClass, family=binomial)

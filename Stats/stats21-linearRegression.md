@@ -1653,7 +1653,6 @@ Predict the scenario for Grazed plants with 95% confidence
 
 ```r
 mydata=data.frame(Root=seq(4.4,10.2,0.1), Grazing="Grazed")
-plot.new()
 pred1=predict(model2,mydata,type="response",se=T)
 myfit1=pred1$fit
 myfit1CIup=pred1$fit+1.96*pred1$se.fit
@@ -1669,7 +1668,6 @@ Predict the scenario for Ungrazed plants with 95% confidence
 
 ```r
 mydata=data.frame(Root=seq(4.4,10.2,0.1), Grazing="Ungrazed")
-plot.new()
 pred2=predict(model2,mydata,type="response",se=T)
 myfit2=pred2$fit
 myfit2CIup=pred2$fit+1.96*pred2$se.fit
