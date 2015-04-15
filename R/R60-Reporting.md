@@ -8,8 +8,14 @@ Creating Reports and Presentations with R
 ===
 
 
+## Rstudio 
 
-## R Markdown
+### R Markdown
 
 http://shiny.rstudio.com/articles/rmarkdown.html
 
+
+### R Press 
+
+
+## Sweave
