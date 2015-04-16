@@ -62,6 +62,11 @@ Plotting in R
 
 * We can also find a R graphic's chapter in ["An Introduction to R"](http://cran.r-project.org/doc/manuals/r-release/R-intro.html#Graphics)
 
+* For "production figures" (i.e. those submitted for publication), see [**Nature's Point of View series**](http://blogs.nature.com/methagora/2013/07/data-visualization-points-of-view.html)
+ on scientific graphics (including colour coding, symbols and lines, all from top-notch designers!).
+ 
+* In book form, check out Jean-luc Doumonts [Trees, Maps and Theorems](http://www.treesmapsandtheorems.com/), or look at some sample pages: [pdf](http://www.treesmapsandtheorems.com/pdfs/TM&Th-samplepages.pdf)
+
 
 
 # Simple standard plots
