@@ -39,6 +39,8 @@ Note that we need to fit the model using maximum likelihood, **not** REML (restr
 
 http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r
 
+https://freshbiostats.wordpress.com/2013/07/28/mixed-models-in-r-lme4-nlme-both/
+
 
 # Confidence intervals and predictive uncertainty
 
