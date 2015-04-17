@@ -27,6 +27,10 @@ For examples, note that most of the material on the Apes website is produced fro
 
 Rpres works very similar to .Rmd, with the difference that a html5 presentation is produces instead of a single file. For examples have a look at our [mixed model material](https://github.com/biometry/APES/tree/master/LectureNotes/MixedEffectModels), lecture 4-6.
 
+## knitR
+
+http://yihui.name/knitr/
+
 ## Sweave
 
 Sweave is around for a while and works outside RStudio. Basically, it's combining R with LaTeX code. See detailed explanation [here](http://www.statistik.lmu.de/~leisch/Sweave/)
