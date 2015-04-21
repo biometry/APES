@@ -67,7 +67,7 @@ Plotting in R
  
 * In book form, check out Jean-luc Doumonts [Trees, Maps and Theorems](http://www.treesmapsandtheorems.com/), or look at some sample pages: [pdf](http://www.treesmapsandtheorems.com/pdfs/TM&Th-samplepages.pdf)
 
-
+* shinyapps.stat.ubc.ca/r-graph-catalog/
 
 # Simple standard plots
 
