@@ -40,6 +40,22 @@ Plotting in R
 
 =======
 
+
+# Overview
+
+What may be confusing at first if you look at graphic examples is that R has several independent graphic engines. Think of it like having several drawing artists, every one with his/her own style. You can decide which one you want to use to represent your data. The two main one are 
+
+* The standard graphic device 
+* ggplot2 
+
+We will concentrate on the standard graphics here. For creating graphics with ggplot2, see 
+
+* http://www.cookbook-r.com/Graphs/
+
+Other graph engines that could be called from R include https://plot.ly/r/ , http://gallery.rcpp.org/articles/matplotlib-from-R/
+
+
+
 # Useful Links
 
 * [Wiki page with basic plotting examples](http://en.wikibooks.org/wiki/R_Programming/Graphics)
