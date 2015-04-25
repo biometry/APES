@@ -84,6 +84,7 @@ Other graph engines that could be called from R include https://plot.ly/r/ , htt
 * In book form, check out Jean-luc Doumonts [Trees, Maps and Theorems](http://www.treesmapsandtheorems.com/), or look at some sample pages: [pdf](http://www.treesmapsandtheorems.com/pdfs/TM&Th-samplepages.pdf)
 
 * shinyapps.stat.ubc.ca/r-graph-catalog/
+* http://www.plosbiology.org/article/comments/info:doi/10.1371/journal.pbio.1002128
 
 # Simple standard plots
 
