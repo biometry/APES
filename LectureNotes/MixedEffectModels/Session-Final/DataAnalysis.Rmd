@@ -52,7 +52,7 @@ plot(allEffects(fit))
 
 ```
 
-The results of the fit are fine, but it's a lot easier to see what's going if we don't have all this interactions flying around. Well, if you know that there are actually no interactions in there. I added also a  (1|dataID) term to absorb potential overdispersion. Would I have chosen this model if I wouldn't have known what the true model is? Who knows. But it's a good reminder that interactions can screw up your significance and will make results more difficult to interpret
+The results of the fit are fine, but it's a lot easier to see what's going if we don't have all this interactions flying around, so I removed them. Would I have chosen this model if I wouldn't have known what the true model is? Who knows. But it's a good reminder that interactions can screw up your significance and will make results more difficult to interpret
 
 ```{r,  eval = T, fig.width = 10, fig.height = 10}
 fit <- glmer(beetles ~ precipitation + I(precipitation^2) + altitude + I(altitude^2) + temperature + I(temperature^2) + minTemp + I(minTemp^2)  + (1|region/plot) + (1|technician) + (1|year) , family = poisson, data = data)

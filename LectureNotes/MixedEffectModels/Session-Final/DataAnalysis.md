@@ -115,7 +115,7 @@ plot(allEffects(fit))
 
 ![](DataAnalysis_files/figure-html/unnamed-chunk-3-1.png) 
 
-The results of the fit are fine, but it's a lot easier to see what's going if we don't have all this interactions flying around. Well, if you know that there are actually no interactions in there. I added also a  (1|dataID) term to absorb potential overdispersion. Would I have chosen this model if I wouldn't have known what the true model is? Who knows. But it's a good reminder that interactions can screw up your significance and will make results more difficult to interpret
+The results of the fit are fine, but it's a lot easier to see what's going if we don't have all this interactions flying around, so I removed them. Would I have chosen this model if I wouldn't have known what the true model is? Who knows. But it's a good reminder that interactions can screw up your significance and will make results more difficult to interpret
 
 
 ```r
