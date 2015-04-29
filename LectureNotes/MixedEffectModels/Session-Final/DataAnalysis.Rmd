@@ -1,5 +1,5 @@
 ---
-title: "Data Analysis"
+title: "Mixed Model exercise - data analysis"
 author: "FlorianHartig"
 date: "29 Apr 2015"
 output:
@@ -20,6 +20,11 @@ library(effects)
 
 ```{r}
 data <- read.table("data.txt", header=TRUE, quote="\"")
+
+data$precipitation = scale(data$precipitation)
+data$temperature = scale(data$temperature)
+data$altitude = scale(data$altitude)
+data$minTemp = scale(data$minTemp)
 
 ```
 
@@ -50,10 +55,9 @@ plot(allEffects(fit))
 The results of the fit are fine, but it's a lot easier to see what's going if we don't have all this interactions flying around. Well, if you know that there are actually no interactions in there. I added also a  (1|dataID) term to absorb potential overdispersion. Would I have chosen this model if I wouldn't have known what the true model is? Who knows. But it's a good reminder that interactions can screw up your significance and will make results more difficult to interpret
 
 ```{r,  eval = T, fig.width = 10, fig.height = 10}
-fit <- glmer(beetles ~ precipitation + I(precipitation^2) + altitude + I(altitude^2) + temperature + I(temperature^2) + minTemp + I(minTemp^2)  + (1|region/plot) + (1|technician) + (1|year) + (1|dataID), family = poisson, data = data)
+fit <- glmer(beetles ~ precipitation + I(precipitation^2) + altitude + I(altitude^2) + temperature + I(temperature^2) + minTemp + I(minTemp^2)  + (1|region/plot) + (1|technician) + (1|year) , family = poisson, data = data)
 summary(fit)
 plot(allEffects(fit))
-
 ```
 
 OK, here we go. Parameter estimates are fine, results are that temp / minTemp are the things that matter. The forests were right!
@@ -63,11 +67,10 @@ If you want to compare to the true values, have a look at the Rmd file that crea
 
 ## Still todo
 
-* Check for overdispersion and potentially correct overdispersion (I have corrected already though)
+* Check for overdispersion and potentially correct overdispersion 
 * Check for homogeneity of residuals, and for normality of the random effects
 
-How to do both things are described in my lectures. I don't do them now because I know the true model and know that model assumptions are more or less met and that parameter estimates are fine
-
+How to do both things are described in my lectures. I skip this here because I know the truth and know that the conclusions are fine, but in general you should check of course.
 
 
 

@@ -3,17 +3,13 @@ output:
   html_document:
     keep_md: yes
 ---
-Mixed Model exercise
+Mixed Model exercise - data creation
 =====================
 
-
-```{r, echo=F, message=F}
-library(lme4)
-library(lmerTest)
+```{r, echo = F}
+set.seed(123)
 library(msm)
-library(effects)
 ```
-
 
 ```{r, echo=F, warning=F}
 set.seed(2)
@@ -72,7 +68,7 @@ The forest agency provides you with a dataset of counted bark beetles, and a num
 
 The forest agency measured bark beetle counts over 20 years on 50 different plots in 7 regions across an altitudinal gradient. Measurements were performed by 5 different technicians. 
 
-Environmental predictors are forest type, forest management, precipitation, average temperature, minimum winter temperature and altitude (fix for each plot).
+Environmental predictors are precipitation, average temperature, minimum winter temperature and altitude (the latter is fix for each plot).
 
 <font size="5">
 ```{r}
