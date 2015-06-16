@@ -47,6 +47,18 @@ https://freshbiostats.wordpress.com/2013/07/28/mixed-models-in-r-lme4-nlme-both/
 http://stackoverflow.com/questions/14358811/extract-prediction-band-from-lme-fit/14435982#14435982
 
 
+## Q & A
+
+* Is the model performance or quality affected if the share of variance explained by random effects is larger than the share of variance explained by fixed effects? - No! A priori the model quality is not affected. :-) A large share of variance explained by random effects means that the difference between the experimental/sampling sites (if these differences are treated as random effects) is larger than the effects the model builder is interested in (the fixed effects). So maybe the fixed effects described may be generalised for a large spectrum of sampling sites or a very important variable which could also be treated as fixed effect is missing in the model. In the latter case the model could be enhanced. — Michael Rudner 2012/02/16 18:20
+
+
+## Further links 
+
+* A brilliant starting page for problems with mixed effect models in R is http://glmm.wikidot.com/faq, which tries to bundle these discussions on a FAQWA (Frequently Asked Questions With Answers) page. 
+* See also: http://psy-ed.wikidot.com/glmm, http://wiki.math.yorku.ca/index.php/SPIDA_2009:_Mixed_Models_with_R
+
+
+
 
 # R<sup>2</sup> for mixed models
 
