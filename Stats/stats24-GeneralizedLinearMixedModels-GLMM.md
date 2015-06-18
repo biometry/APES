@@ -17,7 +17,7 @@ Hence, many common tasks like residual checks, confidence intervals or model sel
 
 ## Estimation
 
-### Standated GLMMs
+### "Standard" GLMMs
 
 Maximum likelihood estimation in R with mainly with mle4 or nle. 
 
