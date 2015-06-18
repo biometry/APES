@@ -5,14 +5,17 @@ category: stats
 subcategory: Regression
 ---
 
-Generalized linear mixed models
+Generalized linear mixed models (GLMM)
 ===
 
 
 ## Definition 
 
+GLMMs are GLMs with random effects added, in the same way as LMM are linear models with a random effect added. 
 
+For description of random effects / mixed effects, see the page about mixed effects. Nothing new appears for GLMMs. The only issue with GLMMs as opposed to LMMs is that estimation, but in particular the calculation of confidence intervals and model selection is not so easy, because general parametric methods are not available. 
 
+Hence, many common tasks like residual checks, confidence intervals or model selection require nonparametric or Bayesian methods (or one has to go back to approximations that are not reliable in general). 
 
 ## Estimation
 
