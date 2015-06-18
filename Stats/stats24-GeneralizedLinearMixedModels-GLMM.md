@@ -14,20 +14,18 @@ Generalized linear mixed models
 
 
 
-http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r
-
-http://jaredknowles.com/journal/2014/5/17/mixed-effects-tutorial-2-fun-with-mermod-objects
-
-Material from "in silico ecology", with link to e.g. model selection in mixed effect models
-http://www.r-bloggers.com/notes-on-shrinkage-prediction-in-hierarchical-models/
-
-see also https://gist.github.com/casallas/8263818
-
-
 ## Estimation
 
+### Standated GLMMs
 
-Maximum likelihood estimation in R with mainly with mle4 or nle. Bayesian estimation with JAGS or STAN, glmmMCMC.
+Maximum likelihood estimation in R with mainly with mle4 or nle. 
+
+* http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r
+* http://jaredknowles.com/journal/2014/5/17/mixed-effects-tutorial-2-fun-with-mermod-objects
+
+Bayesian estimation with JAGS or STAN, glmmMCMC.
+
+### Multinomial models 
 
 Multinomial models can be estimated with
 
@@ -38,13 +36,29 @@ Multinomial models can be estimated with
 * TwoStepCLogit: Conditional logistic regression with longitudinal follow up and individual-level random coefficients: A stable and efficient two-step estimation method http://cran.r-project.org/web/packages/TwoStepCLogit/
 * Fully Bayesian solutions in Bugs, Jags or STAN
 
-
 Note: there seems to be some inconsistency in what people mean by a mixed multinomial logit. Check packages for the exact specification of the rando effect structure (if any)
 
+See also https://gist.github.com/casallas/8263818
 
 ### Challenges in the estimation 
 
 Browne, W. J.; Draper, D. & others (2006) A comparison of Bayesian and likelihood-based methods for fitting multilevel models. Bayesian Analysis, International Society for Bayesian Analysis, 1, 473-514.
+
+
+## Confidence intervals 
+
+http://www.r-bloggers.com/confidence-intervals-for-prediction-in-glmms/
+
+
+## Model validation 
+
+
+## Model selection 
+
+Material from "in silico ecology", with link to e.g. model selection in mixed effect models
+http://www.r-bloggers.com/notes-on-shrinkage-prediction-in-hierarchical-models/
+
+
 
 
 
