@@ -2,6 +2,11 @@
 
 blog.revolutionanalytics.com/2014/03/an-r-meta-book.html
 
+## measurements
+
+add a page about measurements 
+
+http://andrewgelman.com/2015/04/28/whats-important-thing-statistics-thats-not-textbooks/
 
 
 # Misc
