@@ -37,6 +37,8 @@ Multinomial models can be estimated with
 * TwoStepCLogit: Conditional logistic regression with longitudinal follow up and individual-level random coefficients: A stable and efficient two-step estimation method http://cran.r-project.org/web/packages/TwoStepCLogit/
 * Fully Bayesian solutions in Bugs, Jags or STAN
 
+* ordinal: Regression Models for Ordinal Data. Implementation of cumulative link (mixed) models also known as ordered regression models, proportional odds models, proportional hazards models for grouped survival times and ordered logit/probit/... models. http://www.cran.r-project.org/web/packages/ordinal/index.html
+
 Note: there seems to be some inconsistency in what people mean by a mixed multinomial logit. Check packages for the exact specification of the rando effect structure (if any)
 
 See also https://gist.github.com/casallas/8263818
