@@ -41,6 +41,10 @@ The following links are tutorials on using R as a language. They are helpful if 
 * [An R reference card](http://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf), by Matt Baggott
 * [An introduction to R](http://cran.r-project.org/doc/contrib/Lam-IntroductionToR_LHL.pdf), by Longhow Lam. Longer and more comprehensive than the other tutorials linked here. 
 
+## Videos an MOOCs
+
+* [The IQUIT R video series](http://mbjoseph.github.io/r/2015/08/28/iquit.html) highly recommended
+
 ## Websites with examples
 
 * [Quick-R](http://www.statmethods.net/) (Highly recommend for beginners, have a look if your problem is here) 
