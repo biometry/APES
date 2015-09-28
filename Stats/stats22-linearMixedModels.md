@@ -47,6 +47,15 @@ https://freshbiostats.wordpress.com/2013/07/28/mixed-models-in-r-lme4-nlme-both/
 http://stackoverflow.com/questions/14358811/extract-prediction-band-from-lme-fit/14435982#14435982
 
 
+# Heavy tails / outliers
+
+* heavyLme (package heavy)
+* lqmm (lqmm)
+* rlmer
+
+
+
+
 
 # R<sup>2</sup> for mixed models
 
@@ -112,6 +121,8 @@ So we see that the fixed effect "period" only explains a small proportion of the
 ## References
 
 Nakagawa, S. & Schielzeth, H. (2013). A general and simple method for obtaining R2 from generalized linear mixed-effects models. Methods in Ecology and Evolution 4: 133–142.
+ 
+ Lahuis, D et al (2014) Explained Variance Measures for Multilevel Models. Organizational Research Methods. 
 
 Nelder JA (2000) Quasi-likelihood and pseudo-likelihood are not the same thing. J Appl Stat 27: 1007–1011. doi: 10.1080/02664760050173328
 
