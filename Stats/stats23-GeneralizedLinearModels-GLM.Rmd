@@ -39,9 +39,28 @@ Those two ideas are explained in more detail below
 ## Link function
 
 
+
 # Important GLM types
 
-## Logistic Regression
+As there are a number of 
+
+* Continous response
+  * Normal lm
+  * Proportional data
+
+* Categorical response
+  * Binary (0/1), e.g. survival, infection, presence/absence --> logistic regression
+  * Categorical, ordered
+  * Categorical, unordered --> multinomial logit
+
+* Integer Response
+  * Poisson regression
+  * Zero-inflated models
+  * Models for overdispersed count data
+
+
+
+## Binary response - logistic regression
 
 Presence / absence data - binary data
 Logistic regression is a method for fitting a regression curve, y = f(x), when y consists of proportions or probabilities, or binary coded (0,1--failure,success) data. When the response is a binary (dichotomous) variable, and x is numerical, logistic regression fits a logistic curve to the relationship between x and y. 
@@ -548,6 +567,17 @@ persp3d(slope, intercept, matrix(parametervalues$response, nrow = 100), col = c(
  
 detach(cfc)
 ```
+
+
+## Categorical responses 
+
+### Multinomial
+
+* mlogit: base package for estimating multinomial logit models http://cran.r-project.org/web/packages/mlogit/index.html 
+
+### Ordered regression
+
+* ordinal: Regression Models for Ordinal Data. Implementation of cumulative link (mixed) models also known as ordered regression models, proportional odds models, proportional hazards models for grouped survival times and ordered logit/probit/... models. http://www.cran.r-project.org/web/packages/ordinal/index.html
 
 
 

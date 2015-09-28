@@ -2,9 +2,16 @@
 
 blog.revolutionanalytics.com/2014/03/an-r-meta-book.html
 
+## measurements
+
+add a page about measurements 
+
+http://andrewgelman.com/2015/04/28/whats-important-thing-statistics-thats-not-textbooks/
 
 
 # Misc
+
+https://plot.ly/ipython-notebooks/survival-analysis-r-vs-python/
 
 http://chemicalstatistician.wordpress.com/2014/04/10/side-by-side-box-plots-with-patterns-from-stacking-data-sets-with-reshape2-and-melt-in-r/
 
