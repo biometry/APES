@@ -2,5 +2,21 @@
 layout: page
 title: Nonparametric methods
 category: stats
+subcategory: Advanced topics
 maintainer: Florian Hartig
 ---
+
+
+# Resampling
+
+
+
+# Bootstrap
+
+
+## Literature
+
+Efron, B. & Tibshirani, R. J. (1993). An introduction to the bootstrap. London: Chapman & Hall/CRC.
+
+Davison, A. C. & Hinkley, D. V. (2009). Bootstrap methods and their application. New York, NY: Cambridge University Press.
+

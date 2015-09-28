@@ -1,4 +1,8 @@
-
+---
+layout: page
+title: Machine Learning
+category: stats
+---
 
 
 

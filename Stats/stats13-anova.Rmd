@@ -8,7 +8,7 @@ output:
 layout: page
 title: ANOVA
 category: stats
-subcategory: Hypothesis Testing
+subcategory: Inferential statistics
 ---
 
 Contents
@@ -397,7 +397,7 @@ summary(model)
 
 There is (p < 0.000 001). 
 But this is not too interesting, because it just shows that some habitats produce more fungus than others. We are interested in which habitats produce significantly more fungi than others. 
-Multiple comparisons can be an issue since there are 16 habitats (16 × 15)/2 = 120 possible pairwise comparisons. 
+Multiple comparisons can be an issue since there are 16 habitats (16 ?? 15)/2 = 120 possible pairwise comparisons. 
 
 There are two options:
 
