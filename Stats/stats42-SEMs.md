@@ -2,7 +2,7 @@
 layout: page
 title: Structural Equation Models (SEMs)
 category: stats
-subcategory: Hierarchical statistical models
+subcategory: Advanced topics
 ---
 
 Structural Equation Models (SEMs)

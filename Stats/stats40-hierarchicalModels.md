@@ -1,8 +1,8 @@
 ---
 layout: page
 title: Hierarchical statistical models
-
 category: stats
+subcategory: Advanced topics
 ---
 
 Hierarchical statistical models
