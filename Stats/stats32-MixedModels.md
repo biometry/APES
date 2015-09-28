@@ -1,12 +1,11 @@
 ---
 layout: page
-title: Linear mixed models
+title: Mixed models
 category: stats
 subcategory: Advanced topics
 ---
 
-Linear mixed models
-===
+# Linear mixed models
 
 
 Synopsis: remember that the assumptions of the linear regression were that
@@ -138,8 +137,7 @@ Thornton DH, Fletcher RJ (2014) Body size and spatial scales in avian response t
  
  
  
- Generalized linear mixed models (GLMM)
- ===
+ # Generalized linear mixed models (GLMM)
  
  
  **Definition**: GLMMs are GLMs with random effects added, in the same way as LMM are linear models with a random effect added. 
