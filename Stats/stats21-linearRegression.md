@@ -2,7 +2,7 @@
 layout: page
 title: Linear regression
 category: stats
-subcategory: Regression
+subcategory: Inferential statistics
 ---
 
 
