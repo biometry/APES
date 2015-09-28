@@ -23,17 +23,10 @@
     <div class="footer-col-2 column">
       <ul>
         <li>
-          {% if page.permalink == '/index.html' %}
-            <a href="https://github.com/{{ site.username }}">
-              <span class="icon github">{% include github.svg %}</span>
-              <span class="username">{{ site.username | prepend: 'Github:' }}</span>
-            </a>
-          {% else %}
             <a href="{{ site.github.repository_url }}/blob/master/{{ page.path }}">
               <span class="icon github">{% include github.svg %}</span>
               <span class="username">View source</span>
             </a>
-          {% endif %}
         </li>
         <!-- <li>
           <a href="https://twitter.com/{{ site.username }}">
