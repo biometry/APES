@@ -2,7 +2,7 @@
 layout: page
 title: Summary statistics
 category: stats
-subcategory: Basic concepts
+subcategory: Descriptive statistics
 ---
 
 Summary statistics and correlations
@@ -13,13 +13,6 @@ Summary statistics and correlations
 
 ```r
 library(knitr)
-```
-
-```
-## Warning: package 'knitr' was built under R version 3.0.3
-```
-
-```r
 opts_knit$set(global.par=TRUE) 
 opts_chunk$set(cache.extra = rand_seed,fig.align='center')
 set.seed(3)
@@ -52,23 +45,23 @@ data1=rnorm(1570,mean=75,sd=8)
 hist(data1,main="Adult male weights",xlab="adult male weight",col="red",las=1)
 ```
 
-<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
+<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-2-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 Load example data
 
 ```r
-data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
+data = read.table("../Data/Simone/das.txt",header=T)
 summary(data)
 ```
 
 ```
-##        y       
-##  Min.   :1.90  
-##  1st Qu.:2.24  
-##  Median :2.41  
-##  Mean   :2.42  
-##  3rd Qu.:2.57  
-##  Max.   :2.98
+##        y        
+##  Min.   :1.904  
+##  1st Qu.:2.241  
+##  Median :2.414  
+##  Mean   :2.419  
+##  3rd Qu.:2.568  
+##  Max.   :2.984
 ```
 
 Visualize example data
@@ -84,11 +77,12 @@ y2[52]=21.75 # to change the 52nd value for 21.75 instead of 2.175:
 plot(y2)     #very good to spot mistakes, outliers
 ```
 
-<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
+<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-4-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1)) #back to one plot window
 ```
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-4.png)
 
 ## Visual Check for Normality: quantile-quantile plot
 
@@ -102,7 +96,8 @@ qqnorm(y)
 qqline(y,lty=2,col=2,lwd=3)
 ```
 
-<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-5.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
+<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-5-1.png" title="" alt="" style="display: block; margin: auto;" />
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-5.png)
 
 ## Normality test: the shapiro.test
 
@@ -131,26 +126,38 @@ x=exp(rnorm(30))  #rnorm without specification (normal distributed or not) picks
 plot(x)
 ```
 
-<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-71.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
+<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-7-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-71.png)
+
 
 ```r
 boxplot(x)
 ```
 
-<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-72.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
+<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-8-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-72.png)
+
 
 ```r
 hist(x,breaks=50)
 ```
 
-<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-73.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
+<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-9-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-73.png)
+
 
 ```r
 qqnorm(x)
 qqline(x,lty=2,col=2,lwd=3)
 ```
 
-<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-74.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
+<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-10-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-74.png)
+
 
 ```r
 shapiro.test(x)  #p-value=8.661e-07, not normally distributed
@@ -181,7 +188,8 @@ attach(mtcars)
 plot(hp,wt, main="scatterplot",las=1, xlab ="gross horse power", ylab="Weight (lb/1000)")
 ```
 
-<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
+<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-12-1.png" title="" alt="" style="display: block; margin: auto;" />
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-8.png)
 
 Compute the three correlation coefficients
 
@@ -190,7 +198,7 @@ cor(hp,wt,method="pearson")
 ```
 
 ```
-## [1] 0.6587
+## [1] 0.6587479
 ```
 
 ```r
@@ -198,7 +206,7 @@ cor(hp,wt)#Pearson is the default method; the order of variables is not importan
 ```
 
 ```
-## [1] 0.6587
+## [1] 0.6587479
 ```
 
 ```r
@@ -206,7 +214,7 @@ cor(hp,wt,method="spearman")
 ```
 
 ```
-## [1] 0.7747
+## [1] 0.7746767
 ```
 
 ```r
@@ -214,7 +222,7 @@ cor(hp,wt,method="kendal")
 ```
 
 ```
-## [1] 0.6113
+## [1] 0.6113081
 ```
 
 Test the null hypothesis, that means that the correlation is 0 (there is no correlation)
@@ -228,13 +236,13 @@ cor.test(hp,wt,method="pearson") #Pearson correlation test
 ## 	Pearson's product-moment correlation
 ## 
 ## data:  hp and wt
-## t = 4.796, df = 30, p-value = 4.146e-05
+## t = 4.7957, df = 30, p-value = 4.146e-05
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.4025 0.8193
+##  0.4025113 0.8192573
 ## sample estimates:
-##    cor 
-## 0.6587
+##       cor 
+## 0.6587479
 ```
 
 ```r
@@ -242,7 +250,8 @@ cor.test(hp,wt,method="spearman") #Spearmn is a non-parametric, thus it is not p
 ```
 
 ```
-## Warning: Cannot compute exact p-value with ties
+## Warning in cor.test.default(hp, wt, method = "spearman"): Cannot compute
+## exact p-value with ties
 ```
 
 ```
@@ -250,11 +259,11 @@ cor.test(hp,wt,method="spearman") #Spearmn is a non-parametric, thus it is not p
 ## 	Spearman's rank correlation rho
 ## 
 ## data:  hp and wt
-## S = 1229, p-value = 1.954e-07
+## S = 1229.364, p-value = 1.954e-07
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
-##    rho 
-## 0.7747
+##       rho 
+## 0.7746767
 ```
 
 ```r
@@ -266,11 +275,11 @@ cor.test(hp,wt,method="spearman",exact=F)
 ## 	Spearman's rank correlation rho
 ## 
 ## data:  hp and wt
-## S = 1229, p-value = 1.954e-07
+## S = 1229.364, p-value = 1.954e-07
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
-##    rho 
-## 0.7747
+##       rho 
+## 0.7746767
 ```
 
 ```r
@@ -285,8 +294,8 @@ cor.test(hp,wt,method="kendal",exact=F) #same happens with Kendal correlation te
 ## z = 4.845, p-value = 1.266e-06
 ## alternative hypothesis: true tau is not equal to 0
 ## sample estimates:
-##    tau 
-## 0.6113
+##       tau 
+## 0.6113081
 ```
 
 When we have non-parametric data and we do not know which correlation method to choose, as a rule of thumb, if the correlation looks non-linear, Kendall tau should be better than Spearman Rho.
@@ -300,7 +309,8 @@ Plot all possible combinations with "pairs"
 pairs(mtcars)  # all possible pairwise plots
 ```
 
-<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
+<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-15-1.png" title="" alt="" style="display: block; margin: auto;" />
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-11.png)
 
 To make it simpler we select what we are interested
 
@@ -317,7 +327,8 @@ names(mtcars)
 pairs(mtcars[,c(1,4,6)]) # subsetting the categories we will use
 ```
 
-<img src="./stats03-summaryStatistisc_files/figure-html/unnamed-chunk-12.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" style="display: block; margin: auto;" />
+<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-16-1.png" title="" alt="" style="display: block; margin: auto;" />
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-12.png)
 
 Building a correlation matrix
 
@@ -326,30 +337,30 @@ cor(mtcars)
 ```
 
 ```
-##          mpg     cyl    disp      hp     drat      wt    qsec      vs
-## mpg   1.0000 -0.8522 -0.8476 -0.7762  0.68117 -0.8677  0.4187  0.6640
-## cyl  -0.8522  1.0000  0.9020  0.8324 -0.69994  0.7825 -0.5912 -0.8108
-## disp -0.8476  0.9020  1.0000  0.7909 -0.71021  0.8880 -0.4337 -0.7104
-## hp   -0.7762  0.8324  0.7909  1.0000 -0.44876  0.6587 -0.7082 -0.7231
-## drat  0.6812 -0.6999 -0.7102 -0.4488  1.00000 -0.7124  0.0912  0.4403
-## wt   -0.8677  0.7825  0.8880  0.6587 -0.71244  1.0000 -0.1747 -0.5549
-## qsec  0.4187 -0.5912 -0.4337 -0.7082  0.09120 -0.1747  1.0000  0.7445
-## vs    0.6640 -0.8108 -0.7104 -0.7231  0.44028 -0.5549  0.7445  1.0000
-## am    0.5998 -0.5226 -0.5912 -0.2432  0.71271 -0.6925 -0.2299  0.1683
-## gear  0.4803 -0.4927 -0.5556 -0.1257  0.69961 -0.5833 -0.2127  0.2060
-## carb -0.5509  0.5270  0.3950  0.7498 -0.09079  0.4276 -0.6562 -0.5696
-##            am    gear     carb
-## mpg   0.59983  0.4803 -0.55093
-## cyl  -0.52261 -0.4927  0.52699
-## disp -0.59123 -0.5556  0.39498
-## hp   -0.24320 -0.1257  0.74981
-## drat  0.71271  0.6996 -0.09079
-## wt   -0.69250 -0.5833  0.42761
-## qsec -0.22986 -0.2127 -0.65625
-## vs    0.16835  0.2060 -0.56961
-## am    1.00000  0.7941  0.05753
-## gear  0.79406  1.0000  0.27407
-## carb  0.05753  0.2741  1.00000
+##             mpg        cyl       disp         hp        drat         wt
+## mpg   1.0000000 -0.8521620 -0.8475514 -0.7761684  0.68117191 -0.8676594
+## cyl  -0.8521620  1.0000000  0.9020329  0.8324475 -0.69993811  0.7824958
+## disp -0.8475514  0.9020329  1.0000000  0.7909486 -0.71021393  0.8879799
+## hp   -0.7761684  0.8324475  0.7909486  1.0000000 -0.44875912  0.6587479
+## drat  0.6811719 -0.6999381 -0.7102139 -0.4487591  1.00000000 -0.7124406
+## wt   -0.8676594  0.7824958  0.8879799  0.6587479 -0.71244065  1.0000000
+## qsec  0.4186840 -0.5912421 -0.4336979 -0.7082234  0.09120476 -0.1747159
+## vs    0.6640389 -0.8108118 -0.7104159 -0.7230967  0.44027846 -0.5549157
+## am    0.5998324 -0.5226070 -0.5912270 -0.2432043  0.71271113 -0.6924953
+## gear  0.4802848 -0.4926866 -0.5555692 -0.1257043  0.69961013 -0.5832870
+## carb -0.5509251  0.5269883  0.3949769  0.7498125 -0.09078980  0.4276059
+##             qsec         vs          am       gear        carb
+## mpg   0.41868403  0.6640389  0.59983243  0.4802848 -0.55092507
+## cyl  -0.59124207 -0.8108118 -0.52260705 -0.4926866  0.52698829
+## disp -0.43369788 -0.7104159 -0.59122704 -0.5555692  0.39497686
+## hp   -0.70822339 -0.7230967 -0.24320426 -0.1257043  0.74981247
+## drat  0.09120476  0.4402785  0.71271113  0.6996101 -0.09078980
+## wt   -0.17471588 -0.5549157 -0.69249526 -0.5832870  0.42760594
+## qsec  1.00000000  0.7445354 -0.22986086 -0.2126822 -0.65624923
+## vs    0.74453544  1.0000000  0.16834512  0.2060233 -0.56960714
+## am   -0.22986086  0.1683451  1.00000000  0.7940588  0.05753435
+## gear -0.21268223  0.2060233  0.79405876  1.0000000  0.27407284
+## carb -0.65624923 -0.5696071  0.05753435  0.2740728  1.00000000
 ```
 
 ```r
@@ -357,10 +368,10 @@ cor(mtcars[,c(1,4,6)])
 ```
 
 ```
-##         mpg      hp      wt
-## mpg  1.0000 -0.7762 -0.8677
-## hp  -0.7762  1.0000  0.6587
-## wt  -0.8677  0.6587  1.0000
+##            mpg         hp         wt
+## mpg  1.0000000 -0.7761684 -0.8676594
+## hp  -0.7761684  1.0000000  0.6587479
+## wt  -0.8676594  0.6587479  1.0000000
 ```
 
 ```r

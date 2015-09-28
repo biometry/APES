@@ -11,16 +11,17 @@ category: stats
 subcategory: Inferential statistics
 ---
 
-The idea of null hypothesis significance testing (NHST) is the following: if we have some data observed, and we have a statistical model, we can use this statistical model to specify a fixed hypothesis about how the data did arise. For the example with the plants and music, this hypothesis could be: music has no influence on plants, all differences we see are due to random variation between individuals. 
+Hypothesis testing is one of the most widely used approaches of statistical inference. 
 
-### Null Hypothesis and alternative hypothesis
+The idea of hypothesis testing (more formally: null hypothesis significance testing - NHST) is the following: if we have some data observed, and we have a statistical model, we can use this statistical model to specify a fixed hypothesis about how the data did arise. For the example with the plants and music, this hypothesis could be: music has no influence on plants, all differences we see are due to random variation between individuals. 
 
-Such a scenario is called the null hypothesis. Although it is very typical to use the assumption of no effect as null-hypothesis, note that it is really your choice, and you could use anything as null hypothesis, also the assumption: "classical music doubles the growth of plants". The fact that it's the analyst's choice what to fix as null hypothesis is part of the reason why there are are a large number of tests available. We will see a few of them in the following chapter about important hypothesis tests.
+### The null hypothesis H0 and the alternative hypothesis H1
 
-#### Simple Hypothesis 
+Such a scenario is called the null hypothesis H0. Although it is very typical to use the assumption of no effect as null-hypothesis, note that it is really your choice, and you could use anything as null hypothesis, also the assumption: "classical music doubles the growth of plants". The fact that it's the analyst's choice what to fix as null hypothesis is part of the reason why there are are a large number of tests available. We will see a few of them in the following chapter about important hypothesis tests. 
 
-#### Composite hypothesis
+The hypothesis that H0 is wrong, or !H0, is usually called the alternative hypothesis, H1
 
+Given a statistical model, a "normal" or "simple" null hypothesis specifies a single value for the parameter of interest as the "base expectation". A composite null hypothesis specifies a range of values for the parameter. 
 
 ### p-value
 
@@ -44,7 +45,7 @@ http://www.stats.gla.ac.uk/steps/glossary/hypothesis_testing.html
 
 
 
-# Important statistical tests
+# Important statistical tests in R
 
 
 Recall statistical tests, or more formally, null-hypothesis significance testing (NHST) is one of several ways in which you can approach data. The idea is that you define a null-hypothesis, and then you look a the probability that the data would occur under the assumption that the null hypothesis is true.
@@ -71,25 +72,25 @@ The one-sample t-test compares the MEAN score of a sample to a known value, usua
 
 
 ```{r}
-#data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
-#attach(data)
-#boxplot(y)
+data = read.table("../Data/Simone/das.txt",header=T)
+attach(data)
+boxplot(y)
 ```
 
 Our null hypothesis is that the mean of the sample is not less than 2.5 (real example: weight data of 200 lizards collected for a research, we want to compare it with the known average weights available in the scientific literature)
 
 
 ```{r}
-#t.test(y,mu=2.5,alt="less",conf=0.95)  # mean = 2.5, alternative hypothesis one-sided; we get a one-sided 95% CI for the mean 
+t.test(y,mu=2.5,alt="less",conf=0.95)  # mean = 2.5, alternative hypothesis one-sided; we get a one-sided 95% CI for the mean 
 ```
 
 ```{r}
-#t.test(y,mu=2.5,alt="two.sided",conf=0.95) #2 sided-version
+t.test(y,mu=2.5,alt="two.sided",conf=0.95) #2 sided-version
 ```
 
 
 ```{r}
-#detach(data)
+detach(data)
 ```
 
 
@@ -354,19 +355,19 @@ This is a dataset about some water measurements taken at different levels of a r
 
 
 ```{r}
-#streams = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/streams.txt",header=T)
-#head(streams)
+streams = read.table("../Data/Simone/streams.txt",header=T)
+head(streams)
 ```
 
 
 ```{r}
-#attach(streams)
-#summary(streams)
+attach(streams)
+summary(streams)
 ```
 
 ```{r}
-#plot(up,down)
-#abline(a=0,b=1) #add a line with intercept 0 and slope 1
+plot(up,down)
+abline(a=0,b=1) #add a line with intercept 0 and slope 1
 ```
 
 The line you see in the plot corresponds to x=y, that is, the same water measuremets before and after the water treatment (it seems to be true in 2 rivers only, 5 and 15)
@@ -375,34 +376,34 @@ Our null hypothesis is that the median before and after the treatment are not di
 
 
 ```{r}
-#shapiro.test(down) #not normally distributed
+shapiro.test(down) #not normally distributed
 ```
 
 
 ```{r}
-#shapiro.test(up) #normally distributed
+shapiro.test(up) #normally distributed
 ```
 
 the assumption of normality is certainly not met for the measurements after the treatment
 
 ```{r}
 
-#summary(up)
+summary(up)
 ```
 
 
 ```{r}
-#summary(down)
+summary(down)
 ```
 
 
 ```{r}
-#wilcox.test(up,down,mu=0,paired=T,conf.int=T,exact=F) #paired =T, low p ->reject Ho, medians are different
+wilcox.test(up,down,mu=0,paired=T,conf.int=T,exact=F) #paired =T, low p ->reject Ho, medians are different
 ```
 
 
 ```{r}
-#detach(streams)
+detach(streams)
 ```
 
 
@@ -411,53 +412,54 @@ This parametric method examinates the difference in means for two populations th
 
 
 ```{r}
-#fish = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/fishing.txt",header=T)
+fish = read.table("../Data/Simone/fishing.txt",header=T)
 ```
 
 This is a dataset about the density of a fish prey species (fish/km2) in 121 lakes before and after removing a non-native predator
 
 
 ```{r}
-#attach(fish)
-#head(fish)
+attach(fish)
+head(fish)
 ```
 
 
 ```{r}
-#boxplot(before,after,ylab="Fish Density",
-#        names=c("before", "after"))
+boxplot(before,after,ylab="Fish Density",
+        names=c("before", "after"))
 ```
 
 
 ```{r}
-#shapiro.test(before) #normally distributed
+shapiro.test(before) #normally distributed
 ```
 
 
 ```{r}
-#shapiro.test(after)  #normally distributed
+shapiro.test(after)  #normally distributed
 ```
 
 
 ```{r}
-#plot(before,after)
-#abline(a=0,b=1) 
+plot(before,after)
+abline(a=0,b=1) 
 ```
 
 ```{r}
-#t.test(before,after,mu=0,paired=T)
-```
-
-
-```{r}
-#t.test(after,before,mu=0,paired=T) #changing the order of variables, we have a change in the sign of the t-test estimated mean of differences
+t.test(before,after,mu=0,paired=T)
 ```
 
 
 ```{r}
-#low p ->reject Ho, means are equal 
+t.test(after,before,mu=0,paired=T)
+```
 
-#detach(fish)
+changing the order of variables, we have a change in the sign of the t-test estimated mean of differences
+
+low p ->reject Ho, means are equal 
+
+```{r}
+detach(fish)
 ```
 
 # Testing for normality
@@ -483,25 +485,24 @@ hist(data1,main="Adult male weights",xlab="adult male weight",col="red",las=1)
 Load example data
 
 ```{r}
-#data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
-#summary(data)
+data = read.table("../Data/Simone/das.txt",header=T)
 ```
 Visualize example data
 
 ```{r}
-#attach(data) #command search() helps to verify what is/is not attached)
-#par(mfrow=c(2,2)) #to divide the plot window
-#plot(y)
-#boxplot(y)
-#hist(y,breaks=20)
-#y2=y
-#y2[52]=21.75 # to change the 52nd value for 21.75 instead of 2.175:
-#plot(y2)     #very good to spot mistakes, outliers
+attach(data) #command search() helps to verify what is/is not attached)
+par(mfrow=c(2,2)) #to divide the plot window
+plot(y)
+boxplot(y)
+hist(y,breaks=20)
+y2=y
+y2[52]=21.75 # to change the 52nd value for 21.75 instead of 2.175:
+plot(y2)     #very good to spot mistakes, outliers
 ```
 
 
 ```{r}
-#par(mfrow=c(1,1)) #back to one plot window
+par(mfrow=c(1,1)) #back to one plot window
 ```
 
 ## Visual Check for Normality: quantile-quantile plot
@@ -512,8 +513,8 @@ Exceptions from normality show up different sorts of non-linearity (e.g. S-shape
 
 
 ```{r}
-#qqnorm(y)
-#qqline(y,lty=2,col=2,lwd=3)
+qqnorm(y)
+qqline(y,lty=2,col=2,lwd=3)
 ```
 
 
@@ -521,12 +522,12 @@ Exceptions from normality show up different sorts of non-linearity (e.g. S-shape
 
 
 ```{r}
-#shapiro.test(y)  # p-value=0.753, these data are normally distributed
+shapiro.test(y)  # p-value=0.753, these data are normally distributed
 ```
 
 
 ```{r}
-#detach(data)
+detach(data)
 ```
 
 

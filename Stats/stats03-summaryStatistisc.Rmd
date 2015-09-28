@@ -7,7 +7,7 @@ output:
 layout: page
 title: Summary statistics
 category: stats
-subcategory: Basic concepts
+subcategory: Descriptive statistics
 ---
 
 Summary statistics and correlations
@@ -47,11 +47,10 @@ Simulation of the weight of 1570 adult males normally distributed
 data1=rnorm(1570,mean=75,sd=8)
 hist(data1,main="Adult male weights",xlab="adult male weight",col="red",las=1)
 ```
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-2.png)
 
 Load example data
 ```{r}
-data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
+data = read.table("../Data/Simone/das.txt",header=T)
 summary(data)
 ```
 
