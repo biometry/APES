@@ -40,6 +40,22 @@ Plotting in R
 
 =======
 
+
+# Overview
+
+What may be confusing at first if you look at graphic examples is that R has several independent graphic engines. Think of it like having several drawing artists, every one with his/her own style. You can decide which one you want to use to represent your data. The two main one are 
+
+* The standard graphic device 
+* ggplot2 
+
+We will concentrate on the standard graphics here. For creating graphics with ggplot2, see 
+
+* http://www.cookbook-r.com/Graphs/
+
+Other graph engines that could be called from R include https://plot.ly/r/ , http://gallery.rcpp.org/articles/matplotlib-from-R/
+
+
+
 # Useful Links
 
 * [Wiki page with basic plotting examples](http://en.wikibooks.org/wiki/R_Programming/Graphics)
@@ -62,7 +78,13 @@ Plotting in R
 
 * We can also find a R graphic's chapter in ["An Introduction to R"](http://cran.r-project.org/doc/manuals/r-release/R-intro.html#Graphics)
 
+* For "production figures" (i.e. those submitted for publication), see [**Nature's Point of View series**](http://blogs.nature.com/methagora/2013/07/data-visualization-points-of-view.html)
+ on scientific graphics (including colour coding, symbols and lines, all from top-notch designers!).
+ 
+* In book form, check out Jean-luc Doumonts [Trees, Maps and Theorems](http://www.treesmapsandtheorems.com/), or look at some sample pages: [pdf](http://www.treesmapsandtheorems.com/pdfs/TM&Th-samplepages.pdf)
 
+* shinyapps.stat.ubc.ca/r-graph-catalog/
+* http://www.plosbiology.org/article/comments/info:doi/10.1371/journal.pbio.1002128
 
 # Simple standard plots
 

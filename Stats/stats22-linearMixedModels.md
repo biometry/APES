@@ -39,10 +39,28 @@ Note that we need to fit the model using maximum likelihood, **not** REML (restr
 
 http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r
 
+https://freshbiostats.wordpress.com/2013/07/28/mixed-models-in-r-lme4-nlme-both/
+
 
 # Confidence intervals and predictive uncertainty
 
 http://stackoverflow.com/questions/14358811/extract-prediction-band-from-lme-fit/14435982#14435982
+
+
+
+
+=======
+## Q & A
+
+* Is the model performance or quality affected if the share of variance explained by random effects is larger than the share of variance explained by fixed effects? - No! A priori the model quality is not affected. :-) A large share of variance explained by random effects means that the difference between the experimental/sampling sites (if these differences are treated as random effects) is larger than the effects the model builder is interested in (the fixed effects). So maybe the fixed effects described may be generalised for a large spectrum of sampling sites or a very important variable which could also be treated as fixed effect is missing in the model. In the latter case the model could be enhanced. — Michael Rudner 2012/02/16 18:20
+
+* What do do about Heavy tails / outliers --> Check out heavyLme (package heavy), lqmm (lqmm), or rlmer
+
+
+## Further links 
+
+* A brilliant starting page for problems with mixed effect models in R is http://glmm.wikidot.com/faq, which tries to bundle these discussions on a FAQWA (Frequently Asked Questions With Answers) page. 
+* See also: http://psy-ed.wikidot.com/glmm, http://wiki.math.yorku.ca/index.php/SPIDA_2009:_Mixed_Models_with_R
 
 
 
@@ -110,6 +128,8 @@ So we see that the fixed effect "period" only explains a small proportion of the
 ## References
 
 Nakagawa, S. & Schielzeth, H. (2013). A general and simple method for obtaining R2 from generalized linear mixed-effects models. Methods in Ecology and Evolution 4: 133–142.
+ 
+ Lahuis, D et al (2014) Explained Variance Measures for Multilevel Models. Organizational Research Methods. 
 
 Nelder JA (2000) Quasi-likelihood and pseudo-likelihood are not the same thing. J Appl Stat 27: 1007–1011. doi: 10.1080/02664760050173328
 

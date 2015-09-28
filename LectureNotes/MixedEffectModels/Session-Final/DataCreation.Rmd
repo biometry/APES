@@ -1,0 +1,126 @@
+---
+output:
+  html_document:
+    keep_md: yes
+---
+Mixed Model exercise - data creation
+=====================
+
+```{r, echo = F}
+set.seed(123)
+library(msm)
+```
+
+```{r, echo=F, warning=F}
+set.seed(2)
+altitude = rep(seq(0,1,len = 50), each = 20)
+precipitation = runif(1000, 0,1) 
+temperature =  runif(1000, 10,15) - precipitation - 6* altitude 
+minTemp = temperature - 20 + rnorm(1000, 0,3)
+dataID = 1:1000
+spatialCoordinate = rep(seq(0,30, len = 50), each = 20)
+
+# random effects
+region = rep(1:10, each = 100)
+plot = rep(1:50, each = 20)
+year = rep(1:20, times = 50)
+technician = sample.int(5, 1000, replace =T)
+
+
+#plotRandom = 0 - rexp(20, rate = 1)
+
+yearRandom = rtnorm(20, 0, 2, upper = 2)
+regionRandom = rtnorm(10, 0, 5, upper = 2)
+plotRandom = rtnorm(50,0,1, upper = 1)
+
+technicianRandom = rtnorm(5, 0, 3, upper = 2)
+
+#overdispersion = rtnorm(1000, sd = 1, upper = 1)
+
+beetles <- rpois(1000, exp( -7 +   
+  
+  -2  * precipitation 
+  
+  + 2* temperature - 0.08*temperature^2 
+  
+  -0.05*(minTemp + yearRandom[year] + 5)^2
+
+  
+  #+ overdispersion 
+  + plotRandom[plot] + regionRandom[region] + technicianRandom[technician] )
+)
+# beetles[rbinom(1,200,0.1)] = 0  #zero-inflation
+data = data.frame(dataID, beetles, precipitation, altitude, temperature, minTemp, region, plot, year, technician, spatialCoordinate)
+write.table(data, "data.txt")
+```
+
+
+## Background
+
+The national forest agency has asked you for advice - research has suggested that bark beetle attacks will be reduced if the climate becomes wetter under climate change, as suggested for the region we are looking at here.
+
+However, the foresters don't believe this. They suggest that the beetles mostly depend on mimum temperature in winter, which is predicted to increase.  
+
+The forest agency provides you with a dataset of counted bark beetles, and a number of predictors and other variables. Your job is to find out if beetles are depending more on precipitation, or on minimum winter temperatures. 
+
+
+## The data 
+
+The forest agency measured bark beetle counts over 20 years on 50 different plots in 7 regions across an altitudinal gradient. Measurements were performed by 5 different technicians. 
+
+Environmental predictors are precipitation, average temperature, minimum winter temperature and altitude (the latter is fix for each plot).
+
+<font size="5">
+```{r}
+str(data)
+```
+</font>
+
+<font size="4">
+```{r, echo = F, fig.align = "center", fig.width = 7, fig.height = 7}
+
+plot(spatialCoordinate , 200 + altitude * 1000 + 20* year, cex = beetles/200, pch =2, main = "Beetle counts across altitudinal gradient", ylim = c(-50,1500), ylab = "Altitude / counts ")
+lines(spatialCoordinate, altitude * 1000)
+points(unique(spatialCoordinate), unique(altitude * 1000) , pch = 3)
+text(unique(spatialCoordinate), unique(altitude * 1000) - 50, unique(plot), cex = 0.7 )
+curve(1000* dnorm(x, 15,3), 0, 30, add = T, col = "red")
+```
+</font>
+
+
+
+<font size="4">
+```{r, echo = F, fig.align = "center", fig.width = 7, fig.height = 7}
+
+panel.hist <- function(x, ...)
+{
+    usr <- par("usr"); on.exit(par(usr))
+    par(usr = c(usr[1:2], 0, 1.5) )
+    h <- hist(x, plot = FALSE)
+    breaks <- h$breaks; nB <- length(breaks)
+    y <- h$counts; y <- y/max(y)
+    rect(breaks[-nB], 0, breaks[-1], y, col = "cyan", ...)
+}
+panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...)
+{
+    usr <- par("usr"); on.exit(par(usr))
+    par(usr = c(0, 1, 0, 1))
+    r <- cor(x, y, use = "complete.obs", method = "kendall")
+    txt <- format(c(r, 0.123456789), digits = digits)[1]
+    txt <- paste0(prefix, txt)
+    if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
+    text(0.5, 0.5, txt, cex = cex.cor * r)
+}
+pairs(data[2:6], lower.panel = panel.smooth, diag.panel = panel.hist, upper.panel = panel.cor)
+
+```
+</font>
+
+## Task
+
+Analyze the data and give your evaluation of the situation
+
+
+
+
+

@@ -5,29 +5,28 @@ category: stats
 subcategory: Regression
 ---
 
-Generalized linear mixed models
+Generalized linear mixed models (GLMM)
 ===
 
 
-## Definition 
+**Definition**: GLMMs are GLMs with random effects added, in the same way as LMM are linear models with a random effect added. 
 
+For description of random effects / mixed effects, see the page about mixed effects. Nothing new appears for GLMMs. The only issue with GLMMs as opposed to LMMs is that estimation, but in particular the calculation of confidence intervals and model selection is not so easy, because general parametric methods are not available. 
 
-
-
-http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r
-
-http://jaredknowles.com/journal/2014/5/17/mixed-effects-tutorial-2-fun-with-mermod-objects
-
-Material from "in silico ecology", with link to e.g. model selection in mixed effect models
-http://www.r-bloggers.com/notes-on-shrinkage-prediction-in-hierarchical-models/
-
-see also https://gist.github.com/casallas/8263818
-
+Hence, many common tasks like residual checks, confidence intervals or model selection require nonparametric or Bayesian methods (or one has to go back to approximations that are not reliable in general). 
 
 ## Estimation
 
+### "Standard" GLMMs
 
-Maximum likelihood estimation in R with mainly with mle4 or nle. Bayesian estimation with JAGS or STAN, glmmMCMC.
+Maximum likelihood estimation in R with mainly with mle4 or nle. 
+
+* http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r
+* http://jaredknowles.com/journal/2014/5/17/mixed-effects-tutorial-2-fun-with-mermod-objects
+
+Bayesian estimation with JAGS or STAN, glmmMCMC.
+
+### Multinomial models 
 
 Multinomial models can be estimated with
 
@@ -38,13 +37,31 @@ Multinomial models can be estimated with
 * TwoStepCLogit: Conditional logistic regression with longitudinal follow up and individual-level random coefficients: A stable and efficient two-step estimation method http://cran.r-project.org/web/packages/TwoStepCLogit/
 * Fully Bayesian solutions in Bugs, Jags or STAN
 
+* ordinal: Regression Models for Ordinal Data. Implementation of cumulative link (mixed) models also known as ordered regression models, proportional odds models, proportional hazards models for grouped survival times and ordered logit/probit/... models. http://www.cran.r-project.org/web/packages/ordinal/index.html
 
 Note: there seems to be some inconsistency in what people mean by a mixed multinomial logit. Check packages for the exact specification of the rando effect structure (if any)
 
+See also https://gist.github.com/casallas/8263818
 
 ### Challenges in the estimation 
 
 Browne, W. J.; Draper, D. & others (2006) A comparison of Bayesian and likelihood-based methods for fitting multilevel models. Bayesian Analysis, International Society for Bayesian Analysis, 1, 473-514.
+
+
+## Confidence intervals 
+
+http://www.r-bloggers.com/confidence-intervals-for-prediction-in-glmms/
+
+
+## Model validation 
+
+
+## Model selection 
+
+Material from "in silico ecology", with link to e.g. model selection in mixed effect models
+http://www.r-bloggers.com/notes-on-shrinkage-prediction-in-hierarchical-models/
+
+
 
 
 
