@@ -2,7 +2,7 @@
 layout: page
 title: Generalized linear models
 category: stats
-subcategory: Regression
+subcategory: Inferential statistics
 ---
 Generalized linear models (GLM)
 ===
