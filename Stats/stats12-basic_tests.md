@@ -1,12 +1,45 @@
 ---
 layout: page
-title: basic tests
+title: Hypothesis testing
 category: stats
-subcategory: Hypothesis testing
+subcategory: Inferential statistics
 ---
 
-Important statistical tests
-===
+The idea of null hypothesis significance testing (NHST) is the following: if we have some data observed, and we have a statistical model, we can use this statistical model to specify a fixed hypothesis about how the data did arise. For the example with the plants and music, this hypothesis could be: music has no influence on plants, all differences we see are due to random variation between individuals. 
+
+### Null Hypothesis and alternative hypothesis
+
+Such a scenario is called the null hypothesis. Although it is very typical to use the assumption of no effect as null-hypothesis, note that it is really your choice, and you could use anything as null hypothesis, also the assumption: "classical music doubles the growth of plants". The fact that it's the analyst's choice what to fix as null hypothesis is part of the reason why there are are a large number of tests available. We will see a few of them in the following chapter about important hypothesis tests.
+
+#### Simple Hypothesis 
+
+#### Composite hypothesis
+
+
+### p-value
+
+If we have a null hypothesis, we calculate the probability that we would see the observed data or data more extreme under this scenario. This is called a hypothesis tests, and we call the probability the p-value. If the p-value falls under a certain level (the significance level $\alpha$) we say the null hypothesis was rejected, and there is significant support for the alternative hypothesis. The level of $\alpha$ is a convention, in ecology we chose typically 0.05, so if a p-value falls below 0.05, we can reject the null hypothesis. 
+
+Test Statistic
+
+### Type I and II error
+
+
+Significance level, Power 
+
+
+### Misinterpretations
+
+A problem with hypothesis tests and p-values is that their results are notoriously misinterpreted. The p-value is NOT the probability that the null hypothesis is true, or the probability that the alternative hypothesis is false, although many authors have made the mistake of interpreting it like that \citep[][]{Cohen-earthisround-1994}. Rather, the idea of p-values is to control the rate of false positives (Type I error). When doing hypothesis tests on random data, with an $\alpha$ level of 0.05, one will get exactly 5\% false positives. Not more and not less.  
+
+### Further readings
+
+http://www.stats.gla.ac.uk/steps/glossary/hypothesis_testing.html
+
+
+
+# Important statistical tests
+
 
 Recall statistical tests, or more formally, null-hypothesis significance testing (NHST) is one of several ways in which you can approach data. The idea is that you define a null-hypothesis, and then you look a the probability that the data would occur under the assumption that the null hypothesis is true.
 
@@ -16,13 +49,6 @@ Now, there can be many null hypothesis, so you need many tests. The most widely 
 
 ```r
 library(knitr)
-```
-
-```
-## Warning: package 'knitr' was built under R version 3.0.3
-```
-
-```r
 opts_knit$set(global.par=TRUE) 
 opts_chunk$set(cache.extra = rand_seed,fig.align='center')
 set.seed(12)
@@ -41,59 +67,28 @@ The one-sample t-test compares the MEAN score of a sample to a known value, usua
 
 
 ```r
-data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
-attach(data)
-boxplot(y)
+#data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
+#attach(data)
+#boxplot(y)
 ```
-
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
-
 
 Our null hypothesis is that the mean of the sample is not less than 2.5 (real example: weight data of 200 lizards collected for a research, we want to compare it with the known average weights available in the scientific literature)
 
 
 
 ```r
-t.test(y,mu=2.5,alt="less",conf=0.95)  # mean = 2.5, alternative hypothesis one-sided; we get a one-sided 95% CI for the mean 
-```
-
-```
-## 
-## 	One Sample t-test
-## 
-## data:  y
-## t = -3.335, df = 99, p-value = 0.000601
-## alternative hypothesis: true mean is less than 2.5
-## 95 percent confidence interval:
-##  -Inf 2.46
-## sample estimates:
-## mean of x 
-##     2.419
+#t.test(y,mu=2.5,alt="less",conf=0.95)  # mean = 2.5, alternative hypothesis one-sided; we get a one-sided 95% CI for the mean 
 ```
 
 
 ```r
-t.test(y,mu=2.5,alt="two.sided",conf=0.95) #2 sided-version
-```
-
-```
-## 
-## 	One Sample t-test
-## 
-## data:  y
-## t = -3.335, df = 99, p-value = 0.001202
-## alternative hypothesis: true mean is not equal to 2.5
-## 95 percent confidence interval:
-##  2.372 2.467
-## sample estimates:
-## mean of x 
-##     2.419
+#t.test(y,mu=2.5,alt="two.sided",conf=0.95) #2 sided-version
 ```
 
 
 
 ```r
-detach(data)
+#detach(data)
 ```
 
 
@@ -110,7 +105,7 @@ x<-exp(rnorm(15))
 plot(x)
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-6.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-6-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 
 
@@ -118,7 +113,7 @@ plot(x)
 boxplot(x)
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-7.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-7-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 
 ```r
@@ -126,7 +121,7 @@ qqnorm(x)
 qqline(x,lty=2,col=2,lwd=3)
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-8-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 
 
@@ -150,7 +145,7 @@ summary(x)
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.136   0.391   0.534   0.901   0.879   4.840
+##  0.1357  0.3913  0.5335  0.9005  0.8788  4.8410
 ```
 
 Our null hypothesis is that the median of x is not different from 1
@@ -195,8 +190,7 @@ Now plot them as points (not box-n-whiskers):
 plot.default(Y ~ groups)
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" />
-
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-13-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 The points to the right scatter similar to those on the left, although a bit more asymmetrically. Although we know that they are from a log-normal distribution (right), they don't look problematic.
 
@@ -219,10 +213,10 @@ t.test(rank(Y) ~ groups)
 ## 	Welch Two Sample t-test
 ## 
 ## data:  rank(Y) by groups
-## t = -3.925, df = 35.27, p-value = 0.000384
+## t = -3.9252, df = 35.266, p-value = 0.000384
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -18.812  -5.988
+##  -18.811615  -5.988385
 ## sample estimates:
 ## mean in group Y1 mean in group Y2 
 ##             14.3             26.7
@@ -301,8 +295,9 @@ qqnorm(mpg[fam=="manual"]);qqline(mpg[fam=="manual"])
 qqnorm(mpg[fam=="automatic"]); qqline(mpg[fam=="automatic"])
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-18.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-18-1.png" title="" alt="" style="display: block; margin: auto;" />
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats12-basic_tests_files/figure-html/unnamed-chunk-18.png)
 
 
 ```r
@@ -343,8 +338,9 @@ Graphic representation
 boxplot(mpg~fam, ylab="Miles/gallon",xlab="Transmission",las=1)
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-22.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-22-1.png" title="" alt="" style="display: block; margin: auto;" />
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats12-basic_tests_files/figure-html/unnamed-chunk-22.png)
 
 We have two ~normally distributed populations.
 In order to test for differences in means, we applied a t-test for independent samples. 
@@ -363,13 +359,13 @@ t.test(mpg~fam,mu=0, alt="two.sided",conf=0.95,var.eq=F,paired=F)
 ## 	Welch Two Sample t-test
 ## 
 ## data:  mpg by fam
-## t = -3.767, df = 18.33, p-value = 0.001374
+## t = -3.7671, df = 18.332, p-value = 0.001374
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -11.28  -3.21
+##  -11.280194  -3.209684
 ## sample estimates:
 ## mean in group automatic    mean in group manual 
-##                   17.15                   24.39
+##                17.14737                24.39231
 ```
 
 From the output: please note that CIs are the confidence intervales for differences in means
@@ -386,13 +382,13 @@ t.test(mpg~fam)
 ## 	Welch Two Sample t-test
 ## 
 ## data:  mpg by fam
-## t = -3.767, df = 18.33, p-value = 0.001374
+## t = -3.7671, df = 18.332, p-value = 0.001374
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -11.28  -3.21
+##  -11.280194  -3.209684
 ## sample estimates:
 ## mean in group automatic    mean in group manual 
-##                   17.15                   24.39
+##                17.14737                24.39231
 ```
 
 The alternative could be one-sided (greater, lesser) as we discussed earlier for one-sample t-tests
@@ -410,13 +406,13 @@ t.test(mpg~fam,var.eq=TRUE,paired=F)
 ## 	Two Sample t-test
 ## 
 ## data:  mpg by fam
-## t = -4.106, df = 30, p-value = 0.000285
+## t = -4.1061, df = 30, p-value = 0.000285
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -10.848  -3.642
+##  -10.84837  -3.64151
 ## sample estimates:
 ## mean in group automatic    mean in group manual 
-##                   17.15                   24.39
+##                17.14737                24.39231
 ```
 
 
@@ -430,7 +426,9 @@ Ways to check for equal / not equal variance
 boxplot(mpg~fam, ylab="Miles/gallon",xlab="Transmission",las=1)
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-26.png" title="plot of chunk unnamed-chunk-26" alt="plot of chunk unnamed-chunk-26" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-26-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats12-basic_tests_files/figure-html/unnamed-chunk-26.png)
 
 2) To compute the actual variance
 
@@ -440,7 +438,7 @@ var(mpg[fam=="manual"])
 ```
 
 ```
-## [1] 38.03
+## [1] 38.02577
 ```
 
 
@@ -449,7 +447,7 @@ var(mpg[fam=="automatic"])
 ```
 
 ```
-## [1] 14.7
+## [1] 14.6993
 ```
 
 
@@ -462,10 +460,6 @@ There is 2/3 times difference in variance.
 library(car)
 ```
 
-```
-## Warning: package 'car' was built under R version 3.0.3
-```
-
 
 
 ```r
@@ -474,9 +468,9 @@ leveneTest(mpg~fam) # Ho is that the population variances are equal
 
 ```
 ## Levene's Test for Homogeneity of Variance (center = median)
-##       Df F value Pr(>F)  
-## group  1    4.19   0.05 *
-##       30                 
+##       Df F value  Pr(>F)  
+## group  1  4.1876 0.04957 *
+##       30                  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -497,14 +491,18 @@ We change the response variable to hp (Gross horsepower)
 qqnorm(hp[fam=="manual"]);qqline(hp[fam=="manual"])
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-32.png" title="plot of chunk unnamed-chunk-32" alt="plot of chunk unnamed-chunk-32" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-32-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats12-basic_tests_files/figure-html/unnamed-chunk-32.png)
 
 
 ```r
 qqnorm(hp[fam=="automatic"]);qqline(hp[fam=="automatic"])
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-33.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-33-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats12-basic_tests_files/figure-html/unnamed-chunk-33.png)
 
 
 ```r
@@ -544,7 +542,8 @@ Using a non-parametric test, we test for differences in MEDIANS between 2 indepe
 boxplot(hp~fam)
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-36.png" title="plot of chunk unnamed-chunk-36" alt="plot of chunk unnamed-chunk-36" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-36-1.png" title="" alt="" style="display: block; margin: auto;" />
+
 
 Our null hypothesis will be that the medians are equal (two-sided)
 
@@ -562,10 +561,10 @@ wilcox.test(hp~fam,mu=0,alt="two.sided",conf.int=T,conf.level=0.95,paired=F,exac
 ## W = 176, p-value = 0.0457
 ## alternative hypothesis: true location shift is not equal to 0
 ## 95 percent confidence interval:
-##  8.624e-05 9.200e+01
+##  8.624237e-05 9.199995e+01
 ## sample estimates:
 ## difference in location 
-##                     55
+##               55.00007
 ```
 
 
@@ -581,44 +580,22 @@ This is a dataset about some water measurements taken at different levels of a r
 
 
 ```r
-streams = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/streams.txt",header=T)
-head(streams)
-```
-
-```
-##   down up
-## 1   20 23
-## 2   15 16
-## 3    6 10
-## 4    5  4
-## 5   20 22
-## 6   15 15
+#streams = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/streams.txt",header=T)
+#head(streams)
 ```
 
 
 
 ```r
-attach(streams)
-summary(streams)
-```
-
-```
-##       down             up       
-##  Min.   : 5.00   Min.   : 4.00  
-##  1st Qu.: 5.75   1st Qu.: 9.25  
-##  Median :12.50   Median :13.00  
-##  Mean   :12.00   Mean   :13.38  
-##  3rd Qu.:15.75   3rd Qu.:17.25  
-##  Max.   :20.00   Max.   :23.00
+#attach(streams)
+#summary(streams)
 ```
 
 
 ```r
-plot(up,down)
-abline(a=0,b=1) #add a line with intercept 0 and slope 1
+#plot(up,down)
+#abline(a=0,b=1) #add a line with intercept 0 and slope 1
 ```
-
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-41.png" title="plot of chunk unnamed-chunk-41" alt="plot of chunk unnamed-chunk-41" style="display: block; margin: auto;" />
 
 The line you see in the plot corresponds to x=y, that is, the same water measuremets before and after the water treatment (it seems to be true in 2 rivers only, 5 and 15)
 
@@ -627,79 +604,38 @@ Our null hypothesis is that the median before and after the treatment are not di
 
 
 ```r
-shapiro.test(down) #not normally distributed
-```
-
-```
-## 
-## 	Shapiro-Wilk normality test
-## 
-## data:  down
-## W = 0.866, p-value = 0.02367
+#shapiro.test(down) #not normally distributed
 ```
 
 
 
 ```r
-shapiro.test(up) #normally distributed
+#shapiro.test(up) #normally distributed
 ```
 
-```
-## 
-## 	Shapiro-Wilk normality test
-## 
-## data:  up
-## W = 0.9361, p-value = 0.3038
+the assumption of normality is certainly not met for the measurements after the treatment
+
+
+```r
+#summary(up)
 ```
 
 
 
 ```r
-#the assumption of normality is certainly not met for the measurements after the treatment
-
-summary(up)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    4.00    9.25   13.00   13.40   17.20   23.00
+#summary(down)
 ```
 
 
 
 ```r
-summary(down)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    5.00    5.75   12.50   12.00   15.80   20.00
+#wilcox.test(up,down,mu=0,paired=T,conf.int=T,exact=F) #paired =T, low p ->reject Ho, medians are different
 ```
 
 
 
 ```r
-wilcox.test(up,down,mu=0,paired=T,conf.int=T,exact=F) #paired =T, low p ->reject Ho, medians are different
-```
-
-```
-## 
-## 	Wilcoxon signed rank test with continuity correction
-## 
-## data:  up and down
-## V = 97, p-value = 0.004971
-## alternative hypothesis: true location shift is not equal to 0
-## 95 percent confidence interval:
-##  1.0 2.5
-## sample estimates:
-## (pseudo)median 
-##            1.5
-```
-
-
-
-```r
-detach(streams)
+#detach(streams)
 ```
 
 
@@ -709,7 +645,7 @@ This parametric method examinates the difference in means for two populations th
 
 
 ```r
-fish = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/fishing.txt",header=T)
+#fish = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/fishing.txt",header=T)
 ```
 
 This is a dataset about the density of a fish prey species (fish/km2) in 121 lakes before and after removing a non-native predator
@@ -717,104 +653,45 @@ This is a dataset about the density of a fish prey species (fish/km2) in 121 lak
 
 
 ```r
-attach(fish)
-head(fish)
-```
-
-```
-##   lakes before  after
-## 1     1 19.509 20.509
-## 2     2  5.297  7.297
-## 3     3 26.496 27.496
-## 4     4  3.928  5.928
-## 5     5 12.956 15.956
-## 6     6  9.776 15.776
+#attach(fish)
+#head(fish)
 ```
 
 
 
 ```r
-boxplot(before,after,ylab="Fish Density",
-        names=c("before", "after"))
-```
-
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-50.png" title="plot of chunk unnamed-chunk-50" alt="plot of chunk unnamed-chunk-50" style="display: block; margin: auto;" />
-
-
-
-```r
-shapiro.test(before) #normally distributed
-```
-
-```
-## 
-## 	Shapiro-Wilk normality test
-## 
-## data:  before
-## W = 0.9958, p-value = 0.9777
+#boxplot(before,after,ylab="Fish Density",
+#        names=c("before", "after"))
 ```
 
 
 
 ```r
-shapiro.test(after)  #normally distributed
-```
-
-```
-## 
-## 	Shapiro-Wilk normality test
-## 
-## data:  after
-## W = 0.9946, p-value = 0.9258
+#shapiro.test(before) #normally distributed
 ```
 
 
 
 ```r
-plot(before,after)
-abline(a=0,b=1) 
-```
-
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-53.png" title="plot of chunk unnamed-chunk-53" alt="plot of chunk unnamed-chunk-53" style="display: block; margin: auto;" />
-
-
-
-```r
-t.test(before,after,mu=0,paired=T)
-```
-
-```
-## 
-## 	Paired t-test
-## 
-## data:  before and after
-## t = -12.06, df = 120, p-value < 2.2e-16
-## alternative hypothesis: true difference in means is not equal to 0
-## 95 percent confidence interval:
-##  -2.514 -1.805
-## sample estimates:
-## mean of the differences 
-##                   -2.16
+#shapiro.test(after)  #normally distributed
 ```
 
 
 
 ```r
-t.test(after,before,mu=0,paired=T) #changing the order of variables, we have a change in the sign of the t-test estimated mean of differences
+#plot(before,after)
+#abline(a=0,b=1) 
 ```
 
+
+```r
+#t.test(before,after,mu=0,paired=T)
 ```
-## 
-## 	Paired t-test
-## 
-## data:  after and before
-## t = 12.06, df = 120, p-value < 2.2e-16
-## alternative hypothesis: true difference in means is not equal to 0
-## 95 percent confidence interval:
-##  1.805 2.514
-## sample estimates:
-## mean of the differences 
-##                    2.16
+
+
+
+```r
+#t.test(after,before,mu=0,paired=T) #changing the order of variables, we have a change in the sign of the t-test estimated mean of differences
 ```
 
 
@@ -822,7 +699,7 @@ t.test(after,before,mu=0,paired=T) #changing the order of variables, we have a c
 ```r
 #low p ->reject Ho, means are equal 
 
-detach(fish)
+#detach(fish)
 ```
 
 # Testing for normality
@@ -846,45 +723,33 @@ data1=rnorm(1570,mean=75,sd=8)
 hist(data1,main="Adult male weights",xlab="adult male weight",col="red",las=1)
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-57.png" title="plot of chunk unnamed-chunk-57" alt="plot of chunk unnamed-chunk-57" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-57-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 Load example data
 
 
 ```r
-data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
-summary(data)
-```
-
-```
-##        y       
-##  Min.   :1.90  
-##  1st Qu.:2.24  
-##  Median :2.41  
-##  Mean   :2.42  
-##  3rd Qu.:2.57  
-##  Max.   :2.98
+#data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
+#summary(data)
 ```
 Visualize example data
 
 
 ```r
-attach(data) #command search() helps to verify what is/is not attached)
-par(mfrow=c(2,2)) #to divide the plot window
-plot(y)
-boxplot(y)
-hist(y,breaks=20)
-y2=y
-y2[52]=21.75 # to change the 52nd value for 21.75 instead of 2.175:
-plot(y2)     #very good to spot mistakes, outliers
+#attach(data) #command search() helps to verify what is/is not attached)
+#par(mfrow=c(2,2)) #to divide the plot window
+#plot(y)
+#boxplot(y)
+#hist(y,breaks=20)
+#y2=y
+#y2[52]=21.75 # to change the 52nd value for 21.75 instead of 2.175:
+#plot(y2)     #very good to spot mistakes, outliers
 ```
-
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-59.png" title="plot of chunk unnamed-chunk-59" alt="plot of chunk unnamed-chunk-59" style="display: block; margin: auto;" />
 
 
 
 ```r
-par(mfrow=c(1,1)) #back to one plot window
+#par(mfrow=c(1,1)) #back to one plot window
 ```
 
 ## Visual Check for Normality: quantile-quantile plot
@@ -896,32 +761,23 @@ Exceptions from normality show up different sorts of non-linearity (e.g. S-shape
 
 
 ```r
-qqnorm(y)
-qqline(y,lty=2,col=2,lwd=3)
+#qqnorm(y)
+#qqline(y,lty=2,col=2,lwd=3)
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-61.png" title="plot of chunk unnamed-chunk-61" alt="plot of chunk unnamed-chunk-61" style="display: block; margin: auto;" />
 
 ## Normality test: the shapiro.test
 
 
 
 ```r
-shapiro.test(y)  # p-value=0.753, these data are normally distributed
-```
-
-```
-## 
-## 	Shapiro-Wilk normality test
-## 
-## data:  y
-## W = 0.9911, p-value = 0.753
+#shapiro.test(y)  # p-value=0.753, these data are normally distributed
 ```
 
 
 
 ```r
-detach(data)
+#detach(data)
 ```
 
 
@@ -933,23 +789,23 @@ x=exp(rnorm(30))  #rnorm without specification (normal distributed or not) picks
 plot(x)
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-64.png" title="plot of chunk unnamed-chunk-64" alt="plot of chunk unnamed-chunk-64" style="display: block; margin: auto;" />
-
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-64-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 
 ```r
 boxplot(x)
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-65.png" title="plot of chunk unnamed-chunk-65" alt="plot of chunk unnamed-chunk-65" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-65-1.png" title="" alt="" style="display: block; margin: auto;" />
 
+![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats12-basic_tests_files/figure-html/unnamed-chunk-65.png)
 
 
 ```r
 hist(x,breaks=50)
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-66.png" title="plot of chunk unnamed-chunk-66" alt="plot of chunk unnamed-chunk-66" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-66-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 
 
@@ -958,8 +814,7 @@ qqnorm(x)
 qqline(x,lty=2,col=2,lwd=3)
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-67.png" title="plot of chunk unnamed-chunk-67" alt="plot of chunk unnamed-chunk-67" style="display: block; margin: auto;" />
-
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-67-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 
 ```r
@@ -971,7 +826,7 @@ shapiro.test(x)  #p-value=8.661e-07, not normally distributed
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  x
-## W = 0.7796, p-value = 2.842e-05
+## W = 0.8531, p-value = 0.0007207
 ```
 
 
@@ -992,7 +847,7 @@ attach(mtcars)
 plot(hp,wt, main="scatterplot",las=1, xlab ="gross horse power", ylab="Weight (lb/1000)")
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-69.png" title="plot of chunk unnamed-chunk-69" alt="plot of chunk unnamed-chunk-69" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-69-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 
 Compute the three correlation coefficients
@@ -1003,7 +858,7 @@ cor(hp,wt,method="pearson")
 ```
 
 ```
-## [1] 0.6587
+## [1] 0.6587479
 ```
 
 
@@ -1013,7 +868,7 @@ cor(hp,wt)#Pearson is the default method; the order of variables is not importan
 ```
 
 ```
-## [1] 0.6587
+## [1] 0.6587479
 ```
 
 
@@ -1023,7 +878,7 @@ cor(hp,wt,method="spearman")
 ```
 
 ```
-## [1] 0.7747
+## [1] 0.7746767
 ```
 
 
@@ -1032,7 +887,7 @@ cor(hp,wt,method="kendal")
 ```
 
 ```
-## [1] 0.6113
+## [1] 0.6113081
 ```
 `
 
@@ -1048,13 +903,13 @@ cor.test(hp,wt,method="pearson") #Pearson correlation test
 ## 	Pearson's product-moment correlation
 ## 
 ## data:  hp and wt
-## t = 4.796, df = 30, p-value = 4.146e-05
+## t = 4.7957, df = 30, p-value = 4.146e-05
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.4025 0.8193
+##  0.4025113 0.8192573
 ## sample estimates:
-##    cor 
-## 0.6587
+##       cor 
+## 0.6587479
 ```
 
 
@@ -1064,7 +919,8 @@ cor.test(hp,wt,method="spearman") #Spearmn is a non-parametric, thus it is not p
 ```
 
 ```
-## Warning: Cannot compute exact p-value with ties
+## Warning in cor.test.default(hp, wt, method = "spearman"): Cannot compute
+## exact p-value with ties
 ```
 
 ```
@@ -1072,11 +928,11 @@ cor.test(hp,wt,method="spearman") #Spearmn is a non-parametric, thus it is not p
 ## 	Spearman's rank correlation rho
 ## 
 ## data:  hp and wt
-## S = 1229, p-value = 1.954e-07
+## S = 1229.364, p-value = 1.954e-07
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
-##    rho 
-## 0.7747
+##       rho 
+## 0.7746767
 ```
 
 
@@ -1090,11 +946,11 @@ cor.test(hp,wt,method="spearman",exact=F)
 ## 	Spearman's rank correlation rho
 ## 
 ## data:  hp and wt
-## S = 1229, p-value = 1.954e-07
+## S = 1229.364, p-value = 1.954e-07
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
-##    rho 
-## 0.7747
+##       rho 
+## 0.7746767
 ```
 
 
@@ -1111,8 +967,8 @@ cor.test(hp,wt,method="kendal",exact=F) #same happens with Kendal correlation te
 ## z = 4.845, p-value = 1.266e-06
 ## alternative hypothesis: true tau is not equal to 0
 ## sample estimates:
-##    tau 
-## 0.6113
+##       tau 
+## 0.6113081
 ```
 
 
@@ -1128,7 +984,7 @@ Plot all possible combinations with "pairs"
 pairs(mtcars)  # all possible pairwise plots
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-78.png" title="plot of chunk unnamed-chunk-78" alt="plot of chunk unnamed-chunk-78" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-78-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 
 To make it simpler we select what we are interested
@@ -1148,7 +1004,7 @@ names(mtcars)
 pairs(mtcars[,c(1,4,6)]) # subsetting the categories we will use
 ```
 
-<img src="./stats12-basic_tests_files/figure-html/unnamed-chunk-80.png" title="plot of chunk unnamed-chunk-80" alt="plot of chunk unnamed-chunk-80" style="display: block; margin: auto;" />
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-80-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 
 Building a correlation matrix
@@ -1160,10 +1016,10 @@ cor(mtcars[,c(1,4,6)])
 ```
 
 ```
-##         mpg      hp      wt
-## mpg  1.0000 -0.7762 -0.8677
-## hp  -0.7762  1.0000  0.6587
-## wt  -0.8677  0.6587  1.0000
+##            mpg         hp         wt
+## mpg  1.0000000 -0.7761684 -0.8676594
+## hp  -0.7761684  1.0000000  0.6587479
+## wt  -0.8676594  0.6587479  1.0000000
 ```
 
 
@@ -1172,10 +1028,13 @@ cor(mtcars[,c(1,4,6)])
 detach(mtcars)
 ```
 
-http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html
+
 
 
 ####References
-Ruxton, G. D. (2006). The unequal variance t-test is an underused alternative to StudentÃ¢ÂÂs t-test and the Mann-Whitney U test. Behavioral Ecology, 17, 688Ã¢ÂÂ690.
 
-Zimmerman, D. W. (2012). A note on consistency of non-parametric rank tests and related rank transformations. British Journal of Mathematical and Statistical Psychology, 65, 122Ã¢ÂÂ44.
+* Ruxton, G. D. (2006). The unequal variance t-test is an underused alternative to Student??????s t-test and the Mann-Whitney U test. Behavioral Ecology, 17, 688??????690.
+
+* Zimmerman, D. W. (2012). A note on consistency of non-parametric rank tests and related rank transformations. British Journal of Mathematical and Statistical Psychology, 65, 122??????44.
+
+* http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html

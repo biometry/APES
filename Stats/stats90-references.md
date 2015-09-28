@@ -30,3 +30,8 @@ Stats Book + MOOC http://www-bcf.usc.edu/~gareth/ISL/
 ## videos
 
 https://www.youtube.com/channel/UCaNIxVagLhqupvUiDK01Mgg
+
+
+Stanford's Trevor Hastie's videos on "[Introduction to statistical learning](http://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/)", sorted and linked 
+
+

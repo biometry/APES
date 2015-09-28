@@ -10,12 +10,14 @@ Concepts
 ===
 
 
-## Degrees of freedom
+### Degrees of freedom
 
-Degrees of freedom - http://stats.stackexchange.com/questions/16921/how-to-understand-degrees-of-freedom
+Degrees of freedom: for simple models, the number of parameters. 
+
+For more complicated models such as mixed models, this concept becomes tricky. It is in general NOT directly the number of parameters. Why is that? Typically, one wants to use the degrees of freedom in statistical tests, e.g. the F-test in a regression. Hence, the degrees of freedom could be defined as the number that one should put in an F test to get appropriate type I error rates. Discussions all around, e.g. in http://stats.stackexchange.com/questions/16921/how-to-understand-degrees-of-freedom
 
 
-## Interaction
+### Interaction
 
 An interaction between two variables means that the effect of one variable on the response is not independent of the value of another variable.
 
@@ -32,11 +34,8 @@ where the * notation is short for adding variables as main effects and interacti
 See also [http://en.wikipedia.org/wiki/Interaction_%28statistics%29](http://en.wikipedia.org/wiki/Interaction_%28statistics%29)
 
 
-## Null hypothesis
+### Null hypothesis / p-value / alpha-level / significance
 
+Given a statistical model, a "normal" or "simple" null hypothesis specifies a single value for the parameter of interest as the "base expectation". A composite null hypothesis specifies a range of values for the parameter. 
 
-Composite null hypothesis - a "normal" or "simple" null hypothesis specifies a single value for the parameter of interest. A composite null hypothesis specifies a range of values for the parameter. 
-
-## p-value
-
-Explained in [section Statistics/Inferential Approach](/Stats/stats05-inferentialApproach.md)
+Given a null hypothesis H0 specified by a statistical model, the p-value is the probability to obtain the observed or more extreme data given H0. If p < alpha, we say we have significant evidence against H0. For details, see [section Statistics/Inferential Approach](/Stats/stats05-inferentialApproach.md)
