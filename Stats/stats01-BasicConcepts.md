@@ -1,10 +1,13 @@
 ---
 layout: page
-title: Basic concepts
+title: Descriptive statistics
 category: stats
 ---
 
-# Basic concepts 
+# Descriptive statistics
+
+Descriptive statistics is the branch of statistical methods that basically display data, but do not directly draw conclusions from the data.
+
 
 ## The data 
 
@@ -24,12 +27,12 @@ Another important distinction is the type of variables that. Independent of whet
 
 Experience shows that there is certain tendency of beginners to use categorical variables for things that are actually continuous, e.g. by coding body weight of animals into light, medium, heavy. The justification stated is often that this avoids the measurement uncertainty. In short: it doesn't, it just creates more problems. Don't use categorical variables for things that can also be recorded numerically! 
 
-## Types of statistical analysis 
+## Types of descriptive statstics
 
 * Plotting and visualisation
  * [Plotting with R](https://github.com/biometry/APES/blob/master/R/R40-plottingInR.md)
 * Transformations and summary statistics
-* Statistical inference based on
- * Parametric or non-parametric models 
+
+
 
 

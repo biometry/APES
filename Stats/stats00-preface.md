@@ -10,16 +10,7 @@ labels: main
 Overview
 ===
 
-# What are the goals of statistics data analysis
-
-
-
-# What are the problems?
-
-
-Correlation is not causality, Explain validity, correlation != causal, reproducibility, common problems and tricks that lead to p-value inflation etc.
-
-# Goal of statistics
+# What are the goals of statistics / data analysis
 
 Toolbox to help us finding out 
 
@@ -28,8 +19,23 @@ Toolbox to help us finding out
 
 As with any complicated tool, you have to know how to use it. If you press the wrong buttons, you'll get the wrong result. 
 
-====
-Stanford's Trevor Hastie's videos on "[Introduction to statistical learning](http://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/)", sorted and linked 
+# What are the problems?
 
 
+Correlation is not causality, Explain validity, correlation != causal, reproducibility, common problems and tricks that lead to p-value inflation etc.
+
+# Branches of statistics / data science
+
+
+* Descriptive statistics is the branch of statistical methods that basically display data, but do not directly draw conclusions from the data.
+
+* The counterpart of descriptive statistics would be inferential statistics, which is often further classified in parametric and non-parametric methods.
+
+* A further branch of statistics that has become important recently are methods that concentrate on predictions, in particular the so-called machine-learning methods.
+
+
+# An intro via youtube 
+
+
+[![Video](http://img.youtube.com/vi/2wLfFB_6SKI/0.jpg)](https://www.youtube.com/watch?v=2wLfFB_6SKI)
 
