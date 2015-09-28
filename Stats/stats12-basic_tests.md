@@ -5,16 +5,17 @@ category: stats
 subcategory: Inferential statistics
 ---
 
-The idea of null hypothesis significance testing (NHST) is the following: if we have some data observed, and we have a statistical model, we can use this statistical model to specify a fixed hypothesis about how the data did arise. For the example with the plants and music, this hypothesis could be: music has no influence on plants, all differences we see are due to random variation between individuals. 
+Hypothesis testing is one of the most widely used approaches of statistical inference. 
 
-### Null Hypothesis and alternative hypothesis
+The idea of hypothesis testing (more formally: null hypothesis significance testing - NHST) is the following: if we have some data observed, and we have a statistical model, we can use this statistical model to specify a fixed hypothesis about how the data did arise. For the example with the plants and music, this hypothesis could be: music has no influence on plants, all differences we see are due to random variation between individuals. 
 
-Such a scenario is called the null hypothesis. Although it is very typical to use the assumption of no effect as null-hypothesis, note that it is really your choice, and you could use anything as null hypothesis, also the assumption: "classical music doubles the growth of plants". The fact that it's the analyst's choice what to fix as null hypothesis is part of the reason why there are are a large number of tests available. We will see a few of them in the following chapter about important hypothesis tests.
+### The null hypothesis H0 and the alternative hypothesis H1
 
-#### Simple Hypothesis 
+Such a scenario is called the null hypothesis H0. Although it is very typical to use the assumption of no effect as null-hypothesis, note that it is really your choice, and you could use anything as null hypothesis, also the assumption: "classical music doubles the growth of plants". The fact that it's the analyst's choice what to fix as null hypothesis is part of the reason why there are are a large number of tests available. We will see a few of them in the following chapter about important hypothesis tests. 
 
-#### Composite hypothesis
+The hypothesis that H0 is wrong, or !H0, is usually called the alternative hypothesis, H1
 
+Given a statistical model, a "normal" or "simple" null hypothesis specifies a single value for the parameter of interest as the "base expectation". A composite null hypothesis specifies a range of values for the parameter. 
 
 ### p-value
 
@@ -38,7 +39,7 @@ http://www.stats.gla.ac.uk/steps/glossary/hypothesis_testing.html
 
 
 
-# Important statistical tests
+# Important statistical tests in R
 
 
 Recall statistical tests, or more formally, null-hypothesis significance testing (NHST) is one of several ways in which you can approach data. The idea is that you define a null-hypothesis, and then you look a the probability that the data would occur under the assumption that the null hypothesis is true.
@@ -67,28 +68,58 @@ The one-sample t-test compares the MEAN score of a sample to a known value, usua
 
 
 ```r
-#data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
-#attach(data)
-#boxplot(y)
+data = read.table("../Data/Simone/das.txt",header=T)
+attach(data)
+boxplot(y)
 ```
+
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-2-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 Our null hypothesis is that the mean of the sample is not less than 2.5 (real example: weight data of 200 lizards collected for a research, we want to compare it with the known average weights available in the scientific literature)
 
 
 
 ```r
-#t.test(y,mu=2.5,alt="less",conf=0.95)  # mean = 2.5, alternative hypothesis one-sided; we get a one-sided 95% CI for the mean 
+t.test(y,mu=2.5,alt="less",conf=0.95)  # mean = 2.5, alternative hypothesis one-sided; we get a one-sided 95% CI for the mean 
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  y
+## t = -3.3349, df = 99, p-value = 0.000601
+## alternative hypothesis: true mean is less than 2.5
+## 95 percent confidence interval:
+##      -Inf 2.459557
+## sample estimates:
+## mean of x 
+##  2.419456
 ```
 
 
 ```r
-#t.test(y,mu=2.5,alt="two.sided",conf=0.95) #2 sided-version
+t.test(y,mu=2.5,alt="two.sided",conf=0.95) #2 sided-version
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  y
+## t = -3.3349, df = 99, p-value = 0.001202
+## alternative hypothesis: true mean is not equal to 2.5
+## 95 percent confidence interval:
+##  2.371533 2.467379
+## sample estimates:
+## mean of x 
+##  2.419456
 ```
 
 
 
 ```r
-#detach(data)
+detach(data)
 ```
 
 
@@ -580,22 +611,44 @@ This is a dataset about some water measurements taken at different levels of a r
 
 
 ```r
-#streams = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/streams.txt",header=T)
-#head(streams)
+streams = read.table("../Data/Simone/streams.txt",header=T)
+head(streams)
+```
+
+```
+##   down up
+## 1   20 23
+## 2   15 16
+## 3    6 10
+## 4    5  4
+## 5   20 22
+## 6   15 15
 ```
 
 
 
 ```r
-#attach(streams)
-#summary(streams)
+attach(streams)
+summary(streams)
+```
+
+```
+##       down             up       
+##  Min.   : 5.00   Min.   : 4.00  
+##  1st Qu.: 5.75   1st Qu.: 9.25  
+##  Median :12.50   Median :13.00  
+##  Mean   :12.00   Mean   :13.38  
+##  3rd Qu.:15.75   3rd Qu.:17.25  
+##  Max.   :20.00   Max.   :23.00
 ```
 
 
 ```r
-#plot(up,down)
-#abline(a=0,b=1) #add a line with intercept 0 and slope 1
+plot(up,down)
+abline(a=0,b=1) #add a line with intercept 0 and slope 1
 ```
+
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-41-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 The line you see in the plot corresponds to x=y, that is, the same water measuremets before and after the water treatment (it seems to be true in 2 rivers only, 5 and 15)
 
@@ -604,38 +657,78 @@ Our null hypothesis is that the median before and after the treatment are not di
 
 
 ```r
-#shapiro.test(down) #not normally distributed
+shapiro.test(down) #not normally distributed
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  down
+## W = 0.866, p-value = 0.02367
 ```
 
 
 
 ```r
-#shapiro.test(up) #normally distributed
+shapiro.test(up) #normally distributed
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  up
+## W = 0.9361, p-value = 0.3038
 ```
 
 the assumption of normality is certainly not met for the measurements after the treatment
 
 
 ```r
-#summary(up)
+summary(up)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    4.00    9.25   13.00   13.38   17.25   23.00
 ```
 
 
 
 ```r
-#summary(down)
+summary(down)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    5.00    5.75   12.50   12.00   15.75   20.00
 ```
 
 
 
 ```r
-#wilcox.test(up,down,mu=0,paired=T,conf.int=T,exact=F) #paired =T, low p ->reject Ho, medians are different
+wilcox.test(up,down,mu=0,paired=T,conf.int=T,exact=F) #paired =T, low p ->reject Ho, medians are different
+```
+
+```
+## 
+## 	Wilcoxon signed rank test with continuity correction
+## 
+## data:  up and down
+## V = 97, p-value = 0.004971
+## alternative hypothesis: true location shift is not equal to 0
+## 95 percent confidence interval:
+##  0.9999931 2.4999530
+## sample estimates:
+## (pseudo)median 
+##            1.5
 ```
 
 
 
 ```r
-#detach(streams)
+detach(streams)
 ```
 
 
@@ -645,7 +738,7 @@ This parametric method examinates the difference in means for two populations th
 
 
 ```r
-#fish = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/fishing.txt",header=T)
+fish = read.table("../Data/Simone/fishing.txt",header=T)
 ```
 
 This is a dataset about the density of a fish prey species (fish/km2) in 121 lakes before and after removing a non-native predator
@@ -653,53 +746,112 @@ This is a dataset about the density of a fish prey species (fish/km2) in 121 lak
 
 
 ```r
-#attach(fish)
-#head(fish)
+attach(fish)
+head(fish)
+```
+
+```
+##   lakes    before     after
+## 1     1 19.508582 20.508582
+## 2     2  5.297289  7.297289
+## 3     3 26.495652 27.495652
+## 4     4  3.928250  5.928250
+## 5     5 12.955881 15.955881
+## 6     6  9.776376 15.776376
 ```
 
 
 
 ```r
-#boxplot(before,after,ylab="Fish Density",
-#        names=c("before", "after"))
+boxplot(before,after,ylab="Fish Density",
+        names=c("before", "after"))
+```
+
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-50-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+
+
+```r
+shapiro.test(before) #normally distributed
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  before
+## W = 0.9958, p-value = 0.9777
 ```
 
 
 
 ```r
-#shapiro.test(before) #normally distributed
+shapiro.test(after)  #normally distributed
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  after
+## W = 0.9946, p-value = 0.9258
 ```
 
 
 
 ```r
-#shapiro.test(after)  #normally distributed
+plot(before,after)
+abline(a=0,b=1) 
+```
+
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-53-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+
+```r
+t.test(before,after,mu=0,paired=T)
+```
+
+```
+## 
+## 	Paired t-test
+## 
+## data:  before and after
+## t = -12.0616, df = 120, p-value < 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -2.513985 -1.805017
+## sample estimates:
+## mean of the differences 
+##               -2.159501
 ```
 
 
 
 ```r
-#plot(before,after)
-#abline(a=0,b=1) 
+t.test(after,before,mu=0,paired=T)
 ```
+
+```
+## 
+## 	Paired t-test
+## 
+## data:  after and before
+## t = 12.0616, df = 120, p-value < 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  1.805017 2.513985
+## sample estimates:
+## mean of the differences 
+##                2.159501
+```
+
+changing the order of variables, we have a change in the sign of the t-test estimated mean of differences
+
+low p ->reject Ho, means are equal 
 
 
 ```r
-#t.test(before,after,mu=0,paired=T)
-```
-
-
-
-```r
-#t.test(after,before,mu=0,paired=T) #changing the order of variables, we have a change in the sign of the t-test estimated mean of differences
-```
-
-
-
-```r
-#low p ->reject Ho, means are equal 
-
-#detach(fish)
+detach(fish)
 ```
 
 # Testing for normality
@@ -729,27 +881,28 @@ Load example data
 
 
 ```r
-#data = read.table("Z:/GitHub/RMarkdowns - Stat with R/4_Classical Tests/das.txt",header=T)
-#summary(data)
+data = read.table("../Data/Simone/das.txt",header=T)
 ```
 Visualize example data
 
 
 ```r
-#attach(data) #command search() helps to verify what is/is not attached)
-#par(mfrow=c(2,2)) #to divide the plot window
-#plot(y)
-#boxplot(y)
-#hist(y,breaks=20)
-#y2=y
-#y2[52]=21.75 # to change the 52nd value for 21.75 instead of 2.175:
-#plot(y2)     #very good to spot mistakes, outliers
+attach(data) #command search() helps to verify what is/is not attached)
+par(mfrow=c(2,2)) #to divide the plot window
+plot(y)
+boxplot(y)
+hist(y,breaks=20)
+y2=y
+y2[52]=21.75 # to change the 52nd value for 21.75 instead of 2.175:
+plot(y2)     #very good to spot mistakes, outliers
 ```
+
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-59-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 
 
 ```r
-#par(mfrow=c(1,1)) #back to one plot window
+par(mfrow=c(1,1)) #back to one plot window
 ```
 
 ## Visual Check for Normality: quantile-quantile plot
@@ -761,9 +914,11 @@ Exceptions from normality show up different sorts of non-linearity (e.g. S-shape
 
 
 ```r
-#qqnorm(y)
-#qqline(y,lty=2,col=2,lwd=3)
+qqnorm(y)
+qqline(y,lty=2,col=2,lwd=3)
 ```
+
+<img src="stats12-basic_tests_files/figure-html/unnamed-chunk-61-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 
 ## Normality test: the shapiro.test
@@ -771,13 +926,21 @@ Exceptions from normality show up different sorts of non-linearity (e.g. S-shape
 
 
 ```r
-#shapiro.test(y)  # p-value=0.753, these data are normally distributed
+shapiro.test(y)  # p-value=0.753, these data are normally distributed
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  y
+## W = 0.9911, p-value = 0.753
 ```
 
 
 
 ```r
-#detach(data)
+detach(data)
 ```
 
 
