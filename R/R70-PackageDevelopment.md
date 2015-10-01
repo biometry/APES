@@ -23,7 +23,7 @@ Simply move your R code to the R folder (if it doesn't exist, create an R folder
 
 Documentation files for each function are in the man folder. The name must be functionName.Rd.
 
-We won't even bother explaining hot to modify this file, because it doesn't make sense to write the documentation by hand. Use the Roxygen style for commenting your R functions, and the .Rd files in man will be created automatically.
+We won't even bother explaining how to modify this file, because it doesn't make sense to write the documentation by hand. Use the Roxygen style for commenting your R functions, and the .Rd files in man will be created automatically.
 
 * Read here https://cran.r-project.org/web/packages/roxygen2/vignettes/rd.html about how to work with Roxygen
 * The easiest way to do this during package development is to enable tick the Roxygen options in RStudio, project options, and then you can create the man files in the build menu
