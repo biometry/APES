@@ -7,20 +7,19 @@ category: r
 Package development
 ===
 
+Package development is a lot easier than you think. Follow the steps below, and you should have no problem. 
 
-# Basics 
-
-## Creating a new package
+### Creating a new package
 
 * Work with RStudio, makes many things easier (alternative is StatET in eclipse, particular if you also have C/C++ code in your package)
 * Follow http://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/ to create a new package
 * Enable the package development in tools/project options, and you will see a new menu in Rstudio that allows you to build the package with one click
 
-## Adding R code 
+### Adding R code to the package
 
 Simply move your R code to the R folder (if it doesn't exist, create an R folder directly under the package root)
 
-## Documentation
+### Documentation
 
 Documentation files for each function are in the man folder. The name must be functionName.Rd.
 
@@ -29,14 +28,13 @@ We won't even bother explaining hot to modify this file, because it doesn't make
 * Read here https://cran.r-project.org/web/packages/roxygen2/vignettes/rd.html about how to work with Roxygen
 * The easiest way to do this during package development is to enable tick the Roxygen options in RStudio, project options, and then you can create the man files in the build menu
 
-## Further reading 
+### Advanced topics and further reading 
 
+Before you go on with package developments, read http://r-pkgs.had.co.nz/ which explains all essentials in more detail!
 
-http://r-pkgs.had.co.nz/
+Special topics 
 
-http://dirk.eddelbuettel.com/code/bh.html
-
-
-## Testing 
-
-http://r-pkgs.had.co.nz/tests.html#test-workflow
+* Compiled code in the package http://r-pkgs.had.co.nz/src.html
+* RCPP (integration or R and C++) http://dirk.eddelbuettel.com/code/rcpp.html
+* Boost http://dirk.eddelbuettel.com/code/bh.html
+* Testing http://r-pkgs.had.co.nz/tests.html#test-workflow
