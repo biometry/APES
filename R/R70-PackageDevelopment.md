@@ -12,17 +12,29 @@ Package development
 
 ## Creating a new package
 
-http://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/
+* Work with RStudio, makes many things easier (alternative is StatET in eclipse, particular if you also have C/C++ code in your package)
+* Follow http://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/ to create a new package
+* Enable the package development in tools/project options, and you will see a new menu in Rstudio that allows you to build the package with one click
 
+## Adding R code 
 
-install.packages("devtools")
+Simply move your R code to the R folder (if it doesn't exist, create an R folder directly under the package root)
 
+## Documentation
+
+Documentation files for each function are in the man folder. The name must be functionName.Rd.
+
+We won't even bother explaining hot to modify this file, because it doesn't make sense to write the documentation by hand. Use the Roxygen style for commenting your R functions, and the .Rd files in man will be created automatically.
+
+* Read here https://cran.r-project.org/web/packages/roxygen2/vignettes/rd.html about how to work with Roxygen
+* The easiest way to do this during package development is to enable tick the Roxygen options in RStudio, project options, and then you can create the man files in the build menu
+
+## Further reading 
 
 
 http://r-pkgs.had.co.nz/
 
 http://dirk.eddelbuettel.com/code/bh.html
-
 
 
 ## Testing 
