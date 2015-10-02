@@ -194,6 +194,11 @@ Thornton DH, Fletcher RJ (2014) Body size and spatial scales in avian response t
  
  
  
+
+# Power analysis
+
+* In general: use the simulate function 
+* Random effects - see Kain, M. P.; Bolker, B. M. & McCoy, M. W. (2015) Letcher, B. (Ed.) A practical guide and power analysis for GLMMs: detecting among treatment variation in random effects. PeerJ, PeerJ, 3, e1226-.
  
  
  
