@@ -12,7 +12,7 @@ Package development is a lot easier than you think. Follow the steps below, and 
 ### Creating a new package
 
 * Work with RStudio, makes many things easier (alternative is StatET in eclipse, particular if you also have C/C++ code in your package)
-* Follow http://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/ to create a new package
+* Follow [this article](http://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/) to create a new package
 * Enable the package development in tools/project options, and you will see a new menu in Rstudio that allows you to build the package with one click
 
 ### Adding R code to the package
@@ -25,16 +25,16 @@ Documentation files for each function are in the man folder. The name must be fu
 
 We won't even bother explaining how to modify this file, because it doesn't make sense to write the documentation by hand. Use the Roxygen style for commenting your R functions, and the .Rd files in man will be created automatically.
 
-* Read here https://cran.r-project.org/web/packages/roxygen2/vignettes/rd.html about how to work with Roxygen
+* Read [here](https://cran.r-project.org/web/packages/roxygen2/vignettes/rd.html) about how to work with Roxygen
 * The easiest way to do this during package development is to enable tick the Roxygen options in RStudio, project options, and then you can create the man files in the build menu
 
 ### Advanced topics and further reading 
 
-Before you go on with package developments, read http://r-pkgs.had.co.nz/ which explains all essentials in more detail!
+Before you go on with package developments, read [this](http://r-pkgs.had.co.nz/) which explains all essentials in more detail!
 
 Special topics 
 
-* Compiled code in the package http://r-pkgs.had.co.nz/src.html
-* RCPP (integration or R and C++) http://dirk.eddelbuettel.com/code/rcpp.html
-* Boost http://dirk.eddelbuettel.com/code/bh.html
-* Testing http://r-pkgs.had.co.nz/tests.html#test-workflow
+* Compiled code in the package see [here](http://r-pkgs.had.co.nz/src.html)
+* RCPP (integration or R and C++) see [here](http://dirk.eddelbuettel.com/code/rcpp.html)
+* Boost see [here](http://dirk.eddelbuettel.com/code/bh.html)
+* Testing see [here](http://r-pkgs.had.co.nz/tests.html#test-workflow)
