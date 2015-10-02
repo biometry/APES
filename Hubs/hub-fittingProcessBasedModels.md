@@ -6,10 +6,6 @@ author: Florian Hartig
 synopsis: A tutorial on how to fit complex or process-based (vegetation) models to data
 ---
 
-Fitting complex or process-based models
-===
-
-# Overview
 
 A common problem in ecological modelling is that a simulation model (vegetation model, forest simulator, individual-based model, movement model) has been designed, and how one would like to know
 

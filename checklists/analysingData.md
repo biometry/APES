@@ -1,12 +1,10 @@
 ---
 layout: page
 author: Florian Hartig
-title: Analysing data
+title: Analysing data - a checklist
 category: checklists
 ---
 
-Analysing data - a checklist
-===
 
 You have done your experiment or received data from other people. We hope you have followed our recommendations about how to plan an experiment, which means that you should know what youre questions is and how to analyze your data, but we don't assume that this is the case. 
 
