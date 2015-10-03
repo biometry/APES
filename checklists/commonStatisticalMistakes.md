@@ -31,6 +31,8 @@ http://fxdiebold.blogspot.ca/2014/05/predictive-modeling-causal-inference.html
 
 ![Extrapolation](http://imgs.xkcd.com/comics/extrapolating.png)
 
+![Extrapolation2](https://mathwithbaddrawings.files.wordpress.com/2015/06/20150617080939_00003.jpg)
+
 
 https://www.ma.utexas.edu/users/mks/statmistakes/StatisticsMistakes.html
 
