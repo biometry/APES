@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Preface
+title: Statistics - an overview
 permalink: /Stats/
 # category: stats
 
