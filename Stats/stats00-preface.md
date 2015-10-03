@@ -7,9 +7,6 @@ permalink: /Stats/
 labels: main
 ---
 
-Overview
-===
-
 # What are the goals of statistics / data analysis
 
 Toolbox to help us finding out 
