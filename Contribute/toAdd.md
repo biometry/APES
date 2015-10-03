@@ -19,6 +19,8 @@ http://shinyapps.org/apps/RGraphCompendium/index.php
 
 # Misc
 
+http://mathwithbaddrawings.com/2015/09/23/what-does-probability-mean-in-your-profession/
+
 https://plot.ly/ipython-notebooks/survival-analysis-r-vs-python/
 
 http://chemicalstatistician.wordpress.com/2014/04/10/side-by-side-box-plots-with-patterns-from-stacking-data-sets-with-reshape2-and-melt-in-r/
