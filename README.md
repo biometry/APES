@@ -4,10 +4,7 @@ title: Welcome to APES
 permalink: /index.html
 ---
 
-Advice for Problems in Environmental Statistics (APES)
-====
-
-This is the collection of stats knowledge of the [Department of Biometry and Environmental System Analysis](http://www.biom.uni-freiburg.de/), University of Freiburg. 
+This is the collection of **Advice for Problems in Environmental Statistics (APES)** of the [Department of Biometry and Environmental System Analysis](http://www.biom.uni-freiburg.de/), University of Freiburg. 
 
 Our aim is to provide a central website for students and researchers seeking statistical advice, including
 
