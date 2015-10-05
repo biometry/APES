@@ -1,10 +1,8 @@
 ---
 layout: page
-title: Solving problems
+title: Solving problems and getting help
 category: r
 ---
-
-Solving R problems and getting help
 ===
 
 ## Help, I don't know how to do a certain thing in R
