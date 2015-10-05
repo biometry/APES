@@ -4,8 +4,6 @@ title: Model selection
 category: stats
 subcategory: Advanced topics
 ---
-
-Model selection
 ===
 
 
