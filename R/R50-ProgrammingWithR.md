@@ -3,8 +3,6 @@ layout: page
 title: Programming with R
 category: r
 ---
-
-Programming with R
 ===
 
 For the moment see [Advanced Programming in R](http://adv-r.had.co.nz/)
