@@ -4,10 +4,6 @@ title: Mixed models
 category: stats
 subcategory: Advanced topics
 ---
-
-# Linear mixed models
-
-
 Synopsis: remember that the assumptions of the linear regression were that
 
 1. The response variable is linearly correlated to the predictor varialbes or to functions of the predictor variables
