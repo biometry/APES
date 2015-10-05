@@ -22,21 +22,21 @@ First recommendation: Google it! If that doesn't help, keep on reading.
 
 If something goes wrong, R tries to tell you what the problem is. Read the error message and think about what the message could mean. Some help
 
-http://dgrtwo.github.io/pages/errors.html
-http://www.r-bloggers.com/translating-weird-r-errors/
+* [here 1](http://dgrtwo.github.io/pages/errors.html)
+* [here 2](http://www.r-bloggers.com/translating-weird-r-errors/)
 
 ### Debugging 
 
 R has a debugger, although not a very good one. Still, you should give it a try
 
-https://github.com/berkeley-scf/tutorial-R-debugging/blob/master/R-debugging.Rmd
+* [here](https://github.com/berkeley-scf/tutorial-R-debugging/blob/master/R-debugging.Rmd)
 
 ### Reducing the problem to a minimal example
 
 If that didn't help, try to isolate your problem to produce a minimal example. See 
 
-http://adv-r.had.co.nz/Reproducibility.html
-http://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example
+* [tutorial 1](http://adv-r.had.co.nz/Reproducibility.html)
+* [tutorial 2](http://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example)
 
 For one thing, by doing this, you will often find the problem. And secondly, it this is not the case, you can go with your minimal example to someone else to get help. 
 
@@ -48,10 +48,14 @@ Be adviced that in either case, the people that you are asking for help are quit
 
 Apart from your supervisor, common places on the internet that provide R help are 
 
-* The big R mailing lists http://www.r-project.org/mail.html , see also the special interest groups
-* http://stats.stackexchange.com/
+* The [big R mailing lists](http://www.r-project.org/mail.html , see also the special interest groups)
+* [Stackexchange](http://stats.stackexchange.com/)
 
-R has several layers and it is sometimes difficult to understand, how to find help for a special layer. This link may help you: http://www.r-bloggers.com/21-r-navigation-tools/
+The R universe has several layers and it is sometimes difficult to understand, how to find help for a special layer. This link may help you: http://www.r-bloggers.com/21-r-navigation-tools/
+
+Please don't post your questions on facebook, researchgate and the like - those are commercial sites, but more importantly, they are not visible to the wider internet without being logged in, which is very annoying because other people can't see or learn from the answer.
+
+
 
 
 
