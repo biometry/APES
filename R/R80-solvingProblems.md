@@ -14,7 +14,6 @@ Go through the following steps in this order
 3. Have a look at this website / FAQs, and the scripts and books we link to
 4. If neither of this helps, go to "Places to get help from" below
 
-
 ## Help, I have an error message that I can't resolve
 
 First recommendation: Google it! If that doesn't help, keep on reading.
@@ -25,6 +24,12 @@ If something goes wrong, R tries to tell you what the problem is. Read the error
 
 http://dgrtwo.github.io/pages/errors.html
 http://www.r-bloggers.com/translating-weird-r-errors/
+
+### Debugging 
+
+R has a debugger, although not a very good one. Still, you should give it a try
+
+https://github.com/berkeley-scf/tutorial-R-debugging/blob/master/R-debugging.Rmd
 
 ### Reducing the problem to a minimal example
 
