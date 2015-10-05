@@ -3,8 +3,6 @@ layout: page
 title: Time series methods
 category: hubs
 ---
-
-Time series methods
 ===
 Time-series analysis is more tricky than one would assume at first glance. The reason is that often time series are analysed wrongly and people got used to that. In a time series, consecutive data points are typically **not** independent. If the weather is fine today, it is also likely to be fine tomorrow; or at least tomorrow's weather is not a random draw from weather conditions. This non-independence is the key complication in time-series analyses.
 
