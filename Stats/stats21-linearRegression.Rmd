@@ -53,10 +53,6 @@ Here, we discuss:
 * Multiple linear regression
   * 
 
-
-
-
-Linear regression
 ===
 
 # Linear regression summary and idea
