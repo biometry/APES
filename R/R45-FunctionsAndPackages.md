@@ -14,6 +14,19 @@ Some of the more used R functions can be find [here](http://www.sr.bham.ac.uk/~a
 
 ## Getting help
 
+If we are using R Studio, a help tab will appear in the botton right window.
+We can also use commands to get help about any function:
+
+```
+help.start()      #opens the help summary
+help(var)         #we get info about the variance function
+?var
+apropos("var")    #a list with the functions that contain the letters "var"
+help.search(var)
+??var             #it extends the search 
+
+
+
 # R packages
 
 A large amount of R packages are available apart from the standard ones already integrated in R.
