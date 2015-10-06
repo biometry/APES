@@ -9,7 +9,7 @@ category: checklists
 
 2. Read up about [validity](http://en.wikipedia.org/wiki/Validity_%28statistics%29). Do you have a valid question? 
 
-3. Read the chapter about experimental design [here](https://github.com/florianhartig/ResearchSkills/raw/master/Labs/R/Script/Crashcourse-StatisticsWithR.pdf)
+3. Read the hub on experimental design, and the chapter on the same topic [here](https://github.com/florianhartig/ResearchSkills/raw/master/Labs/Statistics/Script/EssentialStatistics.pdf)
 
 4. Decide about the exact question and the experimental design. Write it down.
 
