@@ -4,8 +4,6 @@ title: Descriptive statistics
 category: stats
 ---
 
-# Descriptive statistics
-
 Descriptive statistics is the branch of statistical methods that basically display data, but do not directly draw conclusions from the data.
 
 

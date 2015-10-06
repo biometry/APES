@@ -29,14 +29,8 @@ Contents
     * Residual diagnostics
   * Categorical predictor
 * Multiple linear regression
-  * 
-
-
-
-
-Linear regression
+  
 ===
-
 # Linear regression summary and idea
 
 

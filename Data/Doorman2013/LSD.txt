@@ -1,0 +1,17 @@
+"Saison" "Habitat" "Art" "Frass"
+"1" "1" "A" "Gras" 1
+"2" "2" "A" "Kraut" 5
+"3" "3" "A" "Baum" 1
+"4" "4" "A" "Moos" 0
+"5" "1" "B" "Kraut" 5
+"6" "2" "B" "Baum" 3
+"7" "3" "B" "Moos" 0
+"8" "4" "B" "Gras" 0
+"9" "1" "C" "Baum" 1
+"10" "2" "C" "Moos" 3
+"11" "3" "C" "Gras" 2
+"12" "4" "C" "Kraut" 2
+"13" "1" "D" "Moos" 0
+"14" "2" "D" "Gras" 2
+"15" "3" "D" "Kraut" 4
+"16" "4" "D" "Baum" 1

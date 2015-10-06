@@ -1,11 +1,9 @@
 ---
 layout: page
-title: Summary statistics
+title: Summary statistics and correlations
 category: stats
 subcategory: Descriptive statistics
 ---
-
-Summary statistics and correlations
 ===
 
 # Testing for normality

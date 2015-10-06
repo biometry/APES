@@ -1,14 +1,11 @@
 ---
 layout: page
-title: Preface
+title: Statistics - an overview
 permalink: /Stats/
 # category: stats
 
 labels: main
 ---
-
-Overview
-===
 
 # What are the goals of statistics / data analysis
 

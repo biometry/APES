@@ -5,8 +5,6 @@ permalink: /Concepts/
 # category: concepts
 labels: main
 ---
-
-Concepts
 ===
 
 

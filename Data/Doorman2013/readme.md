@@ -1,0 +1,1 @@
+Data from textbook Dormann, C. F. (2013) Parametrische Statistik. Springer, , 333-334.

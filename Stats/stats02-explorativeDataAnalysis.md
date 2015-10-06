@@ -4,10 +4,7 @@ title: Explorative data analysis
 category: stats
 subcategory: Descriptive statistics
 ---
-
-Explorative data analysis
 ===
-
 ```r
 library(knitr)
 opts_knit$set(global.par=TRUE) 

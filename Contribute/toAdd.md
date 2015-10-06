@@ -2,6 +2,8 @@
 
 blog.revolutionanalytics.com/2014/03/an-r-meta-book.html
 
+http://www.sr.bham.ac.uk/~ajrs/R/r-plot_data.html
+
 ## measurements
 
 add a page about measurements 
@@ -9,7 +11,15 @@ add a page about measurements
 http://andrewgelman.com/2015/04/28/whats-important-thing-statistics-thats-not-textbooks/
 
 
+## Graphs
+
+
+http://shinyapps.org/apps/RGraphCompendium/index.php
+
+
 # Misc
+
+http://mathwithbaddrawings.com/2015/09/23/what-does-probability-mean-in-your-profession/
 
 https://plot.ly/ipython-notebooks/survival-analysis-r-vs-python/
 

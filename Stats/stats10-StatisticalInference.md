@@ -4,7 +4,7 @@ title: Inferential statistics
 category: stats
 ---
 
-Approaches to statstical inference
+Approaches to statistical inference
 ===
 
 The idea of inferential statistics, or statistical inference, is to learn something, such as

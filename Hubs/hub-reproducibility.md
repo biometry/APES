@@ -3,8 +3,6 @@ layout: page
 title: Reproducibility
 category: hubs
 ---
-
-Reproducibility
 ===
 
 Synopsis: Reproducibility in statistical computing means that other people can repeat what you have done. Sounds pretty easy, but in practice it often isn't. Ask yourself

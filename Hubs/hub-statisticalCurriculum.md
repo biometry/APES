@@ -1,10 +1,8 @@
 ---
 layout: page
-title: Statistical curriculum
+title: A curriculum for statistics
 category: hubs
 ---
-
-A curriculum for statistics
 ===
 
 Recommendations what to teach and what you should know at different levels in your studies (check the [curriculum proposal](http://www.amstat.org/education/pdfs/guidelines2014-11-15.pdf) for the  of the American Statistical Association)
