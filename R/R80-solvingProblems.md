@@ -3,7 +3,6 @@ layout: page
 title: Solving problems and getting help
 category: r
 ---
-===
 
 ## Help, I don't know how to do a certain thing in R
 
