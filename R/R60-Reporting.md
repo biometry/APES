@@ -1,11 +1,9 @@
 ---
 layout: page
-title: Reports
+title: Creating Reports and Presentations with R
 category: r
 ---
 
-Creating Reports and Presentations with R
-===
 
 A norm R script (typically with file ending .r) can contain comments that explain what you are doing and why. It's fine to give the reader some hints, but for many case it would be nice to have some option to have a mix of 
 
