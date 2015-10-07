@@ -3,7 +3,6 @@ layout: page
 title: A curriculum for statistics
 category: hubs
 ---
-===
 
 Recommendations what to teach and what you should know at different levels in your studies (check the [curriculum proposal](http://www.amstat.org/education/pdfs/guidelines2014-11-15.pdf) for the  of the American Statistical Association)
 
