@@ -22,8 +22,7 @@ Davison, A. C. & Hinkley, D. V. (2009). Bootstrap methods and their application.
 
 
 
-Crossvalidation
-===
+# Crossvalidation
 
 Cross-validation (CV) is a common and general technique to assess the predictive performance of a model. The idea of a k-fold cross-validation is to split the data into k parts, fit the model to all possible k subsets with size k-1, and predict on the remaining part.
 
