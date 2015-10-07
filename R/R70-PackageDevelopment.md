@@ -3,7 +3,6 @@ layout: page
 title: Package development
 category: r
 ---
-===
 
 Package development is a lot easier than you think. Follow the steps below, and you should have no problem. 
 
