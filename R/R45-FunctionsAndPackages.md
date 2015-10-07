@@ -3,7 +3,6 @@ layout: page
 title: Functions and packages
 category: r
 ---
-===
 
 There is a set of functions that are built into R and can be accssed by end-users.
 It is possible to get a complete list with all built-in available functions by typing <i>builtins()</i> in the R console.
