@@ -1,11 +1,9 @@
 ---
 layout: page
-title: Inferential statistics
+title: Approaches to statistical inference
 category: stats
 ---
 
-Approaches to statistical inference
-===
 
 The idea of inferential statistics, or statistical inference, is to learn something, such as
 
