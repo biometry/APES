@@ -4,7 +4,6 @@ title: Summary statistics and correlations
 category: stats
 subcategory: Descriptive statistics
 ---
-===
 
 # Testing for normality
 
