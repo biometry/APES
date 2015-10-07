@@ -4,7 +4,6 @@ title: Generalized linear models (GLM)
 category: stats
 subcategory: Inferential statistics
 ---
-===
 
 ```r
 library(knitr)
