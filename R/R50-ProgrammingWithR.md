@@ -3,8 +3,6 @@ layout: page
 title: Programming with R
 category: r
 ---
-===
-
 
 ## Basic programming 
 
