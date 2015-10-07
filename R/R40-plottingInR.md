@@ -31,9 +31,7 @@ Contents
 	* Colors
 
 
-Plotting in R
 
-=======
 
 # Useful Links
 
