@@ -4,9 +4,6 @@ title: Imprint
 permalink: /imprint/
 ---
 
-
-## Imprint
-
 Kontakt:
 
   Dr. Florian Hartig
