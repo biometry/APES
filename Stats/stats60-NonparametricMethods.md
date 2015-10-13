@@ -37,14 +37,14 @@ Stone, M. (1977) An Asymptotic Equivalence of Choice of Model by Cross-Validatio
 
 ### CV in R
 
-* http://cran.r-project.org/web/packages/cvTools/index.html
-* http://topepo.github.io/caret/index.html
+* [http://cran.r-project.org/web/packages/cvTools/index.html](http://cran.r-project.org/web/packages/cvTools/index.html)
+* [http://topepo.github.io/caret/index.html](http://topepo.github.io/caret/index.html)
 
 
 ### Further links
 
-* http://www.petrkeil.com/?p=836
-* http://robjhyndman.com/hyndsight/crossvalidation/
+* [http://www.petrkeil.com/?p=836](http://www.petrkeil.com/?p=836)
+* [http://robjhyndman.com/hyndsight/crossvalidation/](http://robjhyndman.com/hyndsight/crossvalidation/)
 
 
 
