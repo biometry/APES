@@ -14,9 +14,4 @@ Synopsis: Reproducibility in statistical computing means that other people can r
 Here are a few tips to achieve all that:
 
 
-
-
-
-
-
-http://www.revolutionanalytics.com/webinars/reproducibility-revolution-r-open-and-checkpoint-package
+[http://www.revolutionanalytics.com/webinars/reproducibility-revolution-r-open-and-checkpoint-package](http://www.revolutionanalytics.com/webinars/reproducibility-revolution-r-open-and-checkpoint-package)
