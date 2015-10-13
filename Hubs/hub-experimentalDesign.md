@@ -24,7 +24,7 @@ synopsis:
 ### Questionnaires
 
 
-Questionnaires and questionnaire design doesn't differ fundamentally from experimental design and research design in general. You have to make sure you have enough replicates, control confounding variables and so on. Check on [planning an experiment](/Checklists/planningExperiment.md).
+Questionnaires and questionnaire design doesn't differ fundamentally from experimental design and research design in general. You have to make sure you have enough replicates, control confounding variables and so on. Check on [planning an experiment](http://biometry.github.io/APES/checklists/planningExperiment.html).
 
 However, there are a few problems that are more pressing for questionnaires, e.g. neutral questions, not influencing people, not asking too much, not formulating the questions too open. In the following a few links that may be useful.
 

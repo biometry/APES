@@ -28,7 +28,7 @@ http://fxdiebold.blogspot.ca/2014/05/predictive-modeling-causal-inference.html
 
 ![Extrapolation](http://imgs.xkcd.com/comics/extrapolating.png)
 
-![Extrapolation2](https://mathwithbaddrawings.files.wordpress.com/2015/06/20150617080939_00003.jpg)
+see also [this nice figure](https://mathwithbaddrawings.files.wordpress.com/2015/06/20150617080939_00003.jpg)
 
 https://www.ma.utexas.edu/users/mks/statmistakes/StatisticsMistakes.html
 
@@ -37,9 +37,8 @@ http://www.burns-stat.com/documents/books/the-r-inferno/
 
 # Reviewer checklists
 
-[here](http://www.elsevier.com/__data/promis_misc/ejvesstat.pdf){:target="_blank"}
-
-<a href="http://www.statisticsdonewrong.com/" target="_blank">statisticsdonewrong</a>
+* [here](http://www.elsevier.com/__data/promis_misc/ejvesstat.pdf)
+* <a href="http://www.statisticsdonewrong.com/" target="_blank">statisticsdonewrong</a>
 
 ## More links
 

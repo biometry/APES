@@ -35,4 +35,4 @@ where the * notation is short for adding variables as main effects and interacti
 
 Given a statistical model, a "normal" or "simple" null hypothesis specifies a single value for the parameter of interest as the "base expectation". A composite null hypothesis specifies a range of values for the parameter. 
 
-Given a null hypothesis H0 specified by a statistical model, the p-value is the probability to obtain the observed or more extreme data given H0. If p < alpha, we say we have significant evidence against H0. For details, see [section Statistics/Inferential Approach](../Stats/stats10-StatisticalInference.md)
+Given a null hypothesis H0 specified by a statistical model, the p-value is the probability to obtain the observed or more extreme data given H0. If p < alpha, we say we have significant evidence against H0. For details, see the [section on hypothesis testing](http://biometry.github.io/APES/Stats/stats12-basic_tests.html)
