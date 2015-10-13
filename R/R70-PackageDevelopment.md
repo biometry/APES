@@ -6,6 +6,16 @@ category: r
 
 Package development is a lot easier than you think. Follow the steps below, and you should have no problem. 
 
+### Compiling a package
+
+Assuming you have the package in a local folder, and work with RStudio (both recommended)
+
+1. Create a new RStudio project in the folder
+2. Choose the project folder in Tools/Project Options/Build tools. Make sure you also check Roxygen if you want to use Roxygen (see below, recommended)
+3. Buttons for building the package should now appear in the top right panel of RStudio
+
+For further help or for info how to compile from the console (takes more time) use google. 
+
 ### Creating a new package
 
 * Work with RStudio, makes many things easier (alternative is StatET in eclipse, particular if you also have C/C++ code in your package)
