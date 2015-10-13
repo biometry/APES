@@ -15,15 +15,12 @@ Hierarchical models, also called multi-level models, are models in which process
 
 # State-space models
 
-
-http://www.jstatsoft.org/v41/i04/paper
-
+[http://www.jstatsoft.org/v41/i04/paper](http://www.jstatsoft.org/v41/i04/paper)
 
 
 # Structural Equation Models (SEMs)
 
 Structural equation models (SEM) are a special class of hierarchical models. Starting initially only as correlation summaries for normally distributed variables, SEMs have branched out substantially and are now a pretty broad array of methods and software.
-
 
 
 ## Terminology 
@@ -44,17 +41,13 @@ Statistics for Psychosocial Research: Structural Models http://ocw.jhsph.edu/cou
 
 ### Examples / Papers
 
-http://www.consevol.org/pdf/Books/Chapter%208%20Modern%20Phylogenetic%20Comparative%20Methods%20book.pdf
-
-
-http://www.esajournals.org/doi/pdf/10.1890/08-1034.1
-http://www.esapubs.org/archive/ecol/E090/028/suppl-1.htm
-
-http://www.imachordata.com/space-and-sems-2/
+* [http://www.consevol.org/pdf/Books/Chapter%208%20Modern%20Phylogenetic%20Comparative%20Methods%20book.pdf](http://www.consevol.org/pdf/Books/Chapter%208%20Modern%20Phylogenetic%20Comparative%20Methods%20book.pdf)
+* [http://www.esajournals.org/doi/pdf/10.1890/08-1034.1](http://www.esajournals.org/doi/pdf/10.1890/08-1034.1)
+* [http://www.esapubs.org/archive/ecol/E090/028/suppl-1.htm](http://www.esapubs.org/archive/ecol/E090/028/suppl-1.htm)
+* [http://www.imachordata.com/space-and-sems-2/] (http://www.imachordata.com/space-and-sems-2/)
 
 
 ### Software
-
-- http://lavaan.ugent.be/
-- http://openmx.psyc.virginia.edu/
+* [http://lavaan.ugent.be/](http://lavaan.ugent.be/)
+* [http://openmx.psyc.virginia.edu/](http://openmx.psyc.virginia.edu/)
 

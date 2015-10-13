@@ -32,17 +32,17 @@ where the second term, N(0, sigmaGroup) acts on the groups and not on the indivi
 
 Material for later:
 
-Note that we need to fit the model using maximum likelihood, **not** REML (restricted/residual maximum likelihood). REML is dependent on the fixed effects and changes as the fixed part of the model changes. Hence we cannot compare likelihoods of two REML-fitted mixed models differing in their fixed structure (see, e.g., http://www.unc.edu/courses/2010fall/ecol/563/001/docs/lectures/lecture28.htm). 
+Note that we need to fit the model using maximum likelihood, **not** REML (restricted/residual maximum likelihood). REML is dependent on the fixed effects and changes as the fixed part of the model changes. Hence we cannot compare likelihoods of two REML-fitted mixed models differing in their fixed structure (see, e.g., [http://www.unc.edu/courses/2010fall/ecol/563/001/docs/lectures/lecture28.htm](http://www.unc.edu/courses/2010fall/ecol/563/001/docs/lectures/lecture28.htm)). 
 
 
-http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r
+[http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r](http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r)
 
-https://freshbiostats.wordpress.com/2013/07/28/mixed-models-in-r-lme4-nlme-both/
+[https://freshbiostats.wordpress.com/2013/07/28/mixed-models-in-r-lme4-nlme-both/](https://freshbiostats.wordpress.com/2013/07/28/mixed-models-in-r-lme4-nlme-both/)
 
 
 # Confidence intervals and predictive uncertainty
 
-http://stackoverflow.com/questions/14358811/extract-prediction-band-from-lme-fit/14435982#14435982
+[http://stackoverflow.com/questions/14358811/extract-prediction-band-from-lme-fit/14435982#14435982](http://stackoverflow.com/questions/14358811/extract-prediction-band-from-lme-fit/14435982#14435982)
 
 
 
@@ -57,8 +57,8 @@ http://stackoverflow.com/questions/14358811/extract-prediction-band-from-lme-fit
 
 ## Further links 
 
-* A brilliant starting page for problems with mixed effect models in R is http://glmm.wikidot.com/faq, which tries to bundle these discussions on a FAQWA (Frequently Asked Questions With Answers) page. 
-* See also: http://psy-ed.wikidot.com/glmm, http://wiki.math.yorku.ca/index.php/SPIDA_2009:_Mixed_Models_with_R
+* A brilliant starting page for problems with mixed effect models in R is [http://glmm.wikidot.com/faq](http://glmm.wikidot.com/faq), which tries to bundle these discussions on a FAQWA (Frequently Asked Questions With Answers) page. 
+* See also: [http://psy-ed.wikidot.com/glmm](http://psy-ed.wikidot.com/glmm), [http://wiki.math.yorku.ca/index.php/SPIDA_2009:_Mixed_Models_with_R](http://wiki.math.yorku.ca/index.php/SPIDA_2009:_Mixed_Models_with_R)
 
 
 
@@ -127,7 +127,7 @@ So we see that the fixed effect "period" only explains a small proportion of the
 
 Nakagawa, S. & Schielzeth, H. (2013). A general and simple method for obtaining R2 from generalized linear mixed-effects models. Methods in Ecology and Evolution 4: 133–142.
  
- Lahuis, D et al (2014) Explained Variance Measures for Multilevel Models. Organizational Research Methods. 
+Lahuis, D et al (2014) Explained Variance Measures for Multilevel Models. Organizational Research Methods. 
 
 Nelder JA (2000) Quasi-likelihood and pseudo-likelihood are not the same thing. J Appl Stat 27: 1007–1011. doi: 10.1080/02664760050173328
 
@@ -151,8 +151,8 @@ Thornton DH, Fletcher RJ (2014) Body size and spatial scales in avian response t
  
  Maximum likelihood estimation in R with mainly with mle4 or nle. 
  
- * http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r
- * http://jaredknowles.com/journal/2014/5/17/mixed-effects-tutorial-2-fun-with-mermod-objects
+ * [http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r](http://jaredknowles.com/journal/2013/11/25/getting-started-with-mixed-effect-models-in-r)
+ * [http://jaredknowles.com/journal/2014/5/17/mixed-effects-tutorial-2-fun-with-mermod-objects](http://jaredknowles.com/journal/2014/5/17/mixed-effects-tutorial-2-fun-with-mermod-objects)
  
  Bayesian estimation with JAGS or STAN, glmmMCMC.
  
@@ -160,18 +160,17 @@ Thornton DH, Fletcher RJ (2014) Body size and spatial scales in avian response t
  
  Multinomial models can be estimated with
  
- * mlogit: base package for estimating multinomial logit models http://cran.r-project.org/web/packages/mlogit/index.html 
- * glmmMCMC: http://glmmadmb.r-forge.r-project.org/
- * mclogit: estimate parameters for the conditional logit model (also with multinomial counts), and for the mixed conditional logit model, or conditional logit with random effects (random intercepts only, no random slopes yet). The current implementation of random effects is limited to the PQL technique, which requires large cluster sizes. http://cran.r-project.org/web/packages/mclogit/index.html
- * coxme: Mixed Effects Cox Models - Cox proportional hazards models containing Gaussian random effects, also known as frailty models. http://cran.r-project.org/web/packages/coxme/index.html
- * TwoStepCLogit: Conditional logistic regression with longitudinal follow up and individual-level random coefficients: A stable and efficient two-step estimation method http://cran.r-project.org/web/packages/TwoStepCLogit/
+ * [mlogit](http://cran.r-project.org/web/packages/mlogit/index.html): base package for estimating multinomial logit models.
+ * [glmmMCMC](http://glmmadmb.r-forge.r-project.org/)
+ * [mclogit](http://cran.r-project.org/web/packages/mclogit/index.html): estimate parameters for the conditional logit model (also with multinomial counts), and for the mixed conditional logit model, or conditional logit with random effects (random intercepts only, no random slopes yet). The current implementation of random effects is limited to the PQL technique, which requires large cluster sizes. 
+ * [coxme](http://cran.r-project.org/web/packages/coxme/index.html): Mixed Effects Cox Models - Cox proportional hazards models containing Gaussian random effects, also known as frailty models.
+ * [TwoStepCLogit](http://cran.r-project.org/web/packages/TwoStepCLogit/): Conditional logistic regression with longitudinal follow up and individual-level random coefficients: A stable and efficient two-step estimation method
  * Fully Bayesian solutions in Bugs, Jags or STAN
- 
- * ordinal: Regression Models for Ordinal Data. Implementation of cumulative link (mixed) models also known as ordered regression models, proportional odds models, proportional hazards models for grouped survival times and ordered logit/probit/... models. http://www.cran.r-project.org/web/packages/ordinal/index.html
+ * [ordinal](http://www.cran.r-project.org/web/packages/ordinal/index.html): Regression Models for Ordinal Data. Implementation of cumulative link (mixed) models also known as ordered regression models, proportional odds models, proportional hazards models for grouped survival times and ordered logit/probit/... models.
  
  Note: there seems to be some inconsistency in what people mean by a mixed multinomial logit. Check packages for the exact specification of the rando effect structure (if any)
  
- See also https://gist.github.com/casallas/8263818
+ [See also](https://gist.github.com/casallas/8263818)
  
  ### Challenges in the estimation 
  
@@ -180,7 +179,7 @@ Thornton DH, Fletcher RJ (2014) Body size and spatial scales in avian response t
  
  ## Confidence intervals 
  
- http://www.r-bloggers.com/confidence-intervals-for-prediction-in-glmms/
+ [http://www.r-bloggers.com/confidence-intervals-for-prediction-in-glmms/](http://www.r-bloggers.com/confidence-intervals-for-prediction-in-glmms/)
  
  
  ## Model validation 
@@ -189,7 +188,7 @@ Thornton DH, Fletcher RJ (2014) Body size and spatial scales in avian response t
  ## Model selection 
  
  Material from "in silico ecology", with link to e.g. model selection in mixed effect models
- http://www.r-bloggers.com/notes-on-shrinkage-prediction-in-hierarchical-models/
+ [http://www.r-bloggers.com/notes-on-shrinkage-prediction-in-hierarchical-models/](http://www.r-bloggers.com/notes-on-shrinkage-prediction-in-hierarchical-models/)
  
  
  

@@ -25,17 +25,15 @@ Basic laws are:
 * Avoid reasignment or copying of large variables
 * Prefer using in-built functions, particularly if they are compiled
 
-For a more in-depth discussion, see
-
-* [here](http://adv-r.had.co.nz/Performance.html)
+For a more in-depth discussion, see [here](http://adv-r.had.co.nz/Performance.html)
 
 If you have severe runtime problems, consider paralellization and or moving code to c/c++.
 
 ## Parallelization
 
-* https://github.com/berkeley-scf/tutorial-parallel-basics/blob/master/parallel-basics.Rmd
+* [parallel-basics](https://github.com/berkeley-scf/tutorial-parallel-basics/blob/master/parallel-basics.Rmd)
 
-* https://github.com/timchurches/smaRts/blob/master/parallel-package/R-parallel-package-example.md
+* [R-parallel-package-example](https://github.com/timchurches/smaRts/blob/master/parallel-package/R-parallel-package-example.md)
 
 
 
