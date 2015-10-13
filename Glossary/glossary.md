@@ -1,12 +1,10 @@
 ---
 layout: page
-title: Concepts
-permalink: /Concepts/
-# category: concepts
+title: Glossary
+permalink: /Glossary/
+# category: glossary
 labels: main
 ---
-===
-
 
 ### Degrees of freedom
 
