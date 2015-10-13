@@ -11,11 +11,9 @@ Recommended sources:
 There are few good books tackling multivariate statistics. First and foremost to mention is Numerical Ecology, by Legendre & Legendre (3rd edition 2013). This is a heavy tomb, somewhat tedious to work with, but very comprehensive! A "best of" with R is Borcard, Gillet & Legendre (2011). More recently, and for free, is Greenacre & Primicerio (2013). All three use R as reference software.
 
 
-Borcard, D., Gillet, F., Legendre, P., 2011. [Numerical Ecology with R](http://link.springer.com/book/10.1007%2F978-1-4419-7976-6). Springer, Berlin.
-
-Greenacre, M., Primicerio, P., 2013. Multivariate Analysis of Ecological Data. Fundacíon BBVA. [http://www.multivariatestatistics.org/](http://www.multivariatestatistics.org/).
-
-Legendre, P., Legendre, L., 2013. [Numerical Ecology](https://www.elsevier.com/books/numerical-ecology/legendre/978-0-444-53868-0), 3rd ed. Elsevier Science.
+* Borcard, D., Gillet, F., Legendre, P., 2011. [Numerical Ecology with R](http://link.springer.com/book/10.1007%2F978-1-4419-7976-6). Springer, Berlin.
+* Greenacre, M., Primicerio, P., 2013. Multivariate Analysis of Ecological Data. Fundacíon BBVA. [http://www.multivariatestatistics.org/](http://www.multivariatestatistics.org/).
+* Legendre, P., Legendre, L., 2013. [Numerical Ecology](https://www.elsevier.com/books/numerical-ecology/legendre/978-0-444-53868-0), 3rd ed. Elsevier Science.
 
 
 Ordination methods
