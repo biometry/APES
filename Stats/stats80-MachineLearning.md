@@ -11,5 +11,3 @@ A class of statistical procedures that have become very important in recent year
 
 
 * [In-depth introduction to machine learning in 15 hours of expert videos](http://www.dataschool.io/15-hours-of-expert-machine-learning-videos/)
-
-
