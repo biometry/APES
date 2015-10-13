@@ -1,18 +1,26 @@
 Overview for contributors
 ===
 
+## How to make changes / contribute content
 
+#### Reporting problems
 
+* If you see a problem or if you have a suggestion, log in to GitHub and report the issue at https://github.com/biometry/APES/issues Issues can also be assigned to someone in particular
 
-## How to contribute content
+#### Adding content
 
 Ordered with increasing technical demands, and decreasing work for us. Please choose the highest number you're comfortable with, this will reduce our workload
 
-1. Write your text as .txt or .rtf and send it to http://www.biom.uni-freiburg.de/mitarbeiter/hartig or to https://www.biom.uni-freiburg.de/mitarbeiter/janeiro
-2. Write your text in R markdown (see help below) and send it to http://www.biom.uni-freiburg.de/mitarbeiter/hartig or to https://www.biom.uni-freiburg.de/mitarbeiter/janeiro
-3. If you know how to use GitHub, clone our repository, change the text, and issue a pull request so that we can include your changes 
+1. Write your text as .txt or .rtf or .md and send it to  https://www.biom.uni-freiburg.de/mitarbeiter/janeiro
+2. Clone our repository, change the text, and issue a pull request so that we can include your changes 
+3. Ask for direct access to the repo
 
-### Getting started with R markdown
+#### Important!!!!
+
+* html links in md within the site should be to the html version of the page, the two versions have different roots, it's not possible to set relative paths
+
+
+## Help with R markdown
 
 We use R markdown to write the text for this site. 
 
@@ -73,8 +81,4 @@ If you want to change css and other elements in the gh-pages branch, you need to
 Create site from terminal with bundle exec jekyll serve
 
 
-## How to report a problem
 
-If you see a problem or if you have a suggestion, log in to GitHub and report the issue at https://github.com/biometry/APES/issues
-
-Issues can also be assigned to someone in particular
