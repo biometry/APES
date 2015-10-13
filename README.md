@@ -2,6 +2,7 @@
 layout: page
 title: Welcome to APES
 permalink: /index.html
+contributors: Carsten Dorman, Simone Ciuti, Ahmed ElGabbas
 ---
 
 This is the collection of **Advice for Problems in Environmental Statistics (APES)** of the [Department of Biometry and Environmental System Analysis](http://www.biom.uni-freiburg.de/), University of Freiburg. This website gives some basic intros and links for
