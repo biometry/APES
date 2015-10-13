@@ -10,7 +10,7 @@ labels: main
 
 Degrees of freedom: for simple models, the number of parameters. 
 
-For more complicated models such as mixed models, this concept becomes tricky. It is in general NOT directly the number of parameters. Why is that? Typically, one wants to use the degrees of freedom in statistical tests, e.g. the F-test in a regression. Hence, the degrees of freedom could be defined as the number that one should put in an F test to get appropriate type I error rates. Discussions all around, e.g. in http://stats.stackexchange.com/questions/16921/how-to-understand-degrees-of-freedom
+For more complicated models such as mixed models, this concept becomes tricky. It is in general NOT directly the number of parameters. Why is that? Typically, one wants to use the degrees of freedom in statistical tests, e.g. the F-test in a regression. Hence, the degrees of freedom could be defined as the number that one should put in an F test to get appropriate type I error rates. Discussions all around, e.g. in <a href="http://stats.stackexchange.com/questions/16921/how-to-understand-degrees-of-freedom" target="_blank">here</a>.
 
 
 ### Interaction
@@ -27,7 +27,8 @@ y ~ a * b ; y ~ a + b + a:b ; y ~ a + b + I(a*b)
 
 where the * notation is short for adding variables as main effects and interactions, the a:b notation is the interaction only, and the I(a*b) is the interaction written as a formula. Note that, in either case, including the interaction means that one additional parameter needs to be fitted. 
 
-See also [http://en.wikipedia.org/wiki/Interaction_%28statistics%29](http://en.wikipedia.org/wiki/Interaction_%28statistics%29)
+<a href="http://en.wikipedia.org/wiki/Interaction_%28statistics%29" target="_blank">See also</a>
+
 
 
 ### Null hypothesis / p-value / alpha-level / significance
