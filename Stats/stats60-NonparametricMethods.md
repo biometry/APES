@@ -53,43 +53,25 @@ Stone, M. (1977) An Asymptotic Equivalence of Choice of Model by Cross-Validatio
 suggested by Jane Elith
 
 
-Slavich, E., Warton, D. I., Ashcroft, M. B.,Gollan, J. R. & Ramp, D.
-(2014). Topoclimate versus macroclimate: how does climate mapping
-methodology affect species distribution models and climatechange
-projections? Diversity and Distributions.
+Slavich, E., Warton, D. I., Ashcroft, M. B.,Gollan, J. R. & Ramp, D. (2014). Topoclimate versus macroclimate: how does climate mapping methodology affect species distribution models and climatechange projections? Diversity and Distributions.
 
-Burman, P., Chow, E. & Nolan, D. (1994). A cross-validatory method for
-dependent data.Biometrika, 81, 351?358.
+Burman, P., Chow, E. & Nolan, D. (1994). A cross-validatory method for dependent data.Biometrika, 81, 351?358.
 
 
-Wenger, S. J. & Olden, J. D. (2012).Assessing transferability of
-ecological models: an underappreciated aspect of
+Wenger, S. J. & Olden, J. D. (2012).Assessing transferability of ecological models: an underappreciated aspect of
 statistical validation. Methods in Ecology and Evolution, 3, 260?267.
 
 
-Warton, D. I., Renner, I. W. & Ramp, D.(2013). Model-based control of
-observer bias for the analysis of presence-only
+Warton, D. I., Renner, I. W. & Ramp, D.(2013). Model-based control of observer bias for the analysis of presence-only
 data in ecology. PloS one, 8, e79168.
 
 
-Pearson, R. G., Phillips, S. J., Loranty, M. M.,Beck, P. S., Damoulas, T.,
-Knight, S. J. & Goetz, S. J. (2013). Shifts in
-Arctic vegetation and associated feedbacks under climate change. Nature
-Climate
-Change, 3, 673?677.
+Pearson, R. G., Phillips, S. J., Loranty, M. M.,Beck, P. S., Damoulas, T., Knight, S. J. & Goetz, S. J. (2013). Shifts in
+Arctic vegetation and associated feedbacks under climate change. Nature Climate Change, 3, 673?677.
 
 
-Fithian, W.,Elith, J., Hastie, T. & Keith, D. (2014 early view) Bias
-Correction in
-Species Distribution Models: Pooling Survey and Collection Data for
-Multiple
-Species. Methods in Ecology and Evolution
+Fithian, W.,Elith, J., Hastie, T. & Keith, D. (2014 early view) Bias Correction in Species Distribution Models: Pooling Survey and Collection Data for Multiple Species. Methods in Ecology and Evolution
 
 
-
-Hutchinson,R.A., Liu, L.-P. & Dietterich, T.G. (2011) Incorporating
-Boosted Regression
-Trees into Ecological Latent Variable Models.
-Proceedings of the Twenty-fifth Conference on Artificial Intelligence
-(ed by, pp. 1343-1348.  San Francisco.
+Hutchinson,R.A., Liu, L.-P. & Dietterich, T.G. (2011) Incorporating Boosted Regression Trees into Ecological Latent Variable Models. Proceedings of the Twenty-fifth Conference on Artificial Intelligence (ed by, pp. 1343-1348.  San Francisco.
 
