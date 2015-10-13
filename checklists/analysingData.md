@@ -22,7 +22,7 @@ Bad examples (too unspecific)
 * I want to know what oak trees like
 * Is there a difference between sites of type A and sites of type B 
  
-Again, ideally your question comes before your data, but just in case you haven't quite settled down on your question, please consider again that you might have a good question, but do you also have the data for this question? Can you hope that you have more or less controlled your confounding variables? See our checklist for [Planning an Experiment](/checklists/planningAnExperiment.md)
+Again, ideally your question comes before your data, but just in case you haven't quite settled down on your question, please consider again that you might have a good question, but do you also have the data for this question? Can you hope that you have more or less controlled your confounding variables? See our checklist for [Planning an Experiment](/checklists/planningExperiment.md)
 
 
 ## Preparing and cleaning the data
@@ -56,7 +56,7 @@ That being said, as long as you don't adjust your hypothesis, look at the data i
 
 #### Decide on statistical method
 
-Ideally, as we recommend in our checklist for [Planning an Experiment](/checklists/planningAnExperiment.md), you can skip this step because you have already decided on an analysis method during your experimental planning, and have desiged your experiment or data collection for this method.
+Ideally, as we recommend in our checklist for [Planning an Experiment](/checklists/planningExperiment.md), you can skip this step because you have already decided on an analysis method during your experimental planning, and have desiged your experiment or data collection for this method.
 
 Yet, as experience has taught us you might have not, you might want to look at the decision tree [here](/checklists/whichAnalysis.md), noting that is not a complete replacement for getting an overview of the methods of statistics.
 
