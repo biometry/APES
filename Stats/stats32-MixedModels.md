@@ -3,6 +3,9 @@ layout: page
 title: Mixed models
 category: stats
 subcategory: Advanced topics
+author: Florian Hartig
+maintainer: Florian Hartig
+contributor: Carsten Dormann
 ---
 Synopsis: remember that the assumptions of the linear regression were that
 
