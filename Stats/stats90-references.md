@@ -22,12 +22,11 @@ Field, A.; Miles, J. & Field, Z. (2012) Discovering statistics Using R. Sage,
 
 ## For a mathematical / statistical researcher that wants to get the mathematical details as well
 
-Stats Book + MOOC http://www-bcf.usc.edu/~gareth/ISL/
-
+Stats Book + MOOC <a href="http://www-bcf.usc.edu/~gareth/ISL/" target="_blank">http://www-bcf.usc.edu/~gareth/ISL/</a>
 
 ## videos
 
-https://www.youtube.com/channel/UCaNIxVagLhqupvUiDK01Mgg
+<a href="http://www.youtube.com/channel/UCaNIxVagLhqupvUiDK01Mgg" target="_blank">http://www.youtube.com/channel/UCaNIxVagLhqupvUiDK01Mgg</a>
 
 
 Stanford's Trevor Hastie's videos on "[Introduction to statistical learning](http://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/)", sorted and linked 
