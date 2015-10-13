@@ -17,17 +17,16 @@ category: stats
 ## For the field ecologist that wants to learn applied statistics
 
 
-Field, A.; Miles, J. & Field, Z. (2012) Discovering statistics Using R. Sage, 
+Field, A.; Miles, J. & Field, Z. (2012) Discovering statistics Using R. Sage <a href="https://uk.sagepub.com/en-gb/eur/discovering-statistics-using-r/book236067" target="_blank">Link</a> 
 
 
 ## For a mathematical / statistical researcher that wants to get the mathematical details as well
 
-Stats Book + MOOC http://www-bcf.usc.edu/~gareth/ISL/
-
+Stats Book + MOOC <a href="http://www-bcf.usc.edu/~gareth/ISL/" target="_blank">www-bcf.usc.edu/~gareth/ISL/</a>
 
 ## videos
 
-https://www.youtube.com/channel/UCaNIxVagLhqupvUiDK01Mgg
+<a href="http://www.youtube.com/channel/UCaNIxVagLhqupvUiDK01Mgg" target="_blank">www.youtube.com/channel/UCaNIxVagLhqupvUiDK01Mgg</a>
 
 
 Stanford's Trevor Hastie's videos on "[Introduction to statistical learning](http://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/)", sorted and linked 
