@@ -47,7 +47,7 @@ Be adviced that in either case, the people that you are asking for help are quit
 
 Apart from your supervisor, common places on the internet that provide R help are 
 
-* The [big R mailing lists](http://www.r-project.org/mail.html , see also the special interest groups)
+* The [big R mailing lists](http://www.r-project.org/mail.html), see also the special interest groups
 * [Stackexchange](http://stats.stackexchange.com/)
 
 The R universe has several layers and it is sometimes difficult to understand, how to find help for a special layer. This link may help you: http://www.r-bloggers.com/21-r-navigation-tools/
