@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Approaches to statistical inference
+title: Inferential statistics
 category: stats
 ---
 
