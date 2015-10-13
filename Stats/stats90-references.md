@@ -17,7 +17,7 @@ category: stats
 ## For the field ecologist that wants to learn applied statistics
 
 
-Field, A.; Miles, J. & Field, Z. (2012) Discovering statistics Using R. Sage, 
+Field, A.; Miles, J. & Field, Z. (2012) Discovering statistics Using R. Sage <a href="https://uk.sagepub.com/en-gb/eur/discovering-statistics-using-r/book236067" target="_blank">Link</a> 
 
 
 ## For a mathematical / statistical researcher that wants to get the mathematical details as well
