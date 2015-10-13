@@ -7,7 +7,7 @@ category: r
 
 ## Built-in functions
 
-R has a quite extensive set of base functions that come with each R distrution. It is possible to get a complete list by typing <i>builtins()</i> in the R console. Some examples of R functions [here](http://www.sr.bham.ac.uk/~ajrs/R/r-function_list.html) and [here](http://www.statmethods.net/management/functions.html).
+R has a quite extensive set of base functions that come with each R distrution. It is possible to get a complete list by typing <i>`builtins()`</i> in the R console. Some examples of R functions [here](http://www.sr.bham.ac.uk/~ajrs/R/r-function_list.html) and [here](http://www.statmethods.net/management/functions.html).
 
 * [Quick-list-of-useful-R-packages](https://support.rstudio.com/hc/en-us/articles/201057987-Quick-list-of-useful-R-packages)
 
