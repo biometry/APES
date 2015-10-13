@@ -1,13 +1,8 @@
 Overview for contributors
 ===
 
-We need your help to fill the stats help with content and remove problems. Below we explain how you can contribute
 
-## How to report a problem
 
-If you see a problem or if you have a suggestion, log in to GitHub and report the issue at https://github.com/biometry/APES/issues
-
-Issues can also be assigned to someone in particular
 
 ## How to contribute content
 
@@ -77,3 +72,9 @@ If you want to change css and other elements in the gh-pages branch, you need to
 
 Create site from terminal with bundle exec jekyll serve
 
+
+## How to report a problem
+
+If you see a problem or if you have a suggestion, log in to GitHub and report the issue at https://github.com/biometry/APES/issues
+
+Issues can also be assigned to someone in particular
