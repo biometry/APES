@@ -37,7 +37,7 @@ http://www.burns-stat.com/documents/books/the-r-inferno/
 
 # Reviewer checklists
 
-<a href="http://www.elsevier.com/__data/promis_misc/ejvesstat.pdf" target="_blank">www.elsevier.com/__data/promis_misc/ejvesstat.pdf</a>
+[here](http://www.elsevier.com/__data/promis_misc/ejvesstat.pdf){:target="_blank"}
 
 <a href="http://www.statisticsdonewrong.com/" target="_blank">statisticsdonewrong</a>
 
