@@ -178,4 +178,4 @@ cor(mtcars[,c(1,4,6)])
 detach(mtcars)
 ```
 
-http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html
+[http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html](http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html)
