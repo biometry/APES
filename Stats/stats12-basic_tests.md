@@ -23,10 +23,14 @@ If we have a null hypothesis, we calculate the probability that we would see the
 
 Test Statistic
 
-### Type I and II error
+### Type I and II error, and power
 
 
 Significance level, Power 
+
+Links to power analysis in R
+
+* [here](http://www.cyclismo.org/tutorial/R/power.html)
 
 
 ### Misinterpretations

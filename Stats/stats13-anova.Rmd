@@ -6,7 +6,7 @@ output:
 ---
 ---
 layout: page
-title: ANOVA
+title: Analysis of variance (ANOVA)
 category: stats
 subcategory: Inferential statistics
 ---
@@ -25,8 +25,6 @@ Contents
 	* ANOVA for repeated measures
 
 
-Analysis of variance (ANOVA)
-===
 
 Anova or analysis of variance makes basically the same assumptions as a t-test (normally distributed responses), but allows for more than two groups. More precisely, the measured response (i.e. the dependent variable) can be influence by several categorical variables that could also interact. Here a simple example for testing whether weight depends on group, where group is a variable that codes for three different options control, treatment1 and treatment2:
 

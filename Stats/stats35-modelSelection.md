@@ -4,9 +4,6 @@ title: Model selection
 category: stats
 subcategory: Advanced topics
 ---
-===
-
-
 
 
 ## General problems 

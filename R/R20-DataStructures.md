@@ -3,7 +3,6 @@ layout: page
 title: Data in R
 category: r
 ---
-===
 
 Before we can work with data, we need to be able to read it in an represent it in R
 

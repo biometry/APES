@@ -30,7 +30,7 @@ Contents
   * Categorical predictor
 * Multiple linear regression
   
-===
+
 # Linear regression summary and idea
 
 

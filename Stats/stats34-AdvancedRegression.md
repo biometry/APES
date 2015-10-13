@@ -5,11 +5,6 @@ category: stats
 subcategory: Advanced topics
 ---
 
-Advanced regression models
-
-===
-
-
 
 # Nonlinear Regression
 

@@ -11,18 +11,13 @@ synopsis:
 ### References on the considerations of experimental design
 
 
-* Read the chapter about experimental design [here](https://github.com/florianhartig/ResearchSkills/raw/master/Labs/R/Script/Crashcourse-StatisticsWithR.pdf)
-
-
+* Read the chapter about experimental design [here](https://github.com/florianhartig/ResearchSkills/raw/master/Labs/Statistics/Script/EssentialStatistics.pdf)
 
 
 ### Power analysis
 
-
-http://www.statmethods.net/stats/power.html
-
-
-As an example, see [session 4](https://github.com/biometry/APES/tree/master/LectureNotes/MixedEffectModels/Session4) of our mixed model lecture series, at the very end. 
+* [QuickR overview](http://www.statmethods.net/stats/power.html)
+* see [session 4](https://github.com/biometry/APES/tree/master/LectureNotes/MixedEffectModels/Session4) of our mixed model lecture series, at the very end. 
 
 
 
