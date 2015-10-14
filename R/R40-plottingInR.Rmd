@@ -140,15 +140,15 @@ plot(Petal.Length, Sepal.Length, main="Simple Scatterplot",xlab="Petal Length ",
 ![plot of chunk unnamed-chunk-4](./R40-PlottingInR_files/figure-html/unnamed-chunk-4.png) 
 
 Where:	
- * Petal.Length = x	   
- * Sepal.Length = y		 
- * main = Main title	
- * xlab = title for the x axis	
- * ylab = title for the y axis
- * pch = type of symbol	
- * col = color of pch	
- * bg = background color of pch (from 21 to 25)	  
- * lwd = size of pch	
+ * `x` = Petal.Length  
+ * `y` = Sepal.Length
+ * `main` = Main title	
+ * `xlab` = title for the x axis	
+ * `ylab` = title for the y axis
+ * `pch` = type of symbol	
+ * `col` = color of pch	
+ * `bg` = background color of pch (from 21 to 25)	  
+ * `lwd` = size of pch	
 
 
 It is possible to add **fitting lines**, that is, a line on a graph showing the general direction that a group of points seem to be heading.:   
