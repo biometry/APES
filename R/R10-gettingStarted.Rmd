@@ -15,10 +15,10 @@ category: r
 
 If you are starting wit R, you need to install
 
- * The R software (http://www.r-project.org/)
+ * The R software ([http://www.r-project.org/](http://www.r-project.org/))
  * Optional, but recommended, an editor. 
-  * For beginners, we strongly recommend RStudio (https://www.rstudio.com/)
-  * An alternative, specially if you're familiar with eclipse, is the statET plugin for eclipse (http://www.walware.de/goto/statet)
+  * For beginners, we strongly recommend RStudio ([https://www.rstudio.com/](https://www.rstudio.com/))
+  * An alternative, specially if you're familiar with eclipse, is the statET plugin for eclipse ([http://www.walware.de/goto/statet](http://www.walware.de/goto/statet))
 
 Both is available for free on all major platforms.
 
@@ -67,19 +67,20 @@ The following links are tutorials on using R as a language. They are helpful if 
 
 File->New File->R Script to open a new R script
 
-We can add comments with the symbol #, to difference them from the codes
+We can add comments with the symbol `#`, to difference them from the codes
 
 Use of run (top right) to run your script in the R consol (shortcut: Ctrl + enter)
 
 While using RStudio, the working space is divided into 4 windows:
+
 1) At the top righ window it is stored the work in the workspace memory.
-we can also check ir by using the "ls" command
+we can also check ir by using the `ls` command
 ```{r}
 ls()
 ```
-2) At the top left we can write our script and save it for future uses
+2) At the top left we can write our script and save it for future uses.
 
-3) Down left is the console  where you can type commands and see output
+3) Down left is the console  where you can type commands and see output.
 
-4) Down right is located the files tab, it shows all the files and folders in your default workspace. The plots tab will show all your graphs. The packages tab will list a series of packages or add-ons needed to run certain processes. For additional info see the help tab 
+4) Down right is located the files tab, it shows all the files and folders in your default workspace. The plots tab will show all your graphs. The packages tab will list a series of packages or add-ons needed to run certain processes. For additional info see the help tab. 
 
