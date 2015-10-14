@@ -20,7 +20,7 @@ Bad examples (too unspecific):
 * I want to know what oak trees like
 * Is there a difference between sites of type A and sites of type B 
  
-Again, ideally your question comes before your data, but just in case you haven't quite settled down on your question, please consider again that you might have a good question, but do you also have the data for this question? Can you hope that you have more or less controlled your confounding variables? See our checklist for [Planning an Experiment](/checklists/planningExperiment.md)
+Again, ideally your question comes before your data, but just in case you haven't quite settled down on your question, please consider again that you might have a good question, but do you also have the data for this question? Can you hope that you have more or less controlled your confounding variables? See our checklist for [Planning an Experiment](http://biometry.github.io/APES/checklists/planningExperiment.html)
 
 
 ## Preparing and cleaning the data
