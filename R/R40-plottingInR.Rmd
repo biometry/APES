@@ -46,11 +46,9 @@ What may be confusing at first if you look at graphic examples is that R has sev
 * The standard graphic device 
 * ggplot2 
 
-We will concentrate on the standard graphics here. For creating graphics with ggplot2, see 
+We will concentrate on the standard graphics here. For creating graphics with ggplot2, see [here](http://www.cookbook-r.com/Graphs/)
 
-* http://www.cookbook-r.com/Graphs/
-
-Other graph engines that could be called from R include https://plot.ly/r/ , http://gallery.rcpp.org/articles/matplotlib-from-R/
+Other graph engines that could be called from R include [https://plot.ly/r/](https://plot.ly/r/) , [http://gallery.rcpp.org/articles/matplotlib-from-R/](http://gallery.rcpp.org/articles/matplotlib-from-R/)
 
 
 
@@ -81,16 +79,16 @@ Other graph engines that could be called from R include https://plot.ly/r/ , htt
  
 * In book form, check out Jean-luc Doumonts [Trees, Maps and Theorems](http://www.treesmapsandtheorems.com/), or look at some sample pages: [pdf](http://www.treesmapsandtheorems.com/pdfs/TM&Th-samplepages.pdf)
 
-* shinyapps.stat.ubc.ca/r-graph-catalog/
-* http://www.plosbiology.org/article/comments/info:doi/10.1371/journal.pbio.1002128
+* [R Graph Catalog](http://shiny.stat.ubc.ca/r-graph-catalog/)
+* [ Beyond Bar and Line Graphs: Time for a New Data Presentation Paradigm](http://www.plosbiology.org/article/comments/info:doi/10.1371/journal.pbio.1002128)
 
 # Simple standard plots
 
-The basic plotting command in R is the "plot()" function. Depending on which data type it is provided with, it will do different plots. 
+The basic plotting command in R is the `plot()` function. Depending on which data type it is provided with, it will do different plots. 
 
 ## Scatter plot
 
-The most basic plot that can be done with the plot() function is a scatter plot. This option will be chosen if you provide plot() with one or two vectors. If provided with one vector, plot will use this as the y-axis. If provided with two vectors, plot() will use the first as x-values, and the second vector as y-values. 
+The most basic plot that can be done with the `plot()` function is a scatter plot. This option will be chosen if you provide `plot()` with one or two vectors. If provided with one vector, plot will use this as the y-axis. If provided with two vectors, `plot()` will use the first as x-values, and the second vector as y-values. 
 
 ### Simple Scatterplot
 
@@ -155,7 +153,7 @@ Where:
 
 It is possible to add **fitting lines**, that is, a line on a graph showing the general direction that a group of points seem to be heading.:   
 
-1.	Regresion line, where y is dependent of x (y~x).
+1.	Regresion line, where y is dependent of x `y~x`.
 
 ```r
 plot.new()
@@ -164,7 +162,7 @@ abline(lm(Sepal.Length~Petal.Length), col="red")
 
 ![plot of chunk unnamed-chunk-5](./R40-PlottingInR_files/figure-html/unnamed-chunk-5.png) 
 
-2.	Lowess returns a list containing components x and y which give the coordinates of the smooth. 
+2.	`lowess` returns a list containing components x and y which give the coordinates of the smooth. 
 
 ```r
 plot.new()
@@ -211,7 +209,7 @@ Other enhanced features include: boxplots, regresion lines, jitter factors, lege
 It is possible to assess the relationships between multiple variables simultaneously by using a Scatterplot Matrix. 
 It is an ordered collection of bivariate graphs, making it easy to look at all pairwise correlations in one place.
 
-The scatterplot matrices command is pairs()
+The scatterplot matrices command is `pairs()`
 
 
 ```r
@@ -261,12 +259,12 @@ splom(~iris[1:4], groups = Species, data = iris,
 
 
 Where:   
-.~iris[1:4] = the object we want to analyse (columns 1 to 4)  
-.groups = which variable is going to be evaluated  
-.data = dataframe   
-.superpanel = function that sets up the splom display, by default as a scatterplot matrix   
-.key = legend   
-.text = labels for levels of the grouping variable   
+* `~iris[1:4]` = the object we want to analyse (columns 1 to 4)  
+* `groups` = which variable is going to be evaluated  
+* `data` = dataframe   
+* `superpanel` = function that sets up the splom display, by default as a scatterplot matrix   
+* `key` = legend   
+* `text` = labels for levels of the grouping variable   
 
 We can also condicion our matrix on a factor with the <b>car</b> package.   
 The advantage of this package is that we can include lowess and linear best fit lines,  boxplots, densities, or histograms in the principal diagonal, as well as rug plots in the margins of the cells.
@@ -320,11 +318,11 @@ cpairs(data, data.order, panel.colors=data.color, gap=.5,
 ![plot of chunk unnamed-chunk-12](./R40-PlottingInR_files/figure-html/unnamed-chunk-12.png) 
 
 Where:   
-.data = we get the data (columns 1,2,3,4 in this case)   
-.data.corr = we get the correlations    
-.data.color = get the colors depending of the correlation   
-.data.order = to reorder the variables according to the correlation and proximity to the diagonal   
-.cpairs = plotting the result     
+* `data` = we get the data (columns 1,2,3,4 in this case)   
+* `data.corr` = we get the correlations    
+* `data.color` = get the colors depending of the correlation   
+* `data.order` = to reorder the variables according to the correlation and proximity to the diagonal   
+* `cpairs` = plotting the result     
 
 
 
@@ -356,7 +354,7 @@ plot(bin, main="Hexagonal Binning")
 ![plot of chunk unnamed-chunk-13](./R40-PlottingInR_files/figure-html/unnamed-chunk-13.png) 
 
 Where:  
-.xbins = number of hexagons across the x axis  
+* `xbins` = number of hexagons across the x axis  
 
 
 The other option is the <b>sunflowerplot</b> function.
@@ -371,9 +369,9 @@ sunflowerplot(Petal.Width ~ Petal.Length, data = iris,
 ![plot of chunk unnamed-chunk-14](./R40-PlottingInR_files/figure-html/unnamed-chunk-14.png) 
 
 Where:   
-.cex = size of the center points  
-.cex.fact = size of the center points where there are flower leaves   
-.size = size of the flower leaves  
+* `cex` = size of the center points  
+* `cex.fact` = size of the center points where there are flower leaves   
+* `size` = size of the flower leaves  
 
 
 ### Three-dimensional
@@ -392,10 +390,10 @@ iris3d$plane3d(reg.plane)
 ![plot of chunk unnamed-chunk-15](./R40-PlottingInR_files/figure-html/unnamed-chunk-15.png) 
 
 Where:   
-.pch = type of symbol   
-.highlight.3d = the points will are colored according to the y coordinates     
-.type = "p" for points, "l" for lines, "h" for vertical lines   
-.plane3d = we draw a regression plane
+* `pch` = type of symbol   
+* `highlight.3d` = the points will are colored according to the y coordinates     
+* `type` = "p" for points, "l" for lines, "h" for vertical lines   
+* `plane3d` = we draw a regression plane
 
 
 It is possible to spin our 3d model with the mouse using the <b>rgl</b> package or the <b>Rcmdr</b> package.  
@@ -467,7 +465,7 @@ for(i in 1:length(opts)){
 ![plot of chunk unnamed-chunk-18](./R40-PlottingInR_files/figure-html/unnamed-chunk-18.png) 
 
 Where:   
-.mfrow = with this option we represent all the plots in the same page. To go back to only one plot per page, we write par(mfrow=c(1,1))    
+* `mfrow` = with this option we represent all the plots in the same page. To go back to only one plot per page, we write `par(mfrow=c(1,1))`
 * types
   * p = points  
   * l = lines  
@@ -477,8 +475,8 @@ Where:
   * s, S = stair steps  
   * h = vertical lines  
   * n = nothing   
-* plot = we create a plot where we will add the lines  
-* lines = lines to add to the created plot  
+* `plot` = we create a plot where we will add the lines  
+* `lines` = lines to add to the created plot  
 
 
 An example with our iris data:   
@@ -538,7 +536,7 @@ barplot(counts, main="Iris Distribution",
 ![plot of chunk unnamed-chunk-21](./R40-PlottingInR_files/figure-html/unnamed-chunk-21.png) 
 
 
-It is possible to plot the bars horizontal by adding horiz=TRUE to the code
+It is possible to plot the bars horizontal by adding `horiz=TRUE` to the code
 
 
 ### Stacked Bar Plot
@@ -621,8 +619,8 @@ hist(Petal,freq=FALSE, breaks=15,col="green")
 
 ![plot of chunk unnamed-chunk-26](./R40-PlottingInR_files/figure-html/unnamed-chunk-26.png) 
 
-* freq = to show densities instead of frequencies		
-* breaks = we can set up the number of bins		
+* `freq` = to show densities instead of frequencies		
+* `breaks` = we can set up the number of bins		
 
 
 We can add a <b>normal curve</b> to our histogram
@@ -700,12 +698,12 @@ boxplot(Petal.Length~Species,data=iris, main="Species Petal Length",
 ![plot of chunk unnamed-chunk-30](./R40-PlottingInR_files/figure-html/unnamed-chunk-30.png) 
 
 
-By adding varwidth=TRUE to the formula we can make the boxplot widths proportional to the square root of the samples sizes. 			
-By adding horizontal=TRUE we reverse the axis orientation.
+By adding `varwidth=TRUE` to the formula we can make the boxplot widths proportional to the square root of the samples sizes. 			
+By adding `horizontal=TRUE` we reverse the axis orientation.
 
 ### Interpreting boxplots 
 
-From Naomi Robbins' book: Creating More Effective Graphs: "The rectangle shows the interquartile range (IQR); it goes from the first quartile (the 25th percentile) to the third quartile (the 75th percentile). The whiskers go from the minimum value to the maximum value unless the distance from the minimum value to the first quartile is more than 1.5 times the IQR. In that case the whisker extends out to the smallest value within 1.5 times the IQR from the first quartile. A similar rule is used for values larger than 1.5 times IQR from the third quartile. A special symbol shows the values, called outliers, which are smaller or larger than the whiskers." pg.91
+From Naomi Robbins' book: [Creating More Effective Graphs](http://www.amazon.com/Creating-Effective-Graphs-Naomi-Robbins/dp/0985911123): "The rectangle shows the interquartile range (IQR); it goes from the first quartile (the 25<sup>th</sup> percentile) to the third quartile (the 75<sup>th</sup> percentile). The whiskers go from the minimum value to the maximum value unless the distance from the minimum value to the first quartile is more than 1.5 times the IQR. In that case the whisker extends out to the smallest value within 1.5 times the IQR from the first quartile. A similar rule is used for values larger than 1.5 times IQR from the third quartile. A special symbol shows the values, called outliers, which are smaller or larger than the whiskers." pg.91
 
 
 ### Notched Boxplot
