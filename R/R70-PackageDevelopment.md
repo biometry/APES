@@ -6,6 +6,8 @@ category: r
 
 Package development is a lot easier than you think. Follow the steps below, and you should have no problem. 
 
+## Basics
+
 ### Compiling a package
 
 Assuming you have the package in a local folder, and work with RStudio (both recommended)
@@ -35,12 +37,13 @@ We won't even bother explaining how to modify this file, because it doesn't make
 * Read [here](https://cran.r-project.org/web/packages/roxygen2/vignettes/rd.html) about how to work with Roxygen
 * The easiest way to do this during package development is to enable tick the Roxygen options in RStudio, project options, and then you can create the man files in the build menu
 
-### Advanced topics and further reading 
+## Advanced topics and further reading 
 
 Before you go on with package developments, read [this](http://r-pkgs.had.co.nz/) which explains all essentials in more detail!
 
-Special topics 
+Special topics
 
+* [Imports vs Depends](http://stackoverflow.com/questions/8637993/better-explanation-of-when-to-use-imports-depends)
 * Compiled code in the package see [here](http://r-pkgs.had.co.nz/src.html)
 * RCPP (integration or R and C++) see [here](http://dirk.eddelbuettel.com/code/rcpp.html)
 * Boost see [here](http://dirk.eddelbuettel.com/code/bh.html)
