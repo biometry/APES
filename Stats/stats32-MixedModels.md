@@ -23,11 +23,9 @@ Background: Remember that the assumptions of the linear regression were that
 
 The linear mixed model keeps assumptions 1. and 2b., but changes 2a: the variability doesn't need to be independent any more, but can be correlated between groups of data points. How this is done technically is that we assume that there is some random effect, typically written $$$e_i$$$, that comes from an extra distribution with it's own variability, and that is common for a group of data points. We write
 
-$$
-y ~ norm(response, \sigma)
-response = a x + b + e_i
-e_i ~ norm(0, \sigma^R)
-$$
+$$y ~ norm(response, \sigma)$$
+$$response = a x + b + e_i$$
+$$e_i ~ norm(0, \sigma^R)$$
 
 As you see, the variance from the random effect goes into the other normal distribution. A mixed model is therefore called a multi-level or hierarchical model.
 
