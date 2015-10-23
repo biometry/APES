@@ -17,7 +17,7 @@ opts_knit$set(global.par=TRUE)
 opts_chunk$set(cache.extra = rand_seed,fig.align='center')
 set.seed(2)
 ```
-For more details about plotting, please visit: https://github.com/biometry/APES/blob/master/R/R40-plottingInR.md
+For more details about plotting, please visit: [http://biometry.github.io/APES/R/R40-plottingInR.html](http://biometry.github.io/APES/R/R40-plottingInR.html)
 
 We will classify here the different plot methods according to their suitability to the variable analysis
 
@@ -28,7 +28,8 @@ Bar charts are appropiate to summarize categorical variables distributions
 ```{r}
 attach (mtcars)
 head(mtcars)
-fam= mtcars$fam=factor(mtcars$am, levels=c(0,1), labels=c("automatic","manual")) #we substract the variable Transmission (0 = automatic, 1 = manual) with "$" from the dataset 
+fam= mtcars$fam=factor(mtcars$am, levels=c(0,1), labels=c("automatic","manual"))
+#we substract the variable Transmission (0 = automatic, 1 = manual) with "$" from the dataset 
 head(mtcars)
 ```
 
@@ -48,16 +49,13 @@ percent
 Graphic representation of both with barplots
 ```{r}
 barplot(count)
-```
-
-```{r}
 barplot(percent)
 ```
 
 
 We add a title and x/y labels
 ```{r}
-barplot(percent,main="the title", xlab="transmission",ylab="%",las=1,ylim=c(0,1), names.arg=c("auto transm", "manual transm") )
+barplot(percent, main="the title", xlab="transmission", ylab="%", las=1, ylim=c(0,1), names.arg=c("auto transm", "manual transm") )
 ```
 
 
@@ -71,15 +69,8 @@ quantile(mpg)
 quantile(mpg,probs=c(0,0.20,0.40,0.60,0.80,1))
 
 boxplot(mpg,main="title", ylab="mpg", ylim=c(0,50), las=1)
-```
-
-```{r}
 boxplot(mpg~fam, main="mpg by transmission")
-```
-
-
-```{r}
-boxplot(mpg[fam=="automatic"],xlab="automatic")
+boxplot(mpg[fam=="automatic"], xlab="automatic")
 ```
 
 
@@ -91,15 +82,14 @@ hist(mpg)
 ```
 
 ```{r}
-hist(mpg,freq=FALSE,main="my histogram") #instead of counting the number of datapoints per bin, R can give the probability densities by using freq=FALSE 
-```
+#instead of counting the number of datapoints per bin, R can give the probability densities by using freq=FALSE
+hist(mpg,freq=FALSE,main="my histogram")
 
-
-```{r}
-hist(mpg,prob=TRUE,ylim=c(0,0.1)) #prob=T changes the y-axis from frequency counts to probability (to create density curves)
+#prob=T changes the y-axis from frequency counts to probability (to create density curves)
+hist(mpg,prob=TRUE,ylim=c(0,0.1))
 
 lines(density(mpg))  #add a density curve
-lines(density(mpg),col="red",lwd=3)
+lines(density(mpg), col="red", lwd=3)
 ```
 
 ![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-83.png)
@@ -116,7 +106,7 @@ Stem and Leaf plots are appropiate to summarize numerical variables distribution
 ```{r}
 stem(mpg)   
 ```
-?stem for more info
+`?stem` for more info
 There are 2 obs 10.4
 There is one obs 32.4 and one 32.9
  
@@ -127,24 +117,16 @@ Scatterplots are appropiate to summarize the relation between two numerical vari
 Relation ship between horsepower hp and consumption mpg
 ```{r}
 plot(mpg~hp) # y~x
-```
-
-
-
-```{r}
 plot(hp, mpg) # x,y
+plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon", las=1, col="red", xlim=c(0,400), cex =2 )
+#cex (plotting characters size times 2)
 ```
 
 
 ```{r}
-plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon",las=1,col="red", xlim=c(0,400), cex =2 )  #cex (plotting characters size times 2)
-```
-
-
-
-```{r}
-plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon",las=1,col="red", xlim=c(0,400), pch=8)  #pch (symbol type)
-abline(lm(mpg~hp),col="blue",lwd=5,lty=3) #add linear regression, line width and type
+plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon", las=1, col="red", xlim=c(0,400), pch=8) 
+#pch (symbol type)
+abline(lm(mpg~hp), col="blue", lwd=5, lty=3) #add linear regression, line width and type
 ```
 
 

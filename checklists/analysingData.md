@@ -13,16 +13,14 @@ We would hope you have followed our recommendations about [how to plan an experi
 
 Before we get technical, let's make sure we are certain what we want to find out. Write down the specific question that you want to answer with your data on paper, in a text document, or, even better, at the beginning of your R script! This helps you, and us if we need to help you. Make sure you formulate a QUANTITATIVE hypothesis or question.
 
-Good examples
-
+Good examples:
 * I want to test whether variable X of the replicates in the treatment is higher than variable X in the control replicates  
 
-Bad examples (too unspecific)
-
+Bad examples (too unspecific):
 * I want to know what oak trees like
 * Is there a difference between sites of type A and sites of type B 
  
-Again, ideally your question comes before your data, but just in case you haven't quite settled down on your question, please consider again that you might have a good question, but do you also have the data for this question? Can you hope that you have more or less controlled your confounding variables? See our checklist for [Planning an Experiment](/checklists/planningAnExperiment.md)
+Again, ideally your question comes before your data, but just in case you haven't quite settled down on your question, please consider again that you might have a good question, but do you also have the data for this question? Can you hope that you have more or less controlled your confounding variables? See our checklist for [Planning an Experiment](http://biometry.github.io/APES/checklists/planningExperiment.html)
 
 
 ## Preparing and cleaning the data
@@ -30,7 +28,6 @@ Again, ideally your question comes before your data, but just in case you haven'
 #### Start a new project
 
 In RStudio or whatever editor you are using, created file structure that makes sense, move raw data there. An example of a file structure could be 
-
 + data
 + scripts
 + output
@@ -56,14 +53,14 @@ That being said, as long as you don't adjust your hypothesis, look at the data i
 
 #### Decide on statistical method
 
-Ideally, as we recommend in our checklist for [Planning an Experiment](/checklists/planningAnExperiment.md), you can skip this step because you have already decided on an analysis method during your experimental planning, and have desiged your experiment or data collection for this method.
+Ideally, as we recommend in our checklist for [Planning an Experiment](http://biometry.github.io/APES/checklists/planningExperiment.html), you can skip this step because you have already decided on an analysis method during your experimental planning, and have desiged your experiment or data collection for this method.
 
-Yet, as experience has taught us you might have not, you might want to look at the decision tree [here](/checklists/whichAnalysis.md), noting that is not a complete replacement for getting an overview of the methods of statistics.
+Yet, as experience has taught us you might have not, you might want to look at the decision tree [here](http://biometry.github.io/APES/checklists/whichAnalysis.html), noting that is not a complete replacement for getting an overview of the methods of statistics.
 
 
 #### Perform statistical analysis
 
-* Record outputs, e.g. as file. Also R markdown is great to record everything you did https://support.rstudio.com/hc/en-us/articles/200552086-Using-R-Markdown
+* Record outputs, e.g. as file. Also R markdown is great to record everything you did [https://support.rstudio.com/hc/en-us/articles/200552086-Using-R-Markdown](https://support.rstudio.com/hc/en-us/articles/200552086-Using-R-Markdown)
 * Hopefull you're done.
 
 

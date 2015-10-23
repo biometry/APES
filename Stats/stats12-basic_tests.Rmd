@@ -657,10 +657,8 @@ detach(mtcars)
 
 
 
-####References
+#### References
 
-* Ruxton, G. D. (2006). The unequal variance t-test is an underused alternative to Student??????s t-test and the Mann-Whitney U test. Behavioral Ecology, 17, 688??????690.
-
-* Zimmerman, D. W. (2012). A note on consistency of non-parametric rank tests and related rank transformations. British Journal of Mathematical and Statistical Psychology, 65, 122??????44.
-
-* http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html
+* Ruxton, G. D. (2006). The unequal variance t-test is an underused alternative to Student??????s t-test and the Mann-Whitney U test. Behavioral Ecology, 17, 688-690.
+* Zimmerman, D. W. (2012). A note on consistency of non-parametric rank tests and related rank transformations. British Journal of Mathematical and Statistical Psychology, 65, 122-44.
+* [http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html](http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html)

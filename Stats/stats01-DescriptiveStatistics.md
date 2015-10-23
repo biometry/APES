@@ -28,7 +28,7 @@ Experience shows that there is certain tendency of beginners to use categorical 
 ## Types of descriptive statstics
 
 * Plotting and visualisation
- * [Plotting with R](https://github.com/biometry/APES/blob/master/R/R40-plottingInR.md)
+ * [Plotting with R](http://biometry.github.io/APES/R/R40-plottingInR.html)
 * Transformations and summary statistics
 
 

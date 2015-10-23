@@ -38,17 +38,18 @@ We can say that a distribution is normally distributed when:
 
 7) Approximately 95% of the area of a normal distribution is within two standard deviations of the mean.
 
-Normal distribution 
+
+**Normal distribution**
 
 Simulation of the weight of 1570 adult males normally distributed
 ```{r}
 data1=rnorm(1570,mean=75,sd=8)
-hist(data1,main="Adult male weights",xlab="adult male weight",col="red",las=1)
+hist(data1, main="Adult male weights", xlab="adult male weight", col="red", las=1)
 ```
 
 Load example data
 ```{r}
-data = read.table("../Data/Simone/das.txt",header=T)
+data = read.table("../Data/Simone/das.txt", header=T)
 summary(data)
 ```
 
@@ -58,7 +59,7 @@ attach(data) #command search() helps to verify what is/is not attached)
 par(mfrow=c(2,2)) #to divide the plot window
 plot(y)
 boxplot(y)
-hist(y,breaks=20)
+hist(y, breaks=20)
 y2=y
 y2[52]=21.75 # to change the 52nd value for 21.75 instead of 2.175:
 plot(y2)     #very good to spot mistakes, outliers
@@ -74,7 +75,7 @@ Exceptions from normality show up different sorts of non-linearity (e.g. S-shape
 
 ```{r}
 qqnorm(y)
-qqline(y,lty=2,col=2,lwd=3)
+qqline(y,lty=2, col=2, lwd=3)
 ```
 ![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-5.png)
 
@@ -101,14 +102,14 @@ boxplot(x)
 ![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-72.png)
 
 ```{r}
-hist(x,breaks=50)
+hist(x, breaks=50)
 ```
 
 ![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-73.png)
 
 ```{r}
 qqnorm(x)
-qqline(x,lty=2,col=2,lwd=3)
+qqline(x, lty=2, col=2, lwd=3)
 ```
 
 ![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-74.png)
@@ -130,26 +131,28 @@ Correlation tests measure the relationship between variables. This relationship 
 
 ```{r}
 attach(mtcars)  
-plot(hp,wt, main="scatterplot",las=1, xlab ="gross horse power", ylab="Weight (lb/1000)")
+plot(hp, wt, main="scatterplot",las=1, xlab ="gross horse power", ylab="Weight (lb/1000)")
 ```
 ![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-8.png)
 
 Compute the three correlation coefficients
 ```{r}
-cor(hp,wt,method="pearson")
-cor(hp,wt)#Pearson is the default method; the order of variables is not important
-cor(hp,wt,method="spearman")
-cor(hp,wt,method="kendal")
+cor(hp, wt, method="pearson")
+cor(hp, wt) #Pearson is the default method; the order of variables is not important
+cor(hp, wt, method="spearman")
+cor(hp, wt, method="kendal")
 ```
 
 Test the null hypothesis, that means that the correlation is 0 (there is no correlation)
 ```{r}
-cor.test(hp,wt,method="pearson") #Pearson correlation test
+cor.test(hp, wt, method="pearson") #Pearson correlation test
 
-cor.test(hp,wt,method="spearman") #Spearmn is a non-parametric, thus it is not possible to get CIs. There is a error message because R cannot compute exact p values (the test is based on ranks, we have few cars with the same hp or wt).We can get rid off the warning letting R know that approximate values are fine
-cor.test(hp,wt,method="spearman",exact=F) 
+cor.test(hp, wt, method="spearman")
+#Spearmn is a non-parametric, thus it is not possible to get CIs. There is a error message because R cannot compute exact p values (the test is based on ranks, we have few cars with the same hp or wt).
+#We can get rid off the warning letting R know that approximate values are fine
+cor.test(hp, wt, method="spearman", exact=F) 
 
-cor.test(hp,wt,method="kendal",exact=F) #same happens with Kendal correlation test
+cor.test(hp, wt, method="kendal", exact=F) #same happens with Kendal correlation test
 ```
 
 When we have non-parametric data and we do not know which correlation method to choose, as a rule of thumb, if the correlation looks non-linear, Kendall tau should be better than Spearman Rho.
@@ -157,7 +160,7 @@ When we have non-parametric data and we do not know which correlation method to 
 
 ## Further handy functions for correlations
 
-Plot all possible combinations with "pairs"
+Plot all possible combinations with `pairs`
 ```{r}
 pairs(mtcars)  # all possible pairwise plots
 ```
@@ -178,4 +181,4 @@ cor(mtcars[,c(1,4,6)])
 detach(mtcars)
 ```
 
-http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html
+[http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html](http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html)

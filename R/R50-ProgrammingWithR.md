@@ -6,13 +6,13 @@ category: r
 
 ## Basic programming 
 
-For learning more about programming in R, I suggest that you check out
+For learning more about programming in R, I suggest that you check out:
 
 * [Advanced Programming in R](http://adv-r.had.co.nz/)
 * A "web book" (in html) called "[Ramarrow](http://www.quantide.com/R/ramarro/)" (the Italian name for Green Lizard/Smaragdeichse *Lacerta* spec.) on "R for Developers". A technical and example-rich introduction to programming with R, incl. S3/S4 classes, package production, debugging and alike.
 * Ben Bolker's [Ecological models and data with R](http://ms.mcmaster.ca/~bolker/emdbook/)
-* Pitfalls of the R language http://www.burns-stat.com/documents/books/the-r-inferno/
-* For Germans - Ligges, U. (2008) Programmieren mit R. Springer. is a great book!
+* [Pitfalls of the R language](http://www.burns-stat.com/documents/books/the-r-inferno/)
+* For Germans - Ligges, U. (2008) [Programmieren mit R](http://www.springer.com/us/book/9783540799979). Springer. is a great book!
 
 
 ## Efficient R code
@@ -25,17 +25,16 @@ Basic laws are:
 * Avoid reasignment or copying of large variables
 * Prefer using in-built functions, particularly if they are compiled
 
-For a more in-depth discussion, see
-
-* [here](http://adv-r.had.co.nz/Performance.html)
+For a more in-depth discussion, see [here](http://adv-r.had.co.nz/Performance.html)
 
 If you have severe runtime problems, consider paralellization and or moving code to c/c++.
 
 ## Parallelization
 
-* https://github.com/berkeley-scf/tutorial-parallel-basics/blob/master/parallel-basics.Rmd
-
-* https://github.com/timchurches/smaRts/blob/master/parallel-package/R-parallel-package-example.md
+* [parallel-basics](https://github.com/berkeley-scf/tutorial-parallel-basics/blob/master/parallel-basics.Rmd)
+* [R-parallel-package-example](https://github.com/timchurches/smaRts/blob/master/parallel-package/R-parallel-package-example.md)
+* [Getting Started with doParallel and foreach](https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf)
+* [Using The foreach Package](https://cran.r-project.org/web/packages/foreach/vignettes/foreach.pdf)
 
 
 

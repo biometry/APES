@@ -43,11 +43,11 @@ For one thing, by doing this, you will often find the problem. And secondly, it 
 
 If you couldn't resolve your problem, despite taking all steps above, you need to get help. You can do this by going to your supervisor, or posting a problem on the internet.
 
-Be adviced that in either case, the people that you are asking for help are quite busy. They can expect that you have already done everything you could to resolve the proplem, and that you prepared the things that you can't resolve in a way that makes them easy to give you help. Particularly on the internet, people can get very annoyed if you don't present your problem in the form that is most easy for them to address, i.e. as a minimal example (see above). Read, for example, http://www.r-project.org/posting-guide.html
+Be adviced that in either case, the people that you are asking for help are quite busy. They can expect that you have already done everything you could to resolve the proplem, and that you prepared the things that you can't resolve in a way that makes them easy to give you help. Particularly on the internet, people can get very annoyed if you don't present your problem in the form that is most easy for them to address, i.e. as a minimal example (see above). Read, for example, [http://www.r-project.org/posting-guide.html](http://www.r-project.org/posting-guide.html)
 
 Apart from your supervisor, common places on the internet that provide R help are 
 
-* The [big R mailing lists](http://www.r-project.org/mail.html , see also the special interest groups)
+* The [big R mailing lists](http://www.r-project.org/mail.html), see also the special interest groups
 * [Stackexchange](http://stats.stackexchange.com/)
 
 The R universe has several layers and it is sometimes difficult to understand, how to find help for a special layer. This link may help you: http://www.r-bloggers.com/21-r-navigation-tools/

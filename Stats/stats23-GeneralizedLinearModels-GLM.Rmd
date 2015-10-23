@@ -572,15 +572,14 @@ detach(cfc)
 
 ### Multinomial
 
-* mlogit: base package for estimating multinomial logit models http://cran.r-project.org/web/packages/mlogit/index.html 
+* [mlogit](http://cran.r-project.org/web/packages/mlogit/index.html ): base package for estimating multinomial logit models
 
 ### Ordered regression
 
-* ordinal: Regression Models for Ordinal Data. Implementation of cumulative link (mixed) models also known as ordered regression models, proportional odds models, proportional hazards models for grouped survival times and ordered logit/probit/... models. http://www.cran.r-project.org/web/packages/ordinal/index.html
+* [ordinal](http://www.cran.r-project.org/web/packages/ordinal/index.html): Regression Models for Ordinal Data. Implementation of cumulative link (mixed) models also known as ordered regression models, proportional odds models, proportional hazards models for grouped survival times and ordered logit/probit/... models. 
 
 
 
 ## Links
 
-http://blog.revolutionanalytics.com/2014/04/some-r-resources-for-glms.html
-
+[http://blog.revolutionanalytics.com/2014/04/some-r-resources-for-glms.html](http://blog.revolutionanalytics.com/2014/04/some-r-resources-for-glms.html)

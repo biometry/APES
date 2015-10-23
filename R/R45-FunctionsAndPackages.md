@@ -7,13 +7,13 @@ category: r
 
 ## Built-in functions
 
-R has a quite extensive set of base functions that come with each R distrution. It is possible to get a complete list by typing <i>builtins()</i> in the R console. Some examples of R functions [here](http://www.sr.bham.ac.uk/~ajrs/R/r-function_list.html) and [here](http://www.statmethods.net/management/functions.html.
+R has a quite extensive set of base functions that come with each R distrution. It is possible to get a complete list by typing <i>`builtins()`</i> in the R console. Some examples of R functions [here](http://www.sr.bham.ac.uk/~ajrs/R/r-function_list.html) and [here](http://www.statmethods.net/management/functions.html).
 
-* https://support.rstudio.com/hc/en-us/articles/201057987-Quick-list-of-useful-R-packages
+* [Quick-list-of-useful-R-packages](https://support.rstudio.com/hc/en-us/articles/201057987-Quick-list-of-useful-R-packages)
 
 ## Getting help on functions
 
-RStudio has a help tab in the right part of the window. You can search there, or type ?functionName in the console. The easiest, however, is to put the cursor on a function name and press F1. 
+RStudio has a help tab in the right part of the window. You can search there, or type `?functionName` in the console. The easiest, however, is to put the cursor on a function name and press F1. 
 
 Some extended help functions in the console:
 
@@ -60,6 +60,13 @@ A longer-term solution in this case though is to modify the .Renviron file with 
 
 Alternatively, in RStudio, one can install packages in <i>Tools-> Install Packages</i>. We can then select if we want to install it from the repository or from an archive file and whereis the library where it will be installed. Once installed, we can activate clicking on its correspondent box in the bottom right window from RStudio.
 
+## Installing R packages from github
 
+You can install packages which are not in the cran yet or install a developmental version of a package using the [`devtools`](https://github.com/hadley/) package. Instruction on how to install/update to the latest version of `devtools` can be found [here](https://github.com/hadley/devtools#updating-to-the-latest-version-of-devtools).
 
-
+**Example:**  Installing the current *developmental* version of `spatstat` package
+```{r}
+install.packages("devtools")
+library(devtools)
+devtools::install_github("spatstat/spatstat")
+```
