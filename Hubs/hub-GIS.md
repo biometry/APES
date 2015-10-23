@@ -12,3 +12,4 @@ category: hubs
  * [mapview - basic interactive viewing of spatial data in R](http://environmentalinformatics-marburg.github.io/web-presentations/20150723_mapView.html)
  * [Intro to GIS mapping in R](http://remi-daigle.github.io/GIS_mapping_in_R/)
  * Making Maps in R: [here](http://kevjohnson.org/making-maps-in-r/) and [here](http://www.kevjohnson.org/making-maps-in-r-part-2/)
+ * Raster plotting using rasterVis: [Click here](http://oscarperpinan.github.io/rastervis/)
