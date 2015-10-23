@@ -21,7 +21,7 @@ Background: Remember that the assumptions of the linear regression were that
   a. iid
   b. normal (gaussian)
 
-The linear mixed model keeps assumptions 1. and 2b., but changes 2a: the variability doesn't need to be independent any more, but can be correlated between groups of data points. How this is done technically is that we assume that there is some random effect, typically written $$$e_i$$$, that comes from an extra distribution with it's own variability, and that is common for a group of data points. We write
+The linear mixed model keeps assumptions 1. and 2b., but changes 2a: the variability doesn't need to be independent any more, but can be correlated between groups of data points. How this is done technically is that we assume that there is some random effect, typically written $e_i$, that comes from an extra distribution with it's own variability, and that is common for a group of data points. We write
 
 $$y ~ norm(response, \sigma)$$
 $$response = a x + b + e_i$$
