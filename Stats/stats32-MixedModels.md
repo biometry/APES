@@ -8,7 +8,7 @@ maintainer: Florian Hartig
 contributor: Carsten Dormann
 ---
 
-# Mixed models - the basics
+**Synopsis**: Mixed models are regression models that have an added **random effect**. A random effect describes variability in a grouping variable, i.e. plot or individual (assuming we have several observations for each plot / individual)
 
 ## The linear mixed model (LMM)
 
