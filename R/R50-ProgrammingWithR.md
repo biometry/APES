@@ -30,11 +30,16 @@ For a more in-depth discussion, see [here](http://adv-r.had.co.nz/Performance.ht
 If you have severe runtime problems, consider paralellization and or moving code to c/c++.
 
 ## Parallelization
+Useful links:
 
 * [parallel-basics](https://github.com/berkeley-scf/tutorial-parallel-basics/blob/master/parallel-basics.Rmd)
 * [R-parallel-package-example](https://github.com/timchurches/smaRts/blob/master/parallel-package/R-parallel-package-example.md)
 * [Getting Started with doParallel and foreach](https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf)
 * [Using The foreach Package](https://cran.r-project.org/web/packages/foreach/vignettes/foreach.pdf)
+* [R parallel WIKI](https://github.com/tobigithub/R-parallel/wiki)
+* [Easier Parallel Computing in R with snowfall and sfCluster](https://journal.r-project.org/archive/2009-1/RJournal_2009-1_Knaus+et+al.pdf)
+* [Developing parallel programs using snowfall](https://cran.r-project.org/web/packages/snowfall/vignettes/snowfall.pdf)
+* [A Survey of R Software for Parallel Computing](http://pubs.sciepub.com/ajams/2/4/9/)
 
 
 
