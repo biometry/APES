@@ -19,6 +19,8 @@ synopsis:
 * [QuickR overview](http://www.statmethods.net/stats/power.html)
 * see [session 4](https://github.com/biometry/APES/tree/master/LectureNotes/MixedEffectModels/Session4) of our mixed model lecture series, at the very end. 
 
+* http://bartomeuslab.com/2015/10/23/power-analysis-for-mixed-models/
+* https://github.com/pitakakariki/simr
 
 
 ### Questionnaires
