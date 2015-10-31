@@ -11,7 +11,7 @@ synopsis:
 ### References on the considerations of experimental design
 
 
-* Read the chapter about experimental design [here](https://github.com/florianhartig/ResearchSkills/raw/master/Labs/Statistics/Script/EssentialStatistics.pdf)
+* Read the chapter about experimental design [here](https://www.dropbox.com/s/8fmh10fdn6jd2xb/EssentialStatistics.pdf?dl=0)
 
 
 ### Power analysis
