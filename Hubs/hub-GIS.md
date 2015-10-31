@@ -13,4 +13,4 @@ category: hubs
  * [Intro to GIS mapping in R](http://remi-daigle.github.io/GIS_mapping_in_R/)
  * Making Maps in R: [here](http://kevjohnson.org/making-maps-in-r/) and [here](http://www.kevjohnson.org/making-maps-in-r-part-2/)
  * Raster plotting using rasterVis: [Click here](http://oscarperpinan.github.io/rastervis/)
- * http://www.noamross.net/blog/2015/2/20/mapping-in-R-peek-tobias.html
+ * [Talk mapping in R](http://www.noamross.net/blog/2015/2/20/mapping-in-R-peek-tobias.html)
