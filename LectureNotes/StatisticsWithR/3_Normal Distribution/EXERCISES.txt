@@ -1,0 +1,14 @@
+EXERCISE
+-> plot the probability density function for a normal distribution
+mean = 100
+sd = 25
+
+
+
+
+#create vector
+x = seq(from = 0,to = 200,by = 1)
+#compute the values for the probability density function
+dens = dnorm(x, mean = 100, sd = 25)
+plot(x, dens, type="l", main="X~Normal: Mean = 100, SD = 25",xlab = "x", ylab = "Propability Density",las = 1)
+abline(v = 100,col = 2,lty = 2,lwd = 3)
