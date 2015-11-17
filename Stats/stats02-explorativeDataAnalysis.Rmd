@@ -11,24 +11,37 @@ category: stats
 subcategory: Descriptive statistics
 ---
 
-```{r}
+```{r, echo=F}
 library(knitr)
 opts_knit$set(global.par=TRUE) 
 opts_chunk$set(cache.extra = rand_seed,fig.align='center')
 set.seed(2)
 ```
-For more details about plotting, please visit: [http://biometry.github.io/APES/R/R40-plottingInR.html](http://biometry.github.io/APES/R/R40-plottingInR.html)
 
-We will classify here the different plot methods according to their suitability to the variable analysis
 
-# Categorical Variables
-## Bar charts
+Explorative data analysis has the goal to explore and describe the patterns in your data, without any particular hypothesis. 
 
-Bar charts are appropiate to summarize categorical variables distributions
+
+## Good introductions on this topic
+
+* See further discussion in the [Essential Statistics](https://www.dropbox.com/s/8fmh10fdn6jd2xb/EssentialStatistics.pdf?dl=0) lecture notes, chapter on descriptive statistics as well as appendix on graphics and summary statistics
+
+* For more details about plotting, please visit: [http://biometry.github.io/APES/R/R40-plottingInR.html](http://biometry.github.io/APES/R/R40-plottingInR.html)
+
+
+## Some examples in R
+
+### Exploring categorical data 
+
+
+#### Summary statistics
+
+Some piece of information that gives a quick and simple description of the data.
+
 ```{r}
-attach (mtcars)
+attach(mtcars)
 head(mtcars)
-fam= mtcars$fam=factor(mtcars$am, levels=c(0,1), labels=c("automatic","manual"))
+fam=mtcars$fam=factor(mtcars$am, levels=c(0,1), labels=c("automatic","manual"))
 #we substract the variable Transmission (0 = automatic, 1 = manual) with "$" from the dataset 
 head(mtcars)
 ```
@@ -46,114 +59,22 @@ percent=table(fam)/length(fam)
 percent
 ```
 
-Graphic representation of both with barplots
+
+#### Bar charts
+
+Bar charts are appropiate to summarize categorical variables distributions
+
 ```{r}
-barplot(count)
-barplot(percent)
+barplot(percent, main="Percentage of cars with / without transmission", xlab="transmission", ylab="%", las=1, ylim=c(0,1), names.arg=c("auto transm", "manual transm") )
 ```
 
 
-We add a title and x/y labels
-```{r}
-barplot(percent, main="the title", xlab="transmission", ylab="%", las=1, ylim=c(0,1), names.arg=c("auto transm", "manual transm") )
-```
-
-
-# Numerical Variables
-## Boxplot 
-
-Boxplots are appropiate to summarize numerical variables distributions
-```{r}
-summary(mpg)
-quantile(mpg)
-quantile(mpg,probs=c(0,0.20,0.40,0.60,0.80,1))
-
-boxplot(mpg,main="title", ylab="mpg", ylim=c(0,50), las=1)
-boxplot(mpg~fam, main="mpg by transmission")
-boxplot(mpg[fam=="automatic"], xlab="automatic")
-```
-
-
-## Histograms 
-
-Histograms are appropiate to summarize numerical variables distributions
-```{r}
-hist(mpg)
-```
-
-```{r}
-#instead of counting the number of datapoints per bin, R can give the probability densities by using freq=FALSE
-hist(mpg,freq=FALSE,main="my histogram")
-
-#prob=T changes the y-axis from frequency counts to probability (to create density curves)
-hist(mpg,prob=TRUE,ylim=c(0,0.1))
-
-lines(density(mpg))  #add a density curve
-lines(density(mpg), col="red", lwd=3)
-```
-
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-83.png)
-
-```{r}
-hist(mpg,breaks=seq(10,36,by=2),las=1)
-```
+### Exploring continous / categorical data
 
 
 
-## Stem and Leaf Plots 
+#### Summary statistics
 
-Stem and Leaf plots are appropiate to summarize numerical variables distributions (low sample size)
-```{r}
-stem(mpg)   
-```
-`?stem` for more info
-There are 2 obs 10.4
-There is one obs 32.4 and one 32.9
- 
-## Scatterplots 
-
-Scatterplots are appropiate to summarize the relation between two numerical variables 
-
-Relation ship between horsepower hp and consumption mpg
-```{r}
-plot(mpg~hp) # y~x
-plot(hp, mpg) # x,y
-plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon", las=1, col="red", xlim=c(0,400), cex =2 )
-#cex (plotting characters size times 2)
-```
-
-
-```{r}
-plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon", las=1, col="red", xlim=c(0,400), pch=8) 
-#pch (symbol type)
-abline(lm(mpg~hp), col="blue", lwd=5, lty=3) #add linear regression, line width and type
-```
-
-
-```{r}
-x = 1:20
-plot(x,pch=x,cex=3)
-```
-
-
-
-# Summary statistics
-
-Some piece of information that gives a quick and simple description of the data.
-
-For a categorical variable, like "fam"
-```{r}
-table(fam)
-
-table(fam)/length(fam)
-```
-
-Contingency table (2-way table)
-```{r}
-table(mpg,fam) #vertical table
-
-table(fam,mpg) # horizontal table
-```
 
 For a numerical variable, like "mpg"
 ```{r}
@@ -168,3 +89,47 @@ max(mpg)
 tapply(mpg,fam,mean)
 tapply(mpg,list(fam,gear),mean)
 ```
+
+#### Boxplot 
+
+Boxplots are appropiate to summarize numerical variables distributions
+```{r}
+summary(mpg)
+quantile(mpg)
+quantile(mpg,probs=c(0,0.20,0.40,0.60,0.80,1))
+
+boxplot(mpg~fam, main="mpg by transmission")
+```
+
+#### Histograms 
+
+Histograms are appropiate to summarize numerical variables distributions
+```{r}
+hist(mpg)
+```
+
+#### Stem and Leaf Plots 
+
+Stem and Leaf plots are appropiate to summarize numerical variables distributions (low sample size)
+```{r}
+stem(mpg)   
+```
+`?stem` for more info
+There are 2 obs 10.4
+There is one obs 32.4 and one 32.9
+ 
+#### Scatterplots 
+
+Scatterplots are appropiate to summarize the relation between two numerical variables 
+
+Relation ship between horsepower hp and consumption mpg
+```{r}
+plot(mpg~hp) # y~x
+plot(hp, mpg) # x,y
+plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon", las=1, col="red", xlim=c(0,400), cex =2 )
+#cex (plotting characters size times 2)
+```
+
+
+
+

@@ -7,7 +7,9 @@ permalink: /Stats/
 labels: main
 ---
 
-# What are the goals of statistics / data analysis
+A more complete discussion of the goals and fields of statistics is available in through the [Essential Statistics](https://www.dropbox.com/s/8fmh10fdn6jd2xb/EssentialStatistics.pdf?dl=0) lecture notes
+
+### What are the goals of statistics / data analysis
 
 Toolbox to help us finding out 
 
@@ -16,13 +18,11 @@ Toolbox to help us finding out
 
 As with any complicated tool, you have to know how to use it. If you press the wrong buttons, you'll get the wrong result. 
 
-# What are the problems?
+### What are the problems?
 
+Correlation is not causality, validity, reproducibility, researchers degrees of freedom, choice of the appropriate statistics
 
-Correlation is not causality, Explain validity, correlation != causal, reproducibility, common problems and tricks that lead to p-value inflation etc.
-
-# Branches of statistics / data science
-
+### Branches of statistics / data science
 
 * Descriptive statistics is the branch of statistical methods that basically display data, but do not directly draw conclusions from the data.
 
@@ -30,9 +30,11 @@ Correlation is not causality, Explain validity, correlation != causal, reproduci
 
 * A further branch of statistics that has become important recently are methods that concentrate on predictions, in particular the so-called machine-learning methods.
 
+* Finally, somewhat perpendicular to the others, there is the field of experimental design, which is concerned with how to collect data
 
-# An intro via youtube 
+See more discussion in the [Essential Statistics](https://www.dropbox.com/s/8fmh10fdn6jd2xb/EssentialStatistics.pdf?dl=0) lecture notes
 
+### An intro via youtube 
 
 [![Video](http://img.youtube.com/vi/2wLfFB_6SKI/0.jpg)](https://www.youtube.com/watch?v=2wLfFB_6SKI)
 

@@ -5,23 +5,31 @@ category: stats
 subcategory: Descriptive statistics
 ---
 
+
+
+
+Explorative data analysis has the goal to explore and describe the patterns in your data, without any particular hypothesis. 
+
+
+## Good introductions on this topic
+
+* See further discussion in the [Essential Statistics](https://www.dropbox.com/s/8fmh10fdn6jd2xb/EssentialStatistics.pdf?dl=0) lecture notes, chapter on descriptive statistics as well as appendix on graphics and summary statistics
+
+* For more details about plotting, please visit: [http://biometry.github.io/APES/R/R40-plottingInR.html](http://biometry.github.io/APES/R/R40-plottingInR.html)
+
+
+## Some examples in R
+
+### Exploring categorical data 
+
+
+#### Summary statistics
+
+Some piece of information that gives a quick and simple description of the data.
+
+
 ```r
-library(knitr)
-opts_knit$set(global.par=TRUE) 
-opts_chunk$set(cache.extra = rand_seed,fig.align='center')
-set.seed(2)
-```
-For more details about plotting, please visit: https://github.com/biometry/APES/blob/master/R/R40-plottingInR.md
-
-We will classify here the different plot methods according to their suitability to the variable analysis
-
-# Categorical Variables
-## Bar charts
-
-Bar charts are appropiate to summarize categorical variables distributions
-
-```r
-attach (mtcars)
+attach(mtcars)
 head(mtcars)
 ```
 
@@ -36,7 +44,8 @@ head(mtcars)
 ```
 
 ```r
-fam= mtcars$fam=factor(mtcars$am, levels=c(0,1), labels=c("automatic","manual")) #we substract the variable Transmission (0 = automatic, 1 = manual) with "$" from the dataset 
+fam=mtcars$fam=factor(mtcars$am, levels=c(0,1), labels=c("automatic","manual"))
+#we substract the variable Transmission (0 = automatic, 1 = manual) with "$" from the dataset 
 head(mtcars)
 ```
 
@@ -93,279 +102,25 @@ percent
 ##   0.59375   0.40625
 ```
 
-Graphic representation of both with barplots
+
+#### Bar charts
+
+Bar charts are appropiate to summarize categorical variables distributions
+
 
 ```r
-barplot(count)
+barplot(percent, main="Percentage of cars with / without transmission", xlab="transmission", ylab="%", las=1, ylim=c(0,1), names.arg=c("auto transm", "manual transm") )
 ```
 
 <img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-5-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 
-```r
-barplot(percent)
-```
+### Exploring continous / categorical data
 
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-6-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 
-We add a title and x/y labels
+#### Summary statistics
 
-```r
-barplot(percent,main="the title", xlab="transmission",ylab="%",las=1,ylim=c(0,1), names.arg=c("auto transm", "manual transm") )
-```
-
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-7-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-
-# Numerical Variables
-## Boxplot 
-
-Boxplots are appropiate to summarize numerical variables distributions
-
-```r
-summary(mpg)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   10.40   15.42   19.20   20.09   22.80   33.90
-```
-
-```r
-quantile(mpg)
-```
-
-```
-##     0%    25%    50%    75%   100% 
-## 10.400 15.425 19.200 22.800 33.900
-```
-
-```r
-quantile(mpg,probs=c(0,0.20,0.40,0.60,0.80,1))
-```
-
-```
-##    0%   20%   40%   60%   80%  100% 
-## 10.40 15.20 17.92 21.00 24.08 33.90
-```
-
-```r
-boxplot(mpg,main="title", ylab="mpg", ylim=c(0,50), las=1)
-```
-
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-8-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-
-```r
-boxplot(mpg~fam, main="mpg by transmission")
-```
-
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-9-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-
-
-```r
-boxplot(mpg[fam=="automatic"],xlab="automatic")
-```
-
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-10-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-
-## Histograms 
-
-Histograms are appropiate to summarize numerical variables distributions
-
-```r
-hist(mpg)
-```
-
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-11-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-
-```r
-hist(mpg,freq=FALSE,main="my histogram") #instead of counting the number of datapoints per bin, R can give the probability densities by using freq=FALSE 
-```
-
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-12-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-
-
-```r
-hist(mpg,prob=TRUE,ylim=c(0,0.1)) #prob=T changes the y-axis from frequency counts to probability (to create density curves)
-
-lines(density(mpg))  #add a density curve
-lines(density(mpg),col="red",lwd=3)
-```
-
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-13-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-83.png)
-
-
-```r
-hist(mpg,breaks=seq(10,36,by=2),las=1)
-```
-
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-14-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-
-
-## Stem and Leaf Plots 
-
-Stem and Leaf plots are appropiate to summarize numerical variables distributions (low sample size)
-
-```r
-stem(mpg)   
-```
-
-```
-## 
-##   The decimal point is at the |
-## 
-##   10 | 44
-##   12 | 3
-##   14 | 3702258
-##   16 | 438
-##   18 | 17227
-##   20 | 00445
-##   22 | 88
-##   24 | 4
-##   26 | 03
-##   28 | 
-##   30 | 44
-##   32 | 49
-```
-?stem for more info
-There are 2 obs 10.4
-There is one obs 32.4 and one 32.9
- 
-## Scatterplots 
-
-Scatterplots are appropiate to summarize the relation between two numerical variables 
-
-Relation ship between horsepower hp and consumption mpg
-
-```r
-plot(mpg~hp) # y~x
-```
-
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-16-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-
-
-
-```r
-plot(hp, mpg) # x,y
-```
-
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-17-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-
-
-```r
-plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon",las=1,col="red", xlim=c(0,400), cex =2 )  #cex (plotting characters size times 2)
-```
-
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-18-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-
-
-
-```r
-plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon",las=1,col="red", xlim=c(0,400), pch=8)  #pch (symbol type)
-abline(lm(mpg~hp),col="blue",lwd=5,lty=3) #add linear regression, line width and type
-```
-
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-19-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-
-
-```r
-x = 1:20
-plot(x,pch=x,cex=3)
-```
-
-<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-20-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-
-
-# Summary statistics
-
-Some piece of information that gives a quick and simple description of the data.
-
-For a categorical variable, like "fam"
-
-```r
-table(fam)
-```
-
-```
-## fam
-## automatic    manual 
-##        19        13
-```
-
-```r
-table(fam)/length(fam)
-```
-
-```
-## fam
-## automatic    manual 
-##   0.59375   0.40625
-```
-
-Contingency table (2-way table)
-
-```r
-table(mpg,fam) #vertical table
-```
-
-```
-##       fam
-## mpg    automatic manual
-##   10.4         2      0
-##   13.3         1      0
-##   14.3         1      0
-##   14.7         1      0
-##   15           0      1
-##   15.2         2      0
-##   15.5         1      0
-##   15.8         0      1
-##   16.4         1      0
-##   17.3         1      0
-##   17.8         1      0
-##   18.1         1      0
-##   18.7         1      0
-##   19.2         2      0
-##   19.7         0      1
-##   21           0      2
-##   21.4         1      1
-##   21.5         1      0
-##   22.8         1      1
-##   24.4         1      0
-##   26           0      1
-##   27.3         0      1
-##   30.4         0      2
-##   32.4         0      1
-##   33.9         0      1
-```
-
-```r
-table(fam,mpg) # horizontal table
-```
-
-```
-##            mpg
-## fam         10.4 13.3 14.3 14.7 15 15.2 15.5 15.8 16.4 17.3 17.8 18.1 18.7
-##   automatic    2    1    1    1  0    2    1    0    1    1    1    1    1
-##   manual       0    0    0    0  1    0    0    1    0    0    0    0    0
-##            mpg
-## fam         19.2 19.7 21 21.4 21.5 22.8 24.4 26 27.3 30.4 32.4 33.9
-##   automatic    2    0  0    1    1    1    1  0    0    0    0    0
-##   manual       0    1  2    1    0    1    0  1    1    2    1    1
-```
 
 For a numerical variable, like "mpg"
 
@@ -444,3 +199,111 @@ tapply(mpg,list(fam,gear),mean)
 ## automatic 16.10667 21.050    NA
 ## manual          NA 26.275 21.38
 ```
+
+#### Boxplot 
+
+Boxplots are appropiate to summarize numerical variables distributions
+
+```r
+summary(mpg)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   10.40   15.42   19.20   20.09   22.80   33.90
+```
+
+```r
+quantile(mpg)
+```
+
+```
+##     0%    25%    50%    75%   100% 
+## 10.400 15.425 19.200 22.800 33.900
+```
+
+```r
+quantile(mpg,probs=c(0,0.20,0.40,0.60,0.80,1))
+```
+
+```
+##    0%   20%   40%   60%   80%  100% 
+## 10.40 15.20 17.92 21.00 24.08 33.90
+```
+
+```r
+boxplot(mpg~fam, main="mpg by transmission")
+```
+
+<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-7-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+#### Histograms 
+
+Histograms are appropiate to summarize numerical variables distributions
+
+```r
+hist(mpg)
+```
+
+<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-8-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+#### Stem and Leaf Plots 
+
+Stem and Leaf plots are appropiate to summarize numerical variables distributions (low sample size)
+
+```r
+stem(mpg)   
+```
+
+```
+## 
+##   The decimal point is at the |
+## 
+##   10 | 44
+##   12 | 3
+##   14 | 3702258
+##   16 | 438
+##   18 | 17227
+##   20 | 00445
+##   22 | 88
+##   24 | 4
+##   26 | 03
+##   28 | 
+##   30 | 44
+##   32 | 49
+```
+`?stem` for more info
+There are 2 obs 10.4
+There is one obs 32.4 and one 32.9
+ 
+#### Scatterplots 
+
+Scatterplots are appropiate to summarize the relation between two numerical variables 
+
+Relation ship between horsepower hp and consumption mpg
+
+```r
+plot(mpg~hp) # y~x
+```
+
+<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-10-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+```r
+plot(hp, mpg) # x,y
+```
+
+<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-10-2.png" title="" alt="" style="display: block; margin: auto;" />
+
+```r
+plot(hp, mpg,xlab = "Gross horsepower", ylab="Miles/(US) gallon", las=1, col="red", xlim=c(0,400), cex =2 )
+```
+
+<img src="stats02-explorativeDataAnalysis_files/figure-html/unnamed-chunk-10-3.png" title="" alt="" style="display: block; margin: auto;" />
+
+```r
+#cex (plotting characters size times 2)
+```
+
+
+
+
