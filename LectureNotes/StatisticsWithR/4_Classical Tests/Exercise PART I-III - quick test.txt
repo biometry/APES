@@ -1,0 +1,29 @@
+#quick question answers
+
+
+#Questions
+# you measure tree density in 15 plots of the Black forest
+# You go there after a storm (6 months later), and you measure the density in the same plots.
+
+
+1) How is the response? numerical or categorical (factor)? 
+
+2) Which is the predictor? numerical or categorical (factor)? if categorical, how many levels?
+
+3) if you answered categorical , are the levels dependent or indipendent?
+
+4) What test (if any) you would apply to test for the effect of 
+ 4a the storm on tree density in the black forest? 
+ 4b tree density on the likelihood to storm occurrence in the black forest?
+
+
+
+#Answers
+1) response = tree density; numerical, continuous.
+
+2/3) the predictor is a categorical variable (before the storm, after the storm), only 2 levels
+the 2 levels are clearly dependent, they are repeated measures of the same plot.
+
+4) you should go for a test for paired (dependent) samples, depending on the data you decide whether going parametric or non parametric (test for normality). This is the test for 4a, whereas it does not make sense to test for 4b.
+
+
