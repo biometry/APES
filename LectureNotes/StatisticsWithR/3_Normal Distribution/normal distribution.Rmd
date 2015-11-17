@@ -1,0 +1,76 @@
+---
+title: "Normal distribution"
+output: 
+  html_document: 
+    keep_md: yes
+---
+example:
+X is Normally Distributed with a known mean of 55 and a standard deviation of 7 (variance 7^2) 
+In simple words, 2 parameters define the normal (Gaussian) distribution: the mean and the variance (sd ^ 2)
+
+```{r}
+# draw 1 million observations from the above mentioned normal distribution
+randsamp = rnorm(n = 1000000, mean = 55, sd = 7)
+hist(randsamp, breaks = 500)
+
+
+# probability than X is lower than 80
+abline(v = 80, col = 2, lty = 2, lwd = 3)
+pnorm(q = 80,mean = 55,sd = 5,lower.tail = T) #less than 80
+
+
+# probability than X is lower than 55
+abline(v = 55, col = "white", lty = 2, lwd = 3)
+pnorm(q = 55, mean = 55, sd = 5, lower.tail = T)
+
+#area above a q = 55 is 50% of total area..
+
+# probability than X is higher than 56
+pnorm(q=56,mean=55,sd=5,lower.tail=F)
+
+
+
+#standard normal Z
+#mean = 0, sd=1
+#P than Z is lower than 1
+randsamp = rnorm(n = 1000000, mean = 0, sd = 1)
+hist(randsamp, breaks = 500)
+abline(v = 1, col = "green", lty = 2, lwd = 3)
+pnorm(q = 1, mean = 0, sd = 1, lower.tail = F)
+#16% is aprroximately the area above 1
+
+```
+
+
+
+x is Normally Distributed with a known mean of 75 and a standard deviation of 5 (variance 5^2 = 25)
+```{r}
+#let's create a sequence of values that should cover large part of the normal distribution
+x = seq(from = 55,to = 95,by = 0.25)
+x
+
+#let's compute the value of the probability density functions for these X values
+dens = dnorm(x, mean = 75, sd = 5)
+dens
+
+plot(x, dens)
+
+plot(x, dens, type = "l")
+
+plot(x, dens, type = "l", main = "X~Normal: Mean = 75, SD = 5",xlab = "x", ylab = "Propability Density", las = 1)
+
+#add vertical line
+abline(v = 75, col = 2, lty = 2, lwd = 3)
+
+
+```
+
+
+-----> IN-CLASS EXERCISE
+
+
+
++++++++++++++++++
+Edited by Simone Ciuti, University of Freiburg, 16/10/2015; 
+Intended for the only purpose of teaching @ Freiburg University
++++++++++++++++++++++++++++++++++++++++++++++++++

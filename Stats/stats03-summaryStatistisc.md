@@ -5,171 +5,19 @@ category: stats
 subcategory: Descriptive statistics
 ---
 
-# Testing for normality
 
 
-```r
-library(knitr)
-opts_knit$set(global.par=TRUE) 
-opts_chunk$set(cache.extra = rand_seed,fig.align='center')
-set.seed(3)
-```
 
-The normal distribution is the most important and most widely used distribution in statistics.
+## Good introductions on this topic
 
-We can say that a distribution is normally distributed when:
+* See the [Essential Statistics](https://www.dropbox.com/s/8fmh10fdn6jd2xb/EssentialStatistics.pdf?dl=0) lecture notes, chapter on descriptive statistics 
 
-1) is symmetric around their mean.
-
-2) the mean, median, and mode of a normal distribution are equal.
-
-3) the area under the normal curve is equal to 1.0.
-
-4) distributions are denser in the center and less dense in the tails.
-
-5) distributions are defined by two parameters, the mean and the standard deviation (sd).
-
-6) 68% of the area of a normal distribution is within one standard deviation of the mean.
-
-7) Approximately 95% of the area of a normal distribution is within two standard deviations of the mean.
-
-Normal distribution 
-
-Simulation of the weight of 1570 adult males normally distributed
-
-```r
-data1=rnorm(1570,mean=75,sd=8)
-hist(data1,main="Adult male weights",xlab="adult male weight",col="red",las=1)
-```
-
-<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-2-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-Load example data
-
-```r
-data = read.table("../Data/Simone/das.txt",header=T)
-summary(data)
-```
-
-```
-##        y        
-##  Min.   :1.904  
-##  1st Qu.:2.241  
-##  Median :2.414  
-##  Mean   :2.419  
-##  3rd Qu.:2.568  
-##  Max.   :2.984
-```
-
-Visualize example data
-
-```r
-attach(data) #command search() helps to verify what is/is not attached)
-par(mfrow=c(2,2)) #to divide the plot window
-plot(y)
-boxplot(y)
-hist(y,breaks=20)
-y2=y
-y2[52]=21.75 # to change the 52nd value for 21.75 instead of 2.175:
-plot(y2)     #very good to spot mistakes, outliers
-```
-
-<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-4-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-```r
-par(mfrow=c(1,1)) #back to one plot window
-```
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-4.png)
-
-## Visual Check for Normality: quantile-quantile plot
-
-This one plots the ranked samples from our distribution against a similar number of ranked quantiles taken from a normal distribution.
-If our sample is normally distributed then the line will be straight. 
-Exceptions from normality show up different sorts of non-linearity (e.g. S-shapes or banana shapes). 
+* [http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html](http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html)
 
 
-```r
-qqnorm(y)
-qqline(y,lty=2,col=2,lwd=3)
-```
+## Some examples in R
 
-<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-5-1.png" title="" alt="" style="display: block; margin: auto;" />
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-5.png)
-
-## Normality test: the shapiro.test
-
-
-```r
-shapiro.test(y)  # p-value=0.753, these data are normally distributed
-```
-
-```
-## 
-## 	Shapiro-Wilk normality test
-## 
-## data:  y
-## W = 0.9911, p-value = 0.753
-```
-
-```r
-detach(data)
-```
-
-
-As an example we will create a fake data log-normally distributed and verify the assumption of normality
-
-```r
-x=exp(rnorm(30))  #rnorm without specification (normal distributed or not) picks data from the standard normal, mean = 0, sd = 1
-plot(x)
-```
-
-<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-7-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-71.png)
-
-
-```r
-boxplot(x)
-```
-
-<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-8-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-72.png)
-
-
-```r
-hist(x,breaks=50)
-```
-
-<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-9-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-73.png)
-
-
-```r
-qqnorm(x)
-qqline(x,lty=2,col=2,lwd=3)
-```
-
-<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-10-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-74.png)
-
-
-```r
-shapiro.test(x)  #p-value=8.661e-07, not normally distributed
-```
-
-```
-## 
-## 	Shapiro-Wilk normality test
-## 
-## data:  x
-## W = 0.8572, p-value = 0.0008806
-```
-
-
-# Correlations tests
+### Correlations tests
 
 Correlation tests measure the relationship between variables. This relationship can goes from +1 to -1, where 0 means no relation. Some of the tests that we can use to estimate this relationship are the following:
 
@@ -182,16 +30,16 @@ Correlation tests measure the relationship between variables. This relationship 
 
 ```r
 attach(mtcars)  
-plot(hp,wt, main="scatterplot",las=1, xlab ="gross horse power", ylab="Weight (lb/1000)")
+plot(hp, wt, main="scatterplot",las=1, xlab ="gross horse power", ylab="Weight (lb/1000)")
 ```
 
-<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-12-1.png" title="" alt="" style="display: block; margin: auto;" />
+<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-2-1.png" title="" alt="" style="display: block; margin: auto;" />
 ![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-8.png)
 
 Compute the three correlation coefficients
 
 ```r
-cor(hp,wt,method="pearson")
+cor(hp, wt, method="pearson")
 ```
 
 ```
@@ -199,7 +47,7 @@ cor(hp,wt,method="pearson")
 ```
 
 ```r
-cor(hp,wt)#Pearson is the default method; the order of variables is not important
+cor(hp, wt) #Pearson is the default method; the order of variables is not important
 ```
 
 ```
@@ -207,7 +55,7 @@ cor(hp,wt)#Pearson is the default method; the order of variables is not importan
 ```
 
 ```r
-cor(hp,wt,method="spearman")
+cor(hp, wt, method="spearman")
 ```
 
 ```
@@ -215,7 +63,7 @@ cor(hp,wt,method="spearman")
 ```
 
 ```r
-cor(hp,wt,method="kendal")
+cor(hp, wt, method="kendal")
 ```
 
 ```
@@ -225,7 +73,7 @@ cor(hp,wt,method="kendal")
 Test the null hypothesis, that means that the correlation is 0 (there is no correlation)
 
 ```r
-cor.test(hp,wt,method="pearson") #Pearson correlation test
+cor.test(hp, wt, method="pearson") #Pearson correlation test
 ```
 
 ```
@@ -243,7 +91,7 @@ cor.test(hp,wt,method="pearson") #Pearson correlation test
 ```
 
 ```r
-cor.test(hp,wt,method="spearman") #Spearmn is a non-parametric, thus it is not possible to get CIs. There is a error message because R cannot compute exact p values (the test is based on ranks, we have few cars with the same hp or wt).We can get rid off the warning letting R know that approximate values are fine
+cor.test(hp, wt, method="spearman")
 ```
 
 ```
@@ -264,7 +112,9 @@ cor.test(hp,wt,method="spearman") #Spearmn is a non-parametric, thus it is not p
 ```
 
 ```r
-cor.test(hp,wt,method="spearman",exact=F) 
+#Spearmn is a non-parametric, thus it is not possible to get CIs. There is a error message because R cannot compute exact p values (the test is based on ranks, we have few cars with the same hp or wt).
+#We can get rid off the warning letting R know that approximate values are fine
+cor.test(hp, wt, method="spearman", exact=F) 
 ```
 
 ```
@@ -280,7 +130,7 @@ cor.test(hp,wt,method="spearman",exact=F)
 ```
 
 ```r
-cor.test(hp,wt,method="kendal",exact=F) #same happens with Kendal correlation test
+cor.test(hp, wt, method="kendal", exact=F) #same happens with Kendal correlation test
 ```
 
 ```
@@ -298,16 +148,15 @@ cor.test(hp,wt,method="kendal",exact=F) #same happens with Kendal correlation te
 When we have non-parametric data and we do not know which correlation method to choose, as a rule of thumb, if the correlation looks non-linear, Kendall tau should be better than Spearman Rho.
 
 
-## Further handy functions for correlations
+#### Further handy functions for correlations
 
-Plot all possible combinations with "pairs"
+Plot all possible combinations with `pairs`
 
 ```r
 pairs(mtcars)  # all possible pairwise plots
 ```
 
-<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-15-1.png" title="" alt="" style="display: block; margin: auto;" />
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-11.png)
+<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-5-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 To make it simpler we select what we are interested
 
@@ -324,8 +173,7 @@ names(mtcars)
 pairs(mtcars[,c(1,4,6)]) # subsetting the categories we will use
 ```
 
-<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-16-1.png" title="" alt="" style="display: block; margin: auto;" />
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats03-summaryStatistisc_files/figure-html/unnamed-chunk-12.png)
+<img src="stats03-summaryStatistisc_files/figure-html/unnamed-chunk-6-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 Building a correlation matrix
 
@@ -375,4 +223,3 @@ cor(mtcars[,c(1,4,6)])
 detach(mtcars)
 ```
 
-http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html

@@ -13,21 +13,11 @@ Before we can work with data, we need to be able to read it in an represent it i
 
 ## Reading in data
 
-[see here](http://www.statmethods.net/input/importingdata.html)
+* See tutorial on reading in data [here](http://www.statmethods.net/input/importingdata.html)
 
 ## Data structures
 
-An overview and examples of the available data structures in R is here
-
-[here](http://ecology.msu.montana.edu/labdsv/R/labs/R_ecology.html#recol)
-
-[QuickR](http://www.statmethods.net/)
-
-[Read up this] (http://ecology.msu.montana.edu/labdsv/R/labs/R_ecology.html#recol)
-
-[http://www.uni-kiel.de/psychologie/rexrepos/rerR_Basics.html](http://www.uni-kiel.de/psychologie/rexrepos/rerR_Basics.html)
-
-Important data structures are
+Important data structures in R are
 
 * Atomic variables (numeric, char)
 * Vectors (a sequence of atomic variables. For example c(1,2,3,4) is a vector of 4 numeric variables)
@@ -36,20 +26,22 @@ Important data structures are
 
 Hint: you can find out the type and structure of an object in R with the `class()` and `str()` command
 
-### Working with and manipulating data frames
+Tutorial and examples of how to use them are 
 
-The data frame is the most common choice to represent your field data, thefore it's important to know how to work with them and select data from them. 
+* Appendix 2 of the [Essential statistics](https://www.dropbox.com/s/8fmh10fdn6jd2xb/EssentialStatistics.pdf?dl=0) lecture notes
 
-[http://www.uni-kiel.de/psychologie/rexrepos/rerData_Frames.html](http://www.uni-kiel.de/psychologie/rexrepos/rerData_Frames.html)
+* This [tutoria](http://ecology.msu.montana.edu/labdsv/R/labs/R_ecology.html#recol)
 
-## Working with big data 
+* The [QuickR](http://www.statmethods.net/) reference
 
-[http://blog.revolutionanalytics.com/2014/08/the-iris-data-set-for-big-data.html](http://blog.revolutionanalytics.com/2014/08/the-iris-data-set-for-big-data.html)
+* The [R basics tutorial](http://www.uni-kiel.de/psychologie/rexrepos/rerR_Basics.html)
 
-[Text File Splitter](http://www.systemwidgets.com/Downloads/FreewareDownloads/TextFileSplitter/tabid/120/Default.aspx): can split very larve (> several GB) textfiles.
+The following subsections only give an introduction
 
 
-# Basic operations
+## Some basic examples about data structures in R
+
+### Basic variable assignments
 
 It is possible to assign a value to an object with the `=` or `->` symbols
 
@@ -93,37 +85,8 @@ m2="25" #like this, 25 is not a number anymore, but a character
 m2
 ```
 
-## Some basic arithmetic functions
 
-```{r}
-#sum
-2+2
-
-#We can also perform operations with the object that we have previously defined
-z1+x
-
-#we store it into a new object
-z=z1+x
-z
-
-#square
-z^2
-
-#square root 
-sqrt(z) 
-
-#natural log
-log(x)
-
-#log base 3
-log2(x)
-
-#absolute value
-f = -34
-abs(f) 
-```
-
-#Vectors
+### Vectors
 
 We can create a vector by using the concatenated command `c()`
 ```{r}
@@ -194,7 +157,7 @@ y[y<3]
 
 ```
 
-##Matrices
+### Matrices
 
 We can create a matrix of values by using the matrix command
 ```{r}
@@ -220,4 +183,15 @@ mat1[,1]
 mat1*10
 ```
 
+### Data frames
 
+The data frame is the most common choice to represent your field data, thefore it's important to know how to work with them and select data from them. 
+
+[http://www.uni-kiel.de/psychologie/rexrepos/rerData_Frames.html](http://www.uni-kiel.de/psychologie/rexrepos/rerData_Frames.html)
+
+
+## Working with big data 
+
+[http://blog.revolutionanalytics.com/2014/08/the-iris-data-set-for-big-data.html](http://blog.revolutionanalytics.com/2014/08/the-iris-data-set-for-big-data.html)
+
+[Text File Splitter](http://www.systemwidgets.com/Downloads/FreewareDownloads/TextFileSplitter/tabid/120/Default.aspx): can split very larve (> several GB) textfiles.

@@ -14,6 +14,9 @@ For learning more about programming in R, I suggest that you check out:
 * [Pitfalls of the R language](http://www.burns-stat.com/documents/books/the-r-inferno/)
 * For Germans - Ligges, U. (2008) [Programmieren mit R](http://www.springer.com/us/book/9783540799979). Springer. is a great book!
 
+## Understanding the R environment 
+
+* http://blog.obeautifulcode.com/R/How-R-Searches-And-Finds-Stuff/
 
 ## Efficient R code
 

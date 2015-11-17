@@ -71,7 +71,6 @@ sapply(list(sand,clay,loam),mean) #for horizontal datasets
 boxplot(sand,clay,loam)
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-21.png)
 
 To flip the dataset
 ```{r}
@@ -87,8 +86,6 @@ tapply(yield,soil,var)
 plot(yield~soil,col="green")
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-22.png)
-
 Test for homoscedasticity, one of the model assumptions
 ```{r}
 fligner.test(yield~soil)   # Fligner-Killeen test of homogeneity of variances
@@ -101,8 +98,6 @@ summary(model)
 par(mfrow=c(2,2))
 plot(aov(yield~soil))
 ```
-
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-23.png)
 
 ```{r}
 par(mfrow=c(1,1))
@@ -130,8 +125,6 @@ length(WeightLoss)
 boxplot(WeightLoss~Diet, ylab="Weight loss (kg)", xlab="Diet ",col=c(0,2,3,4))
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-4.png)
-
 ```{r}
 # Ho = mean equal for all diets
 
@@ -150,23 +143,17 @@ TukeyHSD(model1) #all possible combinations between the different diets
 plot(TukeyHSD(model1), las=1)  #graphic visualization
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-5.png)
-
 ANOVA's assumptions
 ```{r}
 par(mfrow=c(2,2))
 plot(model1)
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-61.png)
-
 ```{r}
 par(mfrow=c(1,1))
 
 qqnorm(model1$residuals);qqline(model1$residuals)
 ```
-
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-62.png)
 
 ```{r}
 shapiro.test(model1$residuals) # we cannot reject the null hypothesis, but with poor confidence. However, as discussed for the linear regression, the assumption of normality is not that strict.
@@ -202,8 +189,6 @@ fligner.test(count ~ spray) # variances are not equal
 boxplot(count ~ spray)
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-8.png)
-
 ```{r}
 model3=oneway.test(count ~ spray) #this is not assuming equal variances
 model3
@@ -225,7 +210,7 @@ Running a parametric ANOVA
 boxplot(Serum_iron~treatment)
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-101.png)
+
 
 ```{r}
 ANOVA1=aov(Serum_iron~treatment)
@@ -236,7 +221,6 @@ op=par(mar=c(4,8,4,4))
 plot(TukeyHSD(ANOVA1),las=1)
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-102.png)
 
 ```{r}
 par(op)
@@ -245,7 +229,6 @@ op=par(mfrow=c(2,2))
 plot(ANOVA1)
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-103.png)
 
 ```{r}
 par(op)
@@ -272,7 +255,6 @@ kruskalmc(WeightLoss~Diet)
 plot(TukeyHSD(model1), las=1) #compare with results of Tukey plot (line 91) 
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-11.png)
 
 ```{r}
 detach(diets)
@@ -300,7 +282,7 @@ library(HH)
 boxplot(count ~ spray,data = InsectSprays)
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-131.png)
+
 
 
 ```{r}
@@ -308,7 +290,6 @@ hov(count ~ spray, data = InsectSprays)
 hovPlot(count ~ spray, data = InsectSprays) 
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-132.png)
 
 
 Example 2  (homogeneous variances)
@@ -318,7 +299,7 @@ head(turkey)
 boxplot(wt.gain ~ diet, data=turkey)
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-141.png)
+
 
 ```{r}
 model3=aov(wt.gain ~ diet, data=turkey)
@@ -327,7 +308,7 @@ par(mfrow=c(2,2))
 plot(model3)
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-142.png)
+
 
 ```{r}
 par(mfrow=c(1,1))
@@ -336,7 +317,6 @@ hov(wt.gain ~ diet, data=turkey)
 hovPlot(wt.gain ~ diet, data=turkey)
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-143.png)
 
 
 Compare it with the example1 plot 
@@ -344,7 +324,6 @@ Compare it with the example1 plot
 hovPlot(count ~ spray, data = InsectSprays) 
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-143.png)
 
 ## Contrasts in ANOVA
 
@@ -358,7 +337,7 @@ summary(PlantGrowth)
 boxplot(weight ~ group)
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-151.png)
+
 
 ```{r}
 bartlett.test(weight ~ group)
@@ -368,7 +347,7 @@ TukeyHSD(results) #classical approach
 plot(TukeyHSD(results))
 ```
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-152.png)
+
 
 ```{r}
 summary.lm(results)
@@ -403,8 +382,6 @@ There are two options:
 TukeyHSD(model)
 plot(TukeyHSD(model))
 ```
-
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats13-anova_files/figure-html/unnamed-chunk-18.png)
 
 
 Habitats on opposite sides of the dotted line and not overlapping it are significantly different one from another.

@@ -6,6 +6,7 @@ category: stats
 
 Descriptive statistics is the branch of statistical methods that basically display data, but do not directly draw conclusions from the data.
 
+Note: there is an entire chapter on descriptice statistics in the [Essential Statistics](https://www.dropbox.com/s/8fmh10fdn6jd2xb/EssentialStatistics.pdf?dl=0) lecture notes
 
 ## The data 
 

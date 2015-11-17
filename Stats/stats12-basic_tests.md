@@ -23,14 +23,10 @@ If we have a null hypothesis, we calculate the probability that we would see the
 
 Test Statistic
 
-### Type I and II error, and power
+### Type I and II error
 
 
 Significance level, Power 
-
-Links to power analysis in R
-
-* [here](http://www.cyclismo.org/tutorial/R/power.html)
 
 
 ### Misinterpretations
@@ -39,11 +35,10 @@ A problem with hypothesis tests and p-values is that their results are notorious
 
 ### Further readings
 
-http://www.stats.gla.ac.uk/steps/glossary/hypothesis_testing.html
+* The [Essential Statistics](https://www.dropbox.com/s/8fmh10fdn6jd2xb/EssentialStatistics.pdf?dl=0) lecture notes
+* http://www.stats.gla.ac.uk/steps/glossary/hypothesis_testing.html
 
-
-
-# Important statistical tests in R
+## Examples in R
 
 
 Recall statistical tests, or more formally, null-hypothesis significance testing (NHST) is one of several ways in which you can approach data. The idea is that you define a null-hypothesis, and then you look a the probability that the data would occur under the assumption that the null hypothesis is true.
@@ -65,7 +60,7 @@ The *t*-test can be used to test whether one sample is different from a referenc
 The *t*-test assumes that the data are normally distributed. It can handle samples with same or different variances, but needs to be "told" so. 
 
 
-## t-test for 1 sample (PARAMETRIC TEST)
+#### t-test for 1 sample (PARAMETRIC TEST)
 
 The one-sample t-test compares the MEAN score of a sample to a known value, usually the population MEAN (the average for the outcome of some population of interest). 
 
@@ -127,7 +122,7 @@ detach(data)
 ```
 
 
-## t-test for 1 sample (NON-PARAMETRIC TEST)
+#### t-test for 1 sample (NON-PARAMETRIC TEST)
 
 One-sample Wilcoxon signed rank test is a non-parametric alternative method of one-sample t-test, which is used to test whether the location (MEDIAN) of the measurement is equal to a specified value
 
@@ -201,7 +196,7 @@ wilcox.test(x, alternative="two.sided", mu=1) # high p value-> median of x is no
 ```
 
 
-## Two Independent Samples T-test (PARAMETRIC TEST)
+#### Two Independent Samples T-test (PARAMETRIC TEST)
 
 Parametric method for examining the difference in MEANS between two independent populations. 
 The *t*-test should be preceeded by a graphical depiction of the data in order to check for normality within groups and for evidence of heteroscedasticity (= differences in variance), like so:
@@ -332,7 +327,6 @@ qqnorm(mpg[fam=="automatic"]); qqline(mpg[fam=="automatic"])
 
 <img src="stats12-basic_tests_files/figure-html/unnamed-chunk-18-1.png" title="" alt="" style="display: block; margin: auto;" />
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats12-basic_tests_files/figure-html/unnamed-chunk-18.png)
 
 
 ```r
@@ -463,8 +457,6 @@ boxplot(mpg~fam, ylab="Miles/gallon",xlab="Transmission",las=1)
 
 <img src="stats12-basic_tests_files/figure-html/unnamed-chunk-26-1.png" title="" alt="" style="display: block; margin: auto;" />
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats12-basic_tests_files/figure-html/unnamed-chunk-26.png)
-
 2) To compute the actual variance
 
 
@@ -528,16 +520,12 @@ qqnorm(hp[fam=="manual"]);qqline(hp[fam=="manual"])
 
 <img src="stats12-basic_tests_files/figure-html/unnamed-chunk-32-1.png" title="" alt="" style="display: block; margin: auto;" />
 
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats12-basic_tests_files/figure-html/unnamed-chunk-32.png)
-
 
 ```r
 qqnorm(hp[fam=="automatic"]);qqline(hp[fam=="automatic"])
 ```
 
 <img src="stats12-basic_tests_files/figure-html/unnamed-chunk-33-1.png" title="" alt="" style="display: block; margin: auto;" />
-
-![alt text](https://raw.githubusercontent.com/biometry/APES/master/Stats/stats12-basic_tests_files/figure-html/unnamed-chunk-33.png)
 
 
 ```r
@@ -1196,12 +1184,8 @@ detach(mtcars)
 ```
 
 
+#### References
 
-
-####References
-
-* Ruxton, G. D. (2006). The unequal variance t-test is an underused alternative to Student??????s t-test and the Mann-Whitney U test. Behavioral Ecology, 17, 688??????690.
-
-* Zimmerman, D. W. (2012). A note on consistency of non-parametric rank tests and related rank transformations. British Journal of Mathematical and Statistical Psychology, 65, 122??????44.
-
-* http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html
+* Ruxton, G. D. (2006). The unequal variance t-test is an underused alternative to Student??????s t-test and the Mann-Whitney U test. Behavioral Ecology, 17, 688-690.
+* Zimmerman, D. W. (2012). A note on consistency of non-parametric rank tests and related rank transformations. British Journal of Mathematical and Statistical Psychology, 65, 122-44.
+* [http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html](http://www.uni-kiel.de/psychologie/rexrepos/rerDescriptive.html)
