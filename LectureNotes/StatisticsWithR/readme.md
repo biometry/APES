@@ -1,6 +1,16 @@
-1. Intro
-2. ...
-3. Normal distribution [code](https://github.com/biometry/APES/blob/master/LectureNotes/StatisticsWithR/3_Normal%20Distribution/normal_distribution.md)
-4. test
- * test
- * test
+Syllabus - Statistics with R - Winter Semenster 2015-20161
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+
