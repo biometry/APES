@@ -40,6 +40,7 @@ We won't even bother explaining how to modify this file, because it doesn't make
 ## Advanced topics and further reading 
 
 * [Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf)
+* [A Quickstart Guide for Building Your First R Package](https://methodsblog.wordpress.com/2015/11/30/building-your-first-r-package/)
 
 Before you go on with package developments, read [this](http://r-pkgs.had.co.nz/) which explains all essentials in more detail!
 
