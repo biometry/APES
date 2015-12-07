@@ -23,7 +23,6 @@ The independent variables are not linear combinations of each other.
 Wild boar with/without tubercolosis as a function of body lenght (age is collinear with length and we do not use it as predictor)
 ```{r}
 #import wildboar data
-setwd("~/TEACHING IN FREIBURG/11 - Statistics with R fall 2015/10_GLMs - Binomial and Quasi-Binomial")
 load("Boar.RData")
 head(Boar)
 summary(Boar)
