@@ -1,0 +1,185 @@
+---
+title: "VGAM"
+author: "Florian Hartig"
+date: "13 Dec 2015"
+output:
+  html_document:
+    keep_md: yes
+---
+
+Im ersten Datensatz geht es darum wie viele Stücke Futter ein junger Vogel von seinen Eltern bekommt, abhängig von seiner Attraktivität
+
+```{r}
+data = read.table("../../../Data/Doorman2013/schnaepper.txt")
+plot(stuecke ~ attrakt, data = data)
+```
+
+
+```{r}
+fit <- glm(stuecke ~ attrakt, family = poisson, data = data)
+summary(fit)
+```
+
+
+```{r}
+preddata = data.frame(attrakt = 1:5)
+
+# linearer Prediktor
+predict(fit, newdata = preddata)
+
+predict(fit, newdata = preddata, type = "response")
+# alternative:
+exp(predict(fit, newdata = preddata))
+
+# mit Fehler 
+
+pred <- predict(fit, newdata = preddata, type = "response", se.fit = T)
+
+
+plot(stuecke ~ attrakt, data = data)
+lines(preddata$attrakt, pred$fit)
+lines(preddata$attrakt, pred$fit + 1.96*pred$se.fit, lty = 2)
+lines(preddata$attrakt, pred$fit - 1.96*pred$se.fit, lty = 2)
+
+```
+
+Warum eigentlich 1.96 - weil die zentralen 95% der Normalverteilung, d.h. die 0.025 und 0.975 quantile bei +/- 1.96 liegen. 
+
+```{r}
+curve(dnorm, -3,3, ylim = c(0,1), lwd = 2, main="95% zentrale Wahrscheinlichkeitsmasse\nder Normalverteilung bei +/- 1.96")
+curve(pnorm, -3, 3, col = "red", add = T)
+abline(h=c(0.025, 0.975), lty = 2)
+abline(v=c(-1.96, 1.96), col = "red", lty = 2)
+
+```
+
+Schauen wir uns mal Pearson an
+
+```{r}
+plot(predict(fit, type = "response"), residuals(fit, type = "pearson"))
+abline(h = 0)
+```
+
+sieht OK aus, noch mal Overdispersion testen
+
+```{r}
+summary(fit)
+# 18/23
+library(AER)
+dispersiontest(fit)
+```
+
+Leicht underdispersed, aber nicht signifikant, also müssen wir nichts machen! Aber was wäre denn bei einem anderen Datensatz?
+
+
+## Example 2
+
+Hier wurden Pflanzen mit drei verschiedenen Pflanzengiften behandelt, wir schauen wie viele von von n Planzen (variiert) gestorben sind. Erst mal graphisch
+
+```{r}
+data = read.table("../../../Data/Doorman2013/logistic.txt", header = T)
+head(data)
+library(lattice)
+xyplot(dead/n ~ logdose | product, data=data)
+```
+
+Die Frage ist: gibt es Unterschiede zwischen den Giften. Ich will hier demonstrieren dass falsche Modellannahmen zu underdisperion führen. Die falsche Annahmen die wir machen ist dass die Mortalitätsrate nur vom Gift abhängt. In Wirklichkeit hängt sie auch von der Dosis ab, aber das lassen wir hier erst mal außer Acht. Dann fitten wir mal das Modell
+
+
+```{r}
+fit <- glm(cbind(dead,n) ~ product, family = binomial, data = data)
+```
+
+Ergebnisse anschauen
+
+```{r}
+summary(fit)
+boxplot(residuals(fit, type = "pearson") ~ data$product)
+```
+
+Und, was wir hier sehen ist Varianzheterogenität, und auch ein bisschen Pattern in den Residuen - Gift B hat weniger Varianz als die anderen, und es schent so als geht der Mittelwert runter von A zu C. Wenn wir sowas sehen brauchen wir uns eigentlich gar nich um Overdispersion zu kümment, aber wir hätten auch Overdispersion denn sie sehen wir haben 
+
+Residual = 88 / 48 dgf = dispersion von 2 > 1, d.h. overdispersion. 
+
+Dann nehmen wir doch mal die fehlenden Variable dazu:
+
+```{r}
+fit <- glm(cbind(dead,n) ~ product * logdose + I(logdose^2), family = binomial, data = data)
+summary(fit)
+```
+
+Ich plotte mal Pearson Residuen gegen die Dosis, für alle 3 Gifte extra
+
+```{r}
+xyplot(residuals(fit, type = "pearson") ~ logdose | product, data=data)
+```
+
+sieht gut aus, aber Sie sehen dass die Werten nicht zwischen -2 und 2 streuen, sondern viel weniger, d.g. underdispersion. Das sieht man auch durch 
+
+Residual = 11 / 44 dgf = dispersion von 0.25 < 1, d.h. underdispersion. 
+
+Ich hatte es ja gesagt: underdispersion ist auch schlecht, denn sie bekommen zu große p-Werte. Wenn Sie die Underdispersion rausnehmen, werden die Schätzer signifikanter.
+
+
+```{r}
+fit <- glm(cbind(dead,n) ~ product * logdose + I(logdose^2), family = quasibinomial, data = data)
+summary(fit)
+```
+
+Bemerkung: natürlich ist nicht alles korrekt was die Werte signifikanter macht, aber im Fall von Underdispersion ist es so dass das korrektere Modell auch signifikantere Werte liefert. 
+
+Bei Overdispersion werden die Werte weniger signifikant wenn sie Overdispersion korrigeren. Korrigieren müssen Sie trotzdem!
+
+
+
+# Ein neues Problem 
+
+
+```{r}
+Snakes = read.table("../../../Data/ZuurDataMixedModelling/snakes.txt", header = T)
+```
+
+
+```{r}
+plot(table(Snakes$N_days))
+
+plot(Snakes$N_days ~ jitter(Snakes$PDayRain,10))
+#plot(Snakes$N_days ~ jitter(Snakes$Tot_Rain,10))
+#plot(Snakes$N_days ~ Snakes$Road_Loc)
+```
+
+```{r}
+summary(glm(Snakes$N_days ~ Snakes$PDayRain, family = "poisson"))
+# Alternative aus vglm
+library(VGAM)
+fit <- vglm(N_days ~ PDayRain, poissonff, data = Snakes)
+summary(fit)
+plotvgam(fit, se = T, residuals = T, type.residuals = "pearson")
+```
+
+Wir haben overdispersion, also 
+
+
+```{r}
+summary(glm(Snakes$N_days ~ Snakes$PDayRain, family = "quasipoisson"))
+
+#oder negative Binominialverteilung
+library(MASS)
+summary(glm.nb(Snakes$N_days ~ Snakes$PDayRain))
+# Alternative aus vglm
+fit <- vglm(N_days ~ PDayRain, negbinomial, data = Snakes)
+summary(fit)
+```
+
+Der Output ist etwas verwirrend - der 2. Intercept entsprichte dem theta (dispersion) auf der link skala exp(1.0861) = 2.96
+
+
+Bleibt immer noch das Problem dass wir keine Nullen in den Daten haben - dafür gibt es die zero.truncated negative Binominialverteilung.
+
+Ich hab keine Ahnung warum, aber mit allen Daten hatte er irgendwie immer einen Fehler geworfen - sollte eigentlich nicht so sein. Zur Demonstration deshalb hier nur mit einem Teil der Daten:
+
+```{r}
+fit <- vglm(Snakes$N_days[1:80] ~ Snakes$PDayRain[1:80] , family = posnegbinomial)
+summary(fit)
+```
+
