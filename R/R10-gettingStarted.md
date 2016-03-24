@@ -34,9 +34,13 @@ The following links are tutorials on using R as a language. They are helpful if 
 * [An R reference card](http://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf), by Matt Baggott
 * [An introduction to R](http://cran.r-project.org/doc/contrib/Lam-IntroductionToR_LHL.pdf), by Longhow Lam. Longer and more comprehensive than the other tutorials linked here. 
 
-### Videos an MOOCs
+### Videos and MOOCs
 
 * [The IQUIT R video series](http://mbjoseph.github.io/r/2015/08/28/iquit.html) highly recommended
+* [Coursera Data specialization](https://www.coursera.org/specializations/jhu-data-science)
+* [Datacamp free intro R](https://www.datacamp.com/courses/free-introduction-to-r)
+* [Coursera Data Analysis and Statistical Inference ](https://www.coursera.org/course/statistics)
+* [Udemy R basics](https://www.udemy.com/r-basics/)
 
 ### Websites with examples
 
