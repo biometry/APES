@@ -1,0 +1,48 @@
+---
+title: "Exercise 9"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r}
+#dataset matcars
+head(mtcars)
+#?mtcars #for full details on the dataset
+```
+
+(1) you are thinking to run a linear model with cyl and wt as predictors, mpg as response. Are you allowed to do that? Y/N? Why?
+
+```{r}
+
+```
+
+(2) run a regression with x = wt, y = mpg. Plot predictions with 95% CIs (library effects not allowed here).
+
+```{r}
+
+
+```
+
+
+(3) Are the assumptions of the model met?
+
+```{r}
+
+```
+
+(4) if your answer to question 3 is yes, we are good here.
+
+(5) if your answer to question 3 is no, do something to improve the model fit and better meet the assumptions. Whatever improvements you achieve, decribe it.
+
+```{r}
+
+
+```
+
+
+
+
+
+
+

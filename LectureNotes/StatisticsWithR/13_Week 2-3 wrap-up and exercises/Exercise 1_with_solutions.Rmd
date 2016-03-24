@@ -1,0 +1,112 @@
+---
+title: "Exercise 1"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+Set your working directory here:
+```{r}
+setwd("~/TEACHING IN FREIBURG/11 - Statistics with R fall 2015/13_Week 2-3 wrap-up and exercises")
+```
+
+
+This chunck loads the data for you (including some pre-required data handling):
+```{r}
+birds <- read.delim("birds.txt")
+birds$fGRAZE = as.factor(birds$GRAZE)
+birds$L.AREA = log10(birds$AREA)
+birds$L.DIST = log10(birds$DIST)
+birds$L.LDIST = log10(birds$LDIST)
+head(birds)
+```
+
+Dataset details:
+ABUND =  RESPONSE [bird density measured in 56 forest patches in Victoria, Australia].
+AREA =  size FOREST patch.
+DIST = dist closest patch. 
+LDIST =  distance to the nearest larger patch.
+YR.ISOL = year isolation by clearance. 
+GRAZE =  index of livestock grazing (1 light, 5 intensive).
+ALT =  altitude of the patch.
+
+In the previous chunk, we actually converted GRAZE into a factor, and log10 transformed AREA, DIST, and LDIST to reduce the influence of outliers (you can plot the distributions of these data and will see how they look after data transformation). SO, forget about AREA, DIST, and LDIST.. you are supposed to use L.AREA L.DIST and L.LDIST instead. The full list of predictors we expect to affect ABUND is: YR.ISOL, ALT, fGRAZE, L.AREA, L.DIST, L.LDIST.
+
+
+Now, your tasks.
+
+(1) check/test for collinearity issues.
+```{r}
+
+source("collinearity check.r")  #loading useful functions
+
+#bind together the columns of interest
+attach(birds)
+Z = cbind(ABUND, YR.ISOL, ALT, as.numeric(fGRAZE), L.AREA, L.DIST, L.LDIST)
+
+pairs(Z, lower.panel = panel.smooth2,
+      upper.panel = panel.cor, diag.panel = panel.hist)
+detach(birds)
+
+# there are many strongly correlated predictors here. However, if we stick to the +/- 0.7 threshold, then there are no collinear predictors.
+#let's test for multi-collinearity now. 
+corvif(Z[,-1])
+
+#OK, we are done here. We are allowed to use YR.ISOL, ALT, fGRAZE, L.AREA, L.DIST, and L.LDIST as predictors in our models
+
+```
+
+(2) define the model structure including all quadratic effects but not interactions (we do not have specific expectations here. Also, the dataset is 56 rows and we should be cautious in using interactions here).
+
+```{r}
+m1 = lm(ABUND ~ YR.ISOL + I(YR.ISOL^2) + ALT + I(ALT^2)  + fGRAZE + L.AREA + I(L.AREA^2)  + L.DIST + I(L.DIST^2)  + L.LDIST + I(L.LDIST^2) , data = birds)
+```
+
+(3) perform model selection using MuMIn package. What's the structure of the top-ranked model suggested by MuMIn?
+
+```{r}
+library(MuMIn)
+options(na.action = "na.fail")   #  prevent fitting models to different datasets
+mydredge = dredge(m1)
+head(mydredge)
+
+#the structure of the best model suggested by MuMIn is the following:
+bestmodel = lm(ABUND ~ fGRAZE + L.AREA + I(L.AREA^2), birds)
+```
+
+(4) perform model selection using step AIC. Does the model structure differ from (3)?
+
+```{r}
+step(m1)
+# the model structure suggested by step AIC is the same compared to that suggested by MuMIn.
+
+```
+
+(5) referring to the best model selected by MuMIn. Does it meet model assumptions? Y/N? Why?
+
+```{r}
+par(mfrow = c(2, 2))
+plot(bestmodel)
+par(mfrow = c(1,1))
+
+# independence -> OK (based on the info provided on the experiment, sampling stations are independent)
+
+# linearity assumption -> OK
+
+# homogeneity -> as far as we can tell from the top-lef plot, there is a slight pattern in the residuals (reduced and positive spread from small fitted values, increasing spread as fitted values increase). This is multiple regression (2 predictors, e.g., fGraze and L.AREA). So, we can further inspect heterogeneity
+plot(bestmodel$residuals ~ birds$fGRAZE) # it does not look good. spread with grazing intensity 3 is much wider
+plot(bestmodel$residuals ~ birds$L.AREA); abline(h = 0) # this is not that bad, considering the low sample size.
+# in general, homogeneity assumption is not fully met.
+# you can even test it
+bartlett.test(bestmodel$residuals ~ birds$fGRAZE) #rejected the null hypothesis that variances do not change across levels.
+
+
+
+# normality -> not met
+shapiro.test(bestmodel$residuals)
+
+
+# answer. Assumptions of the linear model are not fully met. We have problems both with normality and heterogeneity.
+
+```
+

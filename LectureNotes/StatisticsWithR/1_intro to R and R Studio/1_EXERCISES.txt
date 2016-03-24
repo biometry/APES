@@ -1,0 +1,57 @@
+EXERCISE 1	
+- Assign the value 333 to the object called TEST 
+(using = and <-)
+
+
+EXERCISE 2
+- Create a vector z with the values 1,23,45,67,87,45
+
+
+EXERCISE 3
+- create a vector resulting from a sequence of numbers from 1 to 2222 by 0.1 (myvector is the name assigned to the vector)
+
+- What's the value of the 100th number of the vector?
+
+- What's the sum of 100th value with 1000th value?
+
+
+EXERCISE 4
+- Remove TEST from the workspace
+
+EXERCISE 5
+- create a matrix (rowwise, 2 rows) with the values log(2), log(4), log(6), sqrt(10), log(7), sqrt(1), 0, 3 
+mymatrix is the name assigned to the matrix
+- create an object that is equivalent to the element in row 2 and colunm 3 of mymatrix; myobject is the name assigned to the object
+- what is the result of the vector z times myobject?
+
+
+
+
+
+
+
+
+
+SOLUTIONS
+1)
+TEST = 300
+TEST <- 300
+
+2) 
+z = c(1,23,45,67,87,45)
+
+3)
+myvector = seq(from = 1, to = 2222, by = 0.1)
+myvector[100]
+myvector[100] + myvector[1000]
+
+4)
+rm(TEST)
+
+5)
+mymatrix = matrix(c(log(2), log(4), log(6), sqrt(10), log(7), sqrt(1), 0, 3), nrow=2, byrow=TRUE)
+myobject = mymatrix[2,3]
+z * myobject
+
+
+

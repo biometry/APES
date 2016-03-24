@@ -32,6 +32,10 @@ For a more in-depth discussion, see [here](http://adv-r.had.co.nz/Performance.ht
 
 If you have severe runtime problems, consider paralellization and or moving code to c/c++.
 
+## OO programming in R
+
+* [class-and-objects-in-r](http://abhishek-tiwari.com/hacking/class-and-objects-in-r-s3-style)
+
 ## Parallelization
 Useful links:
 

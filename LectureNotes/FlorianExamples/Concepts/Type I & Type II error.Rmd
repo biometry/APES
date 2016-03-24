@@ -1,0 +1,45 @@
+---
+title: "type I & Type II"
+output: html_document
+---
+
+look at true rejections P(H1/H1)now to understand the problem with Bonferroni Correction add a normal distribution with mean=2 and sd=1 to the plot
+
+
+```{r}
+curve(dnorm(x), -4, 4)
+curve(dnorm(x, mean =2), -4, 4, add = T, col = "red")
+
+
+hist(rnorm(10),add=T, freq = F, col = "#00990044", breaks = 10)
+hist(rnorm(10,mean=2),add=T , freq = F, col = "#99000044", breaks = 10)
+```
+
+
+```{r}
+randH1<-rep(NA, 10000)
+for (i in 1:10000){
+  randH1[i]<-t.test(rnorm(10),rnorm(10))$p.value
+}
+sum(randH1<0.05) / 10000
+sum(randH1<0.00005) / 10000
+```
+
+
+
+lets calculate the pvalues for 100 tests for which the means of the distributions are different (H1 is TRUE)
+
+```{r}
+randH1<-NULL
+for (i in 1:1000){
+  randH1[i]<-t.test(rnorm(20),rnorm(20,mean = 2))$p.value
+}
+1- sum(randH1<0.05) / 1000
+1- sum(randH1<0.00005) / 1000
+
+```
+
+
+very high rate of type II error (false negatives)!
+
+
