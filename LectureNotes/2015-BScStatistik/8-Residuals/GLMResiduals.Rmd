@@ -296,7 +296,7 @@ Die Frage ist: gibt es Unterschiede zwischen den Giften. Ich will hier demonstri
 
 
 ```{r}
-fit <- glm(cbind(dead,n) ~ product, family = binomial, data = data)
+fit <- glm(cbind(dead,n-dead) ~ product, family = binomial, data = data)
 ```
 
 Ergebnisse anschauen
@@ -313,7 +313,7 @@ Residual = 88 / 48 dgf = dispersion von 2 > 1, d.h. overdispersion.
 Dann nehmen wir doch mal die fehlenden Variable dazu:
 
 ```{r}
-fit <- glm(cbind(dead,n) ~ product * logdose + I(logdose^2), family = binomial, data = data)
+fit <- glm(cbind(dead,n-dead) ~ product * logdose + I(logdose^2), family = binomial, data = data)
 summary(fit)
 ```
 
@@ -331,7 +331,7 @@ Ich hatte es ja gesagt: underdispersion ist auch schlecht, denn sie bekommen zu 
 
 
 ```{r}
-fit <- glm(cbind(dead,n) ~ product * logdose + I(logdose^2), family = quasibinomial, data = data)
+fit <- glm(cbind(dead,n-dead) ~ product * logdose + I(logdose^2), family = quasibinomial, data = data)
 summary(fit)
 ```
 

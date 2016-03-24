@@ -2,6 +2,8 @@
 Florian Hartig  
 13 Dec 2015  
 
+
+
 Im ersten Datensatz geht es darum wie viele Stücke Futter ein junger Vogel von seinen Eltern bekommt, abhängig von seiner Attraktivität
 
 
@@ -228,7 +230,7 @@ Die Frage ist: gibt es Unterschiede zwischen den Giften. Ich will hier demonstri
 
 
 ```r
-fit <- glm(cbind(dead,n) ~ product, family = binomial, data = data)
+fit <- glm(cbind(dead,n-dead) ~ product, family = binomial, data = data)
 ```
 
 Ergebnisse anschauen
@@ -241,25 +243,26 @@ summary(fit)
 ```
 ## 
 ## Call:
-## glm(formula = cbind(dead, n) ~ product, family = binomial, data = data)
+## glm(formula = cbind(dead, n - dead) ~ product, family = binomial, 
+##     data = data)
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -4.0820  -1.1888   0.0719   0.9615   1.7117  
+## -5.6547  -2.0712   0.1397   2.0981   4.8825  
 ## 
 ## Coefficients:
-##             Estimate Std. Error z value Pr(>|z|)    
-## (Intercept) -0.53000    0.09242  -5.735 9.76e-09 ***
-## productB    -0.02127    0.12993  -0.164    0.870    
-## productC     0.03335    0.12686   0.263    0.793    
+##             Estimate Std. Error z value Pr(>|z|)   
+## (Intercept)  0.35821    0.11432   3.133  0.00173 **
+## productB    -0.05094    0.15986  -0.319  0.74999   
+## productC     0.08310    0.15831   0.525  0.59965   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
-##     Null deviance: 88.388  on 50  degrees of freedom
-## Residual deviance: 88.196  on 48  degrees of freedom
-## AIC: 280.98
+##     Null deviance: 311.24  on 50  degrees of freedom
+## Residual deviance: 310.49  on 48  degrees of freedom
+## AIC: 463.49
 ## 
 ## Number of Fisher Scoring iterations: 4
 ```
@@ -278,37 +281,37 @@ Dann nehmen wir doch mal die fehlenden Variable dazu:
 
 
 ```r
-fit <- glm(cbind(dead,n) ~ product * logdose + I(logdose^2), family = binomial, data = data)
+fit <- glm(cbind(dead,n-dead) ~ product * logdose + I(logdose^2), family = binomial, data = data)
 summary(fit)
 ```
 
 ```
 ## 
 ## Call:
-## glm(formula = cbind(dead, n) ~ product * logdose + I(logdose^2), 
+## glm(formula = cbind(dead, n - dead) ~ product * logdose + I(logdose^2), 
 ##     family = binomial, data = data)
 ## 
 ## Deviance Residuals: 
 ##      Min        1Q    Median        3Q       Max  
-## -2.19063  -0.26340   0.09376   0.29348   0.81573  
+## -2.08449  -0.54486  -0.08257   0.59920   1.76829  
 ## 
 ## Coefficients:
 ##                  Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)      -2.21550    0.32275  -6.864 6.68e-12 ***
-## productB          0.61769    0.32932   1.876 0.060708 .  
-## productC         -0.10211    0.34410  -0.297 0.766653    
-## logdose           2.76762    0.57416   4.820 1.43e-06 ***
-## I(logdose^2)     -0.90022    0.27210  -3.308 0.000938 ***
-## productB:logdose -0.59610    0.29902  -1.993 0.046207 *  
-## productC:logdose  0.09862    0.29970   0.329 0.742113    
+## (Intercept)       -2.4610     0.3814  -6.452  1.1e-10 ***
+## productB           1.3191     0.3900   3.383 0.000718 ***
+## productC          -0.3198     0.4369  -0.732 0.464219    
+## logdose            4.1497     0.7488   5.542  3.0e-08 ***
+## I(logdose^2)      -0.7495     0.3863  -1.940 0.052354 .  
+## productB:logdose  -1.6183     0.4170  -3.881 0.000104 ***
+## productC:logdose   0.4465     0.4823   0.926 0.354583    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
-##     Null deviance: 88.388  on 50  degrees of freedom
-## Residual deviance: 11.648  on 44  degrees of freedom
-## AIC: 212.44
+##     Null deviance: 311.241  on 50  degrees of freedom
+## Residual deviance:  38.566  on 44  degrees of freedom
+## AIC: 199.57
 ## 
 ## Number of Fisher Scoring iterations: 4
 ```
@@ -621,15 +624,15 @@ summary(fit)
 ## vglm(formula = Snakes$N_days[1:80] ~ Snakes$PDayRain[1:80], family = posnegbinomial)
 ## 
 ## Pearson residuals:
-##               Min      1Q  Median     3Q   Max
-## loge(munb) -1.101 -0.6086 -0.5848 0.8801 2.328
-## loge(size) -3.977 -0.0253  0.1010 0.5763 0.950
+##               Min        1Q   Median     3Q   Max
+## loge(munb) -1.093 -0.615772 -0.58667 0.7384 1.939
+## loge(size) -5.211 -0.008415  0.07125 0.6390 0.890
 ## 
 ## Coefficients:
 ##                       Estimate Std. Error z value Pr(>|z|)   
-## (Intercept):1          -4.0073    18.2734  -0.219  0.82642   
-## (Intercept):2          -3.9594    18.7023  -0.212  0.83233   
-## Snakes$PDayRain[1:80]   1.8575     0.6003   3.094  0.00197 **
+## (Intercept):1          -4.0075    18.3457  -0.218  0.82708   
+## (Intercept):2          -3.9597    18.7654  -0.211  0.83288   
+## Snakes$PDayRain[1:80]   1.8575     0.6099   3.046  0.00232 **
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
