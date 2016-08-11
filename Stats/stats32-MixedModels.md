@@ -35,12 +35,21 @@ The mixed model has become a standard weapon in ecology, because many datasets a
 
 * Plot designs: we have n plots, and each plot has k treatments. If a measurements of treatment 1 in plot A is higher than expected from the model, we might also expect the measurement of treatment 2 to be higher than expected. The idea that is that therea are some random differences between plots, that act uniformly on all treatments. Hence, treatments on the same plot are not independent, grouping: plot.
 
+### Random effect specification 
+
+#### Crossed vs. nested
+
+This is a common point of confusion. Read []( http://stats.stackexchange.com/questions/228800/crossed-vs-nested-random-effects-how-do-they-differ-and-how-are-they-specified)
+
 
 ### Estimation of linear mixed models 
 
 * Normally, with nlme or lme4. Generally prefer lme4 because of the more modern interface. Nlme allows to treat heteroscedasiticy and correlation of residuals.
 
 * HHeavy tails / outliers --> Check out heavyLme (package heavy), lqmm (lqmm), or rlmer
+
+
+
 
 
 ## Generalized linear mixed models (GLMM)
