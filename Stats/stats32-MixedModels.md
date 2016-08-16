@@ -39,7 +39,7 @@ The mixed model has become a standard weapon in ecology, because many datasets a
 
 #### Crossed vs. nested
 
-This is a common point of confusion. Read []( http://stats.stackexchange.com/questions/228800/crossed-vs-nested-random-effects-how-do-they-differ-and-how-are-they-specified)
+This is a common point of confusion. Read [this]( http://stats.stackexchange.com/questions/228800/crossed-vs-nested-random-effects-how-do-they-differ-and-how-are-they-specified)
 
 
 ### Estimation of linear mixed models 
