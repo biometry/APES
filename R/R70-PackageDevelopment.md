@@ -51,3 +51,8 @@ Special topics
 * RCPP (integration or R and C++) see [here](http://dirk.eddelbuettel.com/code/rcpp.html)
 * Boost see [here](http://dirk.eddelbuettel.com/code/bh.html)
 * Testing see [here](http://r-pkgs.had.co.nz/tests.html#test-workflow)
+
+Submitting to CRAN tips 
+
+* 1st time experience [1](https://rmhogervorst.github.io/cleancode/blog/2016/07/09/submtting-to-cran-first-experience.html)
+
