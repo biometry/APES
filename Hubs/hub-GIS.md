@@ -14,3 +14,8 @@ category: hubs
  * Making Maps in R: [here](http://kevjohnson.org/making-maps-in-r/) and [here](http://www.kevjohnson.org/making-maps-in-r-part-2/)
  * Raster plotting using rasterVis: [Click here](http://oscarperpinan.github.io/rastervis/)
  * [Talk mapping in R](http://www.noamross.net/blog/2015/2/20/mapping-in-R-peek-tobias.html)
+
+
+## Maps in R
+
+ * [Intro - MAPS WITH R](http://rstudio-pubs-static.s3.amazonaws.com/7202_3145df2a90a44e6e86a0637bc4264f9f.html)
