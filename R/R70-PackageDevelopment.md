@@ -72,22 +72,3 @@ Checklist for submission
   * Ubuntu (via Travis-CI)
 5. Push new version to GH
 6. Submit to CRAN
-  
-
-
-
-
-
-See what Hadley recommends ().
-Update:
-
-    R
-    all packages
-    RStudio (preview version).
-
-
-
-* Checklists [1](http://www.wais.kamil.rzeszow.pl/checklist-for-an-r-package-update-in-cran/)
-
-* 1st time experience [1](https://rmhogervorst.github.io/cleancode/blog/2016/07/09/submtting-to-cran-first-experience.html)
-
