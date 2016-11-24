@@ -1,0 +1,17 @@
+base
+knitr
+Matrix
+Rcpp
+lme4
+mlmRev
+lmerTest
+msm
+ggplot2
+mvtnorm
+reshape2
+ellipse
+lattice
+MuMIn
+coda
+rjags
+R2jags

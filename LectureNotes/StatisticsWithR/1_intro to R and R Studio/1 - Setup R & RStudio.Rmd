@@ -1,0 +1,244 @@
+---
+title: "1 - Setup R & RStudio"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+R & R Studio are open source. 
+http://www.r-project.org/
+http://www.rstudio.com/
+
+## Basic operations, objects, vectors and matrices.
+
+Open R Studio which runs R
+
+Let's create and save an R studio (very simple) script (on the RStudio command bar: File -> New File -> R script) 
+Remember! You can use the symbol # to add comments that will not be processed by R as codes. 
+Use of "Run" to run your script in the R console (otherwise, shortcut: Ctrl + enter)
+
+Let's start with assigning values to objects in R, doing basic arithmetic functions, and performing a few other handy tasks in R.
+
+
+```{r}
+# assign a value to an object
+x = 55
+print(x)
+#or
+x
+#remember R is case sensitive - try to type X
+#Error: object 'X' not found
+
+# R does not care about SPACING, although it is good habit to put some space in your codes because they will be more readable eventually
+a = 1
+b=1
+
+# use of arrow instead of "=". Remember, the arrow is directional (you can use both ways), while "=" assigns a value (on the rigth of =) to the object name (on the left of =)
+
+z = 55 # assing 55 to z
+# 55 = z does not work - try it out in your console
+
+y <- 14
+23 -> zz
+
+```
+
+Check the top righ window to verify what we just stored in the workspace memory.
+
+
+or use the ls command
+```{r}
+ls()
+```
+
+you can remove an object
+```{r}
+rm(y)
+```
+
+
+Object names can include numbers
+```{r}
+z1 = 15
+z1
+#but cannot begin with numbers
+# try to type 2z =15
+
+```
+
+Quotaion marks to assign character to objects
+```{r}
+m1 = "Rclass"
+m1
+
+m2="25" #this is a character, not a number!
+m2
+```
+
+```{r}
+2 + 2
+
+#but also with our objects
+z1+x
+
+#we store it in a new object
+z = z1 + x
+z
+
+
+#we can square z
+z^2
+
+sqrt(z) + x^2
+
+
+#natural log
+log(x)
+
+#log base 2
+log2(x)
+
+f = -34
+abs(f)
+
+
+```
+
+common mistake in R (incomplete command)
+```{r}
+# try to type sqrt(x
+# you gotta complete the script!  (or press ESC if you are stuck)
+```
+
+- few shorcuts
+In the R consol, try the arrow up key command
+
+
+let's create a vector using the concatenate command
+```{r}
+x1 = c(1,3,5,7,9)
+x1
+
+gender = c("male", "female")
+gender
+#sequence
+2:7
+
+seq(from = 1, to = 7, by = 1)
+
+
+seq(from = 1, to = 7, by = 1/3)
+
+
+seq(from = 1, to = 7, by = 0.25)
+```
+
+Let's create a vector repeating something for a certain number of times
+
+```{r}
+rep(1, times = 10)
+
+rep("simone", times = 10)
+
+rep(1:5, times=5)
+
+rep(seq(from = 2, to = 5,by = 0.25), times = 5)
+
+rep(c("m","f"),times=10)
+```
+
+
+
+```{r}
+x = 1:5
+y = c(1, 3, 5, 7, 9)
+
+```
+
+we can add a value to each element of the vector
+```{r}
+x + 10
+
+x - 10
+
+
+x * 10
+```
+
+if 2 vectors are of the same length
+we may add/subtract/mult/div corresponding elements
+```{r}
+x
+y
+x + y
+x - y
+```
+
+We can extract elements of a vector using squared brakets
+```{r}
+y
+y[2]
+
+#negative sign extract all except that element
+y[-2]
+
+y[1:3]
+
+#extract the first anf the third
+y[c(1,3)]
+
+#all except them
+y[-c(1,3)]
+
+# you can include a conditional query
+y[y < 3]
+y[y < 20]
+
+```
+
+we can create a matrix of value using the matrix command
+
+```{r}
+matrix(c(1,2,3,4,5,6,7,8,9), nrow = 3, byrow = TRUE) #enter the elements rowwise
+
+matrix(c(1,2,3,4,5,6,7,8,9), nrow = 3, byrow = FALSE)#values entered columnwise
+
+
+
+mat1 = matrix(c(1,2,3,4,5,6,7,8,9), nrow=3, byrow=TRUE) #enter the elements
+
+mat1
+```
+
+square brakets used to grab elements from the matrix
+
+```{r}
+mat1[1,2]  #element in the first row and second column
+
+mat1[c(1,3),2]
+
+mat1[2,] #row 2 and all columns
+
+mat1[,1]
+
+
+mat1*10
+
+
+# convert the matrix into a dataframe
+mat1 = data.frame(mat1)
+names(mat1) = c("column1", "column2", "column3")
+mat1
+mat1[,3] # selecting data on column3, all rows
+
+
+# shortcut R studion Ctrl + L to clean up your console (only visualization, object are not deleted!)
+```
+
+-> browse the HTLM versione produced by Knitting this MarkDown file.
+-> IN CLASS EXERCISES 1.EXERCISES.txt
+
++++++++++++++++++
+Edited by Simone Ciuti, University of Freiburg, 14/10/2015; 
+Intended for the only purpose of teaching @ Freiburg University.
++++++++++++++++++++++++++++++++++++++++++++++++++

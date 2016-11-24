@@ -11,7 +11,6 @@ Count data. Poisson distribution.
 Road kills data of amphibians species along a road in Portugal
 
 ```{r}
-setwd("~/TEACHING IN FREIBURG/11 - Statistics with R fall 2015/9_GLMs - Poisson and Quasi-Poisson")
 load("RK.RData")
 head(RK)
 ```

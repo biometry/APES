@@ -32,6 +32,10 @@ For a more in-depth discussion, see [here](http://adv-r.had.co.nz/Performance.ht
 
 If you have severe runtime problems, consider paralellization and or moving code to c/c++.
 
+## OO programming in R
+
+* [class-and-objects-in-r](http://abhishek-tiwari.com/hacking/class-and-objects-in-r-s3-style)
+
 ## Parallelization
 Useful links:
 
@@ -44,6 +48,9 @@ Useful links:
 * [Developing parallel programs using snowfall](https://cran.r-project.org/web/packages/snowfall/vignettes/snowfall.pdf)
 * [A Survey of R Software for Parallel Computing](http://pubs.sciepub.com/ajams/2/4/9/)
 
+## Speed and memory issues 
+
+* [Memory layout of multidimensional matrices](http://eli.thegreenplace.net/2015/memory-layout-of-multi-dimensional-arrays/)
 
 
 

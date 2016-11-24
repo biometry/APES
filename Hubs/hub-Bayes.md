@@ -28,6 +28,8 @@ It is hard to understand why as a beginner, but one reason why Bayesian approach
 
 * For doing Bayesian inference specifically with process-based models see [here](https://github.com/florianhartig/LearningBayes/tree/master/CommentedCode/09-BayesAndProcessBasedModels)
 
+* [Here's](https://biometry.github.io/APES/LectureNotes/StatsCafe/Linear_models_jags.html) a page explaining how to do linear (mixed) models using Bayesian inference in JAGS. For such simple models, there is usually no point doing them in JAGS, but these simple examples will hopefully help you understand more complex Bayesian analyses.
+
 
 
 

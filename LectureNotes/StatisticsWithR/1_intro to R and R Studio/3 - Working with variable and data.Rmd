@@ -1,0 +1,188 @@
+---
+title: "Working with variable and data"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r}
+# mtcars is one of many files that are available in the basic configuration of R
+head(mtcars)
+names(mtcars)
+#?mtcars to get more info
+```
+
+A data frame with 32 observations on 11 variables.
+[, 1]   mpg	 Miles/(US) gallon
+[, 2]	 cyl	 Number of cylinders
+[, 3]	 disp	 Displacement (cu.in.)
+[, 4]	 hp	 Gross horsepower
+[, 5]	 drat	 Rear axle ratio
+[, 6]	 wt	 Weight (lb/1000)
+[, 7]	 qsec	 1/4 mile time
+[, 8]	 vs	 V/S
+[, 9]	 am	 Transmission (0 = automatic, 1 = manual)
+[,10]	 gear	 Number of forward gears
+[,11]	 carb	 Number of carburetors
+
+```{r}
+head(mtcars)
+summary(mtcars)
+class(mtcars$am)
+mtcars$fam = factor(mtcars$am, levels = c(0,1), labels = c("automatic","manual")) #let's create a new column fam, where we store am as factor
+head(mtcars)
+class(mtcars$fam)
+
+```
+
+
+use of $ sign, attach, detach, with
+```{r}
+#let's compute the mean of hp. 3 options for you.
+
+#option1
+mean(mtcars$hp) 
+
+#option2
+attach(mtcars)
+mean(hp)
+search()
+detach(mtcars)  ###### always remember to detach!!!!!!!!!!!
+search()
+
+#option3
+with(mtcars,mean(hp))
+
+
+```
+
+
+```{r}
+attach(mtcars)
+class(mtcars)
+names(mtcars)
+class(mpg)
+class(fam)
+
+str(mtcars)
+levels(fam)
+
+summary(mtcars)
+length(mpg)
+length(fam)
+detach(mtcars)
+```
+
+```{r}
+x = c(0,1,1,1,0,0,0,0,0,0)
+class(x)
+summary(x)
+x = as.factor(x)
+class(x)
+summary(x) #it reports frequencies now
+```
+
+
+Subsetting the mtcars data
+
+```{r}
+attach(mtcars)
+mtcars[11:14,]
+
+mean(hp)
+mean(hp[fam == "automatic"])  # - assigns values to objects; == means equality in mathematical sense 
+mean(hp[fam == "manual"])
+
+
+
+
+mean(hp[cyl > 7])
+
+automatic = mtcars[fam == "automatic",]  ## only rows automatic, all columns
+manual = mtcars[fam == "manual",]
+
+dim(mtcars)
+dim(automatic)
+dim(manual)
+summary(fam)
+```
+
+
+```{r}
+aut = hp[fam == "automatic"] # - assigns values to objects; == means equality in mathematical sense 
+man = hp[fam == "manual"]
+
+autover6cyl = mtcars[fam == "automatic" & cyl > 5,]
+summary(autover6cyl)
+dim(autover6cyl)
+autover6cyl[1:3,]
+
+notautomatic = mtcars[!fam=="automatic" ,]
+notautomatic
+```
+
+use of logic commands
+remember that "mtcars"" is still attached
+
+```{r}
+mtcars[1:5,]
+#hp of the first five cars
+hp[1:5]
+
+temp = hp >100
+temp[1:5]
+
+```
+
+```{r}
+temp2 = as.numeric(hp > 100)
+temp2[1:5]
+```
+
+
+```{r}
+mtcars[1:5,]
+gear4 = gear==4
+gear4[1:5]
+
+gear4_manual= gear==4 & fam =="manual"
+gear4_manual[1:5]
+```
+
+cbind
+
+```{r}
+newdata = cbind(mtcars,gear4_manual)
+head(newdata)
+detach(mtcars)
+```
+
+
+ifelse statement
+```{r}
+attach(newdata)
+newdata$cyltest = ifelse(gear == 4,"four","nofour")
+head(newdata)
+detach(newdata)
+```
+
+
+
+
+
+```{r}
+rm(list = ls()) #this clean your workspace removing all the objects
+```
+
+
+
+
+
+-> IN CLASS EXERCISES  3_EXERCISES.txt
+
+
+
++++++++++++++++++
+Edited by Simone Ciuti, University of Freiburg, 9/10/2014; 
+Intended for the only purpose of teaching @ Freiburg University
++++++++++++++++++++++++++++++++++++++++++++++++++

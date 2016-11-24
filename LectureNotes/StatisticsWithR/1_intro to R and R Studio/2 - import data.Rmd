@@ -1,0 +1,80 @@
+---
+title: "Import data from excel or similar editors"
+output: 
+  html_document: 
+    keep_md: yes
+---
+Most common file format people usually import are comma separated value .csv, tab delimited text file .txt.
+However, there are not limits to it. Use GOOGLE if you want to import .xlsx, .dbf or data from other software (SPSS, SAS, Stata)
+
+Let's make it simple this time, and let's learn from RStudio how to do it.
+
+Import the file hospital_data_csvdel.csv and assing the file name data1 (top-right window of R studio -> Import Dataset -> follow the instructions properly).
+Please note: make sure the final file visualized by Rstudio has "." and not "," for the decimals. 
+
+Copy and paste the script that RStudio uses to import the file, it now is your script!
+
+```{r}
+data1 <- read.csv("~/TEACHING IN FREIBURG/11 - Statistics with R fall 2015/1_intro to R and R Studio/hospital_data_csvdel.csv") #this is the example of my laptop
+# I can re-use the script to name the file in a different way
+data2 = read.csv("~/TEACHING IN FREIBURG/11 - Statistics with R fall 2015/1_intro to R and R Studio/hospital_data_csvdel.csv")
+```
+
+By the way - when you create a new R script, always good habit to set the working directory
+
+```{r}
+#setting the directory is always handy (again, you learn the script from R Studio Session-> set working directory -> choose directory)
+setwd("~/TEACHING IN FREIBURG/11 - Statistics with R fall 2015/1_intro to R and R Studio")
+# data import now works without indicating the whole path.
+data3 = read.csv("hospital_data_csvdel.csv")
+
+#let's have a look to data summary
+summary(data1)
+```
+
+```{r}
+#import German_Example.csv. It may be problematic when we switch from computers with "." to computers with "," as decimanls indicators, and viceversa. No worries, just pay attention when you use the Import Dataset button in R studio
+
+German_Example <- read.csv("~/TEACHING IN FREIBURG/11 - Statistics with R fall 2015/1_intro to R and R Studio/German_Example.csv", dec=",")
+
+```
+In practive, as an additional benefit of using it, RStudio solves those issues for you with the Import dataset button. The dialog box that appears when 
+you click it lets you choose separators, header line (yes/no) and whether there are quotes around fields, and shows a preview of what the table will 
+look like. Then it builds the read.table command for you (CHECK THE SCRIPT AUTOMATICALLY GENERATED IN THE CONSOLE), so that you can copy it into your script. If you're not an RStudio user, just look at the actual file in a text editor, and add dec= and sep= instructions to your read.table as needed.
+
+We can save our data as a R data file
+```{r}
+save(data1, file="data1.RData") ## THEY WILL BE STORED IN THE DIRECTORY YOU DID SET UP!
+rm(data1)
+#and can we easily reload it
+load("data1.RData")
+head(data1)
+```
+
+
+## Basic tools for data exploration
+```{r}
+summary(data1)
+head(data1)
+tail(data1)
+
+dim(data1) # rows, column
+
+class(data1)
+
+data1[c(5,6,7),]
+data1[5:9,]
+
+data1[-(4:722),]
+
+names(data1)
+
+```
+
+-> IN CLASS EXERCISES  2_EXERCISES.txt
+
+
++++++++++++++++++
+Edited by Simone Ciuti, University of Freiburg, 9/10/2014; 
+Intended for the only purpose of teaching @ Freiburg University
++++++++++++++++++++++++++++++++++++++++++++++++++

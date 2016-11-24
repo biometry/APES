@@ -1,0 +1,23 @@
+
+Exercise3
+Use tapply to get the mean of mgp depending on fgear and fam 
+
+
+Exercise4
+- boxplot of mpg depending on fgear (using main, xlab, ylab, ylim, las, col)
+- use c (concatenate) to assign 3 different colours
+
+
+
+Solutions
+
+
+3)
+tapply(mpg, list(fam,fgear), mean)
+
+4)
+boxplot(mpg ~ fgear, main="myboxplot", xlab="gears", ylab="mpg",
+ylim = c(0,40), las = 1,col = 2)
+
+boxplot(mpg ~ fgear, main="myboxplot", xlab="gears", ylab="mpg",
+ylim = c(0,40), las = 1,col = c("red", "orange", "green"))

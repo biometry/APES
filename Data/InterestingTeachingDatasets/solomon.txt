@@ -1,0 +1,53 @@
+Island Species Area Distance
+Nugu                  9  0.0577     6.7
+Savo                 37    11.8     8.4
+Three Sisters        32    4.28    12.2
+Mono                 43    28.1    17.8
+Pavuvu/Baniko        45      68    28.8
+Borokua              13    1.56    36.4
+Nissan               29    14.3    38.9
+Bellona              20    7.62    97.6
+Rennell              42     264   104.4
+Sikaiana              6   0.502   108.5
+Ongtong Java          9    3.69     147
+Malaita              69    1663      30
+San Cristobal        69    1193      30
+Ndeni                24     169     225
+Espiritu Santo       43    1520     384
+Bougainsville        82    3317       0
+Guadalcanal          79    2039       0
+Ysabel               71    1581       0
+Choiseul             70    1145       0
+Bukka                63     236       0
+Nggela               61     142       0
+Shortland            58    89.5       0
+Fauro                51    27.4       0
+Vatilau              41     5.4       0
+Nusave               35   0.206       0
+Bagora               22  0.1263       0
+Samarai              19  0.0351       0
+New                  15  0.0273       0
+Dalakalonga          10  0.0257       0
+Elo                  14  0.0211       0
+Kosha                13  0.0199       0
+Kukuvulu             11  0.0156       0
+Tapanu               13  0.0062       0
+Kanasata              6  0.0035       0
+Nameless              8  0.0027       0
+New Georgia          65     789       0
+Kolombangara         65     272       0
+Vangunu              62     210       0
+Gatukai              55      42       0
+Wana Wana            56    26.5       0
+Nusalavata            9   0.032       0
+Kundu Kundu          12  0.0187       0
+Vella Lavella        65     247       0
+Ganonga              53      55       0
+Rendova              61     147       0
+Tetipari             56      47       0
+Ugi                  50    16.3       0
+Gizo                 56    13.6       0
+Santa Anna           46    5.66       0
+Simbo                43       5       0
+Santa Catalina       38    1.91       0
+Kicha                15   0.044       0

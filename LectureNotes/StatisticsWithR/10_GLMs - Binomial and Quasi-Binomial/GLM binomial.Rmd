@@ -1,0 +1,252 @@
+---
+title: "GLM binomial"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+Presence / absence data - binary data.
+
+Logistic regression is a method for fitting a regression curve, y = f(x), when y consists of proportions or probabilities, or binary coded (0,1--failure,success) data. When the response is a binary (dichotomous) variable, and x is numerical, logistic regression fits a logistic curve to the relationship between x and y. 
+
+
+Assumptions
+The true conditional probabilities are a logistic function of the independent variables.
+No important variables are omitted.
+No extraneous variables are included.
+The independent variables are measured without error.
+The observations are independent.
+The independent variables are not linear combinations of each other.
+
+##Example 1 - tubercolosis in Wild Boar
+
+Wild boar with/without tubercolosis as a function of body lenght (age is collinear with length and we do not use it as predictor)
+```{r}
+#import wildboar data
+load("Boar.RData")
+head(Boar)
+summary(Boar)
+cor(Boar[,c(3,4)])
+```
+
+A bit of data exploration
+```{r}
+attach(Boar)
+boxplot(LengthCT ~ Tb, xlab = 'Body length', ylab = 'Tb', horizontal = T) #certainly, not the best way to show binomial data 
+
+plot(Boar$LengthCT, Boar$Tb, xlab = "Body Length", ylab = "Tb")
+
+#just to get a feeling with what is going on with these data
+B0 = lm(Tb ~ LengthCT, data = Boar)
+abline(B0) 
+#wrong in principle, because we deal with probabilities here, while linear regression also predicts negative probabilities
+```
+We need a function that maps the values between 0 and 1
+(e.g., logit link, probit link, clog-log link, log-log link).
+the default is logit link
+
+```{r}
+B1 = glm(Tb ~ LengthCT, family = binomial, data = Boar) # logit link is the default
+summary(B1)
+```
+
+Probability that an animal is infected is:
+p = (e^(-3.89 + 0.03 * length)) / (1 + e^( -3.89 + 0.03 * length))
+
+```{r}
+plot(Boar$LengthCT, Boar$Tb,xlab="Length", ylab="Tb")
+MyData = data.frame(LengthCT = seq(46.5, 165, by = 1))
+Pred = predict(B1,newdata = MyData, type = "response", se = T)
+lines(MyData$LengthCT, Pred$fit ,col = 2,lty = 2)
+lines(MyData$LengthCT, Pred$fit + (1.96 * Pred$se.fit),col = 4,lty = 2)
+lines(MyData$LengthCT, Pred$fit - (1.96 * Pred$se.fit),col = 4,lty = 2)
+
+
+```
+
+
+
+other option (actually changing the link function)
+```{r}
+B1.A = glm(Tb ~ LengthCT, family = binomial(link = "probit"), data = Boar)
+summary(B1.A)
+# logit and probit link assume that you have about the same number of zeros and ones
+# clog-log is a good option if you have lots of zeros, or viceversa family = binomial(link="cloglog")
+
+plot(Boar$LengthCT, Boar$Tb,xlab="Length", ylab="Tb")
+MyData = data.frame(LengthCT = seq(46.5, 165, by = 1))
+Pred = predict(B1.A,newdata = MyData, type = "response", se = T)
+lines(MyData$LengthCT, Pred$fit ,col = 2,lty = 2)
+lines(MyData$LengthCT, Pred$fit + (1.96 * Pred$se.fit),col = 4,lty = 2)
+lines(MyData$LengthCT, Pred$fit - (1.96 * Pred$se.fit),col = 4,lty = 2)
+
+
+
+
+```
+
+Pseudo R Square
+```{r}
+#Null Deviance - residual Deviance / Null Deviance
+((B1.A$null.deviance-B1.A$deviance)/B1.A$null.deviance)*100 #5% of total variability explained
+```
+
+
+
+##Example 2 - Parasites in cod (fish)
+
+
+```{r}
+ParasiteCod <- read.delim("ParasiteCod.txt")
+
+head(ParasiteCod)
+```
+Response variable: Prevalance 0 1
+Explanatories: year, area, depth at which fish were caught
+Depth and area are collinear; other explanatory are sex, length, weight, stage, age..all collinear except for sex
+
+```{r}
+ParasiteCod$fArea = factor(ParasiteCod$Area)
+
+attach(ParasiteCod)
+P1 = glm(Prevalence ~ fArea + Length,
+               family = binomial, data = ParasiteCod)  
+
+summary(P1)
+
+plot(Length,Prevalence)
+
+MyData = data.frame(Length = seq(from = 20, to = 100, by = 1), fArea="1")
+Pred = predict(P1,newdata = MyData, type = "response", se = T)
+lines(MyData$Length, Pred$fit, col = 1,lty = 1)
+lines(MyData$Length, Pred$fit + (1.96 * Pred$se.fit), col = 1,lty = 3)
+lines(MyData$Length, Pred$fit - (1.96 * Pred$se.fit), col = 1,lty = 3)
+
+
+MyData = data.frame(Length = seq(from = 20, to = 100, by = 1), fArea="2")
+Pred = predict(P1,newdata = MyData, type = "response", se = T)
+lines(MyData$Length, Pred$fit, col = 2,lty = 1)
+lines(MyData$Length, Pred$fit + (1.96 * Pred$se.fit), col = 2,lty = 3)
+lines(MyData$Length, Pred$fit - (1.96 * Pred$se.fit), col = 2,lty = 3)
+
+
+
+
+MyData = data.frame(Length = seq(from = 20, to = 100, by = 1), fArea="3")
+Pred = predict(P1,newdata = MyData, type = "response", se = T)
+lines(MyData$Length, Pred$fit, col = 3,lty = 1)
+lines(MyData$Length, Pred$fit + (1.96 * Pred$se.fit), col = 3,lty = 3)
+lines(MyData$Length, Pred$fit - (1.96 * Pred$se.fit), col = 3,lty = 3)
+
+
+
+MyData = data.frame(Length = seq(from = 20, to = 100, by = 1), fArea="4")
+Pred = predict(P1,newdata = MyData, type = "response", se = T)
+lines(MyData$Length, Pred$fit, col = 4,lty = 1)
+lines(MyData$Length, Pred$fit + (1.96 * Pred$se.fit), col = 4,lty = 3)
+lines(MyData$Length, Pred$fit - (1.96 * Pred$se.fit), col = 4,lty = 3)
+
+
+
+# you can fix it with a loop, if you wish
+AREA = 1:4
+plot(Length,Prevalence)
+for (i in AREA) {
+  MyData = data.frame(Length = seq(from = 20, to = 100, by = 1), fArea = as.factor(i))
+Pred = predict(P1,newdata = MyData, type = "response", se = T)
+lines(MyData$Length, Pred$fit, col = i,lty = 1)
+lines(MyData$Length, Pred$fit + (1.96 * Pred$se.fit), col = i,lty = 3)
+lines(MyData$Length, Pred$fit - (1.96 * Pred$se.fit), col = i,lty = 3)
+}
+
+legend("bottomright", c("Area 1", "Area 2", "Area 3", "Area 4"), col = 1:4, title = "",
+       bty="n", pch = rep("_", 4), inset = .04, cex = 1.2)
+
+
+
+```
+
+
+
+
+##Example 3 - Tubercolosis in deer, this time proportion data (ranging from 0 to 1)
+
+```{r}
+Tbdeer <- read.delim("Tbdeer.txt")
+head(Tbdeer)
+Tbdeer$DeerPosProp = Tbdeer$DeerPosCervi / Tbdeer$DeerSampledCervi  # proportion of deer infected
+
+Tbdeer$fFenced = factor(Tbdeer$Fenced)
+```
+
+
+Effect of percentage open land, scrubs, pine plantation, number of quercus per unit area, red deer abundance index, estate size, estate fenced ON probability of getting infected
+
+```{r}
+Deer2 <- glm(DeerPosProp ~ OpenLand + ScrubLand + ReedDeerIndex + fFenced,
+        family = binomial, weights = DeerSampledCervi, data = Tbdeer)
+
+summary(Deer2)
+
+
+```
+
+
+This is a Binomial GLM with proportion data.
+We can have overdispersion. 
+Residual deviance / df should be ~1
+
+```{r}
+Deer2$deviance / Deer2$df.residual #~9
+
+library(effects)
+plot(allEffects(Deer2))
+```
+
+we add a dispersion parameter to the variance of Y
+```{r}
+Deer3 <- glm(DeerPosProp ~ OpenLand + ScrubLand + ReedDeerIndex + fFenced,
+             family = quasibinomial, weights = DeerSampledCervi, data = Tbdeer)
+summary(Deer3)
+Deer3$deviance / Deer3$df.residual
+
+plot(allEffects(Deer3))
+```
+
+We have lost many of the significant patterns that were biased by overdispersion.
+The new results are pretty different.
+
+
+```{r}
+
+plot(Tbdeer$OpenLand, Tbdeer$DeerPosProp)
+
+MyData = data.frame(OpenLand = seq (min(Tbdeer$OpenLand), max(Tbdeer$OpenLand), 0.05),
+                    ScrubLand = mean(Tbdeer$ScrubLand), ReedDeerIndex = mean(Tbdeer$ReedDeerIndex), fFenced = "0") # scenario no-fenced
+Pred = predict(Deer3,newdata = MyData, type = "response", se = T)
+lines(MyData$OpenLand, Pred$fit, col = 3,lty = 1)
+lines(MyData$OpenLand, Pred$fit + Pred$se.fit, col = 3,lty = 3)
+lines(MyData$OpenLand, Pred$fit - Pred$se.fit, col = 3,lty = 3)
+
+
+
+MyData = data.frame(OpenLand = seq (min(Tbdeer$OpenLand), max(Tbdeer$OpenLand), 0.05),
+                    ScrubLand = mean(Tbdeer$ScrubLand), ReedDeerIndex = mean(Tbdeer$ReedDeerIndex), fFenced = "1") # scenario yes-fenced
+Pred = predict(Deer3,newdata = MyData, type = "response", se = T)
+lines(MyData$OpenLand, Pred$fit, col = 1,lty = 1)
+lines(MyData$OpenLand, Pred$fit + Pred$se.fit, col = 1,lty = 3)
+lines(MyData$OpenLand, Pred$fit - Pred$se.fit, col = 1,lty = 3)
+
+
+
+```
+
+-> IN-class discussion about diagnostics in GLM binomial and model evaluation.
+
++++++++++++++++++
+Edited by Simone Ciuti, University of Freiburg, 27/10/2015; 
+Intended for the only purpose of teaching @ Freiburg University; 
+Sources: Mick Crawley, R book, 2nd edition; Simone Ciuti, simulated data.; Mike Marin Stat, University of British Columbia; quick-R; 
+Zuur, Ieno, Walker, Saveliev and Smith 2009 Mixed Effects Models and Extensions in Ecology with R.
++++++++++++++++++++++++++++++++++++++++++++++++++
+

@@ -1,0 +1,269 @@
+---
+title: "Wiederholung 2"
+author: "Florian Hartig"
+date: "15 Dec 2015"
+output: html_document
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=6, fig.height=6)
+```
+
+```{r}
+library(car)
+Prestige
+
+str(Prestige)
+plot(Prestige)
+
+```
+
+## Verteilung
+
+```{r}
+
+hist(Prestige$income, breaks = 30, col = "lightgray")
+
+summary(Prestige$income)
+abline(v = quantile(Prestige$income, probs = c(0,0.25,0.5,0.75,1)), col = "red", lwd = 2, lty = 2)
+
+library(moments)
+skewness(Prestige$income)
+
+```
+
+
+Ist das eine Normalverteilung
+
+```{r}
+shapiro.test(Prestige$income)
+```
+
+Nein! - wenn die Daten wirklich aus einer Normalverteilung stammen würden, dann wäre die Wahrscheinlichkeit die Beobachteten oder noch stärkere Abweichungen von eine Normalverteilung zu bekommen der p-value = 5.634e-10. Also 
+
+* Annahmen (H0): Normalverteilung
+* Berechung (p-Wert) Wahrscheinlichkeit die Beobachteten oder noch stärkere Abweichungen von eine Normalverteilung zu bekommen
+
+Andere tests geben leicht andere Werte - im Prinzip ist die Nullhypothese identisch, aber sie machen jeweils leicht andere Annahmen. In jedem Fall ist der Schluss aber gleicht - wenn der erzeugende Prozess eine Normalverteilung wäre (H0), wäre es extrem unwahrscheinlich solche Daten zu erhalten. 
+
+```{r}
+library(nortest)
+lillie.test(Prestige$income)
+ad.test(Prestige$income)
+```
+
+Dass das ganze keine Normalverteilung ist hindert uns aber nicht daran mal zu überprüfen was die Wahrscheinlichkeitsdichte wäre für die beobachteten Daten wenn der erzeugende Prozess eine Normalverteilung wäre (Likelihood), und welche Parameter die höchste Likelihood haben
+
+
+```{r}
+library(MASS)
+fitNormal <- fitdistr(Prestige$income, "normal")
+print(fitNormal)
+logLik(fitNormal)
+AIC(fitNormal)
+
+coef(fitNormal)
+hist(Prestige$income, breaks = 30, col = "lightgray", freq = F)
+curve(dnorm(x, mean = coef(fitNormal)[1], sd = coef(fitNormal)[2]), 0, 25000, add = T, col = "red", lwd = 2)
+```
+
+* Annahmen: Normalverteilung
+* Berechung: welche Parameter die höchste Likelihood haben
+
+
+```{r}
+fitLogNormal <- fitdistr(Prestige$income, "lognormal")
+print(fitLogNormal)
+logLik(fitLogNormal)
+
+coef(fitLogNormal)
+hist(Prestige$income, breaks = 30, col = "lightgray", freq = F)
+curve(dlnorm(x, mean = coef(fitLogNormal)[1], sd = coef(fitLogNormal)[2]), 0, 25000, add = T, col = "red", lwd = 2)
+```
+
+
+Welche Verteilung fittet besser?
+
+
+```{r}
+AIC(fitNormal)
+AIC(fitLogNormal)
+```
+
+Die LogNormale (niedrigerer AIC)
+
+
+## Korrelation + Kovarianz
+
+Nehmen wir mal 2 Variablen
+
+```{r}
+plot(Prestige$income ~ Prestige$education)
+```
+
+Kovarianz - es macht keinen Unterschied in welche Richtung Sie die Variable plotten
+
+```{r}
+cov(Prestige$income, Prestige$education)
+cov(Prestige$education, Prestige$income)
+```
+
+Korrelation ist eine standardisierte Kovarianz
+
+```{r}
+cor(Prestige$income, Prestige$education)
+cor(Prestige$education, Prestige$income)
+```
+
+
+```{r}
+cor(Prestige$income, Prestige$education, method = "pearson")
+cor(Prestige$education, Prestige$income, method = "pearson")
+```
+
+
+Test auf Korrelation:
+
+* H0: es gibt keine Korrelation
+* p-Wert: wie wahrscheinlich wäre die beobachtete oder eine stärkere Korrelation wenn es eigentlich keine Korrelation gibt?
+
+
+```{r}
+cor.test(Prestige$education, Prestige$income, method = "pearson")
+```
+
+
+### Assoziation 
+
+* kontinuierlich gegen 0/1
+* kontinuierlich gegen rot/grün/blau
+* 0/1 gegen 0/1 --> chi2 test
+* rot/grün/blau gegenrot/grün/blau 
+
+```{r}
+
+## From Agresti(2007) p.39
+M <- as.table(rbind(c(762, 327, 468), c(484, 239, 477)))
+dimnames(M) <- list(gender = c("F", "M"),
+                    party = c("Democrat","Independent", "Republican"))
+(Xsq <- chisq.test(M))  # Prints test summary
+
+
+```
+
+
+## Regression
+
+kontinuierlicer Prediktor
+
+```{r}
+summary(glm(Prestige$income ~ Prestige$education))
+```
+
+kategorischer Prediktor
+
+```{r}
+summary(glm(Prestige$income ~ Prestige$type))
+```
+
+Referz ist der erste Wert des Faktors
+
+```{r}
+str(Prestige$type)
+```
+
+
+```{r}
+par(mfrow = c(2,2))
+plot(glm(Prestige$income ~ Prestige$education))
+```
+
+```{r}
+plot(Prestige$income ~ Prestige$education)
+abline(glm(Prestige$income ~ Prestige$education))
+```
+
+
+```{r}
+plot(glm(Prestige$income ~ Prestige$education))
+```
+
+
+
+```{r}
+fit <- glm(income ~ women, data = Prestige)
+summary(fit)
+
+plot(income ~ women, data = Prestige)
+abline(fit)
+
+par(mfrow = c(2,2))
+plot(fit)
+```
+
+```{r}
+
+par(mfrow = c(2,2))
+plot(income ~ women, data = Prestige)
+plot(sqrt(income) ~ women, data = Prestige)
+plot(log(income) ~ women, data = Prestige)
+plot(log(income) ~ sqrt(women), data = Prestige)
+```
+
+
+```{r}
+
+fit <- glm(log(income) ~ sqrt(women), data = Prestige)
+summary(fit)
+
+plot(log(income) ~ sqrt(women), data = Prestige)
+abline(fit)
+
+par(mfrow = c(2,2))
+plot(fit)
+```
+
+
+## Transformation beim GLM
+
+
+
+```{r}
+data = read.table("../../../Data/Doorman2013/schnaepper.txt")
+plot(stuecke ~ attrakt, data = data)
+```
+
+
+```{r}
+fit <- glm(stuecke ~ attrakt, family = poisson, data = data)
+summary(fit)
+```
+
+
+```{r}
+preddata = data.frame(attrakt = 1:5)
+
+# linearer Prediktor
+predict(fit, newdata = preddata)
+
+predict(fit, newdata = preddata, type = "response")
+# alternative:
+exp(predict(fit, newdata = preddata))
+
+# mit Fehler 
+
+pred <- predict(fit, newdata = preddata, type = "response", se.fit = T)
+
+
+plot(stuecke ~ attrakt, data = data)
+lines(preddata$attrakt, pred$fit)
+lines(preddata$attrakt, pred$fit + 1.96*pred$se.fit, lty = 2)
+lines(preddata$attrakt, pred$fit - 1.96*pred$se.fit, lty = 2)
+
+```
+
+
+
+
+
+
