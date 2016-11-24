@@ -35,13 +35,13 @@ head(snakes1)
 ```
 
 ```
-    b_length    b_mass
-1 -2.6564554  5.712696
-2 -2.4404669  9.119517
-3 -1.7813084 17.362433
-4 -1.7631631  9.323737
-5 -1.3888607 18.636169
-6 -0.6399949 15.015008
+##     b_length    b_mass
+## 1 -2.6564554  5.712696
+## 2 -2.4404669  9.119517
+## 3 -1.7813084 17.362433
+## 4 -1.7631631  9.323737
+## 5 -1.3888607 18.636169
+## 6 -0.6399949 15.015008
 ```
 The body length values are drawn from a normal distribution with mean 0 and standard deviation 1, even though real body lengths can of course only have positive values. With a real data set one should always scale and center all continuous predictors before the analysis (i.e. subtract the mean and divide by the standard deviation, thereby transforming them to values with a mean of 0 and sd of 1) to avoid running into problems with model fitting. Here, we directly work with predictor values which are similar to a scaled and centered variable.
 
@@ -110,16 +110,16 @@ fit_lm1
 ```
 
 ```
-Inference for Bugs model at "/tmp/RtmppcVUwR/model1f8119cb2633.txt", fit using jags,
- 3 chains, each with 12000 iterations (first 2000 discarded), n.thin = 10
- n.sims = 3000 iterations saved
-      mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
-alpha  29.061   1.014 27.062 28.391 29.078 29.718 31.086 1.001  3000
-beta    9.750   0.853  8.023  9.182  9.757 10.302 11.409 1.001  3000
-sigma   5.600   0.800  4.290  5.042  5.516  6.078  7.376 1.001  3000
-
-For each parameter, n.eff is a crude measure of effective sample size,
-and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+## Inference for Bugs model at "/tmp/Rtmpe6faDZ/model215c3bfa6d32.txt", fit using jags,
+##  3 chains, each with 12000 iterations (first 2000 discarded), n.thin = 10
+##  n.sims = 3000 iterations saved
+##       mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
+## alpha  29.061   1.014 27.062 28.391 29.078 29.718 31.086 1.001  3000
+## beta    9.750   0.853  8.023  9.182  9.757 10.302 11.409 1.001  3000
+## sigma   5.600   0.800  4.290  5.042  5.516  6.078  7.376 1.001  3000
+## 
+## For each parameter, n.eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ```
 
 This table shows the mean, standard deviation and quantiles of the marginal posterior distribution for each of the three model parameters. Note that the mean posterior values of **alpha**, **beta** and **sigma** are reasonably close to the true values that we used for the simulation (alpha = 30, beta = 10, sigma = 5). The range between the 2.5% and 97.5% quantiles is the 95% *credible interval* for each parameter. This is the Bayesian equivalent of a confidence interval, but its interpretation is different and arguably more intuitive. For example, for the 95% percent credible interval there is a 95% probability that the true parameter value lies within this range.
@@ -252,13 +252,13 @@ head(snakes2)
 ```
 
 ```
-   b_length    b_mass sex
-1 -2.656455 19.309795   1
-2 -2.440467  9.436224   0
-3 -2.414208  8.176761   0
-4 -1.781308  7.758034   0
-5 -1.763163 17.158954   1
-6 -1.717009 30.544474   1
+##    b_length    b_mass sex
+## 1 -2.656455 19.309795   1
+## 2 -2.440467  9.436224   0
+## 3 -2.414208  8.176761   0
+## 4 -1.781308  7.758034   0
+## 5 -1.763163 17.158954   1
+## 6 -1.717009 30.544474   1
 ```
 
 ```r
@@ -321,18 +321,18 @@ fit_lm2
 ```
 
 ```
-Inference for Bugs model at "/tmp/RtmppcVUwR/model1f8130446f54.txt", fit using jags,
- 3 chains, each with 12000 iterations (first 2000 discarded), n.thin = 10
- n.sims = 3000 iterations saved
-         mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
-alpha[1]  29.752   1.145 27.463 28.992 29.742 30.531 32.045 1.002  3000
-alpha[2]   4.739   1.430  1.890  3.816  4.764  5.730  7.508 1.001  3000
-beta[1]    9.545   0.835  7.842  9.018  9.560 10.101 11.175 1.001  3000
-beta[2]   -3.997   1.171 -6.335 -4.803 -4.015 -3.192 -1.713 1.001  3000
-sigma      4.916   0.536  4.009  4.536  4.866  5.245  6.116 1.001  2700
-
-For each parameter, n.eff is a crude measure of effective sample size,
-and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+## Inference for Bugs model at "/tmp/Rtmpe6faDZ/model215c43321e46.txt", fit using jags,
+##  3 chains, each with 12000 iterations (first 2000 discarded), n.thin = 10
+##  n.sims = 3000 iterations saved
+##          mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
+## alpha[1]  29.752   1.145 27.463 28.992 29.742 30.531 32.045 1.002  3000
+## alpha[2]   4.739   1.430  1.890  3.816  4.764  5.730  7.508 1.001  3000
+## beta[1]    9.545   0.835  7.842  9.018  9.560 10.101 11.175 1.001  3000
+## beta[2]   -3.997   1.171 -6.335 -4.803 -4.015 -3.192 -1.713 1.001  3000
+## sigma      4.916   0.536  4.009  4.536  4.866  5.245  6.116 1.001  2700
+## 
+## For each parameter, n.eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ```
 
 The posterior means are pretty close to the true values that were used for the simulation (see above). With the fitted model, you can create the same plots of the output as before, look at convergence diagnostics, plot the data and model predictions etc.
@@ -353,9 +353,9 @@ table(sites)
 ```
 
 ```
-sites
- 1  2  3  4  5  6  7  8  9 10 
-24 23 22 19 23 19 18 13 20 19 
+## sites
+##  1  2  3  4  5  6  7  8  9 10 
+## 24 23 22 19 23 19 18 13 20 19
 ```
 
 ```r
@@ -379,13 +379,13 @@ head(snakes3)
 ```
 
 ```
-   b_length   b_mass site
-1 -2.993090 14.66808    1
-2 -2.656455 14.06197    6
-3 -2.440467 20.24723    7
-4 -2.414208 16.23954    5
-5 -2.024678 15.22331    9
-6 -1.781308 32.70772    2
+##    b_length   b_mass site
+## 1 -2.993090 14.66808    1
+## 2 -2.656455 14.06197    6
+## 3 -2.440467 20.24723    7
+## 4 -2.414208 16.23954    5
+## 5 -2.024678 15.22331    9
+## 6 -1.781308 32.70772    2
 ```
 
 ```r
@@ -448,21 +448,17 @@ fit_lm3
 ```
 
 ```
-Inference for Bugs model at "/tmp/RtmppcVUwR/model1f81352c5dd1.txt", fit using jags,
- 3 chains, each with 20000 iterations (first 5000 discarded), n.thin = 10
- n.sims = 4500 iterations saved
-        mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
-alpha    42.669   4.387 31.091 41.305 43.530 45.201 47.948 1.003  4500
-beta      9.893   0.348  9.205  9.662  9.905 10.133 10.553 1.001  2700
-sigma     4.759   0.252  4.296  4.588  4.742  4.919  5.287 1.001  4100
-sigma_a   8.775   4.284  4.685  6.263  7.702  9.849 19.739 1.001  4500
-
-For each parameter, n.eff is a crude measure of effective sample size,
-and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+## Inference for Bugs model at "/tmp/Rtmpe6faDZ/model215c427ed6db.txt", fit using jags,
+##  3 chains, each with 20000 iterations (first 5000 discarded), n.thin = 10
+##  n.sims = 4500 iterations saved
+##         mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
+## alpha    42.669   4.387 31.091 41.305 43.530 45.201 47.948 1.003  4500
+## beta      9.893   0.348  9.205  9.662  9.905 10.133 10.553 1.001  2700
+## sigma     4.759   0.252  4.296  4.588  4.742  4.919  5.287 1.001  4100
+## sigma_a   8.775   4.284  4.685  6.263  7.702  9.849 19.739 1.001  4500
+## 
+## For each parameter, n.eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ```
 
 Again, the estimated mean posterior values are pretty close to the true values used for the simulation.
-
----
-
-**Copyright and reuse**: Copyright belongs to the author (see author statement at the top). Reuse of this material is permitted under the Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA) International License 4.0.
