@@ -5,7 +5,7 @@ author: Gita Benadi
 
 ```{r, echo = FALSE}
 library(knitr)
-opts_chunk$set(fig.width = 5, fig.height = 5, comment = NA)
+opts_chunk$set(fig.width = 5, fig.height = 5)
 ```
 
 # Introduction
@@ -342,7 +342,3 @@ fit_lm3
 ```
 
 Again, the estimated mean posterior values are pretty close to the true values used for the simulation.
-
----
-
-**Copyright and reuse**: Copyright belongs to the author (see author statement at the top). Reuse of this material is permitted under the Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA) International License 4.0.
