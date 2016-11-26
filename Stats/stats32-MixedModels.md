@@ -29,17 +29,29 @@ $$e_i ~ norm(0, \sigma^R)$$
 
 As you see, the variance from the random effect goes into the other normal distribution. A mixed model is therefore called a multi-level or hierarchical model.
 
+### Shrinkage / degrees of freedom
+
+The point of the structure with the normal distribution is that it is more restrictive than adding a fixed effect on the grouping factor, which would also be possible. The estimates cannot go anywhere, but are attracted via the normal distribution to the overall mean. This phenomenon is called shrinkage, see demonstration [here](http://stats.stackexchange.com/questions/142810/estimates-of-random-effects-in-binomial-model-lme4).
+
+A result of the shrinkage is that we loose less degrees of freedom when adding a categorical predictor as a random effect, as opposed to a fixed effect. The downside, however, is that we don't know exactly how much less. Basically, the stronger the spread of between groups (enoted by the estimated sigma of the normal distribution), the more the model behabes like a fixed effect model, which would loose k degrees of freedom if the random effect variable has k groups. However, if sigma is very small, the model essentially looses only one degree of freedom, for sigma.
+
+So, in a sense we have a model that can adjust it's complexity to the data. This makes the random effect very useful, but it leads also to a number of problems down the line, e.g. regarding model selection and calculation of p-values and confidence intervals, that we will cover later. 
+
+### Random effect specification 
+
 The mixed model has become a standard weapon in ecology, because many datasets and experimental desings suggest that one should set up the model in this structure. Examples are:
 
 * We are measuring individuals in a population, and individuals are measured more than once. Clearly, if the first mearurment of individual A is higher than our expectation from the model, we might also expect the second measurement of this individual to be higher. Hence, measurements are not independent, but rather measurements of the same individual can be expected to be closer to each other than between different individuals (grouping: individual)
 
 * Plot designs: we have n plots, and each plot has k treatments. If a measurements of treatment 1 in plot A is higher than expected from the model, we might also expect the measurement of treatment 2 to be higher than expected. The idea that is that therea are some random differences between plots, that act uniformly on all treatments. Hence, treatments on the same plot are not independent, grouping: plot.
 
-### Random effect specification 
-
 #### Crossed vs. nested
 
 This is a common point of confusion. Read [this]( http://stats.stackexchange.com/questions/228800/crossed-vs-nested-random-effects-how-do-they-differ-and-how-are-they-specified)
+
+#### Random intercept vs. random slope models
+
+to add 
 
 
 ### Estimation of linear mixed models 
