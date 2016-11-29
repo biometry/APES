@@ -99,12 +99,13 @@ detach(Owls)
 Now comes the crucial bit!
 
 ## The first (very primitive) zero-inflation model in JAGS
+Note that it is costumary to model the proportion of 1s (now called $\psi = 1-\pi$), rather than the proportion of $0$s ($\pi$)!
 ```{r}
 ZIPR <- function() {
   for(i in 1:N){ # loop through all data points
     SibNeg[i] ~ dpois(mu[i]) 
     mu[i] <- lambda[i]*z[i] + 0.00001 ## hack required for Rjags -- otherwise 'incompatible'-error 
-     z[i] ~ dbern(pi)
+     z[i] ~ dbern(psi)
     
     log(lambda[i]) <-  lgBroodSize[i] + alpha 
     # lgBroodSize is offset
@@ -113,14 +114,13 @@ ZIPR <- function() {
  
   # priors:
   alpha ~ dnorm(0, 0.01)     # overall model intercept
-  pi ~ dunif(0, 1)          # proportion of non-zeros
+  psi ~ dunif(0, 1)          # proportion of non-zeros
 }
 ```
 
-
 Now we need to define which parameters to monitor, how to initialise them, and what the chain settings are:
 ```{r}
-parameters <- c("alpha", "pi") # which parameters are we interested in getting reported?
+parameters <- c("alpha", "psi") # which parameters are we interested in getting reported?
 
 ni <- 1E3; nb <- ni/2 # number of iterations; number of burnins
 nc <- 3; nt <- 5      # number of chains; thinning
@@ -138,7 +138,7 @@ ZIPRjags <- jags(OwlsData, inits=inits, parameters, model.file = ZIPR, n.chains 
 plot(ZIPRjags)
 ZIPRjags
 ```
-So we get estimates for $\pi$ (around 0.74) and $\alpha$ (around 0.69), indicating that there is substantial zero-inflation! However, our model is currently really stupid and does not use any information on the predictors to explain begging. Maybe once we put these in we can explain more of the $0$s by "Poisson-zeros", rather than "Bernoulli-zeros" (aka excess zeros).
+So we get estimates for $\psi$ (around 0.74) and $\alpha$ (around 0.69), indicating that there is quite a bit of zero-inflation! However, our model is currently really stupid and does not use any information on the predictors to explain begging. Maybe once we put these in we can explain more of the $0$s by "Poisson-zeros", rather than "Bernoulli-zeros" (aka excess zeros).
 
 # Model 2: add predictors for $\lambda$
 ```{r}
@@ -146,7 +146,7 @@ ZIPR2 <- function() {
   for(i in 1:N){ # loop through all data points
     SibNeg[i] ~ dpois(mu[i]) 
     mu[i] <- lambda[i]*z[i] + 0.00001 ## hack required for Rjags -- otherwise 'incompatible'-error 
-     z[i] ~ dbern(pi)
+     z[i] ~ dbern(psi)
     
     log(lambda[i]) <-  lgBroodSize[i] + alpha + beta[1]*FoodTreatment[i] + beta[2]*SexParent[i] + beta[3]*FoodSex[i]
     # lgBroodSize is offset
@@ -158,18 +158,18 @@ ZIPR2 <- function() {
   for (m in 1:3){
       beta[m] ~ dnorm(0, 0.01)      # Linear effects
   }  
-  pi ~ dunif(0, 1)          # proportion of non-zeros
+  psi ~ dunif(0, 1)          # proportion of non-zeros
 }
 ```
 ```{r, results="hide"}
-parameters <- c("alpha", "beta", "pi") # which parameters are we interested in getting reported?
+parameters <- c("alpha", "beta", "psi") # which parameters are we interested in getting reported?
 ZIPR2jags <- jags(OwlsData, inits=inits, parameters, model.file = ZIPR2, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb, working.directory = getwd())
 ```
 ```{r}
 plot(ZIPR2jags)
 ZIPR2jags
 ```
-So while the model has improved (the DIC is lower by 10 units), the value for $\pi$ hasn't changed much.
+So while the model has improved (the DIC is lower by 10 units), the value for $\psi$ hasn't changed much.
 
 We can do better still.
 
@@ -181,7 +181,7 @@ ZIPR3 <- function() {
   for(i in 1:N){ # loop through all data points
     SibNeg[i] ~ dpois(mu[i]) 
     mu[i] <- lambda[i]*z[i] + 0.00001 ## hack required for Rjags -- otherwise 'incompatible'-error 
-     z[i] ~ dbern(pi)
+     z[i] ~ dbern(psi)
     
     log(lambda[i]) <-  lgBroodSize[i] + alpha + beta[1]*FoodTreatment[i] + beta[2]*SexParent[i] + beta[3]*FoodSex[i] + a[Nest[i]]
     # lgBroodSize is offset
@@ -194,7 +194,7 @@ ZIPR3 <- function() {
   for (m in 1:3){
       beta[m] ~ dnorm(0, 0.01)      # Linear effects
   }  
-  pi ~ dunif(0, 1)          # proportion of non-zeros
+  psi ~ dunif(0, 1)          # proportion of non-zeros
   for (j in 1:nnests){
     a[j] ~ dnorm(0, tau)     # random effect for each nest
   }
@@ -203,7 +203,7 @@ ZIPR3 <- function() {
 }
 ```
 ```{r, results="hide"}
-parameters <- c("alpha", "beta", "pi", "tau") # which parameters are we interested in getting reported?
+parameters <- c("alpha", "beta", "psi", "tau") # which parameters are we interested in getting reported?
 ZIPR3jags <- jags(OwlsData, inits=inits, parameters, model.file = ZIPR3, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb, working.directory = getwd())
 ```
 ```{r}
@@ -213,21 +213,21 @@ ZIPR3jags
 While we are now seeing a dramatic improvement in fit (DIC down by another 260 units or so!), we also notice that convergence has suffered, and the $\hat{R}$-values are higher than they should be for $\alpha$. We re-adjust our settings and repeat the run (which will take around 10 times as long).
 ```{r, results="hide"}
 ni <- 1E4
-parameters <- c("alpha", "beta", "pi", "tau") # which parameters are we interested in getting reported?
+parameters <- c("alpha", "beta", "psi", "tau") # which parameters are we interested in getting reported?
 ZIPR3jags <- jags(OwlsData, inits=inits, parameters, model.file = ZIPR3, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb, working.directory = getwd())
 ```
 ```{r}
 plot(ZIPR3jags)
 ZIPR3jags
 ```
-Okay. Again, $\pi$ is still high and seems to be a feature of the data, rather than due to our poor modelling of $\lambda$.
+Okay. Again, $\psi$ is still high and seems to be a feature of the data, rather than due to our poor modelling of $\lambda$.
 
 So, a first result interpretation is indicated:
 **What effects do you see, and what do they mean?**
 
 
 # Model 4: add effect of brood size on whether the chicks call at all
-It could be that a clutch of chicks is more vocal when it is larger. A single chick may remain silent more often than it would when in a group of siblings (maybe I am extrapolating too much from football supporters on their way to the stadium). Statistically, we can make $\pi$ a function of other predictors, too, in this case of brood size. Let's try.
+It could be that a clutch of chicks is more vocal when it is larger. A single chick may remain silent more often than it would when in a group of siblings (maybe I am extrapolating too much from football supporters on their way to the stadium). Statistically, we can make $\psi$ a function of other predictors, too, in this case of brood size. Let's try.
 
 
 ```{r}
@@ -236,8 +236,8 @@ ZIPR4 <- function() {
     SibNeg[i] ~ dpois(mu[i]) 
     mu[i] <- lambda[i]*z[i] + 0.00001 ## hack required for Rjags -- otherwise 'incompatible'-error 
     
-    z[i] ~ dbern(pi[i])
-    logit(pi[i]) <- alpha.pi + beta.pi*exp(lgBroodSize[i]) 
+    z[i] ~ dbern(psi[i])
+    logit(psi[i]) <- alpha.psi + beta.psi*exp(lgBroodSize[i]) 
     
     log(lambda[i]) <-  lgBroodSize[i] + alpha + beta[1]*FoodTreatment[i] + beta[2]*SexParent[i] + beta[3]*FoodSex[i] + a[Nest[i]]
     # lgBroodSize is offset
@@ -250,19 +250,20 @@ ZIPR4 <- function() {
   for (m in 1:3){
       beta[m] ~ dnorm(0, 0.01)      # Linear effects
   }  
-  # remove this: pi ~ dunif(0, 1)          # proportion of non-zeros
+  # remove this: psi ~ dunif(0, 1)          # proportion of non-zeros
   for (j in 1:nnests){
     a[j] ~ dnorm(0, tau)     # random effect for each nest
   }
   tau ~ dgamma(0.001, 0.001) # prior for mixed effect variance
-  alpha.pi ~ dnorm(0, 0.01)
-  beta.pi  ~ dnorm(0, 0.01)
+  alpha.psi ~ dnorm(0, 0.01)
+  beta.psi  ~ dnorm(0, 0.01)
 
 }
 ```
+Since I am too lazy to re-code the inits-function, I simply set the inits-argument to auto-pilot.
 ```{r, results="hide"}
-parameters <- c("alpha", "beta", "tau", "alpha.pi", "beta.pi") # which parameters are we interested in getting reported?
-ZIPR4jags <- jags(OwlsData, inits=inits, parameters, model.file = ZIPR4, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb, working.directory = getwd())
+parameters <- c("alpha", "beta", "tau", "alpha.psi", "beta.psi") # which parameters are we interested in getting reported?
+ZIPR4jags <- jags(OwlsData, inits=NULL, parameters, model.file = ZIPR4, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb, working.directory = getwd())
 ```
 ```{r}
 plot(ZIPR4jags)
@@ -283,8 +284,8 @@ ZIPR5 <- function() {
     SibNeg[i] ~ dpois(mu[i]) 
     mu[i] <- lambda[i]*z[i] + 0.00001 ## hack required for Rjags -- otherwise 'incompatible'-error 
     
-    z[i] ~ dbern(pi[i])
-    logit(pi[i]) <- alpha.pi + beta.pi*exp(lgBroodSize[i]) 
+    z[i] ~ dbern(psi[i])
+    logit(psi[i]) <- alpha.psi + beta.psi*exp(lgBroodSize[i]) 
     
     log(lambda[i]) <-  lgBroodSize[i] + alpha + beta[1]*FoodTreatment[i] + beta[2]*SexParent[i] + beta[3]*FoodSex[i] + a[Nest[i]] + xi[i]
     # lgBroodSize is offset
@@ -297,13 +298,13 @@ ZIPR5 <- function() {
   for (m in 1:3){
       beta[m] ~ dnorm(0, 0.01)      # Linear effects
   }  
-  # remove this: pi ~ dunif(0, 1)          # proportion of non-zeros
+  # remove this: psi ~ dunif(0, 1)          # proportion of non-zeros
   for (j in 1:nnests){
     a[j] ~ dnorm(0, tau)     # random effect for each nest
   }
   tau ~ dgamma(0.001, 0.001) # prior for mixed effect variance
-  alpha.pi ~ dnorm(0, 0.01)
-  beta.pi  ~ dnorm(0, 0.01)
+  alpha.psi ~ dnorm(0, 0.01)
+  beta.psi  ~ dnorm(0, 0.01)
 
   for (i in 1:N){
   	xi[i] ~ dnorm(0, tau.xi) # on average, xi should be 0 otherwise it competes with the intercept alpha!
@@ -313,14 +314,14 @@ ZIPR5 <- function() {
 }
 ```
 ```{r, results="hide"}
-parameters <- c("alpha", "beta", "tau", "alpha.pi", "beta.pi", "tau.xi") # which parameters are we interested in getting reported?
-ZIPR5jags <- jags(OwlsData, inits=inits, parameters, model.file = ZIPR5, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb, working.directory = getwd())
+parameters <- c("alpha", "beta", "tau", "alpha.psi", "beta.psi", "tau.xi") # which parameters are we interested in getting reported?
+ZIPR5jags <- jags(OwlsData, inits=NULL, parameters, model.file = ZIPR5, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb, working.directory = getwd())
 ```
 ```{r}
 plot(ZIPR5jags)
 ZIPR5jags
 ```
-Oh, that's somewhat of a surprise! The DIC dropped precipitously to just under 2800, i.e. by over 500 units. So I guess the data were substantially overdispersed, not only zero-inflated. Zero-inflation is still prevalent, and we should plot the relationship for $\pi$ to see which values it takes.
+Oh, that's somewhat of a surprise! The DIC dropped precipitously to just under 2800, i.e. by over 500 units. So I guess the data were substantially overdispersed, not only zero-inflated. Zero-inflation is still prevalent, and we should plot the relationship for $\psi$ to see which values it takes.
 
 ```{r}
 curve(plogis(-0.75 + 0.46*x), from=min(Owls$BroodSize), to=max(Owls$BroodSize), lwd=2, las=1, xlab="brood size")
@@ -328,14 +329,14 @@ curve(plogis(-0.75 + 0.46*x), from=min(Owls$BroodSize), to=max(Owls$BroodSize), 
 Obviously we should do this with all samples, not just the mean estimates:
 ```{r}
 # str(ZIPR5jags$BUGSoutput$sims.list)
-curve(plogis(-0.75 + 0.46*x), from=min(Owls$BroodSize), to=max(Owls$BroodSize), lwd=1, col="red", las=1, xlab="brood size", ylab="proportion of 0s in the data")
-for (i in 1:length(ZIPR5jags$BUGSoutput$sims.list$alpha.pi)){
-  thisA <- ZIPR5jags$BUGSoutput$sims.list$alpha.pi[i]
-  thisB <- ZIPR5jags$BUGSoutput$sims.list$beta.pi[i]
+curve(plogis(-0.75 + 0.46*x), from=min(Owls$BroodSize), to=max(Owls$BroodSize), lwd=1, col="red", las=1, xlab="brood size", ylab="proportion of non-0s in the data")
+for (i in 1:length(ZIPR5jags$BUGSoutput$sims.list$alpha.psi)){
+  thisA <- ZIPR5jags$BUGSoutput$sims.list$alpha.psi[i]
+  thisB <- ZIPR5jags$BUGSoutput$sims.list$beta.psi[i]
   curve(plogis(thisA + thisB*x), from=min(Owls$BroodSize), to=max(Owls$BroodSize), add=T, col=rgb(0.1, 0.1, 0.1, 0.01))
 }
 ```
-So the proportion of $0$s is between 0.4 and 0.9, and the trend is positive (i.e. more $0$s when there are more siblings). So owl chicks are not like football supporters, it seems.
+So the proportion of $0$s is between 0.4 and 0.9, and the trend is positive (i.e. more non-$0$s when there are more siblings). So owl chicks are very much like football supporters, it seems.
 
 
 
@@ -355,8 +356,8 @@ ZIPR5s <- function() {
     SibNeg[i] ~ dpois(mu[i]) 
     mu[i] <- lambda[i]*z[i] + 0.00001 ## hack required for Rjags -- otherwise 'incompatible'-error 
     
-    z[i] ~ dbern(pi[i])
-    logit(pi[i]) <- alpha.pi + beta.pi*exp(lgBroodSize[i]) 
+    z[i] ~ dbern(psi[i])
+    logit(psi[i]) <- alpha.psi + beta.psi*exp(lgBroodSize[i]) 
     
     log(lambda[i]) <-  lgBroodSize[i] + alpha + beta[1]*FoodTreatment[i] + beta[2]*SexParent[i] + beta[3]*FoodSex[i] + a[Nest[i]] + xi[i]
     # lgBroodSize is offset
@@ -369,13 +370,13 @@ ZIPR5s <- function() {
   for (m in 1:3){
       beta[m] ~ dnorm(0, 0.01)      # Linear effects
   }  
-  # remove this: pi ~ dunif(0, 1)          # proportion of non-zeros
+  # remove this: psi ~ dunif(0, 1)          # proportion of non-zeros
   for (j in 1:nnests){
     a[j] ~ dnorm(0, tau)     # random effect for each nest
   }
   tau ~ dgamma(0.001, 0.001) # prior for mixed effect variance
-  alpha.pi ~ dnorm(0, 0.01)
-  beta.pi  ~ dnorm(0, 0.01)
+  alpha.psi ~ dnorm(0, 0.01)
+  beta.psi  ~ dnorm(0, 0.01)
 
   for (i in 1:N){
   	xi[i] ~ dnorm(0, tau.xi) # on average, xi should be 0 otherwise it competes with the intercept alpha!
@@ -384,13 +385,13 @@ ZIPR5s <- function() {
 
   # # # # # # # # # # # # # # # 
   # simulate data here:
-  # replace all latent variables L with an S.L (mu, lambda, pi, z), as well as the response:
+  # replace all latent variables L with an S.L (mu, lambda, psi, z), as well as the response:
   for (i in 1:N){ # loop through all data points
     S.SibNeg[i] ~ dpois(S.mu[i]) 
     S.mu[i] <- S.lambda[i]*z[i] + 0.00001 ## hack required for Rjags -- otherwise 'incompatible'-error 
     
-    S.z[i] ~ dbern(S.pi[i])
-    logit(S.pi[i]) <- alpha.pi + beta.pi*exp(lgBroodSize[i]) 
+    S.z[i] ~ dbern(S.psi[i])
+    logit(S.psi[i]) <- alpha.psi + beta.psi*exp(lgBroodSize[i]) 
     
     log(S.lambda[i]) <-  lgBroodSize[i] + alpha + beta[1]*FoodTreatment[i] + beta[2]*SexParent[i] + beta[3]*FoodSex[i] + a[Nest[i]] + xi[i]
   } 
@@ -398,8 +399,8 @@ ZIPR5s <- function() {
 }
 ```
 ```{r, results="hide"}
-parameters <- c("alpha", "beta", "tau", "alpha.pi", "beta.pi", "tau.xi", "S.SibNeg") # which parameters are we interested in getting reported?
-ZIPR5sjags <- jags(OwlsData, inits=inits, parameters, model.file = ZIPR5s, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb, working.directory = getwd())
+parameters <- c("alpha", "beta", "tau", "alpha.psi", "beta.psi", "tau.xi", "S.SibNeg") # which parameters are we interested in getting reported?
+ZIPR5sjags <- jags(OwlsData, inits=NULL, parameters, model.file = ZIPR5s, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb, working.directory = getwd())
 ```
 We rather not look at the plot, where there would now be 599 values for <tt>S.SibNeg</tt> in addition to all the model parameters we have looked at before. Same for the summary of the model, which also should be the same as in model 5.
 
@@ -428,7 +429,7 @@ plot(apply(ZIPR5sjags$BUGSoutput$sims.list$S.SibNeg, 2, mean), Owls$SiblingNegot
 abline(0,1)
 plot(qq ~ apply(ZIPR5sjags$BUGSoutput$sims.list$S.SibNeg, 2, mean), las=1, xlab="expected", ylab="standardised residuals")
 ```
-The qq-plot looks almost fine, with some overestimation at high values. The standardised residuals (which are actually the quantiles) show should no pattern with expectation, however!
+The quantile-quantile-plot looks almost fine, with some overestimation at high values. The standardised residuals (which are actually the quantiles) show should no pattern with expectation, however!
 
 
 That means: we're not done yet. More model tuning is required to improve the model, so that the distribution of simulations is more in line with the distribution of observations.
