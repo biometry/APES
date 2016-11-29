@@ -30,6 +30,6 @@ It is hard to understand why as a beginner, but one reason why Bayesian approach
 
 * [Here's](https://biometry.github.io/APES/LectureNotes/StatsCafe/Linear_models_jags.html) a page explaining how to do linear (mixed) models using Bayesian inference in JAGS. For such simple models, there is usually no point doing them in JAGS, but these simple examples will hopefully help you understand more complex Bayesian analyses.
 
-
+* For an analysis of zero-inflated Poisson data within a mixed-effect model with overdispersion (and its stepwise derivation) you can consult [these pages](https://biometry.github.io/APES/LectureNotes/2016-JAGS/ZeroInflation/ZeroInflation_JAGS.html).
 
 
