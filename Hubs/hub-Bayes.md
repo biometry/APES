@@ -32,4 +32,4 @@ It is hard to understand why as a beginner, but one reason why Bayesian approach
 
 * For an analysis of zero-inflated Poisson data within a mixed-effect model with overdispersion (and its stepwise derivation) you can consult [these pages](https://biometry.github.io/APES/LectureNotes/2016-JAGS/ZeroInflation/ZeroInflation_JAGS.html).
 
-
+* [This](https://biometry.github.io/APES/LectureNotes/2017-Resampling/readme.html) has nothing to do with Bayes.
