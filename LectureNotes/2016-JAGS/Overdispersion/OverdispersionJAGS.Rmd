@@ -1,0 +1,219 @@
+---
+title: "Overdispersion, and how to deal with it in R and JAGS"
+author: "Carsten F. Dormann"
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output:
+  html_document:
+    fig_height: 7
+    keep_md: yes
+    number_sections: yes
+    theme: readable
+    toc: yes
+  html_notebook:
+    fig_height: 7
+    number_sections: yes
+    theme: readable
+    toc: yes
+  pdf_document:
+    number_sections: yes
+    toc: yes
+subtitle: (requires R-packages AER, coda, lme4, R2jags, DHARMa/devtools)
+---
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(cache=T, comment=NA, fig.align='center', warning=FALSE, message=FALSE)
+options(width = 100) 
+```
+
+# Introduction: what is overdispersion?
+Overdispersion describes the observation that variation is higher than would be expected. Some distributions do not have a parameter to fit variability of the observation. For example, the *normal distribution* does that through the parameter $\sigma$ (i.e. the standard deviation of the model), which is constant in a typical regression. In contrast, the *Poisson distribution* has no such parameter, and in fact the variance increases with the mean (i.e. the variance and the mean have the same value). In this latter case, for an expected value of $E(y)= 5$, we also expect that the variance of observed data points is $5$. But what if it is not? What if the observed variance is much higher, i.e. if the data are overdispersed?
+(Note that it could also be lower, underdispersed. This is less often the case, and not all approaches below allow for modelling underdispersion, but some do.)
+
+Overdispersion arises in different ways, most commonly through "clumping". Imagine the number of seedlings in a forest plot. Depending on the distance to the source tree, there may be many (hundreds) or none. The same goes for shooting stars: either the sky is empty, or littered with shooting stars. Such data would be overdispersed for a Poisson distribution.
+Also, overdispersion arises "naturally" if important predictors are missing or functionally misspecified (e.g. linear instead of non-linear).
+
+Overdispersion is often mentioned together with zero-inflation, but it is distinct. Overdispersion also includes the case where none of your data points are actually $0$. We'll look at zero-inflation later, and stick to overdispersion here.
+
+# Recognising (and testing for) overdispersion
+May we should start with an example to get the point visualised.
+```{r}
+library(lme4)
+data(grouseticks)
+summary(grouseticks)
+# INDEX is individual
+head(grouseticks)
+attach(grouseticks)
+hist(TICKS, col="grey", border=NA, las=1)
+```
+
+The data are rich in $0$s, but that does not mean they are $0$-inflated. We'll find out about overdispersion by fitting the Poisson-model and looking at deviance and degrees of freedom (as a rule of thumb):
+
+```{r}
+plot(TICKS ~ HEIGHT, las=1)
+summary(fmp <- glm(TICKS ~ HEIGHT*YEAR, family=poisson))
+```
+In this case, our residual deviance is $3000$ for $397$ degrees of freedom. The rule of thumb is that the ratio of deviance to df should be $1$, but it is $7.6$, indicating severe overdispersion.
+This can be done more formally, using either package **AER** or **DHARMa**:
+```{r}
+library(AER)
+dispersiontest(fmp)
+```
+The value here is higher than $7.5$ (remember, it was a rule of thumb!), but the result is the same: substantial overdispersion.
+Same thing in **DHARMa** (where we can additionally visualise overdispersion):
+```{r, eval=F}
+library(devtools) # assuming you have that
+devtools::install_github(repo = "DHARMa", username = "florianhartig", subdir = "DHARMa")
+```
+```{r}
+library(DHARMa)
+sim_fmp <- simulateResiduals(fmp, refit=T) 
+testOverdispersion(sim_fmp)
+plotSimulatedResiduals(sim_fmp)
+```
+**DHARMa** works by simulating new data from the fitted model, and then comparing the observed data to those simulated (see DHARMa's nice vignette for an introduction to the idea).
+
+# "Fixing" overdispersion
+Overdispersion means the assumptions of the model are not met, hence we cannot trust its output (e.g. our beloved $P$-values)! Let's do something about it.
+
+## Quasi-families
+The quasi-families augment the normal families by adding a dispersion parameter. In other words, while for Poisson data $\bar{Y} = s^2_Y$, the quasi-Poisson allows for $\bar{Y} = \tau \cdot s^2_Y$, and estimates the overdispersion parameter $\tau$ (or underdispersion, if $\tau < 1$).
+```{r}
+summary(fmqp <- glm(TICKS ~ YEAR*HEIGHT, family=quasipoisson, data=grouseticks))
+```
+You see that $\tau$ is estimated as 11.3, a value similar to those in the overdispersion tests above (as you'd expect).
+The main effect is the substantially larger errors for the estimates (the point estimates do not change), and hence potentially changed significances (though not here).
+Note that because this is no maximum likelihood method (but a quasi-likelihood method), no likelihood and hence no AIC are available. No overdispersion tests can be conducted for quasi-family objects (neither in **AER** nor **DHARMa**).
+
+## Different distribution (here: negative binomial)
+Maybe our distributional assumption was simply wrong, and we choose a different distribution. For Poisson, the most obvious "upgrade" is the negative binomial, which includes in fact a dispersion parameter similar to $\tau$ above.
+```{r}
+library(MASS)
+summary(fmnb <- glm.nb(TICKS ~ YEAR*HEIGHT, data=grouseticks))
+```
+Already here we see that the ratio of deviance and df is near $1$ and hence probably fine. Let's check:
+```{r}
+try(dispersiontest(fmnb))
+```
+That's a bit disappointing. Well, we'll use **DHARMa** then.
+```{r}
+sim_fmnb <- simulateResiduals(fmnb, refit=T, n=99)
+plotSimulatedResiduals(sim_fmnb)
+testOverdispersion(sim_fmnb) # requires refit=T
+```
+These figures show what it should look like!
+
+## Observation-level random effects (OLRE)
+The general idea is to allow the expectation to vary more than a Poisson distribution would suggest. To do so, we multiply the Poisson-expectation with an overdispersion parameter ( larger 1), along the lines of $$Y \sim Pois(\lambda=e^{\tau} \cdot E(Y)) = Pois(\lambda=e^{\tau} \cdot e^{aX+b}),$$ where expectation $E(Y)$ is the prediction from our regression. Without overdispersion, $\tau=0$. We use $e^\tau$ to force this factor to be positive.
+
+You may recall that the Poisson-regression uses a log-link, so we can reformulate the above formulation to $$Y \sim Pois(\lambda=e^{\tau} \cdot e^{aX+b}) = Pois(\lambda=e^{aX+b+\tau}).$$
+So the overdispersion multiplier at the response-scale becomes an overdispersion summand at the log-scale.
+
+
+
+
+That means, we can add another predictor to our model, one which changes *with each value of Y*, and which we do not really care for: a random effect. Remember that a (Gaussian) random effect has a mean of 0 and its standard deviation is estimated from the data.
+How does that work? Well, if we expected a value of, say, 2, we add noise to this value, and hence increase the range of values realised. 
+```{r}
+set.seed(1)
+hist(Y1 <- rpois(1000, 2), breaks=seq(0, 30), col="grey60", freq=F, ylim=c(0, 0.45), las=1, 
+     main="", xlab="Y")
+hist(Y2 <- rpois(1000, 2 * exp( rnorm(1000, mean=0, sd=1))), add=T, freq=F, breaks=seq(0, 100))
+legend("right", legend=c("Poisson", "overdispersed Poisson"), pch=15, col=c("grey40", "grey80"), 
+       bty="n", cex=1.5)
+var(Y1); var(Y2)
+```
+We see that with an overdispersion modelled as observation-level random effect with mean$=0$ and an innocent-looking sd$=1$, we increase the spread of the distribution substantially. In this case both more $0$s *and* more high values, i.e. more variance altogether.
+
+
+
+So, in fact modelling overdispersion as OLRE is very simple: just add a random effect which is different for each observation. In our data set, the column INDEX is just a continuously varying value from 1 to $N$, which we use as random effect.
+```{r}
+library(lme4)
+summary(fmOLRE <- glmer(TICKS ~ YEAR*HEIGHT + (1|INDEX), family=poisson, data=grouseticks))
+```
+Oops! What's that? So it converged ("convergence code: 0"), but apparently the algorithm is "unhappy". Let's follow its suggestion and scale the numeric predictor:
+
+```{r}
+height <- scale(grouseticks$HEIGHT)
+summary(fmOLRE <- glmer(TICKS ~ YEAR*height + (1|INDEX), family=poisson, data=grouseticks))
+```
+In the random-effects output, we see that the standard deviation for the random effect is around 1.06, i.e. similar to what we have simulated above. The overdispersion is thus substantial.
+Note that the estimates for intercept, YEAR96 and YEAR97 are *substantially* different (as is height, but then that has been re-scaled).
+
+Here's the diagnostic plot (only **DHARMa**):
+```{r}
+sim_fmOLRE <- simulateResiduals(fmOLRE, refit=T, n=99) # takes a while, about 10 minutes or so
+plotSimulatedResiduals(sim_fmOLRE)
+testOverdispersion(sim_fmOLRE) # requires refit=T
+testZeroInflation(sim_fmOLRE)  # no zero-inflation
+```
+Hm. The QQ-plot looks great, but the residual-predicted-plot is miserable. This may be due to the low number of simulations (99 instead of the recommended 250), but possibly there is simply still some underfitting of the high values (all large values have high quantiles, indicating that these residuals (O-E) are all positive and large).
+
+The overdispersion, and just for fun also the zero-inflation test, are negative. So overall I guess that the OLRE-model is fine. 
+
+We can finally compare the actual fit of all models:
+```{r}
+AIC(fmp, fmnb, fmOLRE)
+```
+And the winner is: OLRE!
+
+# Overdispersion in JAGS
+In JAGS, we follow the OLRE-approach (we could also fit a negative binomial, of course, but the illustration of the OLRE is much nicer for understanding the workings of JAGS).
+
+First, we need to prepare the data for JAGS, define which parameters to monitor and the settings for sampling, and write an (optional) inits-function. Then we define the actual overdispersion model.
+```{r defineJAGSmodel}
+library(R2jags)
+# prepare data for JAGS: 
+# There is a convenient function to do this for us, and it includes interactions, too!
+Xterms <- model.matrix(~ YEAR*height, data=grouseticks)[,-1]
+head(Xterms)
+# The "[,-1]" removes the intercept that would automatically be produced.
+
+grouseticksData <- list(TICKS=grouseticks$TICKS, YEAR96=Xterms[,1], YEAR97=Xterms[,2], HEIGHT=Xterms[,3], 
+                        INT96=Xterms[,4], INT97=Xterms[,5], N=nrow(grouseticks))
+
+parameters <- c("alpha", "beta", "tau") # which parameters are we interested in getting reported? , "lambda"
+
+ni <- 1E4; nb <- ni/2  # number of iterations; number of burnins
+nc <- 3; nt <- 10      # number of chains; thinning
+
+inits <- function(){list(OLRE=rnorm(nrow(grouseticks), 0, 2), tau=runif(1, 0,.005), 
+                         alpha=runif(1, 0, 2), beta = rnorm(5))}
+
+OLRE <- function() {
+  for(i in 1:N){ # loop through all data points
+    TICKS[i] ~ dpois(lambda[i]) 
+    log(lambda[i]) <- alpha + beta[1]*HEIGHT[i] + beta[2]*YEAR96[i] + beta[3]*YEAR97[i] + 
+      beta[4]*INT96[i] + beta[5]*INT97[i] + OLRE[i]
+    # "OLRE" is random effect for each individual observation
+    # alternatively, multiply lambda[i] by exp(OLRE[i]) in the ~ dpois line.
+  } 
+  
+  # priors:
+  for (m in 1:5){
+    beta[m] ~ dnorm(0, 0.01)      # Linear effects
+  }  
+  alpha ~ dnorm(0, 0.01)     # overall model intercept
+  for (j in 1:N){
+    OLRE[j] ~ dnorm(0, tau)    # random effect for each nest
+  }
+  tau ~ dgamma(0.001, 0.001)    # prior for mixed effect precision
+}
+```
+Now we can run JAGS, print and plot the results:
+```{r runJAGSolre}
+OLREjags <- jags(grouseticksData, inits=inits, parameters, model.file = OLRE, n.chains = nc, 
+                 n.thin = nt, n.iter = ni, n.burnin = nb, working.directory = getwd())
+plot(OLREjags)
+OLREjags
+OLREjags$BUGSoutput$mean # just the means
+```
+
+```{r JAGSdiagnostics, cache=F}
+OLREmcmc <- as.mcmc.list(OLREjags$BUGSoutput)
+library(lattice)
+xyplot(OLREmcmc,layout=c(3,3))
+densityplot(OLREmcmc, layout=c(3,3))
+gelman.diag(OLREmcmc)
+```
+This JAGS-object is not directly amenable to overdispersion-diagnostics with **DHARMa** (but see the experimental function <tt>createDHARMa</tt>). We can do something manually ourselves, but it is not identical to the output we had looked at before. I shall therefore leave it out here.
