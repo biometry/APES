@@ -53,6 +53,15 @@ http://stackoverflow.com/questions/12675147/how-can-we-make-xkcd-style-graphs-in
 
 
 
+```{r}
+x = rmultinom(1,size = 100, prob = c(1,1,1,1))
+y = rmultinom(1,size = 1000, prob = c(1,1,1,1))
+
+chisq.test(cbind(x,y))
+
+```
+
+
 
 
 
