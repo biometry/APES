@@ -97,7 +97,7 @@ abline(0,1, col = "red")
 legend("topleft", c("fittet", "true"), lwd=1, col = c("black", "red")) 
 plot(x2, y, main = "x2 effect", ylim = c(-12,12))
 abline(lm(y~x2))
-abline(0,1, col = "red")
+abline(0,-1, col = "red")
 legend("topleft", c("fittet", "true"), lwd=1, col = c("black", "red")) 
 ```
 
