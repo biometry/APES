@@ -30,8 +30,7 @@ It is hard to understand why as a beginner, but one reason why Bayesian approach
 
 * [Here's](https://biometry.github.io/APES/LectureNotes/StatsCafe/Linear_models_jags.html) a page explaining how to do linear (mixed) models using Bayesian inference in JAGS. For such simple models, there is usually no point doing them in JAGS, but these simple examples will hopefully help you understand more complex Bayesian analyses.
 
-* For the treatment of overdispersion, both in a classical (i.e. frequentist) and Bayesian way, please see [this page](https://biometry.github.io/APES/LectureNotes/2016-JAGS/Overdispersion/OverdispersionJAGS.html).
+* For the treatment of overdispersion, both in a classical (i.e. frequentist) and Bayesian way, please see [this page](https://biometry.github.io/APES/LectureNotes/2016-JAGS/Overdispersion/OverdispersionJAGS.html). Since the LaTeX-formulae don't render well in markdown, here a link to a [PDF](https://biometry.github.io/APES/LectureNotes/2016-JAGS/Overdispersion/OverdispersionJAGS.pdf).
 
-* For an analysis of zero-inflated Poisson data within a mixed-effect model with overdispersion (and its stepwise derivation) you can consult [this page](https://biometry.github.io/APES/LectureNotes/2016-JAGS/ZeroInflation/ZeroInflation_JAGS.html).
+* For an analysis of zero-inflated Poisson data within a mixed-effect model with overdispersion (and its stepwise derivation) you can consult [this page](https://biometry.github.io/APES/LectureNotes/2016-JAGS/ZeroInflation/ZeroInflation_JAGS.html). Since the LaTeX-formulae don't render well in markdown, here a link to a [PDF](https://biometry.github.io/APES/LectureNotes/2016-JAGS/ZeroInflation/ZeroInflation_JAGS.pdf).
 
-* [This](https://biometry.github.io/APES/LectureNotes/2017-Resampling/readme.html) has nothing to do with Bayes.

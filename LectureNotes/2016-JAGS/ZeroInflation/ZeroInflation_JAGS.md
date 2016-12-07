@@ -1,6 +1,7 @@
-# Zero-inflation, and how to deal with it in R and JAGS
-Carsten F. Dormann  
-`r format(Sys.time(), "%d %B, %Y")`  
+---
+title: Zero-inflation, and how to deal with it in R and JAGS
+author: Carsten F. Dormann  
+---
 
 
 
