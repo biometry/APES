@@ -1,8 +1,7 @@
 ---
-title: Overdispersion, and how to deal with it in R and JAGS
-author: Carsten F. Dormann  
+Title: Overdispersion, and how to deal with it in R and JAGS
+author: Carsten F. Dormann
 ---
-
 
 
 # Introduction: what is overdispersion?
@@ -15,7 +14,7 @@ Also, overdispersion arises "naturally" if important predictors are missing or f
 Overdispersion is often mentioned together with zero-inflation, but it is distinct. Overdispersion also includes the case where none of your data points are actually $0$. We'll look at zero-inflation later, and stick to overdispersion here.
 
 # Recognising (and testing for) overdispersion
-May we should start with an example to get the point visualised.
+May we should start with an example to get the point visualised. Note that we manually set the breaks to 1-unit bins, so that we can see the $0$s as they are, not pooled with 1s, 2s, etc.
 
 ```r
 library(lme4)
@@ -59,7 +58,7 @@ head(grouseticks)
 
 ```r
 attach(grouseticks)
-hist(TICKS, col="grey", border=NA, las=1)
+hist(TICKS, col="grey", border=NA, las=1, breaks=0:90)
 ```
 
 <img src="OverdispersionJAGS_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" />
@@ -193,7 +192,7 @@ AIC: NA
 Number of Fisher Scoring iterations: 6
 ```
 You see that $\tau$ is estimated as 11.3, a value similar to those in the overdispersion tests above (as you'd expect).
-The main effect is the substantially larger errors for the estimates (the point estimates do not change), and hence potentially changed significances (though not here).
+The main effect is the substantially larger errors for the estimates (the point estimates do not change), and hence potentially changed significances (though not here). (You can manually compute the corrected standard errors as Poisson-standard errors $\cdot \sqrt{\tau}$.)
 Note that because this is no maximum likelihood method (but a quasi-likelihood method), no likelihood and hence no AIC are available. No overdispersion tests can be conducted for quasi-family objects (neither in **AER** nor **DHARMa**).
 
 ## Different distribution (here: negative binomial)
@@ -275,8 +274,8 @@ So the overdispersion multiplier at the response-scale becomes an overdispersion
 
 
 
-That means, we can add another predictor to our model, one which changes *with each value of Y*, and which we do not really care for: a random effect. Remember that a (Gaussian) random effect has a mean of 0 and its standard deviation is estimated from the data.
-How does that work? Well, if we expected a value of, say, 2, we add noise to this value, and hence increase the range of values realised. 
+That means, we can add another predictor to our model, one which changes *with each value of Y*, and which we do not really care for: a random effect. Remember that a (Gaussian) random effect has a mean of $0$ and its standard deviation is estimated from the data.
+How does that work? Well, if we expected a value of, say, $2$, we add noise to this value, and hence increase the range of values realised. 
 
 ```r
 set.seed(1)
@@ -405,7 +404,7 @@ Note that the estimates for intercept, YEAR96 and YEAR97 are *substantially* dif
 Here's the diagnostic plot (only **DHARMa**):
 
 ```r
-sim_fmOLRE <- simulateResiduals(fmOLRE, refit=T, n=99) # takes a while, about 10 minutes or so
+sim_fmOLRE <- simulateResiduals(fmOLRE, refit=T, n=250) # takes a while, about 10 minutes or so
 plotSimulatedResiduals(sim_fmOLRE)
 ```
 
@@ -420,7 +419,7 @@ testOverdispersion(sim_fmOLRE) # requires refit=T
 	Overdispersion test via comparison to simulation under H0
 
 data:  sim_fmOLRE
-dispersion = 1.1158, p-value = 0.08081
+dispersion = 1.1079, p-value = 0.096
 alternative hypothesis: overdispersion
 ```
 
@@ -435,10 +434,10 @@ testZeroInflation(sim_fmOLRE)  # no zero-inflation
 	Zero-inflation test via comparison to expected zeros with simulation under H0
 
 data:  sim_fmOLRE
-ratioObsExp = 1.0113, p-value = 0.404
+ratioObsExp = 1.0107, p-value = 0.416
 alternative hypothesis: more
 ```
-Hm. The QQ-plot looks great, but the residual-predicted-plot is miserable. This may be due to the low number of simulations (99 instead of the recommended 250), but possibly there is simply still some underfitting of the high values (all large values have high quantiles, indicating that these residuals (O-E) are all positive and large).
+Hm. The QQ-plot looks great, but the residual-predicted-plot is miserable. This may be due to a misspecified model (e.g. missing important predictors), leading to underfitting of the high values (all large values have high quantiles, indicating that these residuals (O-E) are all positive and large).
 
 The overdispersion, and just for fun also the zero-inflation test, are negative. So overall I guess that the OLRE-model is fine. 
 
