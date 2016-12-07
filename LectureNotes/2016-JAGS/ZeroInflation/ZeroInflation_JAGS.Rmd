@@ -3,26 +3,26 @@ title: "Zero-inflation, and how to deal with it in R and JAGS"
 author: "Carsten F. Dormann"
 date: '`r format(Sys.time(), "%d %B, %Y")`'
 output:
-  html_document:
-    fig_height: 7
+  pdf_document:
+    keep_tex: yes
     number_sections: yes
-    theme: readable
     toc: yes
-    keep_md: true
   html_notebook:
     fig_height: 7
     number_sections: yes
     theme: readable
     toc: yes
-  pdf_document:
+  html_document:
+    fig_height: 7
+    keep_md: yes
     number_sections: yes
+    theme: readable
     toc: yes
-    keep_tex: true
 subtitle: (requires R-packages AER, coda, lme4, R2jags, DHARMa/devtools)
 ---
 
 ```{r setup, include=FALSE} 
-knitr::opts_chunk$set(cache=T, comment=NA, fig.align='center', warning=FALSE, message=FALSE)
+knitr::opts_chunk$set(cache=T, comment=NA, fig.align='center', warning=FALSE, message=FALSE, fig.width=4, fig.height=4)
 options(width = 100) 
 ```
 
@@ -43,9 +43,9 @@ A mixture distribution is defined (according to Wikipedia and my understanding) 
 We can also write down the actual probabilities of observing $x$ frogs in a pond, remembering that the Poisson distribution looks like this:
 $$P(k=x) = \frac{\lambda^x e^{-lambda}}{x!}$$
 Then our new mixture of the Bernoulli (for the colonisation process) and Poisson (for the population dynamics) is:
-$$\begin{array} X P(k=0) &=& \pi (1-\pi)e^{-\lambda}\\
-P(k=x) &=& (1-\pi)\frac{\lambda^x e^{-\lambda}}{x!} 
-\end{array}$$
+$$\begin{aligned} P(k=0) &= \pi (1-\pi)e^{-\lambda}\\
+P(k=x) &= (1-\pi)\frac{\lambda^x e^{-\lambda}}{x!} 
+\end{aligned}$$
 
 So we see that our observed $0$s have two sources: those that are $0$ because of the Bernoulli distribution (the proportion $\pi$), plus those from the Poisson distribution for the ponds that *have* been colonised, but failed to generate surviving frogs (the proportion $(1-\pi)$ times the proportion of $0s$ in the Poisson distribution with a given $\lambda$, which we can get from the Poisson distribution equation).
 
@@ -416,7 +416,7 @@ So we see that the first data point (4 calls) lies roughly at the 0.5 quantile o
 ```{r}
 qq <- numeric(599)
 for (i in 1:599){
-    qq[i] <- ecdf(ZIPR5sjags$BUGSoutput$sims.list$S.SibNeg[,i]+rnorm(5700, 0, 0.1))(Owls$SiblingNegotiation[i])
+    qq[i] <- ecdf(ZIPR5sjags$BUGSoutput$sims.list$S.SibNeg[,i]+rnorm(5700, 0, 0.1))(Owls$SiblingNegotiation[i]+rnorm(5700, 0, 0.1))
 }
 plot(density(qq, from=0, to=1), main="Bayesian p-values of observations")
 summary(qq)

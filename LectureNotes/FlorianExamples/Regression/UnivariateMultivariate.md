@@ -30,14 +30,14 @@ We can check that this worked visually as well as by calculating the correlation
 plot(x1,x2)
 ```
 
-![](UnivariateMultivariate_files/figure-html/unnamed-chunk-3-1.png) 
+![](UnivariateMultivariate_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 ```r
 cor(x1, x2)
 ```
 
 ```
-## [1] 0.9793804
+## [1] 0.9801695
 ```
 
 ## Sign of product of effect sizes the same as correlation --> univariate biased upwards
@@ -58,7 +58,7 @@ coef(lm(y~x1))
 
 ```
 ## (Intercept)          x1 
-##  0.02354845  2.00061035
+##   0.1021585   2.0114312
 ```
 
 ```r
@@ -67,7 +67,7 @@ coef(lm(y~x2))
 
 ```
 ## (Intercept)          x2 
-##  -0.2181146   1.9683555
+##   0.1558947   1.9164463
 ```
 
 you see this also visually
@@ -85,7 +85,7 @@ abline(0,1, col = "red")
 legend("topleft", c("fittet", "true"), lwd=1, col = c("black", "red")) 
 ```
 
-![](UnivariateMultivariate_files/figure-html/unnamed-chunk-6-1.png) 
+![](UnivariateMultivariate_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 The multivariate model, on the other hand, is fine
 
@@ -96,14 +96,14 @@ coef(lm(y~x1 + x2))
 
 ```
 ## (Intercept)          x1          x2 
-## -0.07400416  1.20538486  0.80212943
+##   0.1196471   1.0444659   0.9404794
 ```
 
 ```r
 plot(allEffects(lm(y~x1 + x2)), ylim = c(-12,12))
 ```
 
-![](UnivariateMultivariate_files/figure-html/unnamed-chunk-7-1.png) 
+![](UnivariateMultivariate_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ## Sign of product of effect sizes not the same as correlation --> univariate biased downwards
 
@@ -123,7 +123,7 @@ coef(lm(y~x1))
 
 ```
 ## (Intercept)          x1 
-## -0.17709282  0.02475871
+##  0.06948291 -0.15110587
 ```
 
 ```r
@@ -132,7 +132,7 @@ coef(lm(y~x2))
 
 ```
 ## (Intercept)          x2 
-## -0.17628832 -0.02576099
+##  0.08384095 -0.18624536
 ```
 
 you see this also in the plot
@@ -146,11 +146,11 @@ abline(0,1, col = "red")
 legend("topleft", c("fittet", "true"), lwd=1, col = c("black", "red")) 
 plot(x2, y, main = "x2 effect", ylim = c(-12,12))
 abline(lm(y~x2))
-abline(0,1, col = "red")
+abline(0,-1, col = "red")
 legend("topleft", c("fittet", "true"), lwd=1, col = c("black", "red")) 
 ```
 
-![](UnivariateMultivariate_files/figure-html/unnamed-chunk-10-1.png) 
+![](UnivariateMultivariate_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 Again, the multivariate model is fine
 
@@ -161,14 +161,14 @@ coef(lm(y~x1 + x2))
 
 ```
 ## (Intercept)          x1          x2 
-## -0.02895158  1.23237060 -1.21809607
+##  0.04814945  1.02844305 -1.14724027
 ```
 
 ```r
 plot(allEffects(lm(y~x1 + x2)), ylim = c(-12,12))
 ```
 
-![](UnivariateMultivariate_files/figure-html/unnamed-chunk-11-1.png) 
+![](UnivariateMultivariate_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 ## No correlation between predictors
 
@@ -192,19 +192,19 @@ summary(lm(y~x1))
 ## lm(formula = y ~ x1)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -2.6007 -0.6927 -0.0654  0.8666  2.3123 
+##      Min       1Q   Median       3Q      Max 
+## -1.72823 -0.80023 -0.03321  0.61554  2.26738 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)   
-## (Intercept)  -0.1545     0.1681  -0.919  0.36261   
-## x1            1.0723     0.3127   3.429  0.00125 **
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   0.1845     0.1434   1.286    0.204    
+## x1            1.0281     0.2253   4.563 3.51e-05 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.178 on 48 degrees of freedom
-## Multiple R-squared:  0.1967,	Adjusted R-squared:   0.18 
-## F-statistic: 11.76 on 1 and 48 DF,  p-value: 0.001254
+## Residual standard error: 1.008 on 48 degrees of freedom
+## Multiple R-squared:  0.3026,	Adjusted R-squared:  0.288 
+## F-statistic: 20.82 on 1 and 48 DF,  p-value: 3.505e-05
 ```
 
 ```r
@@ -218,18 +218,18 @@ summary(lm(y~x2))
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -2.3224 -0.5165 -0.1176  0.3894  2.8186 
+## -2.0146 -0.6308 -0.2124  0.6840  2.8365 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   0.1862     0.1555   1.197    0.237    
-## x2            1.3874     0.2604   5.329 2.61e-06 ***
+##             Estimate Std. Error t value Pr(>|t|)   
+## (Intercept)  -0.0164     0.1651  -0.099  0.92130   
+## x2            0.7141     0.2567   2.781  0.00771 **
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.042 on 48 degrees of freedom
-## Multiple R-squared:  0.3717,	Adjusted R-squared:  0.3586 
-## F-statistic: 28.39 on 1 and 48 DF,  p-value: 2.61e-06
+## Residual standard error: 1.12 on 48 degrees of freedom
+## Multiple R-squared:  0.1388,	Adjusted R-squared:  0.1209 
+## F-statistic: 7.736 on 1 and 48 DF,  p-value: 0.007712
 ```
 
 ```r
@@ -243,18 +243,18 @@ summary(lm(y~x1 + x2))
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -1.74296 -0.43387 -0.09816  0.42307  2.10909 
+## -1.92856 -0.54688 -0.05566  0.54176  1.69375 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   0.1034     0.1394   0.742 0.461857    
-## x1            0.9300     0.2461   3.779 0.000443 ***
-## x2            1.2970     0.2317   5.598 1.09e-06 ***
+## (Intercept)  0.03957    0.12915   0.306 0.760645    
+## x1           1.10909    0.19620   5.653 8.99e-07 ***
+## x2           0.82809    0.20119   4.116 0.000154 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.9222 on 47 degrees of freedom
-## Multiple R-squared:  0.5181,	Adjusted R-squared:  0.4976 
-## F-statistic: 25.26 on 2 and 47 DF,  p-value: 3.545e-08
+## Residual standard error: 0.8734 on 47 degrees of freedom
+## Multiple R-squared:  0.4873,	Adjusted R-squared:  0.4655 
+## F-statistic: 22.34 on 2 and 47 DF,  p-value: 1.517e-07
 ```
 

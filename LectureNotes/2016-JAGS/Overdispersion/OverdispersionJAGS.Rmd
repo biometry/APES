@@ -3,19 +3,19 @@ title: "Overdispersion, and how to deal with it in R and JAGS"
 author: "Carsten F. Dormann"
 date: '`r format(Sys.time(), "%d %B, %Y")`'
 output:
-  html_document:
-    fig_height: 7
-    keep_md: yes
+  pdf_document:
     number_sections: yes
-    theme: readable
     toc: yes
   html_notebook:
     fig_height: 7
     number_sections: yes
     theme: readable
     toc: yes
-  pdf_document:
+  html_document:
+    fig_height: 7
+    keep_md: yes
     number_sections: yes
+    theme: readable
     toc: yes
 subtitle: (requires R-packages AER, coda, lme4, R2jags, DHARMa/devtools)
 ---
@@ -35,7 +35,7 @@ Also, overdispersion arises "naturally" if important predictors are missing or f
 Overdispersion is often mentioned together with zero-inflation, but it is distinct. Overdispersion also includes the case where none of your data points are actually $0$. We'll look at zero-inflation later, and stick to overdispersion here.
 
 # Recognising (and testing for) overdispersion
-May we should start with an example to get the point visualised.
+May we should start with an example to get the point visualised. Note that we manually set the breaks to 1-unit bins, so that we can see the $0$s as they are, not pooled with 1s, 2s, etc.
 ```{r}
 library(lme4)
 data(grouseticks)
@@ -43,7 +43,7 @@ summary(grouseticks)
 # INDEX is individual
 head(grouseticks)
 attach(grouseticks)
-hist(TICKS, col="grey", border=NA, las=1)
+hist(TICKS, col="grey", border=NA, las=1, breaks=0:90)
 ```
 
 The data are rich in $0$s, but that does not mean they are $0$-inflated. We'll find out about overdispersion by fitting the Poisson-model and looking at deviance and degrees of freedom (as a rule of thumb):
@@ -81,7 +81,7 @@ The quasi-families augment the normal families by adding a dispersion parameter.
 summary(fmqp <- glm(TICKS ~ YEAR*HEIGHT, family=quasipoisson, data=grouseticks))
 ```
 You see that $\tau$ is estimated as 11.3, a value similar to those in the overdispersion tests above (as you'd expect).
-The main effect is the substantially larger errors for the estimates (the point estimates do not change), and hence potentially changed significances (though not here).
+The main effect is the substantially larger errors for the estimates (the point estimates do not change), and hence potentially changed significances (though not here). (You can manually compute the corrected standard errors as Poisson-standard errors $\cdot \sqrt{\tau}$.)
 Note that because this is no maximum likelihood method (but a quasi-likelihood method), no likelihood and hence no AIC are available. No overdispersion tests can be conducted for quasi-family objects (neither in **AER** nor **DHARMa**).
 
 ## Different distribution (here: negative binomial)
@@ -111,8 +111,8 @@ So the overdispersion multiplier at the response-scale becomes an overdispersion
 
 
 
-That means, we can add another predictor to our model, one which changes *with each value of Y*, and which we do not really care for: a random effect. Remember that a (Gaussian) random effect has a mean of 0 and its standard deviation is estimated from the data.
-How does that work? Well, if we expected a value of, say, 2, we add noise to this value, and hence increase the range of values realised. 
+That means, we can add another predictor to our model, one which changes *with each value of Y*, and which we do not really care for: a random effect. Remember that a (Gaussian) random effect has a mean of $0$ and its standard deviation is estimated from the data.
+How does that work? Well, if we expected a value of, say, $2$, we add noise to this value, and hence increase the range of values realised. 
 ```{r}
 set.seed(1)
 hist(Y1 <- rpois(1000, 2), breaks=seq(0, 30), col="grey60", freq=F, ylim=c(0, 0.45), las=1, 
@@ -141,13 +141,13 @@ In the random-effects output, we see that the standard deviation for the random 
 Note that the estimates for intercept, YEAR96 and YEAR97 are *substantially* different (as is height, but then that has been re-scaled).
 
 Here's the diagnostic plot (only **DHARMa**):
-```{r}
-sim_fmOLRE <- simulateResiduals(fmOLRE, refit=T, n=99) # takes a while, about 10 minutes or so
+```{r, fig.width=4, fig.height=4}
+sim_fmOLRE <- simulateResiduals(fmOLRE, refit=T, n=250) # takes a while, about 10 minutes or so
 plotSimulatedResiduals(sim_fmOLRE)
 testOverdispersion(sim_fmOLRE) # requires refit=T
 testZeroInflation(sim_fmOLRE)  # no zero-inflation
 ```
-Hm. The QQ-plot looks great, but the residual-predicted-plot is miserable. This may be due to the low number of simulations (99 instead of the recommended 250), but possibly there is simply still some underfitting of the high values (all large values have high quantiles, indicating that these residuals (O-E) are all positive and large).
+Hm. The QQ-plot looks great, but the residual-predicted-plot is miserable. This may be due to a misspecified model (e.g. missing important predictors), leading to underfitting of the high values (all large values have high quantiles, indicating that these residuals (O-E) are all positive and large).
 
 The overdispersion, and just for fun also the zero-inflation test, are negative. So overall I guess that the OLRE-model is fine. 
 
@@ -209,7 +209,7 @@ OLREjags
 OLREjags$BUGSoutput$mean # just the means
 ```
 
-```{r JAGSdiagnostics, cache=F}
+```{r JAGSdiagnostics, cache=T}
 OLREmcmc <- as.mcmc.list(OLREjags$BUGSoutput)
 library(lattice)
 xyplot(OLREmcmc,layout=c(3,3))
