@@ -57,4 +57,9 @@ Here are some (hopefully) useful links on how to do more complicated graphics:
 
 * [R Graph Catalog](http://shiny.stat.ubc.ca/r-graph-catalog/)
 * [ Beyond Bar and Line Graphs: Time for a New Data Presentation Paradigm](http://www.plosbiology.org/article/comments/info:doi/10.1371/journal.pbio.1002128)
+* [A Compendium of Clean Graphs in R](http://shinyapps.org/apps/RGraphCompendium/index.php) Version 2.0 by Eric-Jan Wagenmakers and Quentin F. Gronau
+
+
+
+
 

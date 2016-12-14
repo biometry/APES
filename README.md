@@ -4,7 +4,7 @@ title: Welcome to APES
 permalink: /index.html
 ---
 
-This is the collection of **Advice for Problems in Environmental Statistics (APES)** of the [Department of Biometry and Environmental System Analysis](http://www.biom.uni-freiburg.de/), University of Freiburg. This website gives some basic intros and links for
+This is the collection of **Advice for Problems in Environmental Statistics (APES)** of the [Department of Biometry and Environmental System Analysis](http://www.biom.uni-freiburg.de/) at the University of Freiburg, and the [Professorship for Theoretical Ecology](http://www.uni-regensburg.de/biologie-vorklinische-medizin/theoretische-oekologie/) at the University of Regensburg. This website gives some basic intros and links for
 
 * [Standard topics in statistics](http://biometry.github.io/APES/Stats/)
 * [The statistical programming language R](http://biometry.github.io/APES/R/)

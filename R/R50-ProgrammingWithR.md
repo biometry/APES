@@ -48,6 +48,9 @@ Useful links:
 * [Developing parallel programs using snowfall](https://cran.r-project.org/web/packages/snowfall/vignettes/snowfall.pdf)
 * [A Survey of R Software for Parallel Computing](http://pubs.sciepub.com/ajams/2/4/9/)
 
+## Speed and memory issues 
+
+* [Memory layout of multidimensional matrices](http://eli.thegreenplace.net/2015/memory-layout-of-multi-dimensional-arrays/)
 
 
 

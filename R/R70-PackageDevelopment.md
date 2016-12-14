@@ -51,3 +51,24 @@ Special topics
 * RCPP (integration or R and C++) see [here](http://dirk.eddelbuettel.com/code/rcpp.html)
 * Boost see [here](http://dirk.eddelbuettel.com/code/bh.html)
 * Testing see [here](http://r-pkgs.had.co.nz/tests.html#test-workflow)
+
+## Submitting to CRAN tips / checklist 
+
+Especially if you do this for the first time, read
+
+* The official [CRAN Policy](https://cran.r-project.org/web/packages/policies.html)
+* Hadley's release [recommendations](http://r-pkgs.had.co.nz/release.html)
+* Google for experience with CRAN submission to see what people struggle with - CRAN is super strict about spelling, capitalization, use of " and ' and so on - if the checks give you a warning, fix it
+
+Checklist for submission 
+
+1. Update your R system (ideally)
+2. Run unit tests and CRAN checks in Rstudio, fix all the issues
+3. Advance version numbers, readme, vignette, date, etc. 
+4. Run again local tests now including 
+  * Unit and Check in RStudion
+  * Reverse dependencies
+  * [winbuilder](https://win-builder.r-project.org/) on stable and dev
+  * Ubuntu (via Travis-CI)
+5. Push new version to GH
+6. Submit to CRAN

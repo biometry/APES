@@ -69,5 +69,7 @@ Yet, as experience has taught us you might have not, you might want to look at t
 * Make sure all your analysis is scripted. If not all is scripted, make notes about all steps that you do by hand
 * If you don't version control (git, svn) your scripts, make sure to have backups, and make sure you know which script was used to produce the ouptut
 
+## Further reading
 
+* Ten Simple Rules for Effective Statistical Practice [link](http://journals.plos.org/ploscompbiol/article?id=10.1371%2Fjournal.pcbi.1004961)
 
