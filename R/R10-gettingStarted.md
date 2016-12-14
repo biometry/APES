@@ -24,9 +24,8 @@ The following links are tutorials on using R as a language. They are helpful if 
 
 ### Recommended free tutorials
 
-* [Essential statistics](https://www.dropbox.com/s/8fmh10fdn6jd2xb/EssentialStatistics.pdf?dl=0) lecture notes
-* [Introduction to R](http://www3.nd.edu/~mclark19/learn/Introduction_to_R.pdf), by Michael Clark. Recommendation as a basic text for beginners.  
-* [R for Beginners](http://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf), by Emmanuel Paradis. A bit more comprehensive than the reference above. Also highly recommended. 
+* [Essential statistics](https://www.dropbox.com/s/s38ge7pjgf55qs1/EssentialStatistics.pdf?dl=0) lecture notes
+* [R for Beginners](http://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf), by Emmanuel Paradis. 
 
 ### Other shorter intros
 
