@@ -13,6 +13,8 @@ This page lists recommended statistics textbooks and online courses. Note that w
 
 ## Textbooks For ecologists / biologists that are only interested in basic applications (low on theory, strong focus on application)
 
+* Crashcourse - lecture notes [Essential Statistics](https://www.dropbox.com/s/s38ge7pjgf55qs1/EssentialStatistics.pdf?dl=0)
+
 * Gotelli, N. J. & Ellison, A. M. (2004) A Primer Of Ecological Statistics. Sinauer Associates, 
 
 * M. Henry H. Stevens (2009) A Primer of Ecology with R. Springer.
@@ -41,7 +43,6 @@ This page lists recommended statistics textbooks and online courses. Note that w
 
 
 ## Videos / MOOCs
-
 
 * Coursera - Methods and Statistics in Social Sciences Specialization [link](https://www.coursera.org/specializations/social-science)
 
