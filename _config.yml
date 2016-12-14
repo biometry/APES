@@ -13,7 +13,7 @@ username: biometry
 kramdown:
   input: GFM
 
-highlighter: pygments
+highlighter: rouge
 
 # Excludes
 exclude: ['*.sublime*', 'Gemfile*', 'feed.xml', '*.Rmd', '*.rmd']
