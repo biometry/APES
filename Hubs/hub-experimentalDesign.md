@@ -16,6 +16,8 @@ synopsis:
 
 ### Power analysis
 
+Power analysis tells you how many replicates you need (sample size)
+
 * [QuickR overview](http://www.statmethods.net/stats/power.html)
 * see [session 4](https://github.com/biometry/APES/tree/master/LectureNotes/MixedEffectModels/Session4) of our mixed model lecture series, at the very end. 
 
