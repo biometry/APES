@@ -41,6 +41,8 @@ The following links are tutorials on using R as a language. They are helpful if 
 ### Videos and MOOCs
 
 * [The IQUIT R video series](http://mbjoseph.github.io/r/2015/08/28/iquit.html) highly recommended
+* [Introduction to Statistics by Christoph Scherber](https://www.youtube.com/watch?v=VVztfXuYvNA&list=PLxFREn4yGU1w7_EPwIM2hxX2hgBAJHSN1)
+* [EZLearn R Tutorials](https://www.youtube.com/watch?v=qEJHYIa-EhI&list=PLq-yuDBwPhRthmOaderRgyVi_k7PKdsbJ)
 * [Coursera Data specialization](https://www.coursera.org/specializations/jhu-data-science)
 * [Datacamp free intro R](https://www.datacamp.com/courses/free-introduction-to-r)
 * [Coursera Data Analysis and Statistical Inference ](https://www.coursera.org/course/statistics)
