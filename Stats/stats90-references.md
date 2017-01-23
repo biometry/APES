@@ -34,6 +34,12 @@ This page lists recommended statistics textbooks and online courses. Note that w
 
 * James S. Clark (2007) Models for Ecological Data: an introduction. Princeton University Press.
 
+## Foundational statistics
+
+* E.T. Jaynes "Probability, The Language of Science." 
+
+* Leonard Jimmie Savage, "The Foundations of Statistics." 
+
 ## Deutsche Einführungen
 
 * Dormann, C. F. (2013) Parametrische Statistik. Springer, , 333-334. Free ebook for students from the University of Freiburg [here](http://link.springer.com.ezproxy.ub.uni-freiburg.de/book/10.1007/978-3-642-34786-3/page/1
