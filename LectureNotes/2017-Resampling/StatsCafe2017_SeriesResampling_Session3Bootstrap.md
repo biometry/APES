@@ -1,25 +1,27 @@
----
-title: "Statistic-Cafe: Bootstrap and Confidence Intervals"
-author: "Anne Mupepele"
-date: "15 February 2017"
-output:
-  html_document:
-    keep_md: true
-smaller: yes
----
+# Statistic-Cafe: Bootstrap and Confidence Intervals
+Anne Mupepele  
+15 February 2017  
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = T,size='footnotesize',fig.path='Graphics/')
-```
+
 
 ## Wrap-up: Resampling
 + Permutation/Randomization: sampling without replacement
-```{r}
+
+```r
 sample(1:4,3,replace=F)
 ```
+
+```
+## [1] 1 2 4
+```
 + Bootstrap: sampling with replacement
-```{r}
+
+```r
 sample(1:4,3,replace=T)
+```
+
+```
+## [1] 3 3 1
 ```
 + Jackknife: leave one (or several out)
 
@@ -29,9 +31,21 @@ sample(1:4,3,replace=T)
 + package bootstrap
 + package car
 
-```{r,output=F,warning=F}
+
+```r
 library(car) #bootCase()
 library(boot) #boot.ci()
+```
+
+```
+## 
+## Attaching package: 'boot'
+```
+
+```
+## The following object is masked from 'package:car':
+## 
+##     logit
 ```
 
 
@@ -70,28 +84,61 @@ library(boot) #boot.ci()
 
 ##Data
 Harvest weight [kg] of 300 apples trees.
-```{r}
+
+```r
 aw <- rnorm(300,mean=66,sd=30)
 hist(aw)
+```
+
+![](Graphics/unnamed-chunk-4-1.png)<!-- -->
+
+```r
 mean(aw)
+```
+
+```
+## [1] 63.87615
 ```
 
 ##Confidence interval in R
 + $\triangle_{crit} = \mu \pm z_{\alpha} \cdot \sigma_{\bar{x}}$
 
-```{r}
+
+```r
 mean(aw)
+```
+
+```
+## [1] 63.87615
+```
+
+```r
 mean(aw) - 1.96*sd(aw)/sqrt(300) # lower limit 
+```
+
+```
+## [1] 60.85203
+```
+
+```r
 mean(aw) + 1.96*sd(aw)/sqrt(300)# higher limit 
+```
+
+```
+## [1] 66.90026
+```
+
+```r
 diff <- mean(aw) + 1.96*sd(aw)/sqrt(300) - mean(aw)
 ```
 
-$\triangle_{crit} = `r round(mean(aw),1)` \pm `r round(diff,1)`$ 
+$\triangle_{crit} = 63.9 \pm 3$ 
 
 
 ## Confidence intervals via bootstrapping
 The following R-chunk creates a matrix with 1000 rows (number of bootstraps, I have chosen) and 300 columns (length of the original variable 'aw'). This matrix is filled through resampling from 'aw'. It results in 1000 bootstrapped - samples.
-```{r}
+
+```r
 B <- 1000 # 1000 times resampling of 'aw' 
 bootstrap_aw <- matrix(
   sample(aw,size=B*length(aw),replace=T)
@@ -100,26 +147,65 @@ bootstrap_aw <- matrix(
 
 ## Distribution of means 
 + Mean of every bootstrapped sample (= mean of every row in the matrix)
-```{r,fig.height=3}
+
+```r
 bootstraped_means <- apply(bootstrap_aw,1,mean)
 hist(bootstraped_means,prob=T,main="")
 lines(density(bootstraped_means),col="red")
 ```
 
+![](Graphics/unnamed-chunk-7-1.png)<!-- -->
+
 ## Confidence interval from bootstraps
 + population mean and standard deviation (sd) are not estimated by the sample mean and sd, but by the mean and sd of many samples' means (obtained by bootstrapping)
 + $\triangle_{crit} = \mu \pm z_{\alpha} \cdot \sigma$
-```{r}
+
+```r
 mean(bootstraped_means)
+```
+
+```
+## [1] 63.83405
+```
+
+```r
 mean(bootstraped_means) - 1.96*sd(bootstraped_means) # lower limit 
+```
+
+```
+## [1] 60.81608
+```
+
+```r
 mean(bootstraped_means) + 1.96*sd(bootstraped_means)# higher limit 
+```
+
+```
+## [1] 66.85201
 ```
 
 ## Confidence interval from bootstraps
 + with package boot, instead of doing it manually
-```{r,warning=F}
+
+```r
 mean_indices <- function(x,indices){return(mean(x[indices]))}
 boot.ci(boot(aw,mean_indices,1000))
+```
+
+```
+## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 1000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot(aw, mean_indices, 1000))
+## 
+## Intervals : 
+## Level      Normal              Basic         
+## 95%   (60.87, 66.92 )   (60.89, 66.93 )  
+## 
+## Level     Percentile            BCa          
+## 95%   (60.82, 66.86 )   (60.89, 66.90 )  
+## Calculations and Intervals on Original Scale
 ```
 
 ## Confidence intervals with Percentile Bootstrap
@@ -132,7 +218,8 @@ boot.ci(boot(aw,mean_indices,1000))
 + bootstraped_means = means of 1000 bootstrapped samples
 + quantile() function in R
 
-```{r,fig.height=4}
+
+```r
 par(mar=c(4,4,0,0))
 plot(density(bootstraped_means),main="")
 q95 <- quantile(bootstraped_means,c(0.025,0.975))
@@ -141,10 +228,13 @@ text(c(q95[1]-1,q95[2]+1),0.18,c("Lower Limit","Upper Limit"),cex=0.8)
 text(c(q95[1]-1,q95[2]+1),0.15,round(q95,1))
 ```
 
+![](Graphics/unnamed-chunk-10-1.png)<!-- -->
+
 #Confidence Intervals (CI) in linear regression
 
 ##CI in linear regression
-```{r,fig.height=2.5,fig.width=7}
+
+```r
 data("trees")
 par(mar=c(4,4,0,0))
 fm <-glm(Volume ~Girth, data=trees, family=gaussian)
@@ -157,11 +247,35 @@ lines(Girthnew, preds$fit - 1.96*preds$se.fit, lty=2, col="grey6") #lower limit
 legend("topleft",lty=2,c("Confidence interval for regression lines"),col="grey6")
 ```
 
+![](Graphics/unnamed-chunk-11-1.png)<!-- -->
+
 ##Bootstrapping CI
 + model-based resampling: bootstrap the response variable and keep the predictors fixed (keep Girth constant and bootstrap in the column 'Volume')
 
-```{r,warning=F}
+
+```r
 bootCase(fm,function(x)predict(x,data.frame(Girth=c(1:5))),B=9) #9 bootstrapped models predicting on Girth=1 to 5
+```
+
+```
+##               1         2         3         4          5
+##  [1,] -34.78982 -29.53322 -24.27661 -19.02000 -13.763390
+##  [2,] -32.87914 -27.80695 -22.73476 -17.66257 -12.590378
+##  [3,] -25.38396 -20.93728 -16.49061 -12.04393  -7.597254
+##  [4,] -31.78404 -26.75338 -21.72271 -16.69205 -11.661386
+##  [5,] -29.13218 -24.29325 -19.45431 -14.61538  -9.776440
+##  [6,] -37.11161 -31.58993 -26.06825 -20.54656 -15.024883
+##  [7,] -32.84251 -27.73887 -22.63524 -17.53161 -12.427981
+##  [8,] -38.97483 -33.35372 -27.73260 -22.11149 -16.490381
+##  [9,] -37.69776 -32.16168 -26.62560 -21.08951 -15.553427
+## attr(,"class")
+## [1] "bootCase" "matrix"  
+## attr(,"pointEstimate")
+##         1         2         3         4         5 
+## -31.87760 -26.81175 -21.74589 -16.68003 -11.61418
+```
+
+```r
 bootfit <- bootCase(fm,function(x)predict(x,data.frame(Girth=Girthnew)),B=999)
 bootstrapped_sd <- apply(bootfit,2,sd) #sd for every bootrapped prediction, not necessary
 q95 <- apply(bootfit,2,function(i)quantile(i,c(0.025,0.975)))
@@ -171,6 +285,8 @@ lines(Girthnew,q95[2,] , lty=2, col="grey6") #upper limit
 lines(Girthnew, q95[1,], lty=2, col="grey6") #lower limit
 legend("topleft",lty=2,c("Bootstrapped confidence intervals"),col="grey6")
 ```
+
+![](Graphics/unnamed-chunk-12-1.png)<!-- -->
 
 + in case of non-constant variance, standard errors from bootstraps are still valid
 
