@@ -1,6 +1,10 @@
 ---
 title: Stats Cafe - simulations and resampling (in R)
-output: html_document 
+author: "Jochen Fründ, Michael Staab"
+date: "January to February 2017"
+output:
+  html_document:
+    keep_md: true
 ---
 
 
