@@ -54,8 +54,14 @@ As there are a number of
 
 * Integer Response
   * Poisson regression
-  * Zero-inflated models
-  * Models for overdispersed count data
+  * Negative-Binomial
+  
+# Issues / add-ons 
+  * Overdispersion
+  * Zero-inflated models [2](http://eco-stats.blogspot.de/2015/04/zero-inflation-in-ecology.html), [1](http://stats.stackexchange.com/questions/81457/what-is-the-difference-between-zero-inflated-and-hurdle-distributions-models)
+
+
+# Examples
 
 
 

@@ -1,0 +1,193 @@
+---
+title: "Statistic-Cafe: Bootstrap and Confidence Intervals"
+author: "Anne Mupepele"
+date: "15 February 2017"
+output: html_document
+smaller: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T,size='footnotesize',fig.path='Graphics/')
+```
+
+## Wrap-up: Resampling
++ Permutation/Randomization: sampling without replacement
+```{r}
+sample(1:4,3,replace=F)
+```
++ Bootstrap: sampling with replacement
+```{r}
+sample(1:4,3,replace=T)
+```
++ Jackknife: leave one (or several out)
+
+##Bootstrap in R
++ manually
++ package boot
++ package bootstrap
++ package car
+
+```{r,output=F,warning=F}
+library(car) #bootCase()
+library(boot) #boot.ci()
+```
+
+
+## Confidence interval
++ How confident can we be that our estimate is good? 
+      + e.g. How well does our sample mean $\bar{x}$ estimate the population mean $\mu$?
+
+<img src="figures/Confidence_interval.png" style="width: 400px;"/>
+  
+## Confidence interval 
++ How likely is it that the sample mean $\bar{x}$ lies within a previously specified confidence interval around the population mean $\mu$
++ The 95% confidence intervals means that 95% of the intervals obtained from samples will contain the true parameter.
++ Versus Bayesian credible interval: for the 95% percent credible interval there is a 95% probability that the true parameter value lies within this range.
+
+#Confidence intervals for the mean of one variable
+
+##Confidence interval
++ the sample mean is a good estimator for the population mean. 
++ sample standard deviation together with the sample size is a good estimator for the standard error. Based on the assumption that the sample is normally distributed. 
++ the sampling distribution of several sampling means - if several random samples were taken from the same population - also needs to be normally distributed.
+
+ <img src="figures/Sampling_Mean_Distribution.png" style="width: 400px;"/>
+
++ $\triangle_{crit} = \mu \pm z_{\alpha} \cdot \sigma_{\bar{x}}$
++ $\mu$ = population mean, estimated through sample mean $\bar{x}$
++ $z_{\alpha}$ z-score related to the chosen significane level
++ $\sigma_{\bar{x}}$ = standard error of the mean = $\dfrac{\sigma}{\sqrt{n}}$
+    + $\sigma$ population standard deviation, estimated by sample standard deviation $\dfrac{\displaystyle\sum_{i=1}^{n}{(x_i-\bar{x})^2}}{n-1}$; sd() in R
+
+## Z-Score
++ $z_i=\dfrac{x_i-\bar{x}}{s}$; $s= \dfrac{\displaystyle\sum_{i=1}^{n}{(x_i-\bar{x})^2}}{n}$
++ 95% of all possible sample means are within the interval -1.96<z<1.96
+
+ <img src="figures/Z-Scores_Wiki.png" style="width: 500px;"/>
+ <figcaption>Plot from Wikipedia 'z-score' 15 February 2017</figcaption>
+
+##Data
+Harvest weight [kg] of 300 apples trees.
+```{r}
+aw <- rnorm(300,mean=66,sd=30)
+hist(aw)
+mean(aw)
+```
+
+##Confidence interval in R
++ $\triangle_{crit} = \mu \pm z_{\alpha} \cdot \sigma_{\bar{x}}$
+
+```{r}
+mean(aw)
+mean(aw) - 1.96*sd(aw)/sqrt(300) # lower limit 
+mean(aw) + 1.96*sd(aw)/sqrt(300)# higher limit 
+diff <- mean(aw) + 1.96*sd(aw)/sqrt(300) - mean(aw)
+```
+
+$\triangle_{crit} = `r round(mean(aw),1)` \pm `r round(diff,1)`$ 
+
+
+## Confidence intervals via bootstrapping
+The following R-chunk creates a matrix with 1000 rows (number of bootstraps, I have chosen) and 300 columns (length of the original variable 'aw'). This matrix is filled through resampling from 'aw'. It results in 1000 bootstrapped - samples.
+```{r}
+B <- 1000 # 1000 times resampling of 'aw' 
+bootstrap_aw <- matrix(
+  sample(aw,size=B*length(aw),replace=T)
+  ,B,length(aw))
+```
+
+## Distribution of means 
++ Mean of every bootstrapped sample (= mean of every row in the matrix)
+```{r,fig.height=3}
+bootstraped_means <- apply(bootstrap_aw,1,mean)
+hist(bootstraped_means,prob=T,main="")
+lines(density(bootstraped_means),col="red")
+```
+
+## Confidence interval from bootstraps
++ population mean and standard deviation (sd) are not estimated by the sample mean and sd, but by the mean and sd of many samples' means (obtained by bootstrapping)
++ $\triangle_{crit} = \mu \pm z_{\alpha} \cdot \sigma$
+```{r}
+mean(bootstraped_means)
+mean(bootstraped_means) - 1.96*sd(bootstraped_means) # lower limit 
+mean(bootstraped_means) + 1.96*sd(bootstraped_means)# higher limit 
+```
+
+## Confidence interval from bootstraps
++ with package boot, instead of doing it manually
+```{r,warning=F}
+mean_indices <- function(x,indices){return(mean(x[indices]))}
+boot.ci(boot(aw,mean_indices,1000))
+```
+
+## Confidence intervals with Percentile Bootstrap
++ Instead of using the mean of bootstrapped means (+ sd of bootstrapped means), we take the percentiles of the bootstrapped means distribution
++ Efron 1979
++ Resampling leads to many means and you identify the one that splits your data into the lowest 5% interval
++ finding the two values that include the central 95% of this distribution
+
+## Percentile Bootstrap in R
++ bootstraped_means = means of 1000 bootstrapped samples
++ quantile() function in R
+
+```{r,fig.height=4}
+par(mar=c(4,4,0,0))
+plot(density(bootstraped_means),main="")
+q95 <- quantile(bootstraped_means,c(0.025,0.975))
+abline(v=q95,col="red")
+text(c(q95[1]-1,q95[2]+1),0.18,c("Lower Limit","Upper Limit"),cex=0.8)
+text(c(q95[1]-1,q95[2]+1),0.15,round(q95,1))
+```
+
+#Confidence Intervals (CI) in linear regression
+
+##CI in linear regression
+```{r,fig.height=2.5,fig.width=7}
+data("trees")
+par(mar=c(4,4,0,0))
+fm <-glm(Volume ~Girth, data=trees, family=gaussian)
+Girthnew <-seq(min(trees$Girth), max(trees$Girth), len=101) 
+preds <- predict(fm, newdata=data.frame("Girth"=Girthnew),se.fit=T) 
+plot(Volume ~ Girth, data=trees, las=1, pch=16) 
+lines(Girthnew, preds$fit, lwd=2, col="grey")
+lines(Girthnew, preds$fit + 1.96*preds$se.fit, lty=2, col="grey6") #upper limit 
+lines(Girthnew, preds$fit - 1.96*preds$se.fit, lty=2, col="grey6") #lower limit
+legend("topleft",lty=2,c("Confidence interval for regression lines"),col="grey6")
+```
+
+##Bootstrapping CI
++ model-based resampling: bootstrap the response variable and keep the predictors fixed (keep Girth constant and bootstrap in the column 'Volume')
+
+```{r,warning=F}
+bootCase(fm,function(x)predict(x,data.frame(Girth=c(1:5))),B=9) #9 bootstrapped models predicting on Girth=1 to 5
+bootfit <- bootCase(fm,function(x)predict(x,data.frame(Girth=Girthnew)),B=999)
+bootstrapped_sd <- apply(bootfit,2,sd) #sd for every bootrapped prediction, not necessary
+q95 <- apply(bootfit,2,function(i)quantile(i,c(0.025,0.975)))
+plot(Volume ~ Girth, data=trees, las=1, pch=16) 
+lines(Girthnew, preds$fit, lwd=2, col="grey")
+lines(Girthnew,q95[2,] , lty=2, col="grey6") #upper limit 
+lines(Girthnew, q95[1,], lty=2, col="grey6") #lower limit
+legend("topleft",lty=2,c("Bootstrapped confidence intervals"),col="grey6")
+```
+
++ in case of non-constant variance, standard errors from bootstraps are still valid
+
+## When bootstrap fails
++ Not 'assumption free': Assumption of the percentile method: there is a monotonic and increasing transformation function of your estimates (here: $f(\bar{x})$) that follows a normal distribution -> bias-corrected percentile method (Efron, 1981 and other bias-corrections) 
+
+## Further use of bootstrapping
++ here the focus was on confidence interval, the main use, but bootstrapping just means resampling with replacement and can be used for other issues
++ Bootstrapping for smoothing methods
++ Bootstrap tests of significance (similar to permutation tests, we create our own reference test statistic distribution)
++ Manly BFJ (2007) p75, bootstrapping can be used for:
+  + estimating the size of a population from mark-recapture
+  + the analysis of line-transect data
+  + comparison of principal components from real and randomly constructed set of ecological data
+
+##References
++ Efron B. 1979. Bootstrap methods: another look at the jackknife. The Annals of Statistics 7: 1–26.
++ Quinn GP and Keough MJ (2002) Experimental Design and Data Analysis for Biologists, Cambridge University Press
++ Dormann CF (2013) Parametrische Statistik. Berlin, Heidelberg: Springer Berlin Heidelberg.
++ Larget Bret (2013) Appendix of Chapter 3 in: Lock RH, Lock PF, Morgan KL, Lock EF, Lock DF (2013) Statistics: Unlocking the Power of Data
++ Büchner, S (2016) Lecture notes 'Dealing with numerical information' University College Freiburg
++ Manly BFJ (2007) Randomization, Bootstrap and Monte Carlo Methods in Biology, Chapman and Hall/CRC 
