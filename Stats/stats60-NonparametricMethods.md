@@ -30,7 +30,11 @@ The remaining predictions are then compared to data, either via a general measur
 
 CV will penalize too complex models because they don't predict well on validation data, and can therefore be used for model selection, even in cases where AIC doesn't work or is not available. For restrictive conditions, CV is approximately equal to AIC (Stone, 1977). 
 
+Cross-validation is covered in more detail on [this page](https://biometry.github.io/APES/LectureNotes/StatsCafe/2017-Resampling/CrossValidationLecture.html) of APES. 
+
 ### References 
+
+Roberts DR, Bahn V, Ciuti S, et al. (2017) Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure. Ecography, in press.
 
 Stone, M. (1977) An Asymptotic Equivalence of Choice of Model by Cross-Validation and Akaike's Criterion. Journal of the Royal Statistical Society. Series B, 39, 44-47.
 
