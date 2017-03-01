@@ -3,6 +3,10 @@ title: "Cross-validation techniques for model evaluation"
 author: "Carsten F. Dormann"
 date: "`r format(Sys.time(), '%d %b %Y')`"
 output:
+  github_document:
+    fig_height: 7
+    fig_width: 5
+    toc: yes
   html_document:
     fig_height: 5
     fig_width: 5
@@ -22,7 +26,9 @@ knitr::opts_chunk$set(cache=F, comment=NA, fig.align='center', warning=FALSE, me
 # Introduction
 The bias-variance trade-off shows that the more complexity you allow into a statistical model, the more variance is explained, at the expense of bias in predictions made by an overfit model. So we cannot rely the self-reporting of a fitted model when it comes to prediction error. For that, we need independent data, which typically do not have.
 
-![Fig. 1. The bias-variance trade-off: you can be too simple, and too complex. (Figure stolen from Scott Fortmann-Roe's [blog](http://scott.fortmann-roe.com/docs/BiasVariance.html))](biasvariance.png)
+![Fig. 1.](biasvariance.png)
+
+The bias-variance trade-off: you can be too simple, and too complex. (Figure stolen from Scott Fortmann-Roe's [blog](http://scott.fortmann-roe.com/docs/BiasVariance.html))
 
 # Types of cross-validation
 In cross-validation (CV for short), some part of the data are held back when the model is fitted, and used for evaluating the error of the fitted model. The hold-out is called the test, the other part the training data set.
