@@ -1,0 +1,7 @@
+<p class="breadcrumbs">
+  <a href="{{ site.baseurl }}/">{% include home.svg %}</a>
+  {% for cat in page.category %}
+  <a href="../{{ cat | capitalize }}">{{ cat | capitalize }}</a>
+  {% endfor %}
+  {{ page.title | capitalize }}
+</p>

@@ -1,0 +1,58 @@
+<footer class="site-footer">
+
+  <div class="wrap">
+
+    <h2 class="footer-heading">{{ site.title }} - {{ page.title }}</h2>
+
+    <div class="footer-col-1 column">
+      <ul>
+        <li>
+          <span>Author: {{ page.author }}</span>
+          </li>
+        <li>
+        <li>
+          <span>Maintainer: {{ page.maintainer }}</span>
+          </li>
+        <li>
+          <span>Contributors: see file history on gh</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="footer-col-2 column">
+      <ul>
+        <li>
+            <a href="{{ site.github.repository_url }}/blob/master/{{ page.path }}">
+              <span class="icon github">{% include github.svg %}</span>
+              <span class="username">View source</span>
+            </a>
+        </li>
+        <!-- <li>
+          <a href="https://twitter.com/{{ site.username }}">
+            <span class="icon twitter">{% include twitter.svg %}</span>
+            <span class="username">{{ site.username }}</span>
+          </a>
+        </li> -->
+      </ul>
+    </div>
+
+    <div class="footer-col-3 column">
+      <ul class="text">
+        <li>
+          License: <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>
+        </li>
+        <li>
+          <a href="{{ site.baseurl }}/about/">About</a>
+        </li>
+        <li>
+          <a href="{{ site.baseurl }}/imprint/">Imprint</a>
+        </li>
+        <li>
+          <a href="https://github.com/biometry/APES/tree/master/Contribute">Contribute</a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+</footer>
