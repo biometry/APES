@@ -9,10 +9,11 @@ January to February 2017
 (Jochen Fründ)
 
 ## Intro
-On overview of statistical methods using simulation or resampling is given. These methods have in common that they simulate sampling (ultimately based on random number generators in computers), rather than relying on mathematical relationships established for known probability distributions.
+An overview of statistical methods using simulation or resampling is given. These methods have in common that they simulate sampling (ultimately based on random number generators in computers), rather than relying on mathematical relationships established for known probability distributions.
 
 
 On the presentation slides, different statistical methods based on simulation and resampling were categorized into four classes
+
 * randomization / permutation (shuffling data, without replacement; useful e.g. for testing differences between groups)
 * bootstrap (resampling with replacement; useful e.g. for estimating parameter uncertainty)
 * jackknife and cross-validation (leaving out part of the data, sampling without replacement; useful e.g. for estimating prediction uncertainty)
@@ -50,7 +51,7 @@ sample(c(2,3,5), 3) # samples without replacement out of numbers 2, 3 and 5
 ```
 
 ```
-## [1] 3 2 5
+## [1] 5 3 2
 ```
 
 ```r
@@ -58,7 +59,7 @@ sample(c(2,3,5), 3, replace=TRUE) # samples with replacement
 ```
 
 ```
-## [1] 3 5 2
+## [1] 3 2 3
 ```
 
 ```r
@@ -66,7 +67,7 @@ sample(3, 3, replace=TRUE)  # this is NOT just sampling from the single element 
 ```
 
 ```
-## [1] 1 2 1
+## [1] 2 1 2
 ```
 
 Another useful advice may be that computer-generated random numbers are just pseudo-random numbers. They do a good job in simulating randomness, but you can get a reproducible example by setting the random seed with `set.seed()`.
@@ -109,7 +110,7 @@ groupmeans.ran[1] - groupmeans.ran[2]
 
 ```
 ## hardwood 
-##        4
+##      1.8
 ```
 
 Next would be to do this sampling a lot of times (or take all possible combinations = permutation), to get a null distribution, to which the observed value (-1) can be compared.
@@ -144,7 +145,7 @@ mean(mydata.ran)
 ```
 
 ```
-## [1] 8.2
+## [1] 9.3
 ```
 
 
@@ -168,7 +169,7 @@ mydata[-(sample(length(mydata), 1))]
 ```
 
 ```
-##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 18 19 20
+##  [1]  1  2  3  4  5  6  7  9 10 11 12 13 14 15 16 17 18 19 20
 ```
 
 This can also give an estimate of uncertainty, which of course has to be interpreted differently than the bootstrap confidence limits:
@@ -230,7 +231,7 @@ str(data)
 
 ```
 ## 'data.frame':	40 obs. of  2 variables:
-##  $ obs  : num  2.73 2.53 1.37 3.18 3.08 ...
+##  $ obs  : num  3.7 0.686 0.124 1.961 0.729 ...
 ##  $ treat: chr  "x" "x" "x" "x" ...
 ```
 
@@ -239,13 +240,13 @@ head(data)
 ```
 
 ```
-##        obs treat
-## 1 2.730877     x
-## 2 2.526872     x
-## 3 1.372141     x
-## 4 3.183749     x
-## 5 3.083549     x
-## 6 1.247332     x
+##         obs treat
+## 1 3.6995702     x
+## 2 0.6864948     x
+## 3 0.1244130     x
+## 4 1.9610825     x
+## 5 0.7285220     x
+## 6 2.3373901     x
 ```
 
 ```r
@@ -301,7 +302,7 @@ p.val
 ```
 
 ```
-## [1] 0.0137
+## [1] 0.0216
 ```
 
 ```r
@@ -314,13 +315,13 @@ t.test(xx, yy)		# not so different to a t-test
 ## 	Welch Two Sample t-test
 ## 
 ## data:  xx and yy
-## t = 2.6209, df = 37.598, p-value = 0.01258
+## t = 2.3851, df = 35.783, p-value = 0.0225
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  0.1809188 1.4108134
+##  0.1121255 1.3878448
 ## sample estimates:
 ## mean of x mean of y 
-##  1.793183  0.997317
+## 1.6176183 0.8676332
 ```
 
 
@@ -408,39 +409,42 @@ nmds_1 <- metaMDS(dune, distance = "bray")
 ## Run 0 stress 0.1192678 
 ## Run 1 stress 0.1183186 
 ## ... New best solution
-## ... Procrustes: rmse 0.02027041  max resid 0.06495625 
+## ... Procrustes: rmse 0.02026961  max resid 0.06495405 
 ## Run 2 stress 0.1192679 
-## Run 3 stress 0.1192679 
+## Run 3 stress 0.1183186 
+## ... Procrustes: rmse 1.995466e-05  max resid 4.694418e-05 
+## ... Similar to previous best
 ## Run 4 stress 0.1183186 
-## ... Procrustes: rmse 3.722212e-05  max resid 0.000122463 
+## ... Procrustes: rmse 4.299363e-05  max resid 0.0001304126 
 ## ... Similar to previous best
-## Run 5 stress 0.1192678 
-## Run 6 stress 0.1183186 
-## ... Procrustes: rmse 2.898153e-05  max resid 9.136757e-05 
+## Run 5 stress 0.1183186 
+## ... Procrustes: rmse 4.04062e-06  max resid 1.090687e-05 
 ## ... Similar to previous best
-## Run 7 stress 0.1183186 
-## ... Procrustes: rmse 1.045585e-05  max resid 3.232683e-05 
+## Run 6 stress 0.1192679 
+## Run 7 stress 0.2075713 
+## Run 8 stress 0.363861 
+## Run 9 stress 0.1192678 
+## Run 10 stress 0.2192919 
+## Run 11 stress 0.1192687 
+## Run 12 stress 0.2035424 
+## Run 13 stress 0.1183186 
+## ... Procrustes: rmse 6.062867e-06  max resid 1.603411e-05 
 ## ... Similar to previous best
-## Run 8 stress 0.1183186 
-## ... New best solution
-## ... Procrustes: rmse 4.981788e-06  max resid 1.526516e-05 
-## ... Similar to previous best
-## Run 9 stress 0.1192683 
-## Run 10 stress 0.1192685 
-## Run 11 stress 0.1192679 
-## Run 12 stress 0.1192678 
-## Run 13 stress 0.1982895 
-## Run 14 stress 0.2858526 
+## Run 14 stress 0.1192681 
 ## Run 15 stress 0.1183186 
-## ... Procrustes: rmse 5.555594e-05  max resid 0.0001755001 
+## ... Procrustes: rmse 6.387937e-05  max resid 0.0001937026 
 ## ... Similar to previous best
-## Run 16 stress 0.1808914 
-## Run 17 stress 0.1183187 
-## ... Procrustes: rmse 0.0001439311  max resid 0.0004292573 
+## Run 16 stress 0.2075713 
+## Run 17 stress 0.1183186 
+## ... Procrustes: rmse 4.872756e-05  max resid 0.0001452558 
 ## ... Similar to previous best
-## Run 18 stress 0.1192678 
-## Run 19 stress 0.1192679 
-## Run 20 stress 0.1192679 
+## Run 18 stress 0.1183186 
+## ... Procrustes: rmse 2.263762e-05  max resid 7.410953e-05 
+## ... Similar to previous best
+## Run 19 stress 0.1183186 
+## ... Procrustes: rmse 1.186796e-05  max resid 3.3664e-05 
+## ... Similar to previous best
+## Run 20 stress 0.2075713 
 ## *** Solution reached
 ```
 
@@ -518,14 +522,14 @@ summary(dune.ano)
 ## Dissimilarity: bray 
 ## 
 ## ANOSIM statistic R: 0.2579 
-##       Significance: 0.007992 
+##       Significance: 0.008991 
 ## 
 ## Permutation: free
 ## Number of permutations: 1000
 ## 
 ## Upper quantiles of permutations (null model):
 ##   90%   95% 97.5%   99% 
-## 0.117 0.156 0.191 0.231 
+## 0.119 0.153 0.180 0.234 
 ## 
 ## Dissimilarity ranks between and within classes:
 ##         0%   25%    50%     75%  100%   N
@@ -556,7 +560,7 @@ dune.adonis		# be aware: those are pseudo-values (F, R?,...)
 ## Terms added sequentially (first to last)
 ## 
 ##            Df SumsOfSqs MeanSqs F.Model      R2   Pr(>F)   
-## Management  3    1.4686 0.48953  2.7672 0.34161 0.005994 **
+## Management  3    1.4686 0.48953  2.7672 0.34161 0.002997 **
 ## Residuals  16    2.8304 0.17690         0.65839            
 ## Total      19    4.2990                 1.00000            
 ## ---
@@ -589,7 +593,7 @@ dune.adonis$aov.tab
 ## Terms added sequentially (first to last)
 ## 
 ##            Df SumsOfSqs MeanSqs F.Model      R2   Pr(>F)   
-## Management  3    1.4686 0.48953  2.7672 0.34161 0.005994 **
+## Management  3    1.4686 0.48953  2.7672 0.34161 0.002997 **
 ## Residuals  16    2.8304 0.17690         0.65839            
 ## Total      19    4.2990                 1.00000            
 ## ---
@@ -652,8 +656,8 @@ dune.adonis_A1
 ## 
 ##               Df SumsOfSqs MeanSqs F.Model      R2   Pr(>F)   
 ## A1             1    0.7230 0.72295  4.8187 0.16817 0.002997 **
-## Management     3    1.1865 0.39551  2.6362 0.27600 0.004995 **
-## A1:Management  3    0.5892 0.19639  1.3090 0.13705 0.230769   
+## Management     3    1.1865 0.39551  2.6362 0.27600 0.003996 **
+## A1:Management  3    0.5892 0.19639  1.3090 0.13705 0.194805   
 ## Residuals     12    1.8004 0.15003         0.41878            
 ## Total         19    4.2990                 1.00000            
 ## ---

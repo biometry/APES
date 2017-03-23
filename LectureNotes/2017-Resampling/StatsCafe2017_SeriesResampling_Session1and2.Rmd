@@ -14,10 +14,11 @@ output:
 (Jochen Fründ)
 
 ## Intro
-On overview of statistical methods using simulation or resampling is given. These methods have in common that they simulate sampling (ultimately based on random number generators in computers), rather than relying on mathematical relationships established for known probability distributions.
+An overview of statistical methods using simulation or resampling is given. These methods have in common that they simulate sampling (ultimately based on random number generators in computers), rather than relying on mathematical relationships established for known probability distributions.
 
 
 On the presentation slides, different statistical methods based on simulation and resampling were categorized into four classes
+
 * randomization / permutation (shuffling data, without replacement; useful e.g. for testing differences between groups)
 * bootstrap (resampling with replacement; useful e.g. for estimating parameter uncertainty)
 * jackknife and cross-validation (leaving out part of the data, sampling without replacement; useful e.g. for estimating prediction uncertainty)
