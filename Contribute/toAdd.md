@@ -62,6 +62,7 @@ chisq.test(cbind(x,y))
 ```
 
 
+http://setosa.io/ev/ordinary-least-squares-regression/
 
 
 
