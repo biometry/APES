@@ -65,7 +65,7 @@ This page lists recommended statistics textbooks and online courses. Note that w
 
 # Specialized topics
 
-
+* Genetic analysis -> see [resources on bioconductor](https://bioconductor.org/help/course-materials/)
 
 
 
