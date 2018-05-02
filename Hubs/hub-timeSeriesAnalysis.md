@@ -10,6 +10,8 @@ Most introductory statistics text books for non-statisticians avoid the analysis
 
 A good starting point is Hyndman & Athanasopoulos' new book.
 
+Please also check the introductory lecture in our StatsCafe (April 2018) as [PDF](https://biometry.github.io/APES/LectureNotes/2018-TimeSeries/intro-timeseries.pdf) or original [.Rnw](https://biometry.github.io/APES/LectureNotes/2018-TimeSeries/intro-timeseries.Rnw).
+
 
 Literature
 ==

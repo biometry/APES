@@ -1,0 +1,331 @@
+\documentclass[a4paper, 11pt]{article}
+
+%\usepackage[sc]{mathpazo}
+%\usepackage{authblk} % authors & affiliations
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath} % e.g. for \text{} in math
+\usepackage{bm}
+\usepackage{geometry}
+  \geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=3cm,rmargin=2cm}
+  \setcounter{secnumdepth}{3}
+  \setcounter{tocdepth}{3}
+%\setlength{\parskip}{\bigskipamount}
+%\setlength{\parindent}{0pt}
+\usepackage{ifxetex}
+\ifxetex
+ %font commands
+ % Xetex settings:
+ \usepackage{fontspec} 
+ \setmainfont[Mapping=tex-text]{Alegreya} % Mapping needed for ``'' and for Umlaute öäü!!
+ \setmonofont[Mapping=tex-text, Scale=0.9]{Anonymous Pro}
+\else
+ \usepackage[utf8]{inputenc}
+ \usepackage[T1]{fontenc}
+ %font packages
+ \usepackage{gfsdidot}  % nice font, but doesn't display á as it should!!! This is a bug (dear me).
+
+\fi
+\usepackage{natbib}
+\usepackage{url}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
+ breaklinks=true,pdfborder={0 0 1},backref=true,colorlinks=false, hidelinks]
+ {hyperref}
+%\hypersetup{ pdfstartview={XYZ null null 1}}
+\usepackage{breakurl}
+\usepackage{titlesec} % for titleformat
+\usepackage[nottoc]{tocbibind} % include reference in table of content
+\usepackage{wrapfig}
+\usepackage[dvipsnames]{xcolor}
+
+%\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+% % % % % % %  section numbering onto margins % % % %
+\newlength\mylensection
+\setlength\mylensection{\dimexpr\oddsidemargin+1cm+\hoffset\relax}
+\titleformat{\section}{\normalfont\Large\itshape}{\llap{\hspace*{-\mylensection}\textcolor{YellowGreen}{\textbf{\LARGE{ \thesection}}}\hfill}}{0em}{} %
+
+\newlength\mylensubsection
+\setlength\mylensubsection{\dimexpr\oddsidemargin+1cm+\hoffset\relax}
+\titleformat{\subsection}{\normalfont\large\itshape}{\llap{\hspace*{-\mylensubsection}\textcolor{YellowGreen}{\textbf{\Large{ \thesubsection}}}\hfill}}{0em}{} %
+
+\newlength\mylensubsubsection
+\setlength\mylensubsubsection{\dimexpr\oddsidemargin+1cm+\hoffset\relax}
+\titleformat{\subsubsection}{\normalfont\large\itshape}{\llap{\hspace*{-\mylensubsubsection}\textcolor{YellowGreen}{\textbf{\Large{ \thesubsubsection}}}\hfill}}{0em}{} %
+
+
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\topfraction}{0.8}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\floatpagefraction}{0.75}
+
+\newcommand{\package}[1]{\textbf{#1}}
+\newcommand{\proglang}[1]{\textsl{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\ind}[1]{#1\index{#1}}           			   % \ind{bla} instead of bla\index{bla}
+\newcommand{\indE}[1]{\emph{#1}\index{#1@\emph{#1}}}       % dito for emphasised words (e.g. English)
+\newcommand{\indR}[1]{\texttt{#1}\index{#1@\texttt{#1}}}   % dito for typewriter
+
+
+\renewcommand{\vec}[1]{\mathbf{#1}}                   % replaces the arrow over vectors by bold-print
+
+
+%\makeatother
+\frenchspacing % avoid long spaces after a "."
+
+\begin{document}
+<<setup, include=FALSE, cache=FALSE>>=
+library(knitr)
+opts_chunk$set(fig.align='center', cache=TRUE)
+#render_listings()
+@
+
+
+\title{A brief introduction to time-series analysis}
+
+\author{Carsten F. Dormann\\Biometry \& Environmental System Analysis\\University of Freiburg, Germany}
+
+\maketitle
+
+
+
+\tableofcontents
+
+
+\begin{abstract}
+This introductory document aims to raise a few points that typically show up in first steps in time-series analysis.
+\end{abstract}
+
+
+\section{Introduction}
+There is a sheer endless number of time-series resources out there!\footnote{\url{https://www.statmethods.net/advstats/timeseries.html}} Have a look at the open book of Hyndman \& Athanasopoulos, called ``Forecasting: Principles and Practice''.\footnote{\url{https://otexts.org/fpp2/}}
+
+
+Time series refers to data sets of a response that is recorded over longer periods of time. The response can be univariate (e.g. the famous Keeling CO$_2$-data we'll look at below), or multidimensional (e.g. climate data from 121 weather stations, or share values for 4201 companies in Japan).
+
+There are, fundamentally, two different types of questions, and hence approaches, to time series analysis: (a) understanding whether something has an effect on a response that just happens to be temporal; (b) predicting a time series into the future (``forecasting''). In other words, (a) looks at \emph{significant} effects of some predictor on $y$, just like in a regression model; (b) makes extrapolations of $y$.
+
+Let's compare two rather different univariate time series examples.\footnote{Get the extended version of the \texttt{co2}-data for validation of forecast e.g. here: \url{https://datahub.io/core/co2-ppm}.}
+
+<<warning=FALSE, message=F, fig.height=5, fig.width=10, out.height="6cm", size="small">>= 
+par(mfrow=c(1,2))
+library(ggplot2)
+library(gridExtra)
+library(fpp2) # for the book of Hyndman & Athanasopoulos; calls ggplot2
+p1 <- autoplot(co2)
+p2 <- autoplot(melsyd[,"Economy.Class"]) +
+  ggtitle("Economy class passengers: Melbourne-Sydney")
+grid.arrange(p1, p2, ncol=2)
+@
+One shows a very clear seasonal pattern, the other not; one shows a clear trend, the other not. For neither we have explanatory variables.
+Both are \textbf{time-series objects} in \proglang{R}!
+
+<<warning=FALSE, message=F, fig.height=5, fig.width=10, out.height="6cm", size="small">>= 
+str(co2)
+str(melsyd)
+@
+The nice thing about having data as time-series object is that they work well for plotting. It is somewhat tricky to get them into this shape, though. There is no time and place here to go into that, but you may want to consult the help pages of \code{ts} and \code{POSIXct} to generate and format temporal data.\footnote{In the ``tidyverse'', the \package{lubridate} is your friend!}
+Typically, time series require NA-free data!
+
+Since melsyd's Economy.Class has one NA, we replace it by the mean of the data points around it (no comment):
+<<warning=FALSE, message=F, fig.height=5, fig.width=10, out.height="6cm", size="small">>= 
+(missing <- which(is.na(melsyd[, "Economy.Class"])))
+melsyd[missing, "Economy.Class"] <- mean(melsyd[c(missing-1, missing+1), "Economy.Class"], na.rm=T)
+MSE <- melsyd[, "Economy.Class"]
+@
+
+We shall now go through a few typical exploratory steps, before turning to actual temporal models.
+
+\section{Decomposition into trend, seasonality and noise using loess}
+
+<<warning=FALSE, message=F, fig.height=7, fig.width=10, out.height="8cm", size="small">>= 
+plot(stl(co2, s.window="periodic")) 
+# s.window: period in lags for seasonal extraction, minimally 7; or "periodic"
+plot(stl(MSE, s.window="periodic"))
+@
+The two decompositions couldn't be more different. This ``stl'' correctly identifies the annual cycle in the CO$_2$-concentration, and it also finds a periodicity in the air travels (with a noticeable dip around Christmas). But, as the grey boxes on the right-hand side of each panel show, the remainder (aka ``noise'') is a tiny fraction of the trend in the CO$_2$ data, but a substantial part in the flights (note that this is a scaling bar, i.e. it covers the same data range in each panel; roughly 1.8 for CO$_2$ and 6 for the flights).
+
+
+\section{Detrending}
+Many analyses start with detrending, i.e. removing a trend that exists in the data. That would be the ``trend'' component in the above plots. ``Why?'', you may ask. Well, for example if you are only interested in the periodic element, but not in the trend. 
+
+Think of tree ring widths. As the tree becomes older, tree rings become wider (because only the outer few cm provide all the water flux for the whole tree), and then smaller again (as the old tree growths slower). If you now want to compare tree-ring widths across many trees, you need to remove the age-trend in these data, because these are irrelevant for, say, the climate signal in the data.
+
+Detrending is done in slightly different ways in different disciplines. Two things seems to be clear: the choice of detrending affects the results, and \textbf{linear detrending is probably universally wrong} (and hence will not be shown here).
+
+Let's have a look at two ways of detrending, applied to the flights data. The first is detrending using a spine, the second uses ``empirical mode decomposition'' (aka Hilbert-Huang transformation\footnote{\url{https://en.wikipedia.org/wiki/Hilbert-Huang\_transform}}), which seems to be a favourite with physicists (so it must be great):
+<<warning=FALSE, message=F, fig.height=7, fig.width=14, out.height="8cm", size="small">>= 
+library(mgcv)
+MSEtimes <- as.numeric(time(MSE))
+library(zoo)
+head(as.yearmon(MSEtimes)) # just show that these are monthly values
+detrended1 <- gam(MSE ~ s(MSEtimes))
+#plot(detrended1, residuals=T, pch="+") # for plotting the fitted trend
+resid1 <- residuals(detrended1)
+# now for EMD.
+library(EMD)
+detrended2 <- emd(xt=MSE, tt=MSEtimes)
+# plot(MSEtimes, detrended2$residue) # the trend extracted
+resid2 <- MSE - detrended2$residue
+par(mfrow=c(1,2))
+plot(MSEtimes, resid1, col="blue", type="l")
+lines(MSEtimes, resid2, col="orange")
+plot(resid1, resid2)
+abline(0,1)
+@
+So clearly there is some similarity, and some difference between the methods.
+
+
+\section{(Fourir- and wavelet-transformations)}
+(Not covered here, for lack of time.)
+
+
+\section{Testing for a linear trend}
+Why would you want to test for a \emph{linear} trend? There are infinitely many shapes a trend can have, why single out the linear? Just like with detrending, very often people analyse for linear trends because that is what they learned, not what they need. Do you really have an hypothesis about linearity \emph{before} you look at the data?\footnote{\url{https://stats.stackexchange.com/questions/225003/test-for-trend-and-seasonality-in-time-series}}
+
+Instead, we can analyse for a trend using the above GAM and get a significance of that trend.
+<<warning=FALSE, message=F, fig.height=7, fig.width=7, out.height="8cm", size="small">>= 
+summary(detrended1)
+plot(detrended1, residuals=T, pch="+")
+@
+Isn't that great? So there is a non-linear trend (because the edf is $>1$), which is highly significant and explains 58/% of the data.
+
+WAIT! Just like any other regression model, also this model has assumptions that need to be checked. Let's have a look at the residuals:
+<<warning=FALSE, message=F, fig.height=7, fig.width=7, out.height="8cm", out.width="8cm", size="small">>= 
+plot(predict(detrended1), residuals(detrended1))
+abline(h=0)
+@
+Hm, there is the cluster of 0s at the bottom left, which causes some heterogeneity, but otherwise there is no obvious pattern in the data.
+
+Given that the data are collected over some time \emph{at the same place}, we may expect that they are not independent. If I know how many people flew in January, I can guess fairly accurately how many will fly in February. Thus, there may well be \textbf{temporal autocorrelation} in the data, which we should investigate!
+
+The most common way to do this is by means of the (partial) autocorrelation function-plot:
+<<warning=FALSE, message=F, fig.height=7, fig.width=7, out.height="8cm", size="small">>= 
+par(mfrow=c(1,2))
+acf(residuals(detrended1))
+pacf(residuals(detrended1))
+@
+What the ACF-plot shows is the correlation (on the $y$-axis) of the residuals with themselves, shifted by 1, 2, 3, ... positions (``lag''). Clearly, residuals are \emph{not} independent, but carry some temporal autocorrelation for up to 5 units (months, in this case).
+
+The partial ACF-plot is more interesting and revealing. It is computed by subtracting from each correlation the expected correlation from all previous lags.\footnote{\url{https://en.wikipedia.org/wiki/Partial_autocorrelation_function}} As a result, we see that really there is ``only'' a strong 1-lag autocorrelation, which carries over to the following lags.
+
+Thus, \emph{our data are not independent and hence violate the assumptions of maximum likelihood estimation} (and thereby those of OLS and GAM etc.). We have to find a way to accommodate the temporal autocorrelation! We do that in the next section.
+
+
+\section{``Time-aware'' (generalised) linear models}
+OLS, GLM and alike assume independence of data points. This is explicit in the fact that we compute maximum likelihood as the sum of log-transformed probability densities of the data points. This sum is valid only if data are independent (since $P(A, B) = P(A)P(B)$ iff\footnote{No, this is not a typo! ``Iff'' is the mathematical shorthand for ``if and only if''.} $A$ and $B$ are independent).
+
+We can write a linear (additive) model in this form: $$\vec{y} = f(\vec{X}) + \bm{\varepsilon}, \,\, \text{  with  }\,\,  \varepsilon \sim \mathcal{N}(\mu=0, \sigma=c),$$ where $f$ is some function of the various predictors $\vec{X}$ in the model, and there is a normally distributed additive error $\varepsilon$ (with mean 0).
+
+When data are non-independent, $\varepsilon$ comes from a different distribution, namely one where the value of $\varepsilon_1$ is correlated with that of $\varepsilon_2$, and so forth. This dependence has to describe the PACF we visualised in the previous section.
+ Mathematically, we write 
+ $$\varepsilon \sim \mathcal{N}(0, \bm{\Sigma}),$$
+where $\bm{\Sigma}$ is an $n \times n$ matrix, with entries $s^2_{ij}$, the expected co-variances between data points. $\bm{\Sigma}$ is called a ``variance-covariance'' matrix.
+
+So, how do we estimate $s^2_{ij}$? Well, we assume that the correlation of two data points is a function of their distance in time, $\Delta T$, e.g. decreasing exponentially:
+$$s^2_{ij} = a e^{-b\Delta T} = a e^{-b |T_i - T_j|},$$
+with $a$ and $b$ being positive parameters to be estimated from the data.
+
+Or we can make the specific assumption that only a lag of one is present, and hence only the previous data point is correlated with the focal point:
+$$ s^2_{ij} = \left\{
+  \begin{array}{ll}
+  c & \, \text{if } |i-j| =1 \\
+  0 & \, \text{else} \\
+\end{array}
+\right.$$
+In this case, $\bm{\Sigma}$ will be a matrix with entries only on the diagonal and the first off-diagonals (if the data are arranged by time). The entries on the diagonal are the variances of each data point, which we typically assume to be identical, and the constant off-diagonal entries $c$ are the co-variances.
+
+This model is known as the autoregressive model with lag one, AR1. It estimates essentially two parameters, apart from those in the function $f$, namely $c$ and $s^2_{ii}$. This latter variance is now independently normal distributed (``white noise'').
+
+Estimation of the time-dependent covariances is achieved using ``Generalised Least Squares'' (GLS), which actually is relatively simple in the case of an AR1-model. So let us amend our previous flight-analysis by an AR1 structure, first in a GLS before going to its implementation in the GAM:
+
+<<warning=FALSE, message=F, fig.height=7, fig.width=14, out.height="8cm", size="small">>= 
+#summary(OLS1 <- gls(MSE ~ MSEtimes))
+summary(OLS1 <- lm(MSE ~ MSEtimes)) # identical!
+GLS1.AR1 <- gls(MSE ~ MSEtimes, correlation=corAR1(form= ~MSEtimes))
+summary(GLS1.AR1)
+@
+This is to show that the temporal autocorrelation can severely affect your model fit and inference!
+
+The ordinary linear regression is highly significant, suggesting an increase by one passenger per month, while the GLS finds nothing of that sort, due to dramatically larger standard error:
+<<warning=FALSE, message=F, fig.height=7, fig.width=7, out.height="8cm", out.width="8cm", size="small", cache=T>>= 
+olspred <- predict(OLS1, se.fit=T)
+library(AICcmodavg)
+glspred <- predictSE(GLS1.AR1, newdata=data.frame("MSEtimes"=MSEtimes), se.fit=T, ylab="passenger number")
+plot(MSEtimes, olspred$fit, type="l", las=1, ylim=c(0, 100))
+lines(MSEtimes, olspred$fit + 2*olspred$se.fit, lty=2)
+lines(MSEtimes, olspred$fit - 2*olspred$se.fit, lty=2)
+lines(MSEtimes, glspred$fit, col="orange", lty=1)
+lines(MSEtimes, glspred$fit + 2*glspred$se.fit, col="orange", lty=2)
+lines(MSEtimes, glspred$fit - 2*glspred$se.fit, col="orange", lty=2)
+@
+
+Now we try the same with a more sophisticated wiggly line for the trend, only to immediately encounter a problem:
+<<warning=FALSE, message=F, fig.height=7, fig.width=14, out.height="8cm", size="small">>= 
+detrended1.AR1 <- gamm(MSE ~ s(MSEtimes, bs="cs"), correlation=corAR1(form= ~MSEtimes))
+# estimate phi independently:
+res <- residuals(detrended1)
+gls(res ~ 1, correlation=corAR1(form= ~MSEtimes)) # 0.7665
+detrended1.AR1 <- gamm(MSE ~ s(MSEtimes, bs="cs"), correlation=corAR1(0.77)) # re-estimates phi
+par(mfrow=c(1,2))
+acf(residuals(detrended1.AR1$lme, type="normalized")) # gone! (more or less)
+pacf(residuals(detrended1.AR1$lme, type="normalized"))
+@
+
+Time for an analysis of the CO$_2$-data!
+<<warning=FALSE, message=F, fig.height=7, fig.width=14, out.height="8cm", size="small">>= 
+co2times <- as.numeric(time(co2))
+co2conc <- as.numeric(co2)
+plot(co2times, co2conc, type="l")
+fgamco2.1 <- gam(co2conc ~ s(co2times))
+plot(fgamco2.1) # only the trend, no season predictions
+days <- as.numeric(format(as.Date(time(co2)), "%j")) # ugly
+fgamco2.2 <- gam(co2conc ~ s(co2times) + s(days, bs="cc")) # adds season
+# plot effects
+par(mfrow=c(1,2))
+plot(fgamco2.2)
+# plot fit
+plot(co2times, co2conc, type="l", lwd=3)
+lines(co2times, predict(fgamco2.2), col="red") # alright, I guess
+pacf(residuals(fgamco2.2)) # more than lag 1 !
+fgamco2.3 <- gamm(co2conc ~ s(co2times) + s(days, bs="cc"), correlation=corAR1(0.6))
+pacf(residuals(fgamco2.3$lme, type="normalized")) # fine, but spike at 12!
+#period12 <- as.numeric(format(as.Date(time(co2)), "%Y")) %% 12
+#fgamco2.4 <- gam(co2conc ~ s(co2times) + s(days, bs="cc") + s(period12, bs="cc"))
+#pacf(residuals(fgamco2.4)) 
+@
+We can also fit a more general, more flexible model structure, e.g. a decay of covariance with time:
+
+<<warning=FALSE, message=F, fig.height=7, fig.width=14, out.height="8cm", size="small">>= 
+fgamco2.5 <- gamm(co2conc ~ s(co2times) + s(days, bs="cc"), correlation=corExp(form=~co2times))
+fgamco2.5$lme # range is important!
+pacf(residuals(fgamco2.5$lme, type="normalized")) 
+@
+Now this is overall very similar to the AR1.
+<<warning=FALSE, message=F, fig.height=7, fig.width=14, out.height="8cm", size="small">>= 
+fgamco2.5 <- gamm(co2conc ~ s(co2times) + s(days, bs="cc"), correlation=corARMA(value=c(.5, 0.4), p=2, q=0))
+pacf(residuals(fgamco2.5$lme, type="normalized")) 
+@
+
+
+
+
+
+\section{Conclusions}%----------------------------------------------
+Time series analysis is actually quite a diverse set of statistical acitivities, ranging from cool descriptives to nasty modelling. Make sure you know what you are doing!
+\medskip
+\noindent Feedback, improvements, corrections and additions are welcomed!
+
+
+
+
+
+\phantomsection
+\clearpage
+\addcontentsline{toc}{section}{References}
+%\bibliographystyle{jss} % outcomment: already defined in jss.cls!!
+\bibliography{bipartite}
+
+
+
+\end{document}
