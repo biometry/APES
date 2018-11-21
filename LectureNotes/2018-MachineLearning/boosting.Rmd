@@ -1,0 +1,265 @@
+---
+title: "Boosting (and bagging)"
+author: "Carsten F. Dormann"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    number_sections: yes
+    toc: yes
+  html_document:
+    fig_height: 7
+    number_sections: yes
+    theme: readable
+    toc: yes
+  lang: en-GB
+---
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(cache=T, comment=NA, fig.align='center', warning=FALSE, message=FALSE, fig.width=5, fig.height=5)
+options(width = 100) 
+```
+
+# Example 1: Boosting a recursive partitioning tree
+
+## Fit a single tree with rpart, then boost it manually twice
+```{r}
+loyn <- read.csv("loyn.csv")
+
+library(rpart)
+fit0 <- rpart(ABUND ~ L10AREA + L10DIST + YR.ISOL, data=loyn, control=list(maxdepth=2))
+plot(fit0)
+text(fit0, use.n = TRUE, xpd=T)
+```
+Compute predictions and residuals of this model:
+```{r}
+resids0 <- residuals(fit0)
+preds0 <- predict(fit0)
+w0 <- resids0^2
+```
+Normally we would now use fit1 as an offset in the model before fitting the next stage. This is (apparently) not possible in rpart. Instead, we can proceed on the residuals of the previous step (because data are assumed to be normally distributed) and aggregate in a second step:
+```{r}
+w1 <- w0/sum(w0) # rescale to sum=1
+fit1 <- rpart(resids0 ~ L10AREA + L10DIST + YR.ISOL, data=loyn, weights=w1, control=list(maxdepth=2))
+# compare this to no weighting:
+fit1noweights <- rpart(resids0 ~ L10AREA + L10DIST + YR.ISOL, data=loyn, weights=NULL, control=list(maxdepth=2))
+par(mar=c(1,4,1,1), mfrow=c(1,2))
+plot(fit1)
+text(fit1)
+plot(fit1noweights)
+text(fit1noweights)
+```
+Now we need to combine these models in the best possible way, computing $\gamma_1$:
+```{r}
+predsResidsRegression1 <- predict(fit1)
+comb1 <- lm(ABUND ~ predsResidsRegression1 -1, offset=preds0, data=loyn) # offset is like an intercept per data point
+summary(comb1)
+gamma1 <- coef(comb1) # this is gamma1
+```
+```{r}
+preds1 <- predict(comb1)
+plot(preds0, loyn$ABUND)
+abline(0,1)
+points(preds1, loyn$ABUND, pch=16)
+```
+Okay, let's try another stage (at some point this becomes boring, since we know that there is a function to do all this for us):
+```{r}
+resids1 <- residuals(comb1)
+w2 <- resids1^2
+w2 <- w2/sum(w2) # rescale to sum=1
+fit2 <- rpart(resids1 ~ L10AREA + L10DIST + YR.ISOL, data=loyn, weights=w2, control=list(maxdepth=2))
+# estimate gamma2:
+predsResidsRegression2 <- predict(fit2)
+comb2 <- lm(ABUND ~ predsResidsRegression2 -1, offset=preds1, data=loyn) # offset is like an intercept per data point
+(gamma2 <- coef(comb2)) # this is gamma2
+preds2 <- predict(comb2)
+preds1 <- predict(comb1)
+plot(preds0, loyn$ABUND, las=1)
+abline(0,1)
+points(preds1, loyn$ABUND, pch=16)
+points(preds2, loyn$ABUND, pch=16, col="green")
+```
+Let's see whether the fit actually improves:
+```{r}
+cor(loyn$ABUND, preds0)
+cor(loyn$ABUND, preds1)
+cor(loyn$ABUND, preds2)
+```
+Yeah!
+
+Now we do the same but faster and better and ...
+
+## Boosting using gbm
+```{r}
+library(gbm)
+set.seed(2)
+fm.gbm <- gbm(ABUND ~ L10AREA + L10DIST + YR.ISOL, data=loyn, n.trees=5000, distribution="gaussian", interaction.depth=2, cv.folds=5, verbose=F, shrinkage=0.01)
+(best.n.trees <- gbm.perf(fm.gbm, method="cv"))
+```
+```{r}
+preds.brt <- predict(fm.gbm, n.trees=best.n.trees)
+plot(preds0, loyn$ABUND, las=1)
+abline(0,1)
+points(preds.brt, loyn$ABUND, pch=16)
+legend("topleft", pch=c(1,16), col="black", bty="n", legend=c("rpart", "BRT"), cex=1.5)
+cor(loyn$ABUND, preds.brt)
+```
+There probably isn't much improvement after a few hundred stages, so take the "best" number of trees with a pinch of salt.
+
+The two main tuning parameters in BRTs are the complexity of the single tree (`interaction.depth`) and the learning rate (`shrinkage`), which pre-multiplies the "optimal" contribution of each new stage.
+
+Opinions differ a bit, how to optimally choose these two parameters, and one could use **caret** to find out. My informants suggest to use low tree complexity (even stumps, i.e. depth=0) and low learning rate (e.g. 0.005 or less). Another informant suggests to aim for 2000 trees, but then each re-run (without `seed.set` may yield very different optimal number of trees). Personally I am happy with the above settings (which are *not* the default).
+
+## Using caret to optimise settings
+```{r}
+library(caret)
+metric <- "RMSE"
+trainControl <- trainControl(method="cv", number=10)
+tuningGrid <- expand.grid(interaction.depth=0:5, shrinkage=c(0.001, 0.0025, 0.005, 0.01, 0.05), n.trees=5000, n.minobsinnode=10)
+gbmCaretFit <- train(loyn[, c(3,8,10)], loyn$ABUND, method="gbm", tuneGrid=tuningGrid, distribution="gaussian", metric=metric, trControl=trainControl, verbose=F)
+gbmCaretFit
+```
+So this suggests a stumpy tree (like I had chosen) and a lower shrinkage than I had. Fine, whatever. Rerun and you will get a different answer.
+
+
+# Example 2: Bagging
+## Bagging a regression by hand
+Let's first fit a reference model:
+```{r}
+fmFull <- lm(ABUND ~ L10AREA + L10DIST + YR.ISOL, data=loyn)
+```
+Now we bootstrap this model, storing all bootstrapped models for later predictions (yes, I know how to do this with a function and `sapply` or parallelised, but that's not the point here):
+```{r}
+bootedLMs <- list()
+set.seed(3)
+for (i in 1:100){
+  bsdata <- loyn[sample(56, 56, replace=T),]
+  bsfit <- lm(ABUND ~ L10AREA + L10DIST + YR.ISOL, data=bsdata)
+  bootedLMs[[i]] <- bsfit
+}
+```
+Check that it worked:
+```{r}
+sapply(bootedLMs, coef) # at least they all look different ;-)
+```
+Now we simply predict to the original covariate combinations and average the predictions:
+```{r}
+predsBS <- sapply(bootedLMs, predict, newdata=loyn)
+plot(predict(fmFull), loyn$ABUND, las=1)
+points(rowMeans(predsBS), loyn$ABUND, pch=16)
+abline(0,1)
+cor(predict(fmFull), loyn$ABUND)
+cor(rowMeans(predsBS), loyn$ABUND)
+```
+So clearly, this was not worth the effort! The linear model is simple "terse", and cannot easily be improved upon.
+
+We'll try the same with rpart.
+
+## Bagging rpart
+```{r}
+bootedRparts <- list()
+set.seed(4)
+for (i in 1:100){
+  bsdata <- loyn[sample(56, 56, replace=T),]
+  bsfit <- rpart(ABUND ~ L10AREA + L10DIST + YR.ISOL, data=bsdata, control=list(maxdepth=2))
+  bootedRparts[[i]] <- bsfit
+}
+predsBSrpart <- sapply(bootedRparts, predict, newdata=loyn)
+plot(predict(fit0), loyn$ABUND, las=1)
+points(rowMeans(predsBS), loyn$ABUND, pch=16)
+abline(0,1)
+cor(predict(fit0), loyn$ABUND)
+cor(rowMeans(predsBSrpart), loyn$ABUND)
+```
+See! That does make a difference. The bagged rpart is not quite as good as the BRT, but a definite improvement over a single CART.
+
+## randomForest
+I will spare you (and me) the attempt to inefficiently build a random forest algorithm. Here is its standard implementation:
+```{r}
+library(randomForest)
+rf <- randomForest(ABUND ~ L10AREA + L10DIST + YR.ISOL, data=loyn)
+rf
+```
+We can now call some of the convenience functions available for assessing the importance and alike:
+```{r}
+plot(rf)
+randomForest::importance(rf) # Rmarkdown issue!
+varImpPlot(rf)
+cor(predict(rf, newdata=loyn), loyn$ABUND) # note that newdata is necessary, otherwise you get OOBs!
+```
+We can also plot the (conditional) effects for each predictor:
+```{r, fig.width=15}
+par(mfrow=c(1,3), las=1)
+partialPlot(rf, loyn, L10AREA, ylim=c(10,28))
+partialPlot(rf, loyn, L10DIST, ylim=c(10,28))
+partialPlot(rf, loyn, YR.ISOL, ylim=c(10,28))
+```
+We can compute prediction variance for the `randomForest` object using a different package. To do so, we need to fit `randomForest` with keepting all inbag data:
+```{r, eval=F}
+devtools::install_github("swager/randomForestCI")
+```
+
+```{r}
+library(randomForestCI)
+rf2 <- randomForest(ABUND ~ L10AREA + L10DIST + YR.ISOL, data=loyn, replace=T, keep.inbag=T)
+
+fitted <- predict(rf2, newdata=loyn)
+# compare this to Out-Of-Bag predictions:
+## OOB predictions are made with only those models, in which the observation was NOT used! This is akin to the jackknife idea, and should be similar to cross-validation!
+oobpred <- predict(rf2) # Note different behaviour compared to GLM etc!!!
+par(mar=c(5,5,1,1))
+plot(fitted, oobpred)
+abline(0,1)
+
+randomForestInfJack(rf2, newdata=data.frame(L10AREA=c(0, 0), L10DIST=2, YR.ISOL=1900)) #needs at least 2 points ...
+head(randomForestInfJack(rf2, newdata=loyn)) # expectation and variance of each datum
+```
+To compute confidence intervals, you need to take the square root of the variances (to get standard deviations), multiply them by 2 and add them to the either side of the prediction. (Note that this is the simple case of a normal response and it gets a little bit trickier with classification.)
+
+## Ranger
+**randomForest** has been succeeded by **ranger**, which is the same but implemented in C++ and hence much faster (which you won't notice with this kind of data size, though). It has the prediction error implemented internally.
+```{r}
+library(ranger)
+franger <- ranger(ABUND ~ L10AREA + L10DIST + YR.ISOL, data=loyn, importance="impurity")
+ranger::importance(franger)
+```
+```{r}
+head(predict(franger, data=loyn)$predictions)
+```
+
+To compute prediction errors, we need to keep the inbag, as before for `randomForest`:
+```{r}
+franger <- ranger(ABUND ~ L10AREA + L10DIST + YR.ISOL, data=loyn, importance="impurity", keep.inbag=T)
+str(predsRanger <- predict(franger, data=loyn, type="se"))
+```
+```{r}
+par(mar=c(5,5,1,1))
+plot(predsRanger$predictions, loyn$ABUND, las=1, pch=16)
+abline(0,1)
+arrows(x0 = predsRanger$predictions -2*predsRanger$se, y0 = loyn$ABUND, x1 = predsRanger$predictions +2*predsRanger$se, y1 = loyn$ABUND, code=3, angle=90, length=0.1)
+```
+This picture may sit uncomfortable with you, but it really shouldn't! (Only if I made a mistake.)
+
+Firstly, since we plot the expectation from the model and the observed, the observed go onto the y-axis, as they have the measurement error.
+Secondly, the confidence interval of each prediction is *substantial*. Of course it is: we have only 56 data points and thus we'd expect very uncertain predictions. 
+Thirdly, notice that almost all (95%) of the confidence intervals cross the 1:1-line? That's good! If the error bars were smaller, they would not cross the 1:1-line in the nominal 95% of cases, and then they would be wrong.
+Thus, when a point deviates far from the 1:1 line, it should also have a large CI, otherwise there is something wrong with the model (e.g. it is systematically biased).
+
+
+Regrettably, **ranger** has no easy `partialPlot`-like command. But you can call the **pdp** package (partial dependence plotting) or you call ranger from the **caret** competitor **mlr** (machine learning in R):
+```{r}
+library(ggplot2)
+library(pdp)
+pd <- partial(franger, pred.var = "L10DIST")
+autoplot(pd)
+```
+And **mlr**:
+```{r, fig.width=15}
+library(mlr)
+lrn.classif = makeLearner("regr.ranger")
+# to see the full list: dplyr::View(listLearners())
+loyn.task <- makeRegrTask(data=loyn[, c(1,3,8,10)], target="ABUND")
+fit.classif = train(lrn.classif, loyn.task)
+pd = generatePartialDependenceData(fit.classif, loyn.task, n=20)
+plotPartialDependence(pd)
+```
+If you enjoyed this, also have a look at [this blog post](https://www.r-bloggers.com/the-tidy-caret-interface-in-r/), in which several machine learners are used simultaneously, including randomForest and boosted regression trees, using the *caret* package.
