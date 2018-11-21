@@ -7,6 +7,10 @@ category: stats
 A class of statistical procedures that have become very important in recent years are predictive methods, often called machine-learning algorithms. The basic goal of this methods is to to be able to make predictions from a given dataset with the lowest possible error. In doing so, they typically use relatively complicated, often non-parametric methods that typically don't allow to calculate inferential products such as the MLE or p-values.
 
 
+### Lecture material from the Statistics Cafe lecture series
+
+* [Boosting (and bagging)](https://biometry.github.com/APES/LectureNotes/StatsCafe/2018-MachineLearning/boosting.html)
+
 ### Some good intros
 
 
