@@ -6,18 +6,16 @@ category: hubs
 
 # Principle
 
-In principle we just ignore space and regress on spatial covariates, e.g. logistic regression
-
-
-## Example: a basic species distribution model
-
+This page tries to explain the theory, while each subsection links to R-code on how to actually do it.
 
 
 # Spatial autocorrelation
 
 ## What is spatial autocorrelation
 
+## Simulating spatial autocorrelation
 
+See [this page](https://biometry.github.io/APES/Stats/stats33-SimulatingSpatialAutocorrelation.html) for technical details.
 ## How to measure spatial autocorrelation
 
 ## Remedies
