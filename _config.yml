@@ -29,4 +29,4 @@ defaults:
       type: "pages"
     values:
       layout: "page"
-      author: "Florian Hartig"
+      author: "Florian Hartig & Carsten Dormann"
