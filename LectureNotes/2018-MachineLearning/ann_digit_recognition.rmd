@@ -1,0 +1,181 @@
+---
+title: "Predicting digits from scribbles"
+author: "Severin Hauenstein"
+date: "12/18/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+I am sure there are other (perhaps better) R packages to fit artificial neural networks (ANNs), especially if you want to fit multi-hidden-layer NNs. But since we are fitting only single-hidden layer ANNs, we'll give this one a shot:
+```{r packages}
+library(nnet)
+```
+
+
+## Helper functions
+The following is a function to compute error rates comparing true labels and predictions. 
+
+```{r helper}
+error.rate <- function(fitted.model, testdata, pred.type = "class"){
+  preds <- predict(fitted.model, testdata, type = pred.type)
+  if(is.list(preds)) preds <- preds[[1]]
+  total <- sum(as.integer(as.character(preds)) != testdata[,1])/NROW(testdata)
+  partitioned <- sapply(sort(unique(testdata[,1])), function(x) 
+    sum(as.integer(as.character(preds[testdata[,1] == x])) != 
+          testdata[testdata[,1] == x,1])/
+      NROW(testdata[testdata[,1] == x,]))
+  names(partitioned) <- as.character(sort(unique(testdata[,1])))
+  return(c(total = total, partitioned))
+}
+```
+
+## Training and test data
+
+After registering, we can download 60,000 images of 28x28 pixel digit scribbles from https://www.kaggle.com/c/digit-recognizer/data
+To speed up the runtimes of our ANNs, we'll first select random subsets as training and test data.
+
+```{r data, echo=FALSE}
+set.seed(14)
+# load training data
+digit_data <- read.csv ("all/train.csv")
+# reduce size: choose subset first
+train_n <- 10000
+test_n <- 5000
+indeces <- sample(NROW(digit_data), size = train_n + test_n)
+train <- digit_data[indeces[1:train_n],]
+test <- digit_data[indeces[(train_n + 1):(train_n + test_n)],]
+```
+
+
+#### Visualising the scribbles
+```{r visualisation}
+# Create a 28*28 matrix with pixel color values
+m = matrix(unlist(train[10,-1]), nrow = 28, byrow = TRUE)
+
+# Plot that matrix
+image(m,col=grey.colors(255))
+
+# reverses (rotates the matrix)
+rotate <- function(x) t(apply(x, 2, rev)) 
+
+# Plot some of the images
+par(mfrow=c(2,3), cex.lab = 2, pty = "s")
+lapply(1:6, 
+       function(x) image(
+         rotate(matrix(unlist(train[x,-1]),nrow = 28, byrow = TRUE)),
+         col=grey.colors(255),
+         xlab=train[x,1]
+       )
+)
+```
+
+
+## Fitting single-hidden-layer ANNs
+
+#### Increasing the number of hidden-layer nodes
+
+1. We start simple with 1 node in our hidden layer. Other tuning parameters are kept at there default, we'll get to those later.
+```{r ANN01, cache=TRUE}
+system.time(
+fann01 <- nnet::nnet(as.factor(label) ~ ., data = train,
+                size = 1, MaxNWts = 805)
+)
+error.rate(fann01, test, pred.type = "class")
+
+```
+2. Pretty bad, so let's increase the number of nodes in the hidden layer to 5. You'll notice we need to increase the maximum allowed number of weights as well.
+```{r ANN02, cache=TRUE}
+system.time(
+fann02 <- nnet::nnet(as.factor(label) ~ ., data = train,
+                size = 5, MaxNWts = 20000)
+)
+error.rate(fann02, test, pred.type = "class")
+```
+3. Much better, but for some digits, still really bad. Let's increase the number of nodes to 10.
+```{r ANN03, cache=TRUE}
+system.time(
+fann03 <- nnet::nnet(as.factor(label) ~ ., data = train,
+                size = 10, MaxNWts = 20000)
+)
+error.rate(fann03, test, pred.type = "class")
+```
+
+
+#### Convergence
+
+Let's not increase the number of hidden-layer nodes further without checking other tuning parameters of our ANN. What about convergence? Was the maximum number of iterations reached before the decrease in the loss function has leveled off?
+```{r}
+fann01$convergence
+fann02$convergence
+fann03$convergence
+```
+The ANNs have not converged!
+
+So let's take `fann03`, but increase `maxit` to 500.
+```{r ANN04, cache = TRUE}
+system.time(
+fann04 <- nnet::nnet(as.factor(label) ~ ., data = train,
+                size = 10, MaxNWts = 20000, maxit = 500)
+)
+error.rate(fann04, test, pred.type = "class")
+```
+Improved, but still no convergence. But time seems better invested in increasing the number of nodes.
+
+
+#### Training data size
+
+Increasing the training dataset is another way to improve the ANN. Let's refit `fann03`, but with `train_n = 20000`.
+```{r ANN05, cache = TRUE}
+indeces_xxl <- sample(NROW(digit_data), size = 20000 + test_n)
+train_xxl <- digit_data[indeces_xxl[1:20000],]
+test_xxl <- digit_data[indeces_xxl[(20000 + 1):(20000 + test_n)],]
+system.time(
+fann05 <- nnet::nnet(as.factor(label) ~ ., data = train_xxl,
+                size = 10, MaxNWts = 20000, maxit = 100)
+)
+error.rate(fann05, test, pred.type = "class")
+```
+
+It seems as if 10000 data points are sufficient for the current problem at hand. 
+
+#### Checking the (computationally feasible) limits
+
+As a last exercise we increase the number of nodes to 30 and set the maximum number of iterations to 500.
+```{r ANN06, cache = TRUE}
+system.time(
+fann06 <- nnet::nnet(as.factor(label) ~ ., data = train,
+                size = 30, MaxNWts = 25000, maxit = 500)
+)
+error.rate(fann06, test, pred.type = "class")
+```
+
+
+## What about random forest?
+
+The tuning options of ANNs seem endless. Here, we have just scratched the surface. More on ANNs in the two statistcs cafe sessions to come.
+Random forests are quite the opposite with regards to tuning options. Sure, we can play with the number of predictors to consider at each split or the number of trees to grow or the decision tree algorithm we use.
+But overall the differences seem almost negligible. 
+
+Random forests are not famous for their application in 'image recognition problems', but let's try it anyways. At least they are quite fast using the `ranger` package:
+```{r rf, cache = TRUE}
+system.time(
+franger <- ranger::ranger(as.factor(train$label) ~ ., data = train, num.trees = 1000)
+)
+error.rate(franger, test, pred.type = "response")
+```
+
+What if we increase the number of data points in the training set?
+```{r rfxxl, cache = TRUE}
+system.time(
+franger_xxl <- ranger::ranger(as.factor(label) ~ ., data = train_xxl, num.trees = 1000)
+)
+error.rate(franger, test_xxl, pred.type = "response")
+```
+
+
+```{r export, echo=FALSE}
+# save.image(file = "ann_digit_recognition.RData")
+```
