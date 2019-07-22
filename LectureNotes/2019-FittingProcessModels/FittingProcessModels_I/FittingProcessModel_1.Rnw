@@ -1,0 +1,329 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{amsmath}
+\usepackage{authblk}
+\usepackage[T1]{fontenc} % to get < and > correctly
+\usepackage{geometry}
+  \geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=3cm,rmargin=2cm}
+  \setcounter{secnumdepth}{3}
+  \setcounter{tocdepth}{3}
+\usepackage{inconsolata} % Set nice mono font for code
+\usepackage[utf8]{inputenc}
+\usepackage[ttscale=0.85]{libertine}
+\usepackage{makeidx}
+  \makeindex
+\usepackage{natbib}
+\usepackage[hyphens]{url}
+\usepackage[%unicode=true,pdfusetitle,
+ %bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2, pdfborder={0 0 1},backref=true,colorlinks=false, 
+ breaklinks=true,hidelinks]{hyperref}
+\usepackage{titlesec} % for titleformat
+\usepackage[nottoc]{tocbibind} % include reference in table of content
+\usepackage{wrapfig}
+\usepackage[dvipsnames]{xcolor}
+
+%\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+% % % % % % %  section numbering onto margins % % % %
+\newlength\mylensection
+\setlength\mylensection{\dimexpr\oddsidemargin+1.1cm+\hoffset\relax}
+\titleformat{\section}{\normalfont\Large\itshape}{\llap{\hspace*{-\mylensection}\textcolor{YellowGreen}{\textbf{\LARGE{ \thesection}}}\hfill}}{0em}{} %
+
+\newlength\mylensubsection
+\setlength\mylensubsection{\dimexpr\oddsidemargin+1.1cm+\hoffset\relax}
+\titleformat{\subsection}{\normalfont\large\itshape}{\llap{\hspace*{-\mylensubsection}\textcolor{YellowGreen}{\textbf{\Large{ \thesubsection}}}\hfill}}{0em}{} %
+
+\newlength\mylensubsubsection
+\setlength\mylensubsubsection{\dimexpr\oddsidemargin+1.1cm+\hoffset\relax}
+\titleformat{\subsubsection}{\normalfont\large\itshape}{\llap{\hspace*{-\mylensubsubsection}\textcolor{YellowGreen}{\textbf{\Large{ \thesubsubsection}}}\hfill}}{0em}{} %
+
+
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\topfraction}{0.8}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\floatpagefraction}{0.75}
+
+\newcommand{\package}[1]{\textbf{#1}}
+\newcommand{\proglang}[1]{\textsl{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\ind}[1]{#1\index{#1}}           			   % \ind{bla} instead of bla\index{bla}
+\newcommand{\indE}[1]{\emph{#1}\index{#1@\emph{#1}}}       % dito for emphasised words (e.g. English)
+\newcommand{\indR}[1]{\texttt{#1}\index{#1@\texttt{#1}}}   % dito for typewriter
+
+
+\renewcommand{\vec}[1]{\mathbf{#1}}                   % replaces the arrow over vectors by bold-print
+
+
+%\makeatother
+\frenchspacing % avoid long spaces after a "."
+
+\begin{document}
+%\SweaveOpts{concordance=TRUE} % make sure that Sweave preferences are set to "knitr"!
+<<setup, include=FALSE, cache=FALSE>>=
+library(knitr)
+opts_chunk$set(fig.path='figure/', fig.align='center', fig.width=6, fig.height=6, fig.show='hold', cache=TRUE, tidy=T, tidy.opts=list(width.cutoff=70))
+render_listings()
+@
+
+\title{Fitting Process Models \\ Part 1: Fitting a regression (as if that were a process model)}
+
+\author[1]{Carsten F. Dormann} %(\href{mailto:carsten.dormann@biom.uni-freiburg.de}{carsten.dormann@biom.uni-freiburg.de})
+
+\affil[1]{Biometry \& Environmental System Analysis, University of Freiburg, Germany}
+\affil[ ]{\href{mailto:carsten.dormann@biom.uni-freiburg.de}{carsten.dormann@biom.uni-freiburg.de}}
+
+%\thanks{\href{mailto:carsten.dormann@biom.uni-freiburg.de}{carsten.dormann@biom.uni-freiburg.de}}
+
+\maketitle
+
+%\abstract{}
+
+\noindent Fitting a process model to data is, fundamentally, similar to fitting a linear regression: We need to specify the relationship (for process model read ``processes'') between the predictors (``input'') and the observed response (``output''); the likelihood for these data; and then we use an optimiser to find the best parameters (``constants''). In practice, however, optimisation may have some disadvantages, so we may want to resort to a Bayesian calibration framework. I here demonstrate how these steps work, for a simple linear regression. That provides us with a framework to use in the next step, when we fit an actual process model. 
+
+\tableofcontents
+
+
+\section{Function and distribution}
+A process model really is only a (complicated) function, $f(x)$. So we can also take a simple function, to start with:
+\begin{equation}
+  f(x) = ax+b
+\end{equation}
+It is customary to write vectors in bold, so that this becomes $f(\vec{x}) = a\vec{x}+b$ for real data sets. It also makes clear that $a$ and $b$ are scalar and in this case the stuff we want to estimate from the data. 
+
+Data? Right.
+
+In a regression, we have a response, $\vec{y}$, and one or more predictors, $\vec{x}$. And these are linked, in the regression, by a distribution $\mathcal{D}$, which we assume when we employ the GLM:
+\begin{equation}
+  \vec{y} \sim \mathcal{D}(\theta=g(a\vec{x}+b), \xi=h(c)),
+\end{equation}
+where $\theta$ and (depending on the distribution) $\xi$ are distribution parameters (such as shape, scale, location, spread and whatever their names are), and $g(.)$ and $h(.)$ are possible link functions.
+
+For the normal distribution, this then looks like this:
+\begin{equation}
+  \vec{y} \sim \mathcal{N}(\mu=a\vec{x}+b, \sigma=c).
+\end{equation}
+
+Let's take a simple example:
+<<cache=F, out.width='2in'>>=
+data(trees)
+attach(trees)
+# plot(Volume ~ Girth) # see later
+fm <- lm(Volume ~ Girth)
+summary(fm)
+@
+Our model, in this case coded in R, looks like this:
+<<>>=
+model <- function(par){ # our regression model
+  par[1]*Girth + par[2]
+}
+@
+When we plug in some values for par, we get an output; that's what a model does: converting input to output.
+
+To fit a model to data, we need a score function that tells the computer what to minimise or maximise. Typically this means we define a so-called \emph{metric}\footnote{Mathematically, a metric is a function, typically called ``distance'', that maps two same-sized sets to a value between $0$ and $\infty$. Or, in mathy writing, which we really should get familiar with at some point: 
+\begin{equation}
+d : X \times X \rightarrow [0, \infty)
+\end{equation}
+Any metric must meet four conditions (non-negativity, identity of indiscernibles, symmetry and subadditivity, see \url{https://en.wikipedia.org/wiki/Metric_(mathematics)}). Interestingly, symmetry, i.e. $d(x, y) = d(y, x)$ is \emph{not} met by the Kullbach-Leibler divergence, which hence is not called a ``distance'' and denoted by a different writing style ($D_{KL}(x \mid\mid y)$, rather than $d_\text{RMSE}(x, y)$). Note also that the likelihood of symmetric distributions, such as the normal, Cauchy or $t$ are metric, while those of asymmetric and discrete distributions are not. Remember that KL-divergence and likelihood are closely linked, particular when used as target for minimisation/maximisation (\url{https://wiseodd.github.io/techblog/2017/01/26/kl-mle}).}, which quantifies the distance between the model predictions and the data, and minimise this distance. The best-known measure for regression fit is, of course, the likelihood (even though it is not always metric (the adjective); see footnote).
+
+Let's define the likelihood as an R-function to be minimised:
+<<>>=
+optfun1 <- function(params){
+  mu <- model(params)
+  sigma <- exp(params[3]) # trick to avoid negative or 0 SD!!
+  # now compute the likelihood of a normal distribution:
+  sum(dnorm(Volume, mean=mu, sd=sigma, log=T))
+}
+@
+Next, we have to set up and run the optimiser for our problem:
+<<>>=
+opt <- optim(fn=optfun1, par=c(1, 2, 3), control = list(fnscale=-1), hessian=T)
+opt
+@
+This output means: the algorithm converged (indicated stupidly by a "0"), the parameter estimates are 5.07 for the slope, $-36.9$ for the intercept and $e^{1.41}=$ \Sexpr{round(exp(1.41),2)} for the standard deviation. Their standard errors can be extracted by inverting the negative hessian and taking the square-root of the diagonal, i.e.
+<<>>=
+sqrt(diag(solve(-opt$hessian)))
+@
+which compares well to the GLM-output.
+
+
+\subsection{Other metrics}
+As a very brief excursion, we'll look at two alternative metrics, the mean absolute difference (MAD) and the root mean squared error (RMSE). Note that both MAD and RMSE want to be minimised, unlike our likelihood. So we have to remove the $-$ from the `fnscale`-option.
+<<>>=
+dmad <- function(par){ # mean absolute difference
+  # median is often used to quantify error, but NOT useful for optimisation: why not?
+  mean(abs(model(par) - Volume))
+}
+# minimise!
+optim(par=c(1,1,1), fn=dmad, control=list(fnscale=1))
+@
+Works fine, but the optimal parameters are slightly different to the maximum likelihood estimate (MLE).
+<<>>=
+drmse <- function(par){ # root mean squared error
+  sqrt(mean((model(par) - Volume)^2))
+}
+optim(par=c(1,1,1), fn=drmse, control=list(fnscale=1))
+@
+Again, works smoothly, and parameter estimates are very similar to the MLE.
+
+\subsection{Comparing fits}
+Let's put them all together next to the figures:
+<< out.width='2in'>>=
+plot(Volume ~ Girth, pch=16, las=1)
+curve(5.065371*x -36.935176, add=T, col="red", lwd=2)
+curve(4.560606*x -30.590908, add=T, col="blue", lwd=2)
+curve(5.065957*x -36.943443, add=T, col="green", lty=2, lwd=2)
+legend("topleft", legend=c("likelihood", "mean abs. diff.", "RMSE"), col=c("red", "blue", "green"), lwd=2, bty="n")
+@
+Both MLE and RMSE are (actually identical and) less accepting of extreme deviations than MAD. The MAD-line is not wrong! It merely is optimal for a different score function; and who am I to say what the correct score function is for \emph{your} questions?
+
+
+
+
+\section{Generalisation: Going Bayesian}
+So, in principle, we can use an optimiser to get the best-fitting parameters for our model. That's what people in hydrology and meteorology have done, and are doing, all the time, and that's perfectly fine. Well, most of the time.
+
+There are two issues that could be improved upon:
+\begin{enumerate}
+  \item Using guesses, or rather, prior knowledge about the expected parameters, e.g. from previous analyses.
+  \item Relaxing the (implicit) assumption(s) behind the Hessian, such as symmetry at the optimum and smooth (quadratic) slopes.\footnote{These assumptions typically lead to optimistic standard errors, which can be very inaccurate, as demonstrated here: \url{https://stackoverflow.com/questions/14581358/getting-standard-errors-on-fitted-parameters-using-the-optimize-leastsq-method-i}.}
+\end{enumerate}
+
+The first issue calls for a Bayesian solution, as prior knowledge is one of its selling points (i.e. the explicit mathematical inclusion of priors in the computation of the solution).
+
+The second issue calls for a more, well, brute-force approach, which represents the optimum more realistically.\footnote{Think of the optimum as the summit of a mountain. The Hessian implies a sugar-cone-like summit, which is rare. Ideally, our algorithm would be able to represent asymmetric, rough, cracky summits, too.} The typical algorithm for such problems is the MCMC (or indeed the bootstrap). Since Bayesian statistics often is implemented as MCMC, we can feed two birds with one scone.\footnote{Actually, this is one of the better PETA-replacements for ``killing two birds with one stone''. I am less fond of their other proposal (\url{https://www.peta.org/teachkind/lesson-plans-activities/animal-friendly-idioms/}), although ``Feeding a fed horse." to replace ``Flogging a dead horse.'' is also well-balanced.}
+
+There are probably dozens of ways to implement fitting process models in a Bayesian framework. Here, we go with \textbf{BayesianTools} by Florian Hartig, which is great, although it requires us to think in exactly his way (small price to pay).
+
+<<>>=
+library(BayesianTools)
+?createBayesianSetup
+@
+We have to construct a \texttt{bayesianSetup}, a set of objects that defines the entire fitting process, incl. priors, a ``sampler'' for randomly drawing from the prior, and the likelihood.
+
+\subsection{BayesianTools: the likelihood}
+We take again our model as starting point
+<<>>=
+model <- function(par){ # our regression model
+  par[1]*Girth + par[2]
+}
+@
+and define the likelihood, just like above for the optimisation:
+<<>>=
+ell <- function(par){ # the likelihood
+  sum(dnorm(Volume, mean=model(par), sd=exp(par[3]), log=T))
+  #sum(log( abs( (Volume - model(par)) + 1e-8)))
+}
+@
+
+\subsection{BayesianTools: the prior setup}
+The prior definition requires a bit of care and thought. A probability density function is required (unless we use \texttt{createUniformPrior} or \texttt{createTruncatedNormalPrior} or \texttt{createBetaPrior}); it defines the distributions of the priors for each parameter in the model. Remember that the prior returns the log-likelihood of the current values of our parameters.
+
+So, what would we expect for the slope, or the standard deviation? Maybe:
+<<fig.width=10, fig.height=5, out.width='3in'>>=
+par(mfrow=c(1,2), mar=c(5,5,1,1))
+curve(dnorm(x, 10, 20), -20, 100) 
+curve(dgamma(x, 0.01, 0.01), 0, 100) 
+@
+We'll run with that and define a function, that returns the sum of the log-likelihoods for a given set of parameter values:
+<<>>=
+densPriors <- function(par){
+  d1 <- dnorm(par[1], mean=10, sd=10, log=T) # what we would expect for the slope: positive value
+  d2 <- dnorm(par[2], mean=0, sd=10, log=T) # what we would expect for the intercept
+  d3 <- dgamma(exp(par[3]), shape=0.01, scale=0.01, log=T) # the SD
+  return(d1 + d2 + d3)
+}
+@
+Now imagine a function that would draw n random values from these densities:
+<<>>=
+samplerPriors <- function(n=1){
+  d1 <- rnorm(n, mean=10, sd=10) # draw a random value from the prior of slope
+  d2 <- rnorm(n, mean=0, sd=10) # same for intercept
+  d3 <- rgamma(n, shape=0.01, scale=0.01) # and for the SD
+  return(cbind(d1, d2, d3))
+}
+@
+This function can be used to compute starting values for the MCMC.
+
+In BayesianTools, we now have to put them together like so:
+<<>>=
+priors <- createPrior(density=densPriors, sampler=samplerPriors) # no best/upper/lower are provided
+@
+
+\subsection{BayesianTools: the BayesianSetup}
+Now we pull likelihood and priors together, and specify how many cores we can allocate to this computation:
+<<>>=
+treesSetup <- createBayesianSetup(likelihood=ell, prior=priors, parallel=3)
+@
+The function checks whether all information is proper and correct (which we could also do explicitly with \texttt{checkBayesianSetup(treesSetup)}, if we wanted). We can check the structure of this setup:
+<<>>=
+str(treesSetup)
+@
+We could add lower and upper limits, but we don't have to:
+<<>>=
+# priors <- createPrior(density=densPriors, sampler=samplerPriors, lower=c(-50, -50, -50), upper=c(50, 50, 50))
+@
+
+\subsection{BayesianTools: run the algorithm}
+With everything set up, we can now choose the sampler and its settings, in our case we start with the simplest option, the Metropolis algorithm, run for 5000 steps (invoking parallel will not work for this algorithm's implementation).
+<<results=F>>=
+### run the calibration 
+settings <- list(iterations=5000, nrChains=3, parallel=T) # not properly documented!
+# settings of the sampler, e.g. ?Metropolis
+fit <- runMCMC(bayesianSetup = treesSetup, sampler="Metropolis", settings=settings)
+@
+The output was cut, as it is rather long, reporting on the progress of the MCMC sampling. We get:
+<<>>=
+summary(fit)
+plot(fit) # same as tracePlot(fit)
+@
+So we get the estimates for the parameters, the convergence diagnostics and, with the figures, a nice feeling for the mixing of the chains (excellent) and the posterior (a bit Matterhorn-like).
+We can now do all sorts of model diagnostics, and indeed here are a few:
+<<out.width='2in'>>=
+correlationPlot(fit)
+# gelmanDiagnostics(fit)
+marginalPlot(fit) # only plots parameters
+@
+
+\subsection{BayesianTools: plotting the model onto the data}
+More interesting here is how to then plot the regression line and its credible interval from this fit. Here's how it works:
+
+First, we draw a subset from the large number of parameter sets fitted in the MCMC:
+<<>>=
+samples <- getSample(fit, start=1000, thin=3) # a matrix of values
+# 4002 parameter sets, while 1000 would have done the job, too.
+@
+Next, we plug this into the model we fitted (first only one, as an example:
+<<>>=
+model(samples[1,]) # the 31 fitted values for ONE set of parameters
+preds <- apply(samples, 1, model) # for all 4002 parameter sets
+@
+Finally, we can plot the data and add the quantiles from our model ``simulations'' to it:
+<<out.width='3in'>>=
+par(mar=c(5,5,1,1))
+plot(Volume ~ Girth, las=1)
+quants <- apply(preds, 1, quantile, c(0.025, 0.5, 0.975)) # CI and median
+#lines(Girth, quants[1,], lwd=3, col="darkgreen")
+#lines(Girth, quants[3,], lwd=3, col="darkgreen")
+polygon(x=c(Girth, rev(Girth)), y=c(quants[3,], rev(quants[1,])), border="green", col="green")
+lines(Girth, quants[2,], lwd=2, col="darkgreen")
+@
+That's it. Remember that our function \texttt{model} could in principle be replaced by any model, including a process model. That's what we'll turn to in the next session!
+
+
+
+
+
+
+
+
+
+
+\setlength{\bibsep}{0cm}
+\def\bibfont{\small}
+
+\bibliographystyle{mee} %all show doi, url, isbn; haven't found out yet how to switch that off without altering the mee.sty itself
+\bibliography{CFD_library}
+%\bibliography{~/Dropbox/Carsten/CFD_library}
+
+
+
+\end{document}

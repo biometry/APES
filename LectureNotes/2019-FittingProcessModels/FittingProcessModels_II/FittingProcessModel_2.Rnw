@@ -1,0 +1,311 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{amsmath}
+\usepackage{authblk}
+\usepackage[T1]{fontenc} % to get < and > correctly
+\usepackage{geometry}
+  \geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=3cm,rmargin=2cm}
+  \setcounter{secnumdepth}{3}
+  \setcounter{tocdepth}{3}
+\usepackage{inconsolata} % Set nice mono font for code
+\usepackage[utf8]{inputenc}
+\usepackage[ttscale=0.85]{libertine}
+\usepackage{makeidx}
+  \makeindex
+\usepackage{natbib}
+\usepackage[hyphens]{url}
+\usepackage[%unicode=true,pdfusetitle,
+ %bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2, pdfborder={0 0 1},backref=true,colorlinks=false, 
+ breaklinks=true,hidelinks]{hyperref}
+\usepackage{titlesec} % for titleformat
+\usepackage[nottoc]{tocbibind} % include reference in table of content
+\usepackage{wrapfig}
+\usepackage[dvipsnames]{xcolor}
+
+%\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+% % % % % % %  section numbering onto margins % % % %
+\newlength\mylensection
+\setlength\mylensection{\dimexpr\oddsidemargin+1.1cm+\hoffset\relax}
+\titleformat{\section}{\normalfont\Large\itshape}{\llap{\hspace*{-\mylensection}\textcolor{YellowGreen}{\textbf{\LARGE{ \thesection}}}\hfill}}{0em}{} %
+
+\newlength\mylensubsection
+\setlength\mylensubsection{\dimexpr\oddsidemargin+1.1cm+\hoffset\relax}
+\titleformat{\subsection}{\normalfont\large\itshape}{\llap{\hspace*{-\mylensubsection}\textcolor{YellowGreen}{\textbf{\Large{ \thesubsection}}}\hfill}}{0em}{} %
+
+\newlength\mylensubsubsection
+\setlength\mylensubsubsection{\dimexpr\oddsidemargin+1.1cm+\hoffset\relax}
+\titleformat{\subsubsection}{\normalfont\large\itshape}{\llap{\hspace*{-\mylensubsubsection}\textcolor{YellowGreen}{\textbf{\Large{ \thesubsubsection}}}\hfill}}{0em}{} %
+
+
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\topfraction}{0.8}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\floatpagefraction}{0.75}
+
+\newcommand{\package}[1]{\textbf{#1}}
+\newcommand{\proglang}[1]{\textsl{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\ind}[1]{#1\index{#1}}           			   % \ind{bla} instead of bla\index{bla}
+\newcommand{\indE}[1]{\emph{#1}\index{#1@\emph{#1}}}       % dito for emphasised words (e.g. English)
+\newcommand{\indR}[1]{\texttt{#1}\index{#1@\texttt{#1}}}   % dito for typewriter
+
+
+\renewcommand{\vec}[1]{\mathbf{#1}}                   % replaces the arrow over vectors by bold-print
+
+
+%\makeatother
+\frenchspacing % avoid long spaces after a "."
+
+\begin{document}
+%\SweaveOpts{concordance=TRUE} % make sure that Sweave preferences are set to "knitr"!
+<<setup, include=FALSE, cache=FALSE>>=
+library(knitr)
+opts_chunk$set(fig.path='figure/', fig.align='center', fig.width=6, fig.height=6, fig.show='hold', cache=TRUE, tidy=T, tidy.opts=list(width.cutoff=70))
+render_listings()
+@
+
+
+\title{Fitting Process Models \\ Part 2: Fitting a (simple) process model: CO$_2$ and H$_2$O fluxes over boreal forests}
+
+\author[1]{Carsten F. Dormann} %(\href{mailto:carsten.dormann@biom.uni-freiburg.de}{carsten.dormann@biom.uni-freiburg.de})
+
+\affil[1]{Biometry \& Environmental System Analysis, University of Freiburg, Germany}
+\affil[ ]{\href{mailto:carsten.dormann@biom.uni-freiburg.de}{carsten.dormann@biom.uni-freiburg.de}}
+
+%\thanks{\href{mailto:carsten.dormann@biom.uni-freiburg.de}{carsten.dormann@biom.uni-freiburg.de}}
+
+\maketitle
+
+%\abstract{}
+
+\noindent There are several issues to be concerned with when fitting a process model. As illustration it may suffice to use an actual (rather than a toy) model with a very limited number of parameters: PRELES. We fit it to daily measurements of gas exchange in a site in Finland (the home of PRELES). 
+
+\tableofcontents
+
+\section{Introduction}
+PRELES (PREdicting Light-use efficiency, Evapotranspiration and Soil water content) is a three-compartment ``ecosystem model'' \citep{Peltoniemi2015, Minunno2016}.
+This is not the place to present the model's equations, but it is entirely deterministic and consists of about 15 equations to describe light capture, water loss and the soil water component (Fig.~\ref{fig:preles}).
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{PRELES.png}
+  \caption{Extremely simplified composition of PRELES (nicked from a MSc-student's report: thanks L.G.!).}\label{fig:preles}
+\end{figure}
+
+PRELES is written in C++ and conveniently available through the \package{Rpreles}-package. Parameter ranges and data for four Finnish field sites are available in the .Rdata-files accompanying this file.
+
+A sensitivity analysis should preceed the fitting, but is omitted here for sake of focus on the fitting itself.
+
+
+Let's start by installing the relevant package, data and a file with default parameter settings.
+
+<<eval=F>>=
+devtools::install_github('MikkoPeltoniemi/Rpreles') # downloads and compiles PRELES
+@
+<<cache=T>>=
+library(Rpreles)
+library(BayesianTools)
+load("EddyCovarianceDataBorealSites.rdata") # s1-4
+load("parameterRanges.rdata") # par
+@
+<<eval=F>>=
+?PRELES
+@
+The environmental data look like this:
+<<cache=F>>=
+head(s1)
+attach(s1)
+@
+Let's look at the PRELES-parameters:
+<<>>=
+par # note that "-999" is supposed to indiate NA!
+par[par=="-999"] <- NA
+par 
+@
+In this case, several parameters are actually site-specific constants, such as soil depth. Also, the last two parameters were added for our calibration; they are not required for PRELES, but serve as placeholder for the standard deviation of a normal distribution used with \package{BayesianTools} later.
+
+
+\section{Running PRELES with default parameters}
+PRELES requires a number of arguments (essentially the drivers, the parameter vector \code{p} and various settings). The minimal run, using the environmental data from site Hyytiälä (\code{s1}), may look like this:
+<<onerun>>=
+onerun <- PRELES(PAR=PAR, TAir=TAir, VPD=VPD, Precip=Precip, CO2=CO2, fAPAR=fAPAR, p=par[,"def"])
+str(onerun)
+# make a plot of the output:
+par(mfrow=c(3,1), mar=c(2,4,1,1), oma=c(4,0,0,0))
+plot(1:(2*365), onerun$GPP, type="l", las=1, ylab="GPP")
+abline(v=366)
+plot(1:(2*365), onerun$ET, type="l", las=1, ylab="evapotranspiration")
+abline(v=366)
+plot(1:(2*365), onerun$SW, type="l", las=1, ylab="soil water")
+abline(v=366)
+mtext(side=1, line=4, "day since start")
+@
+
+A comparison of, say, GPP with observed values shows relatively little room for improvement:
+<<cache=F, out.width='0.5\\textwidth'>>=
+plot(onerun$GPP, GPPobs, las=1, lwd=2)
+abline(0,1)
+abline(lm(GPPobs ~ onerun$GPP), col="red", lwd=2)
+RMSE <- function(x, y) sqrt(mean((x-y)^2))
+RMSE(onerun$GPP, GPPobs)
+@
+
+
+
+\section{Bayesian calibration to site 1}
+To fit PRELES to the observed data, we employ the \package{BayesianTools} framework. This requires us to set up the likelihood and priors first. We shall fit the model to the GPP data (to start with).
+
+First, we duplicate the parameters, to have one working version, to be modified, and our original parameters untouched. 
+
+We select a few parameters to be fitted, and leave the constants in place. To do so, I create a vector of ``parameters to change''.
+
+<<eval=T>>=
+library(BayesianTools)
+# select the parameters to be calibrated:
+thispar <- par$def
+names(thispar) <- par$name
+
+pars2tune <- c(5:11, 14:18, 31) # note that we omit 32, as it refers to ET
+@
+Then we have to define the likelihood for our friend \package{BayesianTools}. As a first pass, we want to fit the model to the observed gross primary productivity (GPP), which, as you have seen above, is one of the outputs of PRELES.
+
+And we have to do the other stuff, i.e. set up the priors and the MCMC-settings. If you are unclear about this, check last session's example or the package's help. In this case, we use uniform priors, and use the conveniently provided upper and lower bounds of the parameter table.\footnote{Long and interesting stories can be told about priors. Not by me, though. Have a look, if you want, at \citep{Lemoine2019}, for some recent thoughts on moderately informative priors.}
+
+
+
+<<BayesSetup1, eval=T, cache=T>>=
+ell <- function(pars){
+  # pars is a vector the same length as pars2tune
+  thispar[pars2tune] <- pars
+  # likelihood function, first shot: normal density
+  with(s1, sum(dnorm(GPPobs, mean=PRELES(PAR=PAR, TAir=TAir, VPD=VPD, Precip=Precip, CO2=CO2, fAPAR=fAPAR, p=thispar)$GPP, sd=thispar[31], log=T)))
+}
+priors <- createUniformPrior(lower=par$min[pars2tune], upper=par$max[pars2tune], best=par$def[pars2tune])
+setup <- createBayesianSetup(likelihood=ell, prior=priors, parallel=T)
+settings <- list(iterations=1E5, parallel=T, message=F) # for DEzs, suppress output
+@
+(Switching off the reporting is done here to avoid filling many pages with rather boring information. Normally, I would always set to to T, the default, to see that it is still running.)
+
+Now we run the actual sampler:
+<< run1, hide=T, cache=T>>=
+set.seed(1)
+fit1 <- runMCMC(bayesianSetup = setup, settings = settings, sampler = "DEzs")
+@
+We have here used the so-called ``differential evolution MCMC with snooker updates'', which is cool, and fast. Like DE itself, its chains are informing each other, thereby more efficiently searching parameter space than our old friend Metropolis. 
+
+Whatever. Let's look at the results.
+<<cache=T>>=
+summary(fit1)
+par(mar=c(1,4,4,0))
+plot(fit1)
+@
+Oh, dear, that doesn't look very promising! The individual chains seem to be far from converging, but, hey, the posterior is a not too bad. And the Rhat-values are not too far from the desired 1 (or acceptable 1.1).
+
+The correlation plot is rather difficult to read, with so many parameters, but it suggests no substantial correlation among them (see also the summary output).
+<<cache=T>>=
+correlationPlot(fit1)
+@
+  
+The obvious thing to do, before the next step, would be to run the algorithm \emph{much} longer.\footnote{But we don't do that right now. Something for later, at home, over a glass of non-alcoholic beverage.}
+
+\section{Investigation of residuals}
+The result of any MCMC-fit is a long list of parameter combinations. We use all (or at least a large number) of them for prediction and then average these predictions to compare with the observed values.\footnote{Using the MAP is an option, too, but resorting to a point estimate does not chime well with a Bayesian approach.}
+
+<<predict1, cache=T, out.width='0.5\\textwidth'>>=
+library(BayesianTools) # don't ask why I have to explicitly load it again ...
+library(Rpreles)
+parSamples <- getSample(fit1, thin=10)
+# now run prediction with each parameter combination
+getPreds <- function(pars){ 
+  thispar <- par$def
+  thispar[pars2tune] <- pars
+  preds <- with(s1, PRELES(PAR=PAR, TAir=TAir, VPD=VPD, Precip=Precip, CO2=CO2, fAPAR=fAPAR, p=thispar)$GPP)
+  return(preds)
+}
+preds <- sapply(1:nrow(parSamples), function(x) getPreds(parSamples[x,]))
+RMSE(rowMeans(preds), GPPobs)
+residuals <-  GPPobs - rowMeans(preds)
+plot(1:730, residuals)
+abline(h=0)
+@
+
+First: remember the RMSE of the default parameterisation: 0.67. This one is better!
+    
+But clearly variance is not constant in time. Rather it seems to be much higher in summer, when also the absolute fluxes are higher. This requires going back to the likelihood function and adapting the standard deviation there, e.g. by making it a function of GPP itself!
+
+
+\section{Adapting the likelihood}
+The next step may seem a bit, well, arbitrary. We will make the variance a function of the model's GPP output. It is not bad practice or fudging. But as statistically minded people we may never have encountered modelling of the variance before, and hence may find it bizarre. Well, it isn't. In GLMMs, one can also specify how the variance changes with the mean (the \code{varIdent}-argument in \code{nlme::lme}). And the purpose is mainly to find a function to optimise that will lead us to the best possible parameters. 
+
+Let's try; instead of making sd a constant, we make it a linear function of predicted GPP. We now usurp parameter 32 as slope of that relationship, and our original parameter 31 is the intercept.
+<<setup2>>=
+pars2tune2 <- c(pars2tune, 32)
+ellhetero <- function(pars){
+  # pars is a vector the same length as pars2tune
+  thispar[pars2tune2] <- pars
+  run <- with(s1, PRELES(PAR=PAR, TAir=TAir, VPD=VPD, Precip=Precip, CO2=CO2, fAPAR=fAPAR, p=thispar) )
+  # likelihood function, second shot: normal density with heterogeneous error
+  sum(dnorm(s1$GPPobs, mean=run$GPP, sd=thispar[31] + thispar[32] * run$GPP, log=T))
+}
+# adapt the priors (include parameter 32)
+priors2 <- createUniformPrior(lower=par$min[pars2tune2], upper=par$max[pars2tune2], best=par$def[pars2tune2])
+# adapt the setup
+setup2 <- createBayesianSetup(likelihood=ellhetero, prior=priors2, parallel=T)
+@
+<<run2>>=
+# rerun the model
+set.seed(2)
+fit2 <- runMCMC(bayesianSetup = setup2, settings = settings, sampler = "DEzs")
+@
+
+<<cache=F>>=
+summary(fit2)
+par(mar=c(1, 4, 4, 0))
+plot(fit2)
+@
+The convergence criteria look almost alright.
+
+<<predict2, out.width="0.5\\textwidth", cache=T>>=
+parSamples2 <- getSample(fit2, thin=100)
+getPreds2 <- function(pars){ 
+    thispar <- par$def
+    thispar[pars2tune2] <- pars
+    preds <- with(s1, PRELES(PAR=PAR, TAir=TAir, VPD=VPD, Precip=Precip, CO2=CO2, fAPAR=fAPAR, p=thispar)$GPP)
+    return(preds)
+}
+# now run prediction with each parameter combination
+preds2 <- sapply(1:nrow(parSamples2), function(x) getPreds2(parSamples2[x,]))
+RMSE(rowMeans(preds2), GPPobs)
+residuals2 <-  GPPobs - rowMeans(preds2)
+plot(1:730, residuals2)
+abline(h=0)
+@
+
+
+Okay, this was not a break-through. The RMSE is actually higher than in the first fit, and the residuals don't look any better (we didn't expect them to, only the likelihood now allows for higher variances).
+
+We can now go on to try alternative likelihoods (e.g. Laplace = double exponentials, rather than normal, which would allow less variation around the mean), possibly add lag effects (i.e. temporal autocorrelation in the variance term), etc.
+
+\section{Conclusion}
+With our model becoming more complicated than a regression, new challenges may arise. Here we have mainly seen that (a) more efficient samplers are called for; (b) everything just takes more time (despite (a)); and (c) the likelihood requires some craftmanship.
+
+Things we haven't seen here are correlation between parameters, which may lead to unidentifiability (= equifinality). They would require a reformulation of the parameters, e.g. making one a function of the other before fitting. 
+
+This was just the start. When you want to do your own analysis, you should familiarise yourself more with the concepts at hand, for which I can only recommend \citet{Dietze2017}. I hope you now have something to play with. 
+
+
+\begin{center}
+  \includegraphics[width=0.5\textwidth]{modified_bayes_theorem_2x.png}
+\end{center}
+
+
+
+\setlength{\bibsep}{0cm}
+\def\bibfont{\small}
+
+\bibliographystyle{apalike}%\string~/Dropbox/Carsten/mee.bst} %all show doi, url, isbn; haven't found out yet how to switch that off without altering the mee.sty itself
+\bibliography{../../../../../Dropbox/Carsten/CFD_library}%\string~/Dropbox/Carsten/CFD_library}
+
+
+
+\end{document}
