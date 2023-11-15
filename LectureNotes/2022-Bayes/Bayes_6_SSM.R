@@ -53,6 +53,9 @@ plot(housemartin.ssm)
 housemartin.ssm
 # note CI for mean.r extends into the positive!
 # note process and observation error are roughly similar in size
+# estimate for r:
+#             mu.vect sd.vect    2.5%     25%     50%     75%   97.5%  Rhat n.eff
+#mean.r        -0.022   0.033  -0.075  -0.038  -0.022  -0.006   0.029 1.004 30000
 
 # Let us fist look at the nicer but misleadingly optimistic model fit (notice that we have to back-transform the `y`-estimates after computing the quantiles):
 plot(year, hm, ylim=c(100, 350), las=1, type="o", lwd=2, pch=16, ylab="population size of house martins")
@@ -97,4 +100,40 @@ matlines(1990:2009, t(quants3), type="l", log="y", lwd=2, col="grey", lty=2)
 
 
 
+#### Reference analysis in a non-SSM ####
 
+hm <- c(271, 261, 309, 318, 231, 216, 208, 226, 195, 226, 233, 209, 226, 192, 191, 225, 245, 205, 191, 174)
+time <- (1990:2009)-1990 # years since t0
+
+
+# differential equation solution (e.g. Case 2001 p.3):
+summary(nls(hm ~ 271*exp(r*time), start=list("r"=0)))
+#Estimate Std. Error t value Pr(>|t|)    
+#r -0.019311   0.002654  -7.276 6.66e-07 ***
+  
+# difference equation solution:
+summary(nls(hm ~ 271*lambda^time, start=list("lambda"=0)))
+#Estimate Std. Error t value Pr(>|t|)    
+#lambda 0.980875   0.002603   376.8   <2e-16 ***
+
+# lambda = exp(r), except that it isn't ... (lambda = 1 + r)
+
+expGrowthfun <- function(par){
+  r <- par["r"]
+  sigma <- exp(par["c"])
+  yhat <- log(271)
+  for (i in seq_along(time)){
+    yhat[i+1] <- yhat[i] + r # at log scale
+  }
+  -sum(dnorm(log(hm), mean=yhat, sd=sigma, log=T))
+}
+optim(par=c("r"=0, "c"=1), fn=expGrowthfun)
+#$par
+#          r           c 
+#-0.01672054 -2.02074216 # even shallower than the analytical solution at the untransformed scale!
+
+
+# bottom line:
+# The SSM analysis gives us a slightly steeper decline (r=-0.022+/-0.033) than fitting the analytical solution (r=-0.019+/-0.0026). 
+# This suggests that the observation error and/or the conditional likelihood as target function affect the model estimation at least a bit.
+# A more complex example would be great ...
